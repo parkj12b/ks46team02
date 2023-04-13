@@ -1,4 +1,4 @@
-package ks46team02.emailTest;
+package ks46team02.common.emailTest;
 
 import java.util.Random;
 

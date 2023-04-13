@@ -34,6 +34,16 @@
 #eyeIcon:hover{
 	cursor: pointer;
 }
+#signUp{
+	margin-top:30px; 
+	width:100%; 
+	border: 1px solid #73879C; 
+	color: #73879C; 
+	border-radius: 3px;
+}
+#signUp:hover{
+	box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
 </style>
 </head>
 
@@ -100,7 +110,7 @@
 			<div id="register" class="animate form registration_form">
 				<section class="login_content" id="loginContent_signUp">
 					<form th:action="@{/}" method="post" id="signUpForm">
-						<h1>Create Account</h1>
+						<h1>웰컴투 동애등에</h1>
 						<div>
 							<input type="text" class="form-control" placeholder="아이디" value="id0000" required="" id="idSignUp" />
 						</div>
@@ -121,7 +131,7 @@
 							<input type="tel" class="form-control" placeholder="전화번호" value="01011111111" required="" pattern="[0-9]{11}" id="telSignUp"/>
 						</div>
 						<div>
-							<button type="button" class="btn btn-default submit" id="signUp" style="margin-top:20px">회원가입</button>
+							<button type="submit" class="btn btn-default submit" id="signUp" style="" >회원가입</button>
 						</div>
 						<div class="clearfix"></div>
 						<div class="separator">
@@ -171,7 +181,7 @@
 			let pwValidFn = function(){
 				let pw = $('#pwSignUp').val();
 				if(pwRegExp.test(pw)){
-					$('#pwMsg').text('멋진비밀번호 입니다.');
+					$('#pwMsg').text('멋진비밀번호 입니다.').css('color','green');
 					return true;
 				} else {
 					$('#pwMsg').text('6자 이상 16자 이하, 영어와 숫자의 조합으로 구성되어야 합니다');
@@ -277,8 +287,7 @@
 				console.log(idValidFn());
 				return emailSignUpValidFn() && idValidFn() && pwValidFn();
 			}
-			/* $('#signUpForm').click() */
-			$('#signUp').click(validationAll);
+			$('#signUpForm').submit(validationAll);
 			
 			//로드시 안보이는 페이지가 바로 옆에 hidden으로 밖에 안되서 안보여도 클릭이됨
 			const url = location.href.split('#');

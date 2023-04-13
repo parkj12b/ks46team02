@@ -1,4 +1,4 @@
-package ks46team02.dto;
+package ks46team02.common.dto;
 
 public enum StatusEnum {
 	OK(200, "OK"),

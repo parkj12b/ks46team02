@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import ks46team02.dto.AdminMember;
-import ks46team02.dto.Member;
-import ks46team02.dto.MemberLoginInfo;
-import ks46team02.emailTest.EmailService;
-import ks46team02.emailTest.EmailServiceImpl;
-import ks46team02.service.MainService;
+import ks46team02.common.dto.AdminMember;
+import ks46team02.common.dto.Member;
+import ks46team02.common.dto.MemberLoginInfo;
+import ks46team02.common.emailTest.EmailService;
+import ks46team02.common.emailTest.EmailServiceImpl;
+import ks46team02.common.service.MainService;
 
 @Controller
 public class CommonController {
@@ -34,7 +34,7 @@ public class CommonController {
 	}
 	
 	
-	
+	//아직미구현
 	@PostMapping("/signUp")
 	public String signUp(Model model) {
 		return "main2";
@@ -78,22 +78,22 @@ public class CommonController {
 	
 	@GetMapping("/signUp")
 	public String signUp() {
-		return "loginAfterDb#signup";
+		return "redirect:/login#signup";
 	}
 	
 	@GetMapping("/")
 	public String mainPage() {
-		return "main2";
+		return "mainPage";
 	}
 	
 	@GetMapping("/mypage")
-	public String mypage(HttpServletRequest request) {
+	public String mypage() {
 		return "mypage";
 	}
 	
-	@GetMapping("/loginAfterDb")
-	public String loginAfterDb(Model model) {
-		return "loginAfterDb";
+	@GetMapping("/login")
+	public String loginAndSignUp(Model model) {
+		return "loginAndSignUp";
 	}
 	
 	@GetMapping("/logout")

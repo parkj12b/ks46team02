@@ -1,4 +1,4 @@
-package ks46team02.dto;
+package ks46team02.common.dto;
 
 public class AdminMember {
 	private String adminId;

@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpSession;
-import ks46team02.dto.Message;
-import ks46team02.dto.StatusEnum;
-import ks46team02.emailTest.EmailService;
-import ks46team02.emailTest.EmailServiceImpl;
-import ks46team02.service.MainService;
+import ks46team02.common.dto.Message;
+import ks46team02.common.dto.StatusEnum;
+import ks46team02.common.emailTest.EmailService;
+import ks46team02.common.emailTest.EmailServiceImpl;
+import ks46team02.common.service.MainService;
 
 @RestController
 public class CommonRestController {
@@ -46,8 +46,9 @@ public class CommonRestController {
 		return isDuplicate;
 	}
 	
+	//미구현
 	@GetMapping("/mailVerification")
-	public String mailVerification(@RequestParam String email, HttpSession session) throws Exception {
+	public String sendMailVerification(@RequestParam String email, HttpSession session) throws Exception {
 		String ePw = emailService.sendSimpleMessage(email);
 		
 		session.setAttribute("ePw", ePw);
