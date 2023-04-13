@@ -1,29 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/sidebarInclude}">
+	  layout:decorate="~{layout/mypageLayout}">
 	<head>
 	
 	</head>
 	<body>
-		<th:block layout:fragment="sidebar">
-			<th:block th:if='|${session.sessionLevel.equals("level_code_1")}|'>
-				<div th:replace="~{fragments/sidebar :: myPageSidebarFragmentDry}"></div>
-			</th:block>
-			<th:block th:if='|${session.sessionLevel.equals("level_code_2")}|'>
-				<div th:replace="~{fragments/sidebar :: myPageSidebarFragmentFarm}"></div>
-			</th:block>
-			<th:block th:if='|${session.sessionLevel.equals("level_code_3")}|'>
-				<div th:replace="~{fragments/sidebar :: myPageSidebarFragmentBuyer}"></div>
-			</th:block>
-			<th:block th:if='|${session.sessionLevel.equals("level_code_4")}|'>
-				<div th:replace="~{fragments/sidebar :: myPageSidebarFragmentNewMember}"></div>
-			</th:block>
-			<th:block th:if='|${session.sessionLevel.equals("admin")}|'>
-				<div th:replace="~{fragments/sidebar :: myPageSidebarFragmentAdmin}"></div>
-			</th:block>
-					
-		</th:block>
 		<th:block layout:fragment="customContent">
 			
 		</th:block>	
