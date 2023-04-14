@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mypageLayout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.signUpBtn{
+	font-size: 16px;
+	color: white;
+	background-color: #007dea;
+	transition: 0.3s;
+}
+.signUpBtn:hover{
+	font-size: 16px;
+	color: white;
+	background-color: rgba(0, 125, 234, 0.85);
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="customContent">
+		<main>
+			<h2>멘토 시스템이란?</h2>
+			<p>동애등에 멘토 시스템은 선배(멘토)와 후배(멘티)가 함께 일하는 시스템입니다. 멘토는 멘티에게 자신의 경험과
+				지식을 공유하고, 멘티의 성장을 돕습니다.</p>
+
+				
+
+			<h2>멘토가 되는 이유</h2>
+			<ul>
+				<li>자신의 경험 공유: 멘티에게 자신의 경험을 공유함으로써, 그들이 성장하는 데 도움을 줄 수 있습니다.</li>
+				<li>새로운 인연 만들기: 멘티와 함께 일하며 새로운 인연을 만들 수 있습니다.</li>
+				<li>리더십 능력 향상: 멘티들을 가르치고 지도하는 것을 통해 자신의 리더십 능력을 향상시킬 수 있습니다.</li>
+				<li>새로운 관점 제공: 멘티와 함께 일하면서 멘티들의 다양한 관점을 경험하고 새로운 아이디어를 얻을 수
+					있습니다.</li>
+			</ul>
+			<h2>어떻게 멘토가 될 수 있나요?</h2>
+			<p>동애등에 멘토 시스템에는 다양한 멘토링 프로그램이 제공됩니다. 프로그램마다 지원 자격 조건과 절차가 다르므로,
+				관심 있는 프로그램의 공지를 꼭 확인해보세요!</p>
+
+			<a class="btn btn-default signUpBtn" id="mentorSignUpBtn" th:href="@{/farm/mentorSignUp}" >멘토 신청하기</a>
+			<a class="btn btn-default signUpBtn" id="menteeSignUpBtn" th:href="@{/form/menteeSignUp}" >멘티 신청하기</a>
+		</main>
+	</div>
+</body>
+</html>
