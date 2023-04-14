@@ -74,8 +74,15 @@
 			<li><a><i class="fa fa-bug"></i> 사육장 관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="#">사육장 조회</a></li>
-					<li><a href="#">생산량 기록 조회</a></li>
+					<li><a th:href="@{/farm/farmList}">사육장 조회</a></li>
+					<li><a th:href="@{/farm/farmStatusList}">사육장 상태 조회</a></li>
+					<li><a th:href="@{/farm/cageList}">케이지 조회</a></li>
+					<li><a th:href="@{/farm/cycleList}">싸이클 조회</a></li>
+					<li><a th:href="@{/farm/productionList}">생산량 조회</a></li>
+					<li><a th:href="@{/farm/feedList}">급여량 조회</a></li>
+					<li><a th:href="@{/farm/addFarm}">사육장 등록</a></li>
+					<li><a th:href="@{/farm/addCage}">케이지 등록</a></li>
+					<li><a th:href="@{/farm/addCycle}">싸이클 등록</a></li>
 				</ul></li>
 		</ul>
 	</div>
@@ -85,6 +92,7 @@
 			<li><a><i class="fa fa-user-plus"></i> 멘토멘티 신청 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
+
 					<li><a th:href="@{/farm/mentorMentee}">멘토멘티 신청</a></li>
 					<li><a href="/farm/mentorMenteeRegisterStatus">승인 여부조회</a></li>
 				</ul></li>
