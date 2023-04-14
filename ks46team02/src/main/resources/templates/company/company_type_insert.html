@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{mypage}">
+<head>
+    <meta charset="UTF-8">
+    <title>BSFP</title>
+    <!-- iCheck -->
+    <link th:href="@{/vendors/iCheck/skins/flat/green.css}" rel="stylesheet">
+    <!-- bootstrap-wysiwyg -->
+    <link th:href="@{/vendors/google-code-prettify/bin/prettify.min.css}" rel="stylesheet">
+    <!-- Select2 -->
+    <link th:href="@{/vendors/select2/dist/css/select2.min.css}" rel="stylesheet">
+    <!-- Switchery -->
+    <link th:href="@{/vendors/switchery/dist/switchery.min.css}" rel="stylesheet">
+    <!-- starrr -->
+    <link th:href="@{/vendors/starrr/dist/starrr.css}" rel="stylesheet">
+    <!-- bootstrap-daterangepicker -->
+    <link th:href="@{/vendors/bootstrap-daterangepicker/daterangepicker.css}" rel="stylesheet">
+
+</head>
+<body>
+
+<th:block layout:fragment="customContent">
+    <div class="x_panel">
+        <div class="x_title">
+            <h1>업체종류등록</h1>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br/>
+            <form class="form-horizontal form-label-left">
+                <div class="form-group row">
+                    <label class="control-label col-md-3 col-sm-3 ">업체종류번호</label>
+                    <div class="col-md-9 col-sm-9 ">
+                        <input type="text" class="form-control" placeholder="업체종류번호를 입력해주세요">
+                    </div>
+                </div>
+                <div class="form-group row ">
+                    <label class="control-label col-md-3 col-sm-3 ">업체종류</label>
+                    <div class="col-md-9 col-sm-9 ">
+                        <input type="text" class="form-control" placeholder="업체종류를 입력해주세요">
+                    </div>
+                </div>
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                    <div class="col-md-9 col-sm-9  offset-md-3">
+                        <button type="button" class="btn btn-success">취소</button>
+                        <button type="reset" class="btn btn-success">초기화</button>
+                        <button type="submit" class="btn btn-success">등록</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</th:block>
+
+</body>
+</html>

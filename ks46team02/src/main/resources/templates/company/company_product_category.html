@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{mypage}">
+<head>
+    <meta charset="UTF-8">
+    <title>BSFP</title>
+
+</head>
+<th:block layout:fragment="customJs">
+
+</th:block>
+
+<th:block layout:fragment="customContent">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>제품카테고리</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box table-responsive">
+                            <table id="datatable-buttons" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                <tr role="row">
+                                    <th>제품카테고리코드</th>
+                                    <th>제품명</th>
+                                    <th>제품카테고리등록일</th>
+                                    <th>관리자아이디</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr role="row" class="odd">
+                                    <td>gcm_1</td>
+                                    <td>살아있는 애벌레</td>
+                                    <td>2023-01-02</td>
+                                    <td>admin1</td>
+                                    <td>
+                                        <a href="#">수정</a>
+                                    </td>
+                                    <td>
+                                        <a href="#">삭제</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="dataTables_paginate paging_simple_numbers">
+                            <button type="button" class="btn btn-secondary"
+                                    onclick="location.href='/company/company_product_insert'">제품카테고리등록
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

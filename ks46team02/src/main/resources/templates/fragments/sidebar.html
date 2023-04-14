@@ -202,16 +202,16 @@
 			<li><a><i class="fa fa-building-o"></i> 업체 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="#">업체관리</a></li>
-					<li><a href="#">업체 종류 관리</a></li>
+					<li><a th:href="@{/company/company_list}">업체관리</a></li>
+					<li><a th:href="@{/company/company_type_list}">업체 종류 관리</a></li>
 					<li><a href="#">동애등에 사육업체 등급 관리</a></li>
-					<li><a href="#">사육장 제품 카테고리 관리</a></li>
+					<li><a th:href="@{/company/company_product_category}">사육장 제품 카테고리 관리</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-file-text-o"></i> 계약 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
 					<li><a href="#">계약 승인 기준관리</a></li>
-					<li><a href="#">계약 공고 관리</a></li>
+					<li><a th:href="@{/contract/contract_list}">계약 공고 관리</a></li>
 					<li><a href="#">계약 파기사유 관리</a></li>
 					<li><a href="#">계약 결제 관리</a></li>
 					<li><a href="#">계약 환불 관리</a></li>
