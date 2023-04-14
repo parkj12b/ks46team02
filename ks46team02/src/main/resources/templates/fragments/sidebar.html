@@ -71,18 +71,18 @@
 					<li><a href="#">일별 매출 조회</a></li>
 					<li><a href="#">년/월별 매출 조회</a></li>
 				</ul></li>
-			<li><a><i class="fa fa-bug"></i> 사육장 관리 <span
+			<li><a><i class="fa fa-bug"></i> !김유진 김사육장 관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a th:href="@{/farm/farmList}">사육장 조회</a></li>
-					<li><a th:href="@{/farm/farmStatusList}">사육장 상태 조회</a></li>
-					<li><a th:href="@{/farm/cageList}">케이지 조회</a></li>
-					<li><a th:href="@{/farm/cycleList}">싸이클 조회</a></li>
-					<li><a th:href="@{/farm/productionList}">생산량 조회</a></li>
-					<li><a th:href="@{/farm/feedList}">급여량 조회</a></li>
-					<li><a th:href="@{/farm/addFarm}">사육장 등록</a></li>
-					<li><a th:href="@{/farm/addCage}">케이지 등록</a></li>
-					<li><a th:href="@{/farm/addCycle}">싸이클 등록</a></li>
+					<li><a th:href="@{/farm/farmList}">!김유진 사육장 조회</a></li>
+					<li><a th:href="@{/farm/farmStatusList}">!김유진 사육장 상태 조회</a></li>
+					<li><a th:href="@{/farm/cageList}">!김유진 케이지 조회</a></li>
+					<li><a th:href="@{/farm/cycleList}">!김유진 싸이클 조회</a></li>
+					<li><a th:href="@{/farm/productionList}">!김유진 생산량 조회</a></li>
+					<li><a th:href="@{/farm/feedList}">!김유진급여량 조회</a></li>
+					<li><a th:href="@{/farm/addFarm}">#김유진 사육장 등록</a></li>
+					<li><a th:href="@{/farm/addCage}">#김유진 케이지 등록</a></li>
+					<li><a th:href="@{/farm/addCycle}">#김유진 싸이클 등록</a></li>
 				</ul></li>
 		</ul>
 	</div>
@@ -181,16 +181,16 @@
 			<li><a><i class="fa fa-cogs"></i> 관리자 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="#">관리자 관리</a></li>
+					<li><a th:href="@{/admin/adminList}">!최봉준 관리자 관리</a></li>
 					<li><a href="#">관리자 등급 관리</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-users"></i> 회원관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
 					<li><a href="#">등록 된 회원관리</a></li>
-					<li><a href="#">배송지 관리</a></li>
+					<li><a th:href="@{/admin/addrList}">!최봉준 배송지 관리</a></li>
 					<li><a href="#">로그인 기록 관리</a></li>
-					<li><a href="#">탈퇴 회원 관리</a></li>
+					<li><a th:href="@{/admin/withdrawalMemberList}">!최봉준 탈퇴 회원 관리</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-question-circle"></i> 플랫폼 문의 <span
 					class="fa fa-chevron-down"></span></a>
@@ -202,16 +202,16 @@
 			<li><a><i class="fa fa-building-o"></i> 업체 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a th:href="@{/company/company_list}">업체관리</a></li>
-					<li><a th:href="@{/company/company_type_list}">업체 종류 관리</a></li>
+					<li><a th:href="@{/company/company_list}">!최학준 업체관리</a></li>
+					<li><a th:href="@{/company/company_type_list}">!최학준 업체 종류 관리</a></li>
 					<li><a href="#">동애등에 사육업체 등급 관리</a></li>
-					<li><a th:href="@{/company/company_product_category}">사육장 제품 카테고리 관리</a></li>
+					<li><a th:href="@{/company/company_product_category}">!최학준 사육장 제품 카테고리 관리</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-file-text-o"></i> 계약 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
 					<li><a href="#">계약 승인 기준관리</a></li>
-					<li><a th:href="@{/contract/contract_list}">계약 공고 관리</a></li>
+					<li><a th:href="@{/contract/contract_list}">!최학준 계약 공고 관리</a></li>
 					<li><a href="#">계약 파기사유 관리</a></li>
 					<li><a href="#">계약 결제 관리</a></li>
 					<li><a href="#">계약 환불 관리</a></li>

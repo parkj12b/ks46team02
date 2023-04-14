@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team02.admin.mapper.AdminMapper">
+<resultMap type="AdminMember" id="adminMemberResultMap">
+		<id 	column="admin_id"  						property="adminId" />
+		<result column="admin_pw"  						property="adminPw"/>
+		<result column="admin_name"  					property="adminName"/>
+		<result column="admin_email"  					property="adminEmail"/>
+		<result column="admin_level"  					property="adminLevel"/>
+		<result column="admin_phone"  					property="adminPhone"/>
+		<result column="admin_reg_date"  				property="adminRegDate"/>
+</resultMap>
+	<update id="modifyAdmin" parameterType="String" >
+		/* 관리자 정보 수정 */
+		UPDATE admin_list
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="adminPw != null and adminPw != ''">
+				admin_pw = #{adminPw},
+			</if>
+			<if test="adminName != null and adminName != ''">
+				admin_name = #{adminName},
+			</if>
+			<if test="adminEmail != null and adminEmail != ''">
+				admin_email = #{adminEmail},
+			</if>
+			<if test="adminLevel != null and adminLevel != ''">
+				admin_level = #{adminLevel},
+			</if>
+			<if test="adminPhone != null and adminPhone != ''">
+				admin_phone = #{adminPhone},
+			</if>
+			<if test="adminRegDate != null and adminRegDate != ''">
+				admin_reg_date = #{adminRegDate},
+			</if>
+		</trim>
+		WHERE 
+			admin_id = #{adminId};
+
+	</update>
+		
+	<select id="getAdminList" parameterType="String" resultMap="adminMemberResultMap">
+				/* 관리자 회원 조회 */
+			SELECT 
+				 admin_id   		
+				,admin_pw  			
+				,admin_name 		
+				,admin_email 		
+				,admin_level		
+				,admin_phone		
+				,admin_reg_date		
+	
+			FROM 
+				admin_list;
+ 
+	</select>
+	
+	
+</mapper>

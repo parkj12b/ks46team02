@@ -1,4 +1,4 @@
-package ks46team02.dto.company;
+package ks46team02.company.dto;
 
 public class Company {
 
