@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team02.farm.mapper.MentorMenteeMapper">
+	<select id="getMentorMenteeRegisterStatus" resultType="MMRegInfo">
+		select 
+			mentee_app_code as mentorAppCode,
+			company_code as compoanyCode,
+			member_id as memberId,
+			mentee_apply_date as memberApplyDate,
+			mentee_approval_date as menteeApprovalDate,
+			mentee_approval as menteeApproval,
+			admin_id as adminId,
+			previous_year as previousYear,
+			previous_year_sales as previousYearSales,
+			sales_suitability as salesSuitability,
+			documentary_evidence as documentaryEvidence
+		from
+			mentee_apply
+		where 
+			company_code = #{companyCode};
+	</select>
+</mapper>

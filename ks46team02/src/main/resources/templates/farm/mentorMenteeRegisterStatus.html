@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/sidebarInclude}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<th:block layout:fragment="customContent">
+	멘토멘티 승인 여부
+	<table th:object=${mmRegInfo}>
+		<thead>
+			<tr>
+				<th>멘티 신청코드</th>
+				<th>회원아이디</th>
+				<th>신청일자</th>
+				<th>승인여부</th>
+				<th>관리자아이디</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td th:text="*{menteeAppCode}"></td>
+				<td th:text="*{memberId}"></td>
+				<td th:text="*{menteeApprovalDate}"></td>
+				<td th:text="*{menteeApproval}"></td>
+				<td th:text="*{adminId}"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+</th:block>
+</html>

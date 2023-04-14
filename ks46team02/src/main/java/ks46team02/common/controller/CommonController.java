@@ -54,7 +54,7 @@ public class CommonController {
 				session.setAttribute("sessionId", memberInfo.getMemberId());
 				session.setAttribute("sessionName", memberInfo.getMemberName());
 				session.setAttribute("sessionLevel", memberInfo.getPositionLevelCode());
-				session.setAttribute("sessionCompanyCode", memberInfo.getPositionLevelCode());
+				session.setAttribute("sessionCompanyCode", memberInfo.getCompanyCode());
 				session.setAttribute("memberEmail", memberInfo.getMemberEmail());
 				session.setAttribute("isOwner", memberInfo.isOwner());
 			}
