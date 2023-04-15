@@ -1,6 +1,6 @@
 package ks46team02.farm.dto;
 
-public class MMRegInfo {
+public class MMRegInfoMentee {
 	private String menteeAppCode;
 	private String companyCode;
 	private String memberId;

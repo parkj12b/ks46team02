@@ -3,12 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.farm.mapper.MentorMenteeMapper">
-	<select id="getMentorMenteeRegisterStatus" resultType="MMRegInfo">
+	<select id="getMMRegStatMentee" resultType="MMRegInfoMentee">
 		select 
-			mentee_app_code as mentorAppCode,
-			company_code as compoanyCode,
+			mentee_app_code as menteeAppCode,
+			company_code as companyCode,
 			member_id as memberId,
-			mentee_apply_date as memberApplyDate,
+			mentee_apply_date as menteeApplyDate,
 			mentee_approval_date as menteeApprovalDate,
 			mentee_approval as menteeApproval,
 			admin_id as adminId,
@@ -18,6 +18,35 @@
 			documentary_evidence as documentaryEvidence
 		from
 			mentee_apply
+		where 
+			company_code = #{companyCode};
+	</select>
+	<select id="getMMRegStatMentor" resultType="MMRegInfoMentor">
+		select 
+			mentor_app_code as MentorAppCode,
+			company_code as companyCode,
+			member_id as memberId,
+			mentor_apply_date as mentorApplyDate,
+			mentor_approval_date as mentorApprovalDate,
+			mentor_approval as mentorApproval,
+			admin_id as adminId,
+			previous_year as previousYear,
+			previous_year_sales as previousYearSales,
+			sales_suitability as salesSuitability,
+			career_year as careerYear,
+			career_month as careerMonth,
+			career_suitability as careerSuitability,
+			documentary_evidence as documentaryEvidence
+		from
+			mentor_apply
+		where 
+			company_code = #{companyCode};
+	</select>
+	<select id="getMMRegType" resultType="int">
+		select 
+			farm_level_num as farmLevelNum
+		from
+			company_info
 		where 
 			company_code = #{companyCode};
 	</select>

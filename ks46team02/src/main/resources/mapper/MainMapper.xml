@@ -4,62 +4,69 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.common.mapper.MainMapper">
 	<resultMap type="Member" id="memberResultMap">
-	<id column="member_id" property="memberId" />
-	<result column="member_pw" property="memberPw"></result>
-	<result column="member_name" property="memberName"></result>
-	<result column="member_email" property="memberEmail"></result>
-	<result column="member_phone" property="memberPhone"></result>
-	<result column="position_level_code"
-		property="positionLevelCode"></result>
-	<result column="company_code" property="companyCode"></result>
-	<result column="member_reg_date" property="memberRegDate"></result>
-	<result column="member_ci" property="memberCi"></result>
-	<result column="member_status" property="memberStatus"></result>
-	<result column="dormant_member_reg_date"
-		property="dormantMemberRegDate"></result>
-	<result column="isOwner" property="isOwner"></result>
-	<result column="isExist" property="isExist"></result>
-
-</resultMap>
-<resultMap type="AdminMember" id="adminMemberResultMap">
-	<id column="admin_id" property="adminId" />
-	<result column="admin_pw" property="adminPw"></result>
-	<result column="admin_name" property="adminName"></result>
-	<result column="admin_email" property="adminEmail"></result>
-	<result column="admin_level" property="adminLevel"></result>
-	<result column="admin_phone"
-		property="adminPhone"></result>
-	<result column="admin_reg_date" property="adminRegDate"></result>
-	<result column="isExist" property="isExist"></result>
-</resultMap>
-	<select id="getMemberLoginInfo" parameterType="MemberLoginInfo" resultMap="memberResultMap">
+		<id column="member_id" property="memberId" />
+		<result column="member_pw" property="memberPw"></result>
+		<result column="member_name" property="memberName"></result>
+		<result column="member_email" property="memberEmail"></result>
+		<result column="member_phone" property="memberPhone"></result>
+		<result column="position_level_code"
+			property="positionLevelCode"></result>
+		<result column="company_code" property="companyCode"></result>
+		<result column="member_reg_date" property="memberRegDate"></result>
+		<result column="member_ci" property="memberCi"></result>
+		<result column="member_status" property="memberStatus"></result>
+		<result column="dormant_member_reg_date"
+			property="dormantMemberRegDate"></result>
+		<result column="isOwner" property="isOwner"></result>
+		<result column="isExist" property="isExist"></result>
+		<result column="company_type_num" property="companyTypeNum"></result>
+	</resultMap>
+	<resultMap type="AdminMember" id="adminMemberResultMap">
+		<id column="admin_id" property="adminId" />
+		<result column="admin_pw" property="adminPw"></result>
+		<result column="admin_name" property="adminName"></result>
+		<result column="admin_email" property="adminEmail"></result>
+		<result column="admin_level" property="adminLevel"></result>
+		<result column="admin_phone" property="adminPhone"></result>
+		<result column="admin_reg_date" property="adminRegDate"></result>
+		<result column="isExist" property="isExist"></result>
+	</resultMap>
+	<select id="getMemberLoginInfo" parameterType="MemberLoginInfo"
+		resultMap="memberResultMap">
 		select
-			*, count(1) as isExist
+		*, count(1) as isExist
 		from
-			member_info
-		where member_id = #{memberId};
+		member_info mi
+		left join
+		company_info ci
+		on
+		mi.company_code = ci.company_code
+		where mi.member_id = #{memberId};
 	</select>
-	<select id="getAdminLoginInfo" parameterType="MemberLoginInfo" resultMap="adminMemberResultMap">
+	<select id="getAdminLoginInfo" parameterType="MemberLoginInfo"
+		resultMap="adminMemberResultMap">
 		select
-			*, count(1) as isExist
+		*, count(1) as isExist
 		from
-			admin_list
-		where admin_id = #{memberId};
+		admin_list
+		where admin_id =
+		#{memberId};
 	</select>
-	<select id="isDuplicateId" parameterType="String" resultType="boolean">
-	select
+	<select id="isDuplicateId" parameterType="String"
+		resultType="boolean">
+		select
 		count(1)
-	from
+		from
 		member_info
-	where
+		where
 		member_id = #{memberId};
 	</select>
 	<select id="isEmailUsed" resultType="boolean">
-		select 
-			count(1)
+		select
+		count(1)
 		from
-			member_info
-		where 
-			member_email = #{email};
+		member_info
+		where
+		member_email = #{email};
 	</select>
 </mapper>

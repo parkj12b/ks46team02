@@ -1,8 +1,10 @@
 package ks46team02.farm.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
-import ks46team02.farm.dto.MMRegInfo;
 import ks46team02.farm.mapper.MentorMenteeMapper;
 
 @Service
@@ -14,11 +16,26 @@ public class MentorMenteeService {
 		this.mentorMenteeMapper = mentorMenteeMapper;
 	}
 	
-	public MMRegInfo getMentorMenteeRegisterStatus(String companyCode) {
+	public Map<String, Object> getMentorMenteeRegisterStatus(String companyCode) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int mmRegType = mentorMenteeMapper.getMMRegType(companyCode);
+		Object mmRegInfo;
+		if(mmRegType == 1) {
+			mmRegInfo = mentorMenteeMapper.getMMRegStatMentor(companyCode);			
+		} else if(mmRegType == 2) {
+			mmRegInfo = mentorMenteeMapper.getMMRegStatMentee(companyCode);
+		} else {
+			return null;
+		}
+		map.put("mmRegInfo", mmRegInfo);
+		map.put("mmRegType", mmRegType);
 		
-		MMRegInfo mmRegInfo = mentorMenteeMapper.getMentorMenteeRegisterStatus(companyCode);
+		return map;
 		
-		return mmRegInfo;
+	}
+	
+	public int getMMRegType(String companyCode) {
+		return mentorMenteeMapper.getMMRegType(companyCode);
 	}
 	
 	

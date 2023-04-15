@@ -7,14 +7,16 @@
 	</head>
 	<body>
 		<th:block layout:fragment="sidebar">
-			<th:block th:if='|${session.sessionLevel.equals("level_code_1")}|'>
-				<div th:replace="~{fragments/sidebar :: myPageSidebarFragmentDry}"></div>
-			</th:block>
-			<th:block th:if='|${session.sessionLevel.equals("level_code_2")}|'>
-				<div th:replace="~{fragments/sidebar :: myPageSidebarFragmentFarm}"></div>
-			</th:block>
-			<th:block th:if='|${session.sessionLevel.equals("level_code_3")}|'>
-				<div th:replace="~{fragments/sidebar :: myPageSidebarFragmentBuyer}"></div>
+			<th:block th:if="${session.companyTypeNum != null}">
+				<th:block th:if='|${session.companyTypeNum.equals("1")}|'>
+					<div th:replace="~{fragments/sidebar :: myPageSidebarFragmentDry}"></div>
+				</th:block>
+				<th:block th:if='|${session.companyTypeNum.equals("2")}|'>
+					<div th:replace="~{fragments/sidebar :: myPageSidebarFragmentFarm}"></div>
+				</th:block>
+				<th:block th:if='|${session.companyTypeNum.equals("3")}|'>
+					<div th:replace="~{fragments/sidebar :: myPageSidebarFragmentBuyer}"></div>
+				</th:block>
 			</th:block>
 			<th:block th:if='|${session.sessionLevel.equals("level_code_4")}|'>
 				<div th:replace="~{fragments/sidebar :: myPageSidebarFragmentNewMember}"></div>

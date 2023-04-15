@@ -1,16 +1,26 @@
 package ks46team02.farm.controller;
 
-import ks46team02.farm.dto.*;
-import ks46team02.farm.service.FarmService;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.servlet.http.HttpSession;
+import ks46team02.farm.dto.Cage;
+import ks46team02.farm.dto.Cycle;
+import ks46team02.farm.dto.FarmInfo;
+import ks46team02.farm.dto.FarmStatus;
+import ks46team02.farm.dto.Feed;
+import ks46team02.farm.dto.MMRegInfoMentee;
+import ks46team02.farm.dto.MMRegInfoMentor;
+import ks46team02.farm.dto.Production;
+import ks46team02.farm.service.FarmService;
 import ks46team02.farm.service.MentorMenteeService;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/farm")
@@ -18,6 +28,10 @@ public class FarmController {
 	
 	MentorMenteeService mentorMenteeService;
 	private final FarmService farmService;
+	
+	
+	private static final Logger log = LoggerFactory.getLogger(FarmController.class);
+
 	
 	public FarmController(MentorMenteeService mentorMenteeService, FarmService farmService) {
 		this.mentorMenteeService = mentorMenteeService;
@@ -92,7 +106,10 @@ public class FarmController {
 	}
 	
 	@GetMapping("/mentorMentee")
-	public String getMentorMenteeView(){
+	public String getMentorMenteeView(HttpSession session, Model model){
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		int mmRegType = mentorMenteeService.getMMRegType(companyCode);
+		model.addAttribute(mmRegType);
 		return "farm/mentorMenteeIntro";
 	}
 	
@@ -109,8 +126,19 @@ public class FarmController {
 	@GetMapping("/mentorMenteeRegisterStatus")
 	public String getMentorMenteeRegisterStatus(HttpSession session, Model model) {
 		String companyCode = (String) session.getAttribute("sessionCompanyCode");
-		MMRegInfo mmRegInfo = mentorMenteeService.getMentorMenteeRegisterStatus(companyCode);
-		model.addAttribute("mmRegInfo", mmRegInfo);
+		Map<String,Object> mmRegInfoMap = mentorMenteeService.getMentorMenteeRegisterStatus(companyCode);
+		int mmRegType = mentorMenteeService.getMMRegType(companyCode);
+		if(mmRegType == 1) {
+			MMRegInfoMentor mmRegInfo = (MMRegInfoMentor) mmRegInfoMap.get("mmRegInfo");
+			model.addAttribute("mmRegInfo", mmRegInfo);
+			log.info("{}", mmRegInfo);
+		} else if(mmRegType == 2) {
+			MMRegInfoMentee mmRegInfo = (MMRegInfoMentee) mmRegInfoMap.get("mmRegInfo");
+			model.addAttribute("mmRegInfo", mmRegInfo);
+			log.info("{}", mmRegInfo);
+		}
+		model.addAttribute("mmRegType", mmRegType);
+		
 		return "farm/mentorMenteeRegisterStatus";
 	}
 	

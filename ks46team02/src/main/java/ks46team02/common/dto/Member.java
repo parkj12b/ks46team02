@@ -15,7 +15,14 @@ public class Member {
 	private String dormantMemberRegDate;
 	private boolean isOwner;
 	private boolean isExist;
+	private String companyTypeNum;
 	
+	public String getCompanyTypeNum() {
+		return companyTypeNum;
+	}
+	public void setCompanyTypeNum(String companyTypeNum) {
+		this.companyTypeNum = companyTypeNum;
+	}
 	public boolean isExist() {
 		return isExist;
 	}
@@ -100,7 +107,8 @@ public class Member {
 				+ ", memberPhone=" + memberPhone + ", memberEmail=" + memberEmail + ", positionLevelCode="
 				+ positionLevelCode + ", companyCode=" + companyCode + ", memberRegDate=" + memberRegDate
 				+ ", memberCi=" + memberCi + ", memberStatus=" + memberStatus + ", dormantMemberRegDate="
-				+ dormantMemberRegDate + ", isOwner=" + isOwner + "]";
+				+ dormantMemberRegDate + ", isOwner=" + isOwner + ", isExist=" + isExist + ", companyTypeNum="
+				+ companyTypeNum + "]";
 	}
 	
 	

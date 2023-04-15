@@ -49,6 +49,7 @@ public class CommonController {
 		
 		if(memberLevel.equals("normal")) {	
 			Member memberInfo = (Member) loginInfo;
+			log.info("{}",memberInfo);
 			System.out.println(memberInfo.isExist());
 			if(memberInfo.isExist()) {
 				session.setAttribute("sessionId", memberInfo.getMemberId());
@@ -57,6 +58,7 @@ public class CommonController {
 				session.setAttribute("sessionCompanyCode", memberInfo.getCompanyCode());
 				session.setAttribute("memberEmail", memberInfo.getMemberEmail());
 				session.setAttribute("isOwner", memberInfo.isOwner());
+				session.setAttribute("companyTypeNum", memberInfo.getCompanyTypeNum());
 			}
 		} else if(memberLevel.equals("admin")) {
 			AdminMember memberInfo = (AdminMember) loginInfo;

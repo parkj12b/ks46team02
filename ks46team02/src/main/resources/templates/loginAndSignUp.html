@@ -274,7 +274,7 @@
 			
 			//이메일 인증 변경 필요 - validation 체크로 변경, 인증번호는 다음으로 넘어가는 페이지에서 처리예정
 			
-			$('#emailSignUp').change(emailSignUpValidFn);
+			$('#emailSignUp').blur(emailSignUpValidFn);
 			
 			// 회원가입 input form 아이디 중복체크
 			$('#idSignUp').blur(idValidFn);
@@ -361,8 +361,8 @@
 			})
 			$('#farm_none_login').click(function () {
 				$('#loginLevel').val("normal");
-				idInput.val('farm_id_2');
-				pwInput.val('pw2');
+				idInput.val('farm_id_21');
+				pwInput.val('pw21');
 				$('#loginSubmitForm').submit();
 			})
 			$('#buy_login').click(function () {

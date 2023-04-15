@@ -2,12 +2,16 @@ package ks46team02.farm.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import ks46team02.farm.dto.MMRegInfo;
+import ks46team02.farm.dto.MMRegInfoMentee;
+import ks46team02.farm.dto.MMRegInfoMentor;
 
 @Mapper
 public interface MentorMenteeMapper {
 
-	MMRegInfo getMentorMenteeRegisterStatus(String companyCode);
+	public MMRegInfoMentee getMMRegStatMentee(String companyCode);
+	public MMRegInfoMentor getMMRegStatMentor(String companyCode);
+
+	public int getMMRegType(String companyCode);
 
 	
 }
