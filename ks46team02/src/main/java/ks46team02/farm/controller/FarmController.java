@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import ks46team02.farm.dto.Cage;
@@ -16,6 +17,7 @@ import ks46team02.farm.dto.Cycle;
 import ks46team02.farm.dto.FarmInfo;
 import ks46team02.farm.dto.FarmStatus;
 import ks46team02.farm.dto.Feed;
+import ks46team02.farm.dto.MMContractInfo;
 import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
 import ks46team02.farm.dto.Production;
@@ -140,6 +142,22 @@ public class FarmController {
 		model.addAttribute("mmRegType", mmRegType);
 		
 		return "farm/mentorMenteeRegisterStatus";
+	}
+	
+	@GetMapping("/mentorMenteeContract")
+	public String getMMContractList(Model model) {
+		
+		List<MMContractInfo> mmContractInfo = mentorMenteeService.getMMContractList("");
+		model.addAttribute("mmContractInfo", mmContractInfo);
+		return "farm/mmContractList";
+	}
+	
+	@GetMapping("/mentorMenteeContractDetail")
+	public String getMMContractDetail(Model model, @RequestParam(name="companyCode") String companyCode) {
+		
+		List<MMContractInfo> mmContractInfo = mentorMenteeService.getMMContractList(companyCode);
+		
+		return "farm/mmContractDetail";
 	}
 	
 }

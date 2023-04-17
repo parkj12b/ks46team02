@@ -52,5 +52,5 @@ public class CompanyController {
         return "company/company_list";
     }
 
-
+    
 }

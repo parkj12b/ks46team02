@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team02.admin.mapper.MMmapper">
+	<resultMap type="MMRegInfoMentee" id="RegInfoMenteeResultMap">
+		<id column="mentee_app_code" property="menteeAppCode"></id>
+		<result column="company_code" property="companyCode"></result>
+		<result column="member_id" property="memberId"></result>
+		<result column="mentee_apply_date" property="menteeApplyDate"></result>
+		<result column="mentee_approval_date" property="menteeApprovalDate"></result>
+		<result column="mentee_approval" property="menteeApproval"></result>
+		<result column="admin_id" property="adminId"></result>
+		<result column="previous_year" property="previousYear"></result>
+		<result column="previous_year_sales" property="previousYearSales"></result>
+		<result column="sales_suitability" property="salesSuitability"></result>
+		<result column="documentary_evidence" property="documentaryEvidence"></result>
+	</resultMap>
+	<resultMap type="MMRegInfoMentor" id="RegInfoMentorResultMap">
+		<id column="mentor_app_code" property="mentorAppCode"></id>
+		<result column="company_code" property="companyCode"></result>
+		<result column="member_id" property="memberId"></result>
+		<result column="mentor_apply_date" property="mentorApplyDate"></result>
+		<result column="mentor_approval_date" property="mentorApprovalDate"></result>
+		<result column="mentor_approval" property="mentorApproval"></result>
+		<result column="admin_id" property="adminId"></result>
+		<result column="previous_year" property="previousYear"></result>
+		<result column="previous_year_sales" property="previousYearSales"></result>
+		<result column="sales_suitability" property="salesSuitability"></result>
+		<result column="career_year" property="careerYear"></result>
+		<result column="career_month" property="careerMonth"></result>
+		<result column="career_suitability" property="careerSuitability"></result>
+		<result column="documentary_evidence" property="documentaryEvidence"></result>
+	</resultMap>
+	<select id="getMentorRegList" parameterType="String" resultMap="RegInfoMentorResultMap">
+		select
+			*
+		from
+			mentor_apply
+		where
+			mentor_approval = #{status};
+	</select>
+	<select id="getMenteeRegList" parameterType="String" resultMap="RegInfoMenteeResultMap">
+		select
+			*
+		from
+			mentee_apply
+		where
+			mentee_approval = #{status};
+	</select>
+	
+</mapper>

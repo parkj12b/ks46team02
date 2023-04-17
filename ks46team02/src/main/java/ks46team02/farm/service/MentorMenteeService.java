@@ -1,10 +1,12 @@
 package ks46team02.farm.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import ks46team02.farm.dto.MMContractInfo;
 import ks46team02.farm.mapper.MentorMenteeMapper;
 
 @Service
@@ -36,6 +38,13 @@ public class MentorMenteeService {
 	
 	public int getMMRegType(String companyCode) {
 		return mentorMenteeMapper.getMMRegType(companyCode);
+	}
+
+	public List<MMContractInfo> getMMContractList(String companyCode) {
+
+		List<MMContractInfo> mmContractInfo = mentorMenteeMapper.getMMContractInfo(companyCode);
+		
+		return mmContractInfo;
 	}
 	
 	

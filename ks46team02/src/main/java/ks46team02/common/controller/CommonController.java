@@ -1,17 +1,12 @@
 package ks46team02.common.controller;
 
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import ks46team02.common.dto.AdminMember;
 import ks46team02.common.dto.Member;
@@ -19,6 +14,7 @@ import ks46team02.common.dto.MemberLoginInfo;
 import ks46team02.common.emailTest.EmailService;
 import ks46team02.common.emailTest.EmailServiceImpl;
 import ks46team02.common.service.MainService;
+import ks46team02.farm.service.MentorMenteeService;
 
 @Controller
 public class CommonController {
@@ -27,10 +23,12 @@ public class CommonController {
 	private static final Logger log = LoggerFactory.getLogger(CommonController.class);
 	
 	EmailService emailService;
+	MentorMenteeService mentorMenteeService;
 	
-	public CommonController(MainService mainService, EmailServiceImpl emailService){
+	public CommonController(MainService mainService, EmailServiceImpl emailService, MentorMenteeService mentorMenteeService){
 		this.mainService = mainService;
 		this.emailService = emailService;
+		this.mentorMenteeService = mentorMenteeService;
 	}
 	
 	
@@ -51,6 +49,7 @@ public class CommonController {
 			Member memberInfo = (Member) loginInfo;
 			log.info("{}",memberInfo);
 			System.out.println(memberInfo.isExist());
+			int mmRegType = mentorMenteeService.getMMRegType(memberInfo.getCompanyCode());
 			if(memberInfo.isExist()) {
 				session.setAttribute("sessionId", memberInfo.getMemberId());
 				session.setAttribute("sessionName", memberInfo.getMemberName());
@@ -59,6 +58,7 @@ public class CommonController {
 				session.setAttribute("memberEmail", memberInfo.getMemberEmail());
 				session.setAttribute("isOwner", memberInfo.isOwner());
 				session.setAttribute("companyTypeNum", memberInfo.getCompanyTypeNum());
+				session.setAttribute("mmRegType", mmRegType);
 			}
 		} else if(memberLevel.equals("admin")) {
 			AdminMember memberInfo = (AdminMember) loginInfo;
@@ -103,4 +103,9 @@ public class CommonController {
 		session.invalidate();
 		return "redirect:/";
 	}
+	
+	@GetMapping("/testing")
+    public String testing() {
+    	return "dataTableTest";
+    }
 }

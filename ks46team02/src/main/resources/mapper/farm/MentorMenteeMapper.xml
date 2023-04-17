@@ -3,6 +3,40 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.farm.mapper.MentorMenteeMapper">
+<resultMap type="MMContractInfo" id="MMContractInfoMap">
+	<id column="mentor_contract_reg_code" property="mentorContractRegCode"></id>
+	<result column="company_code" property="companyCode"></result>
+	<result column="contract_period" property="contractPeriod"></result>
+	<result column="total_visitation" property="totalVisitation"></result>
+	<result column="month_visitation" property="monthVisitation"></result>
+	<result column="contract_content" property="contractContent"></result>
+	<result column="contract_cost" property="contractCost"></result>
+	<result column="contract_reg_date" property="contractRegDate"></result>
+	<result column="deposit" property="deposit"></result>
+	<result column="mentor_app_code" property="mentorAppCode"></result>
+	<result column="mentor_apply_date" property="mentorApplyDate"></result>
+	<result column="mentor_approval_date" property="mentorApprovalDate"></result>
+	<result column="mentor_approval" property="mentorApproval"></result>
+	<result column="previous_year" property="previousYear"></result>
+	<result column="previous_year_sales" property="previousYearSales"></result>
+	<result column="sales_suitability" property="salesSuitability"></result>
+	<result column="career_year" property="careerYear"></result>
+	<result column="career_month" property="careerMonth"></result>
+	<result column="career_suitability" property="careerSuitability"></result>
+	<result column="documentary_evidence" property="documentaryEvidence"></result>
+	<result column="company_type_num" property="companyTypeNum"></result>
+	<result column="company_tel" property="companyTel"></result>
+	<result column="company_addr" property="companyAddr"></result>
+	<result column="company_name" property="companyName"></result>
+	<result column="apply_date" property="applyDate"></result>
+	<result column="approval_status" property="approvalStatus"></result>
+	<result column="approval_denied_content" property="approvalDeniedContent"></result>
+	<result column="approval_date" property="approvalDate"></result>
+	<result column="farm_level_num" property="farmLevelNum"></result>
+	<result column="reg_password" property="regPassword"></result>
+	<result column="farm_cnt" property="farmCnt"></result>
+	<result column="mentor_contract_title" property="mentorContractTitle"></result>
+</resultMap>
 	<select id="getMMRegStatMentee" resultType="MMRegInfoMentee">
 		select 
 			mentee_app_code as menteeAppCode,
@@ -49,5 +83,20 @@
 			company_info
 		where 
 			company_code = #{companyCode};
+	</select>
+	<select id="getMMContractInfo" parameterType="String" resultMap="MMContractInfoMap">
+		select 
+			*
+		from 
+			mentor_contract_registration mcr
+			left join
+			mentor_apply ma 
+			using (company_code)
+			left join
+			company_info ci 
+			using (company_code)
+		<where>
+			<if test="companyCode != ''">company_code = #{companyCode}</if>
+		</where>
 	</select>
 </mapper>
