@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team02.admin.mapper.LoginHistoryMapper">
+<resultMap type="LoginHistory" id="loginHistoryResultMap">
+		<id 	column="login_code"  				property="loginCode" />
+		<result column="login_date"  				property="LoginDate"/>
+		<result column="logout_date"  				property="logoutDate"/>
+		<result column="member_id"  				property="memberId"/>
+		<result column="ipv4_address"  				property="ipv4Address"/>
+</resultMap>
+	<update id="modifyAddr" parameterType="String" >
+		/* 배송지 정보 수정 */
+		UPDATE admin_list
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="addrRoad != null and addrRoad != ''">
+				shipping_addr_road = #{addrRoad},
+			</if>
+			<if test="addrLoca != null and addrLoca != ''">
+				shipping_addr_loca = #{addrLoca},
+			</if>
+			<if test="addrName != null and addrName != ''">
+				shipping_addr_name = #{addrName},
+			</if>
+			<if test="addrRecipient != null and addrRecipient != ''">
+				shipping_addr_recipient = #{addrRecipient},
+			</if>
+			<if test="addrTel != null and addrTel != ''">
+				shipping_addr_tel = #{addrTel},
+			</if>
+			<if test="addrPhone != null and addrPhone != ''">
+				shipping_addr_phone = #{addrPhone},
+			</if>
+			<if test="addrSeq != null and addrSeq != ''">
+				shipping_addr_seq = #{addrSeq},
+			</if>
+			<if test="MemberId != null and MemberId != ''">
+				member_id = #{MemberId},
+			</if>
+		</trim>
+		WHERE 
+			admin_id = #{adminId};
+
+	</update>
+		
+	<select id="getLoginHistoryList" parameterType="String" resultMap="loginHistoryResultMap">
+				/* 전체 회원 로그인 기록 조회 */
+				select 
+				 *
+				from Login_history;
+ 
+	</select>
+	
+	
+</mapper>

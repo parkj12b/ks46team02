@@ -182,14 +182,21 @@
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
 					<li><a th:href="@{/admin/adminList}">!최봉준 관리자 관리</a></li>
-					<li><a href="#">#관리자 등급 관리</a></li>
+					<li><a th:href="@{/admin/adminLevelList}">#관리자 등급 관리</a></li>
+				</ul></li>
+			<li><a><i class="fa fa-cogs"></i> 승인 관리 <span
+					class="fa fa-chevron-down"></span></a>
+				<ul class="nav child_menu">
+					<li><a th:href="@{/admin/adminList}">승인 기준 관리</a></li>
+					<li><a th:href="@{/admin/adminLevelList}">승인 회원 관리?</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-users"></i> 회원관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="#">#등록 된 회원관리</a></li>
+					<li><a th:href="@{/admin/memberList}">등록 된 회원 관리</a></li>
+					<li><a th:href="@{/admin/dormantMemberList}">휴면 회원 관리</a></li>
 					<li><a th:href="@{/admin/addrList}">!최봉준 배송지 관리</a></li>
-					<li><a href="#">#로그인 기록 관리</a></li>
+					<li><a th:href="@{/admin/loginHistory}">로그인 기록 관리</a></li>
 					<li><a th:href="@{/admin/withdrawalMemberList}">!최봉준 탈퇴 회원 관리</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-question-circle"></i> 플랫폼 문의 <span
