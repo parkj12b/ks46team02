@@ -23,9 +23,6 @@ public class MentorMenteeService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		int mmRegType = mentorMenteeMapper.getMMRegType(companyCode);
 		Object mmRegInfo;
-		if(Optional.of(mmRegType) != null) {
-			
-		}
 		if(mmRegType == 1) {
 			mmRegInfo = mentorMenteeMapper.getMMRegStatMentor(companyCode);			
 		} else if(mmRegType == 2) {
