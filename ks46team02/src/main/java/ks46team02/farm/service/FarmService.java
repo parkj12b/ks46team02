@@ -14,14 +14,26 @@ public class FarmService {
         this.farmMapper = farmMapper;
     }
 
+    public List<FarmInfo> getFarmList(String companyCode){
+        List<FarmInfo> farmList = farmMapper.getFarmList(companyCode);
+        return farmList;
+    }
     public  List<Feed> getFeedList(){
         List<Feed> feedList = farmMapper.getFeedList();
         return feedList;
     }
-
-    public  List<Production> getProductionList(){
-        List<Production> productionList = farmMapper.getProductionList();
+    public  List<Production> getProductionList(String farmCode){
+        List<Production> productionList = farmMapper.getProductionList(farmCode);
         return productionList;
+    }
+    public FarmInfo getFarmInfoByCode(String farmCode){
+        FarmInfo farmInfo = farmMapper.getFarmInfoByCode(farmCode);
+        return farmInfo;
+    }
+
+    public List<Production> getAllProductionList(String companyCode){
+        List<Production> allProductionList = farmMapper.getAllProductionList(companyCode);
+        return allProductionList;
     }
 
 
@@ -34,10 +46,7 @@ public class FarmService {
         List<Cage> cageList = farmMapper.getCageList();
         return cageList;
     }
-    public List<FarmInfo> getFarmList(){
-        List<FarmInfo> farmList = farmMapper.getFarmList();
-        return farmList;
-    }
+
     public List<FarmStatus> getFarmStatusList(){
         List<FarmStatus> farmStatusList = farmMapper.getFarmStatusList();
         return farmStatusList;
