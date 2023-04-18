@@ -39,6 +39,18 @@ public class FarmController {
 		this.mentorMenteeService = mentorMenteeService;
 		this.farmService = farmService;
 	}
+
+	@GetMapping("/farmDetail")
+	public  String getFarmDetail(Model model,
+								 @RequestParam (name="farmCode") String farmCode){
+		FarmInfo farmInfo = farmService.getFarmInfoByCode(farmCode);
+		List<Production> productionList = farmService.getProductionList(farmCode);
+		model.addAttribute("title","사육장 정보");
+		model.addAttribute("farmInfo", farmInfo);
+		model.addAttribute("productionList",productionList);
+		return "farm/farmDetail";
+	}
+
 	@GetMapping("/feedList")
 	public String getFeedList(Model model){
 		List<Feed> feedList = farmService.getFeedList();
@@ -48,10 +60,12 @@ public class FarmController {
 	}
 
 	@GetMapping("/productionList")
-	public String getProductionList(Model model){
-		List<Production> productionList = farmService.getProductionList();
+	public String getAllProductionList(Model model,
+									   HttpSession session){
+		String companyCode =(String) session.getAttribute("sessionCompanyCode");
+		List<Production> allProductionList = farmService.getAllProductionList(companyCode);
 		model.addAttribute("title", "생산량 목록");
-		model.addAttribute("productionList", productionList);
+		model.addAttribute("allProductionList", allProductionList);
 		return "farm/productionList";
 	}
 
@@ -91,8 +105,10 @@ public class FarmController {
 
 
 	@GetMapping("/farmList")
-	public String getFarmList(Model model){
-		List<FarmInfo> farmList = farmService.getFarmList();
+	public String getFarmList(Model model,
+							  HttpSession session){
+		String companyCode =(String) session.getAttribute("sessionCompanyCode");
+		List<FarmInfo> farmList = farmService.getFarmList(companyCode);
 		model.addAttribute("title", "사육장 목록");
 		model.addAttribute("farmList", farmList);
 		return "farm/farmList";
