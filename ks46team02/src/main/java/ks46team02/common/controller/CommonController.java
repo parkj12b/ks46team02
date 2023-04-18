@@ -49,7 +49,7 @@ public class CommonController {
 			Member memberInfo = (Member) loginInfo;
 			log.info("{}",memberInfo);
 			System.out.println(memberInfo.isExist());
-			int mmRegType = mentorMenteeService.getMMRegType(memberInfo.getCompanyCode());
+			Integer mmRegType = mentorMenteeService.getMMRegType(memberInfo.getCompanyCode());
 			if(memberInfo.isExist()) {
 				session.setAttribute("sessionId", memberInfo.getMemberId());
 				session.setAttribute("sessionName", memberInfo.getMemberName());
@@ -59,6 +59,8 @@ public class CommonController {
 				session.setAttribute("isOwner", memberInfo.isOwner());
 				session.setAttribute("companyTypeNum", memberInfo.getCompanyTypeNum());
 				session.setAttribute("mmRegType", mmRegType);
+				
+				
 			}
 		} else if(memberLevel.equals("admin")) {
 			AdminMember memberInfo = (AdminMember) loginInfo;
