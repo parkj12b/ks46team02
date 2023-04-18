@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team02.admin.mapper.AdminLevelMapper">
+<resultMap type="AdminLevel" id="adminLevelResultMap">
+		<id 	column="admin_level"  							property="adminLevel" />
+		<result	column="admin_position"  						property="adminPosition" />
+		<result	column="manage_member"  						property="adminMember" />
+		<result	column="manage_contract"  						property="adminContract" />
+		<result	column="manage_farm"  							property="adminFarm" />
+		<result	column="manage_question"  						property="adminQuestion" />
+		<result	column="manage_setting"  						property="adminSetting" />
+		<result	column="manage_payment"  						property="adminPayment" />
+		<result	column="manage_reg_date"  						property="adminRegDate" />
+</resultMap>
+	<update id="modifyAdmin" parameterType="String" >
+		/* 관리자 정보 수정 */
+		UPDATE admin_list
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="adminPw != null and adminPw != ''">
+				admin_pw = #{adminPw},
+			</if>
+			<if test="adminName != null and adminName != ''">
+				admin_name = #{adminName},
+			</if>
+			<if test="adminEmail != null and adminEmail != ''">
+				admin_email = #{adminEmail},
+			</if>
+			<if test="adminLevel != null and adminLevel != ''">
+				admin_level = #{adminLevel},
+			</if>
+			<if test="adminPhone != null and adminPhone != ''">
+				admin_phone = #{adminPhone},
+			</if>
+			<if test="adminRegDate != null and adminRegDate != ''">
+				admin_reg_date = #{adminRegDate},
+			</if>
+		</trim>
+		WHERE 
+			admin_id = #{adminId};
+
+	</update>
+		
+	<select id="getAdminLevelList" parameterType="String" resultMap="adminLevelResultMap">
+				/* 관리자 레벨 조회 */
+				SELECT 
+					admin_level, 
+					admin_position,
+					CASE WHEN manage_member = 1 THEN 'O' ELSE 'X' END AS manage_member,
+					CASE WHEN manage_contract = 1 THEN 'O' ELSE 'X' END AS manage_contract,
+					CASE WHEN manage_farm = 1 THEN 'O' ELSE 'X' END AS manage_farm,
+					CASE WHEN manage_question = 1 THEN 'O' ELSE 'X' END AS manage_question,
+					CASE WHEN manage_setting = 1 THEN 'O' ELSE 'X' END AS manage_setting,
+					CASE WHEN manage_payment = 1 THEN 'O' ELSE 'X' END AS manage_payment,
+					manage_reg_date
+				FROM 
+					admin_level 
+	</select>
+	
+	
+</mapper>

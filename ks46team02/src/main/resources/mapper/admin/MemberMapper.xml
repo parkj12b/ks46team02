@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team02.admin.mapper.MemberMapper">
+<resultMap type="Member" id="MemberResultMap">
+		<id 	column="member_id"  							property="memberId" />
+		<result column="member_pw"  							property="memberPw"/>
+		<result column="member_name"  							property="memberName"/>
+		<result column="member_phone"  							property="memberPhone"/>
+		<result column="member_email"  							property="memberEmail"/>
+		<result column="position_level_code"  					property="positionLevelCode"/>
+		<result column="company_code"  							property="companyCode"/>
+		<result column="member_reg_date"  						property="memberRegDate"/>
+		<result column="member_ci"  							property="memberCi"/>
+		<result column="member_status"  						property="memberStatus"/>
+		<result column="dormant_member_reg_date"  				property="dormantMemberRegDate"/>
+</resultMap>
+	<update id="modifyAdmin" parameterType="String" >
+		/* 관리자 정보 수정 */
+		UPDATE admin_list
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="adminPw != null and adminPw != ''">
+				admin_pw = #{adminPw},
+			</if>
+			<if test="adminName != null and adminName != ''">
+				admin_name = #{adminName},
+			</if>
+			<if test="adminEmail != null and adminEmail != ''">
+				admin_email = #{adminEmail},
+			</if>
+			<if test="adminLevel != null and adminLevel != ''">
+				admin_level = #{adminLevel},
+			</if>
+			<if test="adminPhone != null and adminPhone != ''">
+				admin_phone = #{adminPhone},
+			</if>
+			<if test="adminRegDate != null and adminRegDate != ''">
+				admin_reg_date = #{adminRegDate},
+			</if>
+		</trim>
+		WHERE 
+			admin_id = #{adminId};
+
+	</update>
+	
+	<select id="getDormantMemberList" parameterType="String" resultMap="MemberResultMap">
+				/* 휴면 회원 조회 */
+			select 
+				 member_id
+				,member_pw
+				,member_name
+				,member_email
+				,member_phone
+				,company_code
+				,member_reg_date
+				,dormant_member_reg_date
+			
+			from 
+				member_info
+			where
+				member_status='dormant';
+	</select>
+		
+	<select id="getMemberList" parameterType="String" resultMap="MemberResultMap">
+				/* 전체 회원 조회 */
+			select 
+				 member_id
+				,member_pw
+				,member_name
+				,member_email
+				,member_phone
+				,position_level_code
+				,company_code
+				,member_reg_date
+				,member_ci
+				,member_status
+				,dormant_member_reg_date
+			
+			from 
+				member_info
+			where
+				member_status='normal';
+	</select>
+	
+	
+</mapper>
