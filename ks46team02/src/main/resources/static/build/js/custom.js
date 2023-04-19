@@ -2524,24 +2524,31 @@ function init_DataTables() {
         };
     }();
 
-    $('#datatable').dataTable();
+    $('#datatable').dataTable({
+		searching: false
+	});
 
     $('#datatable-keytable').DataTable({
-        keys: true
+        keys: true,
+        searching: false
     });
 
-    $('#datatable-responsive').DataTable();
+    $('#datatable-responsive').DataTable({
+		searching: false
+	});
 
     $('#datatable-scroller').DataTable({
         ajax: "js/datatables/json/scroller-demo.json",
         deferRender: true,
         scrollY: 380,
         scrollCollapse: true,
-        scroller: true
+        scroller: true,
+        searching: false
     });
 
     $('#datatable-fixed-header').DataTable({
-        fixedHeader: true
+        fixedHeader: true,
+        searching: false
     });
 
     var $datatable = $('#datatable-checkbox');
@@ -2550,7 +2557,8 @@ function init_DataTables() {
         'order': [[1, 'asc']],
         'columnDefs': [
             { orderable: false, targets: [0] }
-        ]
+        ],
+        searching: false
     });
     $datatable.on('draw.dt', function () {
         $('checkbox input').iCheck({
