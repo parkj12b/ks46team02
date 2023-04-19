@@ -171,9 +171,11 @@ public class FarmController {
 	@GetMapping("/mentorMenteeContractDetail")
 	public String getMMContractDetail(Model model, @RequestParam(name="companyCode") String companyCode) {
 		
-		List<MMContractInfo> mmContractInfo = mentorMenteeService.getMMContractList(companyCode);
+		MMContractInfo mmContractInfo = mentorMenteeService.getMMContractList(companyCode).get(0);
+		
 		
 		return "farm/mmContractDetail";
 	}
+	
 	
 }
