@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import groovy.util.logging.Slf4j;
 import ks46team02.admin.dto.Addr;
 import ks46team02.admin.dto.AdminLevel;
+import ks46team02.admin.dto.ContractStandard;
 import ks46team02.admin.dto.LoginHistory;
 import ks46team02.admin.dto.WithdrawalMember;
 import ks46team02.admin.service.AddrService;
 import ks46team02.admin.service.AdminLevelService;
 import ks46team02.admin.service.AdminMMservice;
 import ks46team02.admin.service.AdminService;
+import ks46team02.admin.service.ContractStandardService;
 import ks46team02.admin.service.LoginHistoryService;
 import ks46team02.admin.service.MemberService;
 import ks46team02.admin.service.WithdrawalMemberService;
@@ -39,6 +41,7 @@ public class AdminController {
 	private final AdminLevelService adminLevelService;
 	private final MemberService memberservice;
 	private final LoginHistoryService loginHistoryService;
+	private final ContractStandardService contractStandardService;
 	
 	
 	private static final Logger log = LoggerFactory.getLogger(AdminController.class);
@@ -50,7 +53,8 @@ public class AdminController {
 						  ,AdminMMservice mMService
 						  ,AdminLevelService adminLevelService
     					  ,MemberService memberservice
-    					  ,LoginHistoryService loginHistoryService) {
+    					  ,LoginHistoryService loginHistoryService
+    					  ,ContractStandardService contractStandardService) {
 		this.addrService = addrService;
 		this.adminService = adminService;
 		this.withdrawalMemberService = withdrawalMemberService;
@@ -58,6 +62,7 @@ public class AdminController {
 		this.adminLevelService = adminLevelService;
 	    this.memberservice = memberservice;
 	    this.loginHistoryService = loginHistoryService;
+	    this.contractStandardService = contractStandardService;
 	}
     /* 전체 관리자 목록 조회 */
 	@GetMapping("/adminList")
@@ -78,6 +83,12 @@ public class AdminController {
 		model.addAttribute("addrList", addrList);
 
 		return "admin/addrList";
+	}
+	/* 배송지 등록 */
+	@GetMapping("/addAddr")
+	public String addAddr(Model model){
+		model.addAttribute("title", "배송지등록");
+		return "admin/addAddr";
 	}
 	/* 탈퇴한 회원 목록 조회 */
 	@GetMapping("/withdrawalMemberList")
@@ -136,5 +147,13 @@ public String getDormantMemberList(Model model) {
 	model.addAttribute("title", "로그인 기록 조회");
 	model.addAttribute("dormantMemberList", dormantMemberList);
 	return "admin/dormantMemberList";
+	}
+/* 승인 기준 조회 */
+@GetMapping("/contractStandardList")
+public String GetContractStandardList(Model model) {
+	List<ContractStandard>contractStandardList = contractStandardService.getAdminLevelList();
+	model.addAttribute("title", "승인 기준 조회");
+	model.addAttribute("contractStandardList", contractStandardList);
+	return "admin/contractStandardList";
 	}
 }
