@@ -3,6 +3,7 @@ package ks46team02.farm.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,7 @@ public class MentorMenteeService {
 		
 	}
 	
-	public int getMMRegType(String companyCode) {
+	public Integer getMMRegType(String companyCode) {
 		return mentorMenteeMapper.getMMRegType(companyCode);
 	}
 

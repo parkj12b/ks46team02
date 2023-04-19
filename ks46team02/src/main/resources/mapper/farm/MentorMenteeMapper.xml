@@ -78,7 +78,7 @@
 	</select>
 	<select id="getMMRegType" resultType="int">
 		select 
-			farm_level_num as farmLevelNum
+			IFNULL(farm_level_num, 0) as farmLevelNum
 		from
 			company_info
 		where 

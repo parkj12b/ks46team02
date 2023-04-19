@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/mypageLayout}">
+<head>
+
+</head>
+
+
+<th:block layout:fragment="customContent">
+	<div class="page-title">
+		<div class="title">
+			<div class="col-md-6">
+
+				<div class="x_panel">
+					<div class="x_title">
+						<h2>배송지 등록</h2>
+						<div class="clearfix"></div>
+					</div>
+					<div class="x_content">
+						<br>
+						<form class="form-horizontal form-label-left">
+							<div class="form-group row">
+								<label class="control-label col-md-3 col-sm-3 ">사육장 선택</label>
+								<div class="col-md-9 col-sm-9 ">
+									<select class="form-control">
+										<option>아이디</option>
+										<option>주소(지번)</option>
+										<option>주소(도로명)</option>
+										<option>명칭</option>
+										<option>수령자</option>
+										<option>일반전화</option>
+										<option>휴대폰번호</option>
+										<option>수정</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group row ">
+								<label class="control-label col-md-3 col-sm-3 "> 케이지 이름
+								</label>
+								<div class="col-md-9 col-sm-9 ">
+									<input type="text" class="form-control"
+										placeholder="Default Input">
+								</div>
+							</div>
+
+							<div class="form-group row ">
+								<label class="control-label col-md-3 col-sm-3 "> 케이지 개수
+								</label>
+								<div class="col-md-9 col-sm-9 ">
+									<input type="text" class="form-control"
+										placeholder="Default Input">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="control-label col-md-3 col-sm-3 "> 케이지 용량[L] </label>
+								<div class="col-md-9 col-sm-9 ">
+									<input type="text" class="form-control"
+										placeholder="Disabled Input">
+								</div>
+							</div>
+													
+							<div class="form-group row">
+								<label class="control-label col-md-3 col-sm-3 ">비밀번호</label>
+								<div class="col-md-9 col-sm-9 ">
+									<input type="password" class="form-control"
+										value="passwordonetwo">
+								</div>
+							</div>
+
+							<div class="ln_solid"></div>
+							<div class="form-group">
+								<div class="col-md-9 col-sm-9  offset-md-3">
+									<button type="button" class="btn btn-primary">Cancel</button>
+									<button type="reset" class="btn btn-primary">Reset</button>
+									<button type="submit" class="btn btn-success">Submit</button>
+								</div>
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+</html>

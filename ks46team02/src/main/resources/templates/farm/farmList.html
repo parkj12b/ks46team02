@@ -16,6 +16,7 @@
         <div class="x_title">
           <h2>사육장 목록</h2>
 
+
           <ul class="nav navbar-right panel_toolbox" style="flex-direction: row-reverse">
             <li><a class="collapse-link"><i class="fa fa-chevron-up" ></i></a>
             </li>
@@ -30,27 +31,27 @@
         <div class="x_content">
           <table class="table table-hover" >
             <thead>
-              <tr>
-                <th>사육장 코드</th>
-                <th>사육장 이름</th>
-                <th>사육장 설명</th>
-                <th>사육장 주소</th>
-                <th>케이지 개수</th>
-                <th>총 용량</th>
-                <th>사육장 등록일</th>
-              </tr>
+            <tr>
+              <th>사육장 이름</th>
+              <th>사육장 주소</th>
+              <th>케이지 개수</th>
+              <th>총 용량</th>
+              <th>사육장 등록일</th>
+            </tr>
             </thead>
 
             <tbody>
-              <tr th:unless="${farmList == null}" th:each="l : ${farmList}">
-                <td th:text="${l.farmCode}"></td>
-                <td th:text="${l.farmName}"></td>
-                <td th:text="${l.farmDetail}"></td>
-                <td th:text="${l.farmAddr}"></td>
-                <td th:text="${l.cageAmount}"></td>
-                <td th:text="${l.totalCapacity}"></td>
-                <td th:text="${l.farmRegDate}"></td>
-              </tr>
+            <tr th:unless="${farmList == null}" th:each="l : ${farmList}">
+              <td>
+                <a th:href="@{/farm/farmDetail(farmCode=${l.farmCode})}" th:text="' ' + ${l.farmName}" class="fa fa-plus-square-o"></a>
+
+              </td>
+              <td th:text="${l.farmAddr}"></td>
+              <td th:text="${l.cageAmount}"></td>
+              <td th:text="${l.totalCapacity}"></td>
+              <td th:text="${l.farmRegDate}"></td>
+
+            </tr>
             </tbody>
           </table>
           <button type="button" class="btn btn-success" ><a th:href="@{/farm/addFarm}" style="color: white;">사육장 등록</a></button>

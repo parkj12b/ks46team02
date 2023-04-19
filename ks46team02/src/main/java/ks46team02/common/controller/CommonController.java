@@ -49,7 +49,11 @@ public class CommonController {
 			Member memberInfo = (Member) loginInfo;
 			log.info("{}",memberInfo);
 			System.out.println(memberInfo.isExist());
-			int mmRegType = mentorMenteeService.getMMRegType(memberInfo.getCompanyCode());
+			int mmRegType = 0;
+			if(memberInfo.getCompanyCode() != null) {
+				mmRegType = mentorMenteeService.getMMRegType(memberInfo.getCompanyCode());
+			}
+			
 			if(memberInfo.isExist()) {
 				session.setAttribute("sessionId", memberInfo.getMemberId());
 				session.setAttribute("sessionName", memberInfo.getMemberName());
