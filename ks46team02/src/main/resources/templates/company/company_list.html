@@ -7,6 +7,10 @@
     <title>BSFP</title>
 </head>
 
+<th:block layout:fragment="customJs">
+
+</th:block>
+
 <th:block layout:fragment="customContent">
     <div class="page-title">
         <div class="title">
@@ -40,112 +44,37 @@
                                             <thead>
                                             <tr role="row">
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                    rowspan="1" colspan="1" style="width: 300px;"
+                                                    rowspan="1" colspan="1" style="width: 255px;"
                                                     aria-label="Name: activate to sort column ascending">업체코드
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                     rowspan="1" colspan="1" style="width: 387px;"
-                                                    aria-label="Position: activate to sort column ascending">사업자등록번호
+                                                    aria-label="Position: activate to sort column ascending">업체명
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                     rowspan="1" colspan="1" style="width: 199px;"
-                                                    aria-label="Office: activate to sort column ascending">업체명
+                                                    aria-label="Office: activate to sort column ascending">업체종류
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                     rowspan="1" colspan="1" style="width: 108px;"
-                                                    aria-label="Age: activate to sort column ascending">업체주소
+                                                    aria-label="Age: activate to sort column ascending">승인여부
                                                 </th>
                                                 <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
                                                     rowspan="1" colspan="1" style="width: 187px;"
                                                     aria-label="Start date: activate to sort column ascending"
-                                                    aria-sort="descending">업체종류
-                                                </th>
-                                                <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                    rowspan="1" colspan="1" style="width: 187px;"
-                                                    aria-label="Start date: activate to sort column ascending"
-                                                    aria-sort="descending">업체전화번호
-                                                </th>
-                                                <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                    rowspan="1" colspan="1" style="width: 187px;"
-                                                    aria-label="Start date: activate to sort column ascending"
-                                                    aria-sort="descending">업체등록신청아이디
-                                                </th>
-                                                <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                    rowspan="1" colspan="1" style="width: 187px;"
-                                                    aria-label="Start date: activate to sort column ascending"
-                                                    aria-sort="descending">등록신청일
-                                                </th>
-                                                <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                    rowspan="1" colspan="1" style="width: 187px;"
-                                                    aria-label="Start date: activate to sort column ascending"
-                                                    aria-sort="descending">승인여부
-                                                </th>
-                                                <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                    rowspan="1" colspan="1" style="width: 187px;"
-                                                    aria-label="Start date: activate to sort column ascending"
-                                                    aria-sort="descending">승인일
-                                                </th>
-                                                <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                    rowspan="1" colspan="1" style="width: 187px;"
-                                                    aria-label="Start date: activate to sort column ascending"
-                                                    aria-sort="descending">승인반려사유
-                                                </th>
-                                                <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                    rowspan="1" colspan="1" style="width: 187px;"
-                                                    aria-label="Start date: activate to sort column ascending"
-                                                    aria-sort="descending">사원등록비밀번호
-                                                </th>
-                                                <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                    rowspan="1" colspan="1" style="width: 187px;"
-                                                    aria-label="Start date: activate to sort column ascending"
-                                                    aria-sort="descending">사육업체등급
-                                                </th>
-                                                <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                    rowspan="1" colspan="1" style="width: 187px;"
-                                                    aria-label="Start date: activate to sort column ascending"
-                                                    aria-sort="descending">사육장 수
-                                                </th>
-                                                <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                    rowspan="1" colspan="1" style="width: 187px;"
-                                                    aria-label="Start date: activate to sort column ascending"
-                                                    aria-sort="descending">관리자아이디
-                                                </th>
-                                                <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                    rowspan="1" colspan="1" style="width: 187px;"
-                                                    aria-label="Start date: activate to sort column ascending"
-                                                    aria-sort="descending">업체수정
-                                                </th>
-                                                <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                    rowspan="1" colspan="1" style="width: 187px;"
-                                                    aria-label="Start date: activate to sort column ascending"
-                                                    aria-sort="descending">업체삭제
+                                                    aria-sort="descending">
                                                 </th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr role="row" class="odd" >
-                                                <td>con1</td>
-                                                <td>Accountant33</td>
-                                                <td>Tokyo</td>
-                                                <td>3333333333333</td>
-                                                <td>3333333333333</td>
-                                                <td>3333333333333</td>
-                                                <td>333333333333333</td>
-                                                <td>3333333333333</td>
-                                                <td>3333333333333</td>
-                                                <td>3333333333333</td>
-                                                <td>3333333333333</td>
-                                                <td>3333333333333</td>
-                                                <td>3333333333333</td>
-                                                <td>2008/11/28</td>
-                                                <td>$162,70033</td>
-                                                <td>
-                                                    <a href="#">수정</a>
-                                                </td>
-                                                <td>
-                                                    <a href="#">삭제</a>
-                                                </td>
+                                            <tr role="row" class="odd">
+                                                <td>com1</td>
+                                                <td>건조1</td>
+                                                <td>건조</td>
+                                                <td>o</td>
+                                                <td><a th:href="@{/company/company_info}">상세정보</a></td>
                                             </tr>
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -156,7 +85,6 @@
                 </div>
             </div>
         </div>
-
+    </div>
 </th:block>
-
 </html>
