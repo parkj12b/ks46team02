@@ -1,5 +1,7 @@
 package ks46team02.farm.dto;
 
+import java.util.Date;
+
 public class Production {
     private String productionCode;
     private String companyCode;
@@ -10,8 +12,9 @@ public class Production {
     private Double lossRate;
     private String memberId;
     private String productionRegDate;
+    
 
-    public String getProductionCode() {
+	public String getProductionCode() {
         return productionCode;
     }
 
