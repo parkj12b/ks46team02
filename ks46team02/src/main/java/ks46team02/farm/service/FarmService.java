@@ -1,14 +1,25 @@
 package ks46team02.farm.service;
 
 
-import ks46team02.farm.dto.*;
-import ks46team02.farm.mapper.FarmMapper;
+import java.util.Date;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import ks46team02.farm.controller.FarmController;
+import ks46team02.farm.dto.Cage;
+import ks46team02.farm.dto.Cycle;
+import ks46team02.farm.dto.FarmInfo;
+import ks46team02.farm.dto.FarmStatus;
+import ks46team02.farm.dto.Feed;
+import ks46team02.farm.dto.Production;
+import ks46team02.farm.mapper.FarmMapper;
 
 @Service
 public class FarmService {
+	private static final Logger log = LoggerFactory.getLogger(FarmController.class);
     private final FarmMapper farmMapper;
     public FarmService(FarmMapper farmMapper){
         this.farmMapper = farmMapper;
@@ -22,8 +33,18 @@ public class FarmService {
         List<Feed> feedList = farmMapper.getFeedList();
         return feedList;
     }
-    public  List<Production> getProductionList(String farmCode){
-        List<Production> productionList = farmMapper.getProductionList(farmCode);
+    public  List<Production> getProductionList(String farmCode, String searchKey, String searchValue, String fromDate, String toDate){
+    	if(searchKey != null) {
+    		switch (searchKey) {
+			case "productionCode":
+				searchKey = "production_code";
+				break;
+
+			default:
+				break;
+			}
+    	}
+        List<Production> productionList = farmMapper.getProductionList(farmCode, searchKey, searchValue, fromDate, toDate);
         return productionList;
     }
     public FarmInfo getFarmInfoByCode(String farmCode){
