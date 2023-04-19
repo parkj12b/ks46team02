@@ -43,6 +43,7 @@ public class FarmController {
 
 	@GetMapping("/farmDetail")
 	public  String getFarmDetail(Model model
+								 ,@RequestParam(name="tapName", required = false) String tapName
 								 ,@RequestParam(name="farmCode") String farmCode
 								 ,@RequestParam(name="searchKey", required = false) String searchKey
 								 ,@RequestParam(name="searchValue", required = false) String searchValue
@@ -54,6 +55,7 @@ public class FarmController {
 		model.addAttribute("farmInfo", farmInfo);
 		model.addAttribute("productionList",productionList);
 		model.addAttribute("farmCode", farmCode);
+		model.addAttribute("tapName", tapName);
 		log.info(farmCode);
 		return "farm/farmDetail";
 	}
