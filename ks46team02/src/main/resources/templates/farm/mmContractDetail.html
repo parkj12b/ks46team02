@@ -2,11 +2,93 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/mypageLayout}">
+
 <head>
-<meta charset="EUC-KR">
+<style>
+#info-container {
+	width: 960px;
+	margin: 0 auto;
+	
+}
+#contract-title{
+	font-size: 26px;
+}
+.x_panel{
+	border:1px solid #e5e6eb;
+	padding: 40px 40px;
+}
+#mentor-head-info th{
+	width: 100px;
+}
+.mentor-head-info{
+	border-top: 1px solid #e5e6eb;
+	padding: 25px 0px;
+	box-sizing: border-box;
+	width: 420px;
+	float: left;
+}
+.mentor-head-info-right{
+	margin-left: 20px;
+}
+</style>
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-
+	<th:block layout:fragment="customContent" th:object="${mmContractInfo}">
+		<div id="info-container">
+			<div class="x_panel">
+				<h2 id="company-name" th:text="*{companyName}"></h2>
+				<div class="clearfix"></div>
+				<h1 th:text=*{mentorContractTitle} id="contract-title"></h1>	
+				<div class="x_content" style="display: block;">
+					<div class="mentor-head-info">
+						<table  id="mentor-head-info">
+							<tr>
+								<th>경력:</th>
+								<td th:text='|${mmContractInfo.careerYear +"년 "+ mmContractInfo.careerMonth +"개월"}|'></td>
+							</tr>
+							<tr>
+								<th>계약 개월수: </th>
+								<td th:text='|${mmContractInfo.contractPeriod + "개월"}|'></td>
+							</tr>
+							<tr>
+								<th>주소: </th>
+								<td th:text='|${mmContractInfo.companyAddr}|'></td>
+							</tr>
+							<tr>
+								<th>총 방문 횟수: </th>
+								<td th:text='|${mmContractInfo.totalVisitation}번|'></td>
+							</tr>
+							<tr>
+								<th>월 방문 횟수: </th>
+								<td th:text='|${mmContractInfo.monthVisitation}번|'></td>
+							</tr>
+						</table>
+					</div>
+					<div class="mentor-head-info mentor-head-info-right">
+						<table  id="mentor-head-info">
+							<tr>
+								<th>경력:</th>
+								<td th:text='|${mmContractInfo.careerYear +"년 "+ mmContractInfo.careerMonth +"개월"}|'></td>
+							</tr>
+							<tr>
+								<th>계약 개월수: </th>
+								<td th:text='|${mmContractInfo.contractPeriod + "개월"}|'></td>
+							</tr>
+							<tr>
+								<th>주소: </th>
+								<td th:text='|${mmContractInfo.companyAddr}|'></td>
+							</tr>
+							<tr>
+								<th></th>
+							</tr>
+						</table>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</th:block>
 </body>
 </html>
