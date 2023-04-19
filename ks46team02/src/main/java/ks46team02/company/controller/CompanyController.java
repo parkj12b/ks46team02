@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/company")
 public class CompanyController {
 
+
+
     @GetMapping("/company_product_insert")
     public String companyProductInsert(Model model){
 
@@ -45,10 +47,17 @@ public class CompanyController {
         return "company/company_insert";
     }
 
+    @GetMapping("/company_info")
+    public String getCompanyInfo(Model model){
+
+        model.addAttribute("title", "업체상세정보");
+        return "company/company_info";
+    }
+
     @GetMapping("/company_list")
     public String getCompanyList(Model model){
-        model.addAttribute("title","등록업체목록");
 
+        model.addAttribute("title","등록업체목록");
         return "company/company_list";
     }
 
