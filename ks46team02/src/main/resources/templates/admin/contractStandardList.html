@@ -6,21 +6,12 @@
 <head>
 
 </head>
-<th:block layout:fragment="customJs">
-<script>
-$(document).ready(function() {
-  $('button.btn-primary').click(function() {
-    window.location.href = '/admin/addAddr';
-  });
-});
-</script>
-</th:block>
 <th:block layout:fragment="customContent">
     <div class="page-title">
         <div class="title">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>배송지 조회</h2>
+                    <h2>계약 승인 기준 조회</h2>
 
                     <ul class="nav navbar-right panel_toolbox" style="flex-direction: row-reverse">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -47,75 +38,62 @@ $(document).ready(function() {
                                         <tr role="row">
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 180px;"
-                                                aria-label="Name: activate to sort column ascending">배송지 코드
+                                                aria-label="Name: activate to sort column ascending">승인기준 코드
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 200px;"
-                                                aria-label="Position: activate to sort column ascending">주소(도로명)
+                                                aria-label="Position: activate to sort column ascending">승인 기준
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 200px;"
-                                                aria-label="Office: activate to sort column ascending">주소(지번)
+                                                aria-label="Office: activate to sort column ascending">기준 설명
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 150px;"
-                                                aria-label="Age: activate to sort column ascending">주소명(별칭)
+                                                aria-label="Age: activate to sort column ascending">기준값
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 120px;"
-                                                aria-label="Age: activate to sort column ascending">수령자
+                                                aria-label="Age: activate to sort column ascending">단위
                                             </th>
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 187px;"
                                                 aria-label="Start date: activate to sort column ascending"
-                                                aria-sort="descending">일반전화
+                                                aria-sort="descending">계약 승인 등록 일자
                                             </th>
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 187px;"
                                                 aria-label="Start date: activate to sort column ascending"
-                                                aria-sort="descending">휴대폰
+                                                aria-sort="descending">관리자 아이디
                                             </th>
-                                            <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 190px;"
-                                                aria-label="Start date: activate to sort column ascending"
-                                                aria-sort="descending">주소유형
-                                            </th>
-                                            <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 187px;"
-                                                aria-label="Start date: activate to sort column ascending"
-                                                aria-sort="descending">회원아이디
-                                            </th> 
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
             									rowspan="1" colspan="1" style="width: 70px;"
             									aria-label="Start date: activate to sort column ascending"
-            									aria-sort="descending">수정
+            									aria-sort="descending">
         									</th>                                   
                                             
-                                           
+                                        
 
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:unless="${addrList == null}" th:each="l : ${addrList}">
-                                            <td th:text="${l.addrcode}"></td>
-                                            <td th:text="${l.addrRoad}"></td>
-                                            <td th:text="${l.addrLoca}"></td>
-                                            <td th:text="${l.addrName}"></td>
-                                            <td th:text="${l.addrRecipient}"></td>
-                                            <td th:text="${l.addrTel}"></td>
-                                            <td th:text="${l.addrPhone}"></td>
-                                            <td th:text="${l.addrSeq}"></td>
-                                            <td th:text="${l.memberId}"></td>
+                                        <tr th:unless="${contractStandardList == null}" th:each="l : ${contractStandardList}">
+                                            <td th:text="${l.contStandCode}"></td>
+                                            <td th:text="${l.contAppStand}"></td>
+                                            <td th:text="${l.contStandInfo}"></td>
+                                            <td th:text="${l.contStandValue}"></td>
+                                            <td th:text="${l.contStandUnit}"></td>
+                                            <td th:text="${l.contStandRegDate}"></td>
+                                            <td th:text="${l.adminId}"></td>
                                             <td>                                            
-                                            <a href="#"><i class="fa fa-edit"></i> 수정 &nbsp;</a>
+                                            <a th:href="@{/admin/addAddr}"><i class="fa fa-edit"></i>수정 &nbsp;</a>
+                                            <a href="#"><i class="fa fa-close"></i> 삭제</a>
                                             </td>
                                         </tr>
+
                                         </tbody>
-                                       </table>
+                                    </table>                                       
                                 </div>
-                                	<div class="col-md-6 text-right">
-							      		<button class="btn btn-primary float-right" type="button">배송지 등록</button>
-							    	</div>
                             </div>
                         </div>
                     </div>

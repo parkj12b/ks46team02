@@ -48,7 +48,7 @@
 				/* 전체 회원 로그인 기록 조회 */
 				select 
 				 *
-				from Login_history;
+				from login_history;
  
 	</select>
 	
