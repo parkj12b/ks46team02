@@ -61,8 +61,8 @@ public class FarmService {
     }
 
 
-    public  List<Cycle> getCycleList(){
-        List<Cycle> cycleList = farmMapper.getCycleList();
+    public  List<Cycle> getAllCycleList(){
+        List<Cycle> cycleList = farmMapper.getAllCycleList();
         return cycleList;
     }
 

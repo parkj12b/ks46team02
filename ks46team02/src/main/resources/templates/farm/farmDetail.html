@@ -3,7 +3,17 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/mypageLayout}">
 <head>
-
+<style>
+.x_content div {
+    overflow: visible;
+}
+#datatable_wrapper>div.row:first-child {
+    /* float: right; */
+    position: absolute;
+    right: 0px;
+    top: -46px;
+}
+</style>
 </head>
 
 <th:block layout:fragment="customContent">
@@ -17,21 +27,25 @@
 						<div class="x_content">
 
 							<ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist">
-								<li class="nav-item"><a class="nav-link" th:classappend="${tapName == 'farmInfo' || tapName == null} ? 'active'"
+								<li class="nav-item"><a class="nav-link"
+									th:classappend="${tapName == 'farmInfo' || tapName == null} ? 'active'"
 									id="farmInfo-tab" data-toggle="tab" href="#farmInfo" role="tab"
 									aria-controls="farmInfo" aria-selected="true">사육장 정보</a></li>
-								<li class="nav-item"><a class="nav-link" th:classappend="${tapName} == 'production' ? 'active'"
+								<li class="nav-item"><a class="nav-link"
+									th:classappend="${tapName} == 'production' ? 'active'"
 									id="productionList-tab" data-toggle="tab"
 									href="#productionList" role="tab"
 									aria-controls="productionList" aria-selected="false">생산량 조회</a>
 								</li>
-								<li class="nav-item"><a class="nav-link" id="contact-tab" th:classappend="${tapName} == 'contact' ? 'active'"
-									data-toggle="tab" href="#contact" role="tab"
-									aria-controls="contact" aria-selected="false">Contact</a></li>
+								<li class="nav-item"><a class="nav-link" id="cycle-tab"
+									th:classappend="${tapName} == 'cycle' ? 'active'"
+									data-toggle="tab" href="#cycle" role="tab"
+									aria-controls="cycle" aria-selected="false">싸이클 조회</a></li>
 							</ul>
 							<div class="tab-content" id="myTabContent"
 								th:object="${farmInfo}">
-								<div class="tab-pane fade" id="farmInfo" th:classappend="${tapName == 'farmInfo' || tapName == null} ? 'active show'"
+								<div class="tab-pane fade" id="farmInfo"
+									th:classappend="${tapName == 'farmInfo' || tapName == null} ? 'active show'"
 									role="tabpanel" aria-labelledby="farmInfo-tab">
 
 									<h3 th:text="*{farmName}"></h3>
@@ -107,7 +121,8 @@
 
 										</div>
 								</div>
-								<div class="tab-pane fade" id="productionList" role="tabpanel"  th:classappend="${tapName} == 'production' ? 'active show'"
+								<div class="tab-pane fade" id="productionList" role="tabpanel"
+									th:classappend="${tapName} == 'production' ? 'active show'"
 									aria-labelledby="profile-tab">
 									<div th:include="~{farm/search/search :: productionSearch}"></div>
 									<div class="x_content">
@@ -117,10 +132,10 @@
 													<div class="col-sm-12">
 
 
-														<table id="datatable-buttons"
-															class="table table-striped table-bordered dataTable no-footer dtr-inline"
+														<table id="datatable"
+															class="table table-striped table-bordered dataTable no-footer"
 															style="width: 100%;" role="grid"
-															aria-describedby="datatable-buttons_info">
+															aria-describedby="datatable_info">
 															<thead>
 																<tr role="row">
 																	<th class="sorting" tabindex="0"
@@ -128,13 +143,13 @@
 																		colspan="1" style="width: 255px;"
 																		aria-label="Name: activate to sort column ascending">생산량
 																		코드</th>
-											
+
 																	<th class="sorting" tabindex="0"
 																		aria-controls="datatable-buttons" rowspan="1"
 																		colspan="1" style="width: 200px;"
 																		aria-label="Office: activate to sort column ascending">싸이클
 																		코드</th>
-																	
+
 																	<th class="sorting" tabindex="0"
 																		aria-controls="datatable-buttons" rowspan="1"
 																		colspan="1" style="width: 120px;"
@@ -156,8 +171,8 @@
 															<tbody>
 																<tr th:unless="${productionList == null}"
 																	th:each="l : ${productionList}">
-																	<td th:text="${l.productionCode}"></td>																
-																	<td th:text="${l.expectedCageProductionCode}"></td>																	
+																	<td th:text="${l.productionCode}"></td>
+																	<td th:text="${l.expectedCageProductionCode}"></td>
 																	<td th:text="${l.realProduction}"></td>
 																	<td th:text="${l.lossRate}"></td>
 																	<td th:text="${l.realHarvestDay}"></td>
@@ -170,24 +185,77 @@
 												</div>
 											</div>
 										</div>
-										<div class="tab-pane fade" id="contact" role="tabpanel" th:classappend="${tapName} == 'contact' ? 'active show'"
-											aria-labelledby="contact-tab">xxFood truck fixie
-											locavore, accusamus mcsweeney's marfa nulla single-origin
-											coffee squid. Exercitation +1 labore velit, blog sartorial
-											PBR leggings next level wes anderson artisan four loko
-											farm-to-table craft beer twee. Qui photo booth letterpress,
-											commodo enim craft beer mlkshk
+									</div>
+									</div>
+									
+										<div class="tab-pane fade" id="cycle" role="tabpanel"
+											th:classappend="${tapName} == 'cycle' ? 'active show'"
+											aria-labelledby="cycle-tab">
+											<div th:include="~{farm/search/search :: cycleSearch}"></div>
+											<div class="x_content">
+												<div class="row">
+													<div class="col-sm-12">
+														<div class="card-box table-responsive">
+															<div class="col-sm-12">
+
+
+																<table id="datatable"
+																	class="table table-striped table-bordered dataTable no-footer"
+																	style="width: 100%;" role="grid"
+																	aria-describedby="datatable_info">
+																	<thead>
+																		<tr role="row">
+																			<th class="sorting" tabindex="0"
+																				aria-controls="datatable-buttons" rowspan="1"
+																				colspan="1" style="width: 255px;"
+																				aria-label="Name: activate to sort column ascending">생산량
+																				코드</th>
+
+																			<th class="sorting" tabindex="0"
+																				aria-controls="datatable-buttons" rowspan="1"
+																				colspan="1" style="width: 200px;"
+																				aria-label="Office: activate to sort column ascending">싸이클
+																				코드</th>
+
+																			<th class="sorting" tabindex="0"
+																				aria-controls="datatable-buttons" rowspan="1"
+																				colspan="1" style="width: 120px;"
+																				aria-label="Age: activate to sort column ascending">생산량
+																			</th>
+																			<th class="sorting" tabindex="0"
+																				aria-controls="datatable-buttons" rowspan="1"
+																				colspan="1" style="width: 120px;"
+																				aria-label="Age: activate to sort column ascending">손실률
+																			</th>
+																			<th class="sorting_desc" tabindex="0"
+																				aria-controls="datatable-buttons" rowspan="1"
+																				colspan="1" style="width: 187px;"
+																				aria-label="Start date: activate to sort column ascending"
+																				aria-sort="descending">수확일</th>
+
+																		</tr>
+																	</thead>
+																	<tbody>
+
+
+																	</tbody>
+																</table>
+
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
-								</div>
 
+								
 							</div>
 						</div>
-					</div>
 
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 </th:block>
 </html>

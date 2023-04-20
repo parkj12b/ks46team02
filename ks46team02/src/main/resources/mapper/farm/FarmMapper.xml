@@ -86,7 +86,7 @@
 
     </select>
 
-    <select id="getCycleList" resultType="Cycle">
+    <select id="getAllCycleList" resultType="Cycle">
         SELECT
         expected_cage_production_code AS cycleCode,
         company_code AS companyCode,
