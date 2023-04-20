@@ -128,21 +128,13 @@
 																		colspan="1" style="width: 255px;"
 																		aria-label="Name: activate to sort column ascending">생산량
 																		코드</th>
-																	<th class="sorting" tabindex="0"
-																		aria-controls="datatable-buttons" rowspan="1"
-																		colspan="1" style="width: 200px;"
-																		aria-label="Position: activate to sort column ascending">사육장
-																		코드</th>
+											
 																	<th class="sorting" tabindex="0"
 																		aria-controls="datatable-buttons" rowspan="1"
 																		colspan="1" style="width: 200px;"
 																		aria-label="Office: activate to sort column ascending">싸이클
 																		코드</th>
-																	<th class="sorting_desc" tabindex="0"
-																		aria-controls="datatable-buttons" rowspan="1"
-																		colspan="1" style="width: 187px;"
-																		aria-label="Start date: activate to sort column ascending"
-																		aria-sort="descending">수확일</th>
+																	
 																	<th class="sorting" tabindex="0"
 																		aria-controls="datatable-buttons" rowspan="1"
 																		colspan="1" style="width: 120px;"
@@ -153,25 +145,22 @@
 																		colspan="1" style="width: 120px;"
 																		aria-label="Age: activate to sort column ascending">손실률
 																	</th>
-
 																	<th class="sorting_desc" tabindex="0"
 																		aria-controls="datatable-buttons" rowspan="1"
 																		colspan="1" style="width: 187px;"
 																		aria-label="Start date: activate to sort column ascending"
-																		aria-sort="descending">등록날짜</th>
+																		aria-sort="descending">수확일</th>
 
 																</tr>
 															</thead>
 															<tbody>
 																<tr th:unless="${productionList == null}"
 																	th:each="l : ${productionList}">
-																	<td th:text="${l.productionCode}"></td>
-																	<td th:text="${l.farmCode}"></td>
-																	<td th:text="${l.expectedCageProductionCode}"></td>
-																	<td th:text="${l.realHarvestDay}"></td>
+																	<td th:text="${l.productionCode}"></td>																
+																	<td th:text="${l.expectedCageProductionCode}"></td>																	
 																	<td th:text="${l.realProduction}"></td>
 																	<td th:text="${l.lossRate}"></td>
-																	<td th:text="${l.productionRegDate}"></td>
+																	<td th:text="${l.realHarvestDay}"></td>
 																</tr>
 
 															</tbody>

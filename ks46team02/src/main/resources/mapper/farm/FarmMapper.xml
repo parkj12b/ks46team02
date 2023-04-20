@@ -77,7 +77,7 @@
 				    AND DATE_FORMAT(production_reg_date, '%Y-%m-%d') &gt;= #{fromDate}
 				</if>
 				<if test="fromDate == '' and toDate != ''">
-				    AND DATE_FORMAT(production_reg_date, '%Y-%m-%d') &lt;= #{toDate}
+				    AND DATE_FORMAT(real_harvest_day, '%Y-%m-%d') &lt;= #{toDate}
 				</if>
 
         	</if>

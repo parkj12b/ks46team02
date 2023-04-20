@@ -39,6 +39,9 @@ public class FarmService {
 			case "productionCode":
 				searchKey = "production_code";
 				break;
+			case "cycleCode":
+				searchKey = "expected_cage_production_code";
+				break;
 
 			default:
 				break;
