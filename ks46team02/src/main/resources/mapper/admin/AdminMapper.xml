@@ -42,17 +42,20 @@
 		
 	<select id="getAdminList" parameterType="String" resultMap="adminMemberResultMap">
 				/* 관리자 회원 조회 */
-			SELECT 
-				 admin_id   		
-				,admin_pw  			
-				,admin_name 		
-				,admin_email 		
-				,admin_level		
-				,admin_phone		
-				,admin_reg_date		
-	
-			FROM 
-				admin_list;
+				SELECT 
+					 admin_id 
+					,admin_pw 
+					,admin_name 
+					,admin_email 
+					,admin_position as adminPosition
+					,admin_phone 
+					,admin_reg_date 
+				FROM 
+				admin_list as m
+				inner join
+				admin_level as l
+				on 
+				m.admin_level = l.admin_level;
  
 	</select>
 	
