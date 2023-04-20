@@ -96,7 +96,7 @@
 			company_info ci 
 			using (company_code)
 		<where>
-			<if test="companyCode != ''">company_code = #{companyCode}</if>
+			<if test="searchValue != ''">${searchKey} = #{searchValue}</if>
 		</where>
 	</select>
 </mapper>
