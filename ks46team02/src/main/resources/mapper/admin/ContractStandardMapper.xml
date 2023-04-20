@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team02.admin.mapper.ContractStandardMapper">
+<resultMap type="ContractStandard" id="contStandMemberResultMap">
+		<id 	column="cont_app_stand_code"  					property="contStandCode" />
+		<result column="cont_app_stand"  						property="contAppStand"/>
+		<result column="cont_app_stand_info"  					property="contStandInfo"/>
+		<result column="cont_app_stand_value"  					property="contStandValue"/>
+		<result column="cont_app_stand_unit"  					property="contStandUnit"/>
+		<result column="cont_app_stand_reg_date"  				property="contStandRegDate"/>
+		<result column="admin_id"  								property="adminId"/>
+</resultMap>
+			
+	<select id="getContractStandardList" parameterType="String" resultMap="contStandMemberResultMap">
+				/* 계약 승인 기준 조회 */
+			SELECT 
+				 cont_app_stand_code 
+				,cont_app_stand 
+				,cont_app_stand_info 
+				,cont_app_stand_value 
+				,cont_app_stand_unit 
+				,cont_app_stand_reg_date 
+				,admin_id 
+			FROM 	
+				contract_approval_standard;
+	</select>
+	
+	
+</mapper>
