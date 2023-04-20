@@ -15,12 +15,17 @@ import ks46team02.farm.dto.Production;
 
 @Mapper
 public interface FarmMapper {
-
+	
+	public boolean harvestCheck();
+	
+	public List<Cycle> getAllCycleList();
+	public List<Cycle> getCycleList(String farmCode);
+ 
     public List<Production> getAllProductionList(String companyCode);
+    public List<Production> getProductionList(String farmCode, String searchKey, String searchValue ,String fromDate, String toDate);
+   
     public FarmInfo getFarmInfoByCode(String farmCode);
     public List<Feed> getFeedList();
-    public List<Production> getProductionList(String farmCode, String searchKey, String searchValue ,String fromDate, String toDate);
-    public List<Cycle> getAllCycleList();
     public List<Cage> getCageList();
     public List<FarmInfo> getFarmList(String companyCode);
     public List<FarmStatus> getFarmStatusList();

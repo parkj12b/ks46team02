@@ -14,6 +14,14 @@ public class Production {
     private String productionRegDate;
     
 
+	@Override
+	public String toString() {
+		return "Production [productionCode=" + productionCode + ", companyCode=" + companyCode + ", farmCode="
+				+ farmCode + ", expectedCageProductionCode=" + expectedCageProductionCode + ", realHarvestDay="
+				+ realHarvestDay + ", realProduction=" + realProduction + ", lossRate=" + lossRate + ", memberId="
+				+ memberId + ", productionRegDate=" + productionRegDate + "]";
+	}
+
 	public String getProductionCode() {
         return productionCode;
     }

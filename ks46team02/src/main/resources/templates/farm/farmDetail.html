@@ -208,35 +208,69 @@
 																			<th class="sorting" tabindex="0"
 																				aria-controls="datatable-buttons" rowspan="1"
 																				colspan="1" style="width: 255px;"
-																				aria-label="Name: activate to sort column ascending">생산량
+																				aria-label="Name: activate to sort column ascending">싸이클 코드
 																				코드</th>
+																				
+																			<th class="sorting" tabindex="0"
+																				aria-controls="datatable-buttons" rowspan="1"
+																				colspan="1" style="width: 100px;"
+																				aria-label="Office: activate to sort column ascending">목표상태</th>
+																				
 
 																			<th class="sorting" tabindex="0"
 																				aria-controls="datatable-buttons" rowspan="1"
-																				colspan="1" style="width: 200px;"
-																				aria-label="Office: activate to sort column ascending">싸이클
-																				코드</th>
+																				colspan="1" style="width: 100px;"
+																				aria-label="Office: activate to sort column ascending">케이지 수</th>
 
 																			<th class="sorting" tabindex="0"
 																				aria-controls="datatable-buttons" rowspan="1"
 																				colspan="1" style="width: 120px;"
-																				aria-label="Age: activate to sort column ascending">생산량
+																				aria-label="Age: activate to sort column ascending">케이지 용량
 																			</th>
 																			<th class="sorting" tabindex="0"
 																				aria-controls="datatable-buttons" rowspan="1"
 																				colspan="1" style="width: 120px;"
-																				aria-label="Age: activate to sort column ascending">손실률
+																				aria-label="Age: activate to sort column ascending">예상 생산량
+																			</th>
+																	
+																			
+																			<th class="sorting_desc" tabindex="0"
+																				aria-controls="datatable-buttons" rowspan="1"
+																				colspan="1" style="width: 187px;"
+																				aria-label="Start date: activate to sort column ascending"
+																				aria-sort="descending">생산 시작 날짜
 																			</th>
 																			<th class="sorting_desc" tabindex="0"
 																				aria-controls="datatable-buttons" rowspan="1"
 																				colspan="1" style="width: 187px;"
 																				aria-label="Start date: activate to sort column ascending"
-																				aria-sort="descending">수확일</th>
+																				aria-sort="descending">예상 수확 날짜
+																			</th>
+																			<th class="sorting" tabindex="0"
+																				aria-controls="datatable-buttons" rowspan="1"
+																				colspan="1" style="width: 120px;"
+																				aria-label="Age: activate to sort column ascending">남은 일수
+																			</th>
+																			<th class="sorting" tabindex="0"
+																				aria-controls="datatable-buttons" rowspan="1"
+																				colspan="1" style="width: 120px;"
+																				aria-label="Age: activate to sort column ascending">급여 현황
+																			</th>
 
 																		</tr>
 																	</thead>
 																	<tbody>
-
+																		<tr th:unless="${cycleList == null}"
+																			th:each="c : ${cycleList}">
+																			<td th:text="${c.cageCode}"></td>
+																			<td th:text="${c.calculationStandardCode}"></td>
+																			<td th:text="${c.cageVolum}"></td>																			
+								                                            <td th:text="${c.cageNum}"></td>							                                        
+								                                            <td th:text="${c.estimatedProduction}"></td>
+								                                            <td th:text="${c.harvestStartDate}"></td>
+								                                            <td th:text="${c.estimatedHarvestDate}"></td>
+								                                           	<td th:text="${c.dayDiffHarvest}"></td>
+																		</tr>
 
 																	</tbody>
 																</table>

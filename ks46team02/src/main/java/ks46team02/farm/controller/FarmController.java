@@ -48,11 +48,15 @@ public class FarmController {
 								 ,@RequestParam(name="searchKey", required = false) String searchKey
 								 ,@RequestParam(name="searchValue", required = false) String searchValue
 								 ,@RequestParam(name="fromDate", required = false) String fromDate
-								 ,@RequestParam(name="toDate", required = false) String toDate){
+								 ,@RequestParam(name="toDate", required = false) String toDate
+								 ,HttpSession session){
+		String companyCode =(String) session.getAttribute("sessionCompanyCode");
 		FarmInfo farmInfo = farmService.getFarmInfoByCode(farmCode);
+		List<Cycle> cycleList = farmService.getCycleList(farmCode,companyCode);
 		List<Production> productionList = farmService.getProductionList(farmCode,searchKey,searchValue,fromDate,toDate);
 		model.addAttribute("title","사육장 정보");
 		model.addAttribute("farmInfo", farmInfo);
+		model.addAttribute("cycleList",cycleList);
 		model.addAttribute("productionList",productionList);
 		model.addAttribute("farmCode", farmCode);
 		model.addAttribute("tapName", tapName);
