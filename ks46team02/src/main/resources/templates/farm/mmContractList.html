@@ -7,6 +7,17 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<th:block layout:fragment="customJs">
+	<script>
+		let openNewTab = function(event, mentorContractRegCode){
+			console.log(event);
+			console.log(mentorContractRegCode);
+			
+			window.open(`/farm/mentorMenteeContractDetail?mentorContractRegCode=${mentorContractRegCode}`, "_blank");
+		}
+	</script>
+		
+	</th:block>
 	<th:block layout:fragment="customContent">
 		<div class="col-md-12 col-sm-12 ">
 			<div class="x_panel">
@@ -69,7 +80,7 @@
 															<td th:text=${m.companyName}></td>
 															<td colspan="1">
 																<div>
-																	<a target="_blank" th:href="@{/farm/mentorMenteeContractDetail(mentorContractRegCode=${m.mentorContractRegCode})}"><strong th:text=${m.mentorContractTitle}></strong></a>
+																	<a id="contract_new_tab" th:mentorContractRegCode="${m.mentorContractRegCode}" th:onclick="openNewTab(event, this.getAttribute('mentorContractRegCode'))" ><strong th:text=${m.mentorContractTitle}></strong></a>
 																	<p>
 																		<span th:text="${'계약 개월수: ' + m.contractPeriod + '개월'}"></span> | 
 																		<span th:text="${m.companyAddr}"></span>
