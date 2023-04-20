@@ -12,8 +12,55 @@ public class Cycle {
     private double estimatedProduction;
     private String memberId;
     private String estimatedProductionRegDate;
+    private String cageNum;
+    private String cageVolum;
+    private String cageTotal;
+    private String dayDiffHarvest;
 
-    public String getCycleCode() {
+
+    @Override
+	public String toString() {
+		return "Cycle [cycleCode=" + cycleCode + ", companyCode=" + companyCode + ", farmCode=" + farmCode
+				+ ", cageCode=" + cageCode + ", harvestStartDate=" + harvestStartDate + ", estimatedHarvestDate="
+				+ estimatedHarvestDate + ", inputEgg=" + inputEgg + ", calculationStandardCode="
+				+ calculationStandardCode + ", estimatedProduction=" + estimatedProduction + ", memberId=" + memberId
+				+ ", estimatedProductionRegDate=" + estimatedProductionRegDate + ", cageNum=" + cageNum + ", cageVolum="
+				+ cageVolum + ", cageTotal=" + cageTotal + ", dayDiffHarvest=" + dayDiffHarvest + "]";
+	}
+
+	public String getDayDiffHarvest() {
+		return dayDiffHarvest;
+	}
+
+	public void setDayDiffHarvest(String dayDiffHarvest) {
+		this.dayDiffHarvest = dayDiffHarvest;
+	}
+
+	public String getCageNum() {
+		return cageNum;
+	}
+
+	public void setCageNum(String cageNum) {
+		this.cageNum = cageNum;
+	}
+
+	public String getCageVolum() {
+		return cageVolum;
+	}
+
+	public void setCageVolum(String cageVolum) {
+		this.cageVolum = cageVolum;
+	}
+
+	public String getCageTotal() {
+		return cageTotal;
+	}
+
+	public void setCageTotal(String cageTotal) {
+		this.cageTotal = cageTotal;
+	}
+
+	public String getCycleCode() {
         return cycleCode;
     }
 
