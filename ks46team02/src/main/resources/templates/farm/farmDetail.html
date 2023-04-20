@@ -1,13 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/mypageLayout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mypageLayout}">
 <head>
-
+<style>
+.x_content div {
+    overflow: visible;
+}
+#datatable_wrapper>div.row:first-child {
+    /* float: right; */
+    position: absolute;
+    right: 0px;
+    top: -46px;
+}
+</style>
 </head>
-<script>
-
-</script>
 
 <th:block layout:fragment="customContent">
 	<div class="page-title">
@@ -19,42 +26,51 @@
 						<div class="clearfix"></div>
 						<div class="x_content">
 
-							<ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist" >
-								<li class="nav-item">
-									<a class="nav-link active" id="farmInfo-tab" data-toggle="tab" href="#farmInfo" role="tab" aria-controls="farmInfo" aria-selected="true">사육장 정보</a>
+							<ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist">
+								<li class="nav-item"><a class="nav-link"
+									th:classappend="${tapName == 'farmInfo' || tapName == null} ? 'active'"
+									id="farmInfo-tab" data-toggle="tab" href="#farmInfo" role="tab"
+									aria-controls="farmInfo" aria-selected="true">사육장 정보</a></li>
+								<li class="nav-item"><a class="nav-link"
+									th:classappend="${tapName} == 'production' ? 'active'"
+									id="productionList-tab" data-toggle="tab"
+									href="#productionList" role="tab"
+									aria-controls="productionList" aria-selected="false">생산량 조회</a>
 								</li>
-								<li class="nav-item">
-									<a class="nav-link" id="productionList-tab" data-toggle="tab" href="#productionList" role="tab" aria-controls="productionList" aria-selected="false">생산량 조회</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
-								</li>
+								<li class="nav-item"><a class="nav-link" id="cycle-tab"
+									th:classappend="${tapName} == 'cycle' ? 'active'"
+									data-toggle="tab" href="#cycle" role="tab"
+									aria-controls="cycle" aria-selected="false">싸이클 조회</a></li>
 							</ul>
-							<div class="tab-content" id="myTabContent" th:object="${farmInfo}">
-								<div class="tab-pane fade active show" id="farmInfo" role="tabpanel" aria-labelledby="farmInfo-tab">
+							<div class="tab-content" id="myTabContent"
+								th:object="${farmInfo}">
+								<div class="tab-pane fade" id="farmInfo"
+									th:classappend="${tapName == 'farmInfo' || tapName == null} ? 'active show'"
+									role="tabpanel" aria-labelledby="farmInfo-tab">
 
 									<h3 th:text="*{farmName}"></h3>
 									<ul class="list-unstyled user_data">
-										<li><i class="fa fa-map-marker user-profile-icon" th:text="*{farmAddr}"></i>
-										</li>
+										<li><i class="fa fa-map-marker user-profile-icon"
+											th:text="*{farmAddr}"></i></li>
 
-										<li>
-											<i class="fa fa-edit user-profile-icon"></i><a href="#">수정</a>
-										</li>
+										<li><i class="fa fa-edit user-profile-icon"></i><a
+											href="#">수정</a></li>
 										<div class="col-md-8 col-sm-8 ">
 											<div class="x_panel">
 												<div class="x_title">
 													<h2>Bar Graph</h2>
 													<ul class="nav navbar-right panel_toolbox">
-														<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-														</li>
-														<li class="dropdown">
-															<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-															<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-																<a class="dropdown-item" href="#">Settings 1</a>
-																<a class="dropdown-item" href="#">Settings 2</a>
-															</div>
-														</li>
+														<li><a class="collapse-link"><i
+																class="fa fa-chevron-up"></i></a></li>
+														<li class="dropdown"><a href="#"
+															class="dropdown-toggle" data-toggle="dropdown"
+															role="button" aria-expanded="false"><i
+																class="fa fa-wrench"></i></a>
+															<div class="dropdown-menu"
+																aria-labelledby="dropdownMenuButton">
+																<a class="dropdown-item" href="#">Settings 1</a> <a
+																	class="dropdown-item" href="#">Settings 2</a>
+															</div></li>
 														<li><a class="close-link"><i class="fa fa-close"></i></a>
 														</li>
 													</ul>
@@ -62,20 +78,25 @@
 												</div>
 												<div class="x_content">
 
-													<div id="mainb" style="height: 350px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative; background-color: transparent;" _echarts_instance_="ec_1681457143019">
-														<div style="position: relative; overflow: hidden; width: 1040px; height: 350px; cursor: default;">
-															<canvas width="1040" height="350" data-zr-dom-id="zr_0" style="position: absolute; left: 0px; top: 0px; width: 1040px; height: 350px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+													<div id="mainb"
+														style="height: 350px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative; background-color: transparent;"
+														_echarts_instance_="ec_1681457143019">
+														<div
+															style="position: relative; overflow: hidden; width: 1040px; height: 350px; cursor: default;">
+															<canvas width="1040" height="350" data-zr-dom-id="zr_0"
+																style="position: absolute; left: 0px; top: 0px; width: 1040px; height: 350px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
 
 															</canvas>
 														</div>
-														<div style="position: absolute; display: none; border-style: solid; white-space: nowrap; z-index: 9999999; transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgba(0, 0, 0, 0.5); border-width: 0px; border-color: rgb(51, 51, 51); border-radius: 4px; color: rgb(255, 255, 255); font: 14px / 21px Arial, Verdana, sans-serif; padding: 5px; left: 761.333px; top: 185.406px;">12?
-															<br>
-															<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:#26B99A">
+														<div
+															style="position: absolute; display: none; border-style: solid; white-space: nowrap; z-index: 9999999; transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgba(0, 0, 0, 0.5); border-width: 0px; border-color: rgb(51, 51, 51); border-radius: 4px; color: rgb(255, 255, 255); font: 14px/21px Arial, Verdana, sans-serif; padding: 5px; left: 761.333px; top: 185.406px;">
+															12? <br> <span
+																style="display: inline-block; margin-right: 5px; border-radius: 10px; width: 9px; height: 9px; background-color: #26B99A">
 
-														</span>sales : 3.3<br>
-															<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:#34495E">
+															</span>sales : 3.3<br> <span
+																style="display: inline-block; margin-right: 5px; border-radius: 10px; width: 9px; height: 9px; background-color: #34495E">
 
-														</span>purchases : 2.3
+															</span>purchases : 2.3
 														</div>
 													</div>
 
@@ -100,81 +121,175 @@
 
 										</div>
 								</div>
-								<div class="tab-pane fade" id="productionList" role="tabpanel" aria-labelledby="profile-tab">
-									<div class="card-box table-responsive">
-										<div class="col-sm-12">
+								<div class="tab-pane fade" id="productionList" role="tabpanel"
+									th:classappend="${tapName} == 'production' ? 'active show'"
+									aria-labelledby="profile-tab">
+									<div th:include="~{farm/search/search :: productionSearch}"></div>
+									<div class="x_content">
+										<div class="row">
+											<div class="col-sm-12">
+												<div class="card-box table-responsive">
+													<div class="col-sm-12">
 
 
-											<table id="datatable-buttons"
-												   class="table table-striped table-bordered dataTable no-footer dtr-inline"
-												   style="width: 100%;" role="grid" aria-describedby="datatable-buttons_info">
-												<thead>
-												<tr role="row">
-													<th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-														rowspan="1" colspan="1" style="width: 255px;"
-														aria-label="Name: activate to sort column ascending">생산량 코드
-													</th>
-													<th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-														rowspan="1" colspan="1" style="width: 200px;"
-														aria-label="Position: activate to sort column ascending">사육장 코드
-													</th>
-													<th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-														rowspan="1" colspan="1" style="width: 200px;"
-														aria-label="Office: activate to sort column ascending">싸이클 코드
-													</th>
-													<th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-														rowspan="1" colspan="1" style="width: 187px;"
-														aria-label="Start date: activate to sort column ascending"
-														aria-sort="descending">수확일
-													</th>
-													<th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-														rowspan="1" colspan="1" style="width: 120px;"
-														aria-label="Age: activate to sort column ascending">생산량
-													</th>
-													<th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-														rowspan="1" colspan="1" style="width: 120px;"
-														aria-label="Age: activate to sort column ascending">손실률
-													</th>
+														<table id="datatable"
+															class="table table-striped table-bordered dataTable no-footer"
+															style="width: 100%;" role="grid"
+															aria-describedby="datatable_info">
+															<thead>
+																<tr role="row">
+																	<th class="sorting" tabindex="0"
+																		aria-controls="datatable-buttons" rowspan="1"
+																		colspan="1" style="width: 255px;"
+																		aria-label="Name: activate to sort column ascending">생산량
+																		코드</th>
 
-													<th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-														rowspan="1" colspan="1" style="width: 187px;"
-														aria-label="Start date: activate to sort column ascending"
-														aria-sort="descending">등록날짜
-													</th>
+																	<th class="sorting" tabindex="0"
+																		aria-controls="datatable-buttons" rowspan="1"
+																		colspan="1" style="width: 200px;"
+																		aria-label="Office: activate to sort column ascending">싸이클
+																		코드</th>
 
-												</tr>
-												</thead>
-												<tbody>
-												<tr th:unless="${productionList == null}" th:each="l : ${productionList}">
-													<td th:text="${l.productionCode}"></td>
-													<td th:text="${l.farmCode}"></td>
-													<td th:text="${l.expectedCageProductionCode}"></td>
-													<td th:text="${l.realHarvestDay}"></td>
-													<td th:text="${l.realProduction}"></td>
-													<td th:text="${l.lossRate}"></td>
-													<td th:text="${l.productionRegDate}"></td>
-												</tr>
+																	<th class="sorting" tabindex="0"
+																		aria-controls="datatable-buttons" rowspan="1"
+																		colspan="1" style="width: 120px;"
+																		aria-label="Age: activate to sort column ascending">생산량
+																	</th>
+																	<th class="sorting" tabindex="0"
+																		aria-controls="datatable-buttons" rowspan="1"
+																		colspan="1" style="width: 120px;"
+																		aria-label="Age: activate to sort column ascending">손실률
+																	</th>
+																	<th class="sorting_desc" tabindex="0"
+																		aria-controls="datatable-buttons" rowspan="1"
+																		colspan="1" style="width: 187px;"
+																		aria-label="Start date: activate to sort column ascending"
+																		aria-sort="descending">수확일</th>
 
-												</tbody>
-											</table>
+																</tr>
+															</thead>
+															<tbody>
+																<tr th:unless="${productionList == null}"
+																	th:each="l : ${productionList}">
+																	<td th:text="${l.productionCode}"></td>
+																	<td th:text="${l.expectedCageProductionCode}"></td>
+																	<td th:text="${l.realProduction}"></td>
+																	<td th:text="${l.lossRate}"></td>
+																	<td th:text="${l.realHarvestDay}"></td>
+																</tr>
 
+															</tbody>
+														</table>
+
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									</div>
+									
+										<div class="tab-pane fade" id="cycle" role="tabpanel"
+											th:classappend="${tapName} == 'cycle' ? 'active show'"
+											aria-labelledby="cycle-tab">
+											<div th:include="~{farm/search/search :: cycleSearch}"></div>
+											<div class="x_content">
+												<div class="row">
+													<div class="col-sm-12">
+														<div class="card-box table-responsive">
+															<div class="col-sm-12">
+
+
+																<table id="datatable"
+																	class="table table-striped table-bordered dataTable no-footer"
+																	style="width: 100%;" role="grid"
+																	aria-describedby="datatable_info">
+																	<thead>
+																		<tr role="row">
+																			<th class="sorting" tabindex="0"
+																				aria-controls="datatable-buttons" rowspan="1"
+																				colspan="1" style="width: 255px;"
+																				aria-label="Name: activate to sort column ascending">싸이클 코드
+																				코드</th>
+																				
+																			<th class="sorting" tabindex="0"
+																				aria-controls="datatable-buttons" rowspan="1"
+																				colspan="1" style="width: 100px;"
+																				aria-label="Office: activate to sort column ascending">목표상태</th>
+																				
+
+																			<th class="sorting" tabindex="0"
+																				aria-controls="datatable-buttons" rowspan="1"
+																				colspan="1" style="width: 100px;"
+																				aria-label="Office: activate to sort column ascending">케이지 수</th>
+
+																			<th class="sorting" tabindex="0"
+																				aria-controls="datatable-buttons" rowspan="1"
+																				colspan="1" style="width: 120px;"
+																				aria-label="Age: activate to sort column ascending">케이지 용량
+																			</th>
+																			<th class="sorting" tabindex="0"
+																				aria-controls="datatable-buttons" rowspan="1"
+																				colspan="1" style="width: 120px;"
+																				aria-label="Age: activate to sort column ascending">예상 생산량
+																			</th>
+																	
+																			
+																			<th class="sorting_desc" tabindex="0"
+																				aria-controls="datatable-buttons" rowspan="1"
+																				colspan="1" style="width: 187px;"
+																				aria-label="Start date: activate to sort column ascending"
+																				aria-sort="descending">생산 시작 날짜
+																			</th>
+																			<th class="sorting_desc" tabindex="0"
+																				aria-controls="datatable-buttons" rowspan="1"
+																				colspan="1" style="width: 187px;"
+																				aria-label="Start date: activate to sort column ascending"
+																				aria-sort="descending">예상 수확 날짜
+																			</th>
+																			<th class="sorting" tabindex="0"
+																				aria-controls="datatable-buttons" rowspan="1"
+																				colspan="1" style="width: 120px;"
+																				aria-label="Age: activate to sort column ascending">남은 일수
+																			</th>
+																			<th class="sorting" tabindex="0"
+																				aria-controls="datatable-buttons" rowspan="1"
+																				colspan="1" style="width: 120px;"
+																				aria-label="Age: activate to sort column ascending">급여 현황
+																			</th>
+
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr th:unless="${cycleList == null}"
+																			th:each="c : ${cycleList}">
+																			<td th:text="${c.cageCode}"></td>
+																			<td th:text="${c.calculationStandardCode}"></td>
+																			<td th:text="${c.cageVolum}"></td>																			
+								                                            <td th:text="${c.cageNum}"></td>							                                        
+								                                            <td th:text="${c.estimatedProduction}"></td>
+								                                            <td th:text="${c.harvestStartDate}"></td>
+								                                            <td th:text="${c.estimatedHarvestDate}"></td>
+								                                           	<td th:text="${c.dayDiffHarvest}"></td>
+																		</tr>
+
+																	</tbody>
+																</table>
+
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
 
-								</div>
-								<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-									xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo
-									booth letterpress, commodo enim craft beer mlkshk
-								</div>
+								
 							</div>
 						</div>
 
 					</div>
 				</div>
 			</div>
-
 		</div>
-	</div>
-
 </th:block>
 </html>

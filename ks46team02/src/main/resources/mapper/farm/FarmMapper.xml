@@ -4,6 +4,48 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.farm.mapper.FarmMapper">
 
+	<select id="harvestCheck" parameterType="String" resultType="boolean">
+		
+		SELECT
+		    IF(COUNT(1)=0, 1, 0)
+		FROM
+		    cage_cycle AS c
+		INNER JOIN
+		    production AS p
+		ON
+		    c.expected_cage_production_code = p.expected_cage_production_code 
+		WHERE 
+		    p.expected_cage_production_code = 'ex_prod1'
+
+	</select>
+
+	<select id="getCycleList" resultType = "Cycle">
+		  SELECT
+  		c.cage_volum as cageVolum,
+  		c.cage_num as cageNum,
+  		c.cage_total cageTotal, 
+        cy.expected_cage_production_code AS cycleCode,
+        cy.company_code AS companyCode,
+        cy.farm_code AS farmCode,
+        cy.cage_code AS cageCode,
+        Date(harvest_start_date) AS harvestStartDate,
+        Date(estimated_harvest_date) AS estimatedHarvestDate,
+        input_egg AS inputEgg,
+        calculation_standard_code AS calculationStandardCode,
+        estimated_production AS estimatedProduction,
+        cy. member_id AS memberId,
+        estimated_production_reg_date AS estimatedProductionRegDate,
+         DATEDIFF(estimated_harvest_date, NOW()) AS dayDiffHarvest 
+        FROM
+        	cage_cycle AS cy
+        INNER JOIN
+        	cage AS c
+        ON cy.cage_code = c.cage_code
+        <where>
+        	cy.farm_code = #{farmCode}
+        </where>
+	
+	</select>
     <select id="getAllProductionList" resultType ="Production">
         SELECT
         production_code AS productionCode,
@@ -54,8 +96,8 @@
     </select>
 
     <select id="getProductionList" resultType ="Production">
-        SELECT production_code
-        AS productionCode,
+        SELECT 
+        production_code AS productionCode,
         company_code AS companyCode,
         farm_code AS farmCode,
         expected_cage_production_code AS expectedCageProductionCode,
@@ -66,12 +108,27 @@
         production_reg_date AS productionRegDate
         FROM
         production
-        WHERE
-        farm_code = #{farmCode}
+        <where>
+        	farm_code = #{farmCode}
+        	<if test="searchKey != null and searchKey != ''">
+        	and (${searchKey} LIKE CONCAT('%', #{searchValue}, '%'))
+	        	<if test="fromDate != '' and toDate != ''">
+				    AND DATE_FORMAT(production_reg_date, '%Y-%m-%d') BETWEEN #{fromDate} AND #{toDate}
+				</if>
+				<if test="fromDate != '' and toDate == ''">
+				    AND DATE_FORMAT(production_reg_date, '%Y-%m-%d') &gt;= #{fromDate}
+				</if>
+				<if test="fromDate == '' and toDate != ''">
+				    AND DATE_FORMAT(real_harvest_day, '%Y-%m-%d') &lt;= #{toDate}
+				</if>
+
+        	</if>
+        </where>
+      
 
     </select>
 
-    <select id="getCycleList" resultType="Cycle">
+    <select id="getAllCycleList" resultType="Cycle">
         SELECT
         expected_cage_production_code AS cycleCode,
         company_code AS companyCode,

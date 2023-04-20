@@ -55,7 +55,7 @@
 															colspan="1" >경력</th>
 														<th class="sorting" tabindex="0"
 															aria-controls="datatable-checkbox" rowspan="1"
-															colspan="1" >총 계약 비용</th>
+															colspan="1" >총 계약 비용(만원)</th>
 
 													</tr>
 												</thead>
@@ -69,7 +69,7 @@
 															<td th:text=${m.companyName}></td>
 															<td colspan="1">
 																<div>
-																	<a href=""><strong th:text=${m.mentorContractTitle}></strong></a>
+																	<a target="_blank" th:href="@{/farm/mentorMenteeContractDetail(mentorContractRegCode=${m.mentorContractRegCode})}"><strong th:text=${m.mentorContractTitle}></strong></a>
 																	<p>
 																		<span th:text="${'계약 개월수: ' + m.contractPeriod + '개월'}"></span> | 
 																		<span th:text="${m.companyAddr}"></span>

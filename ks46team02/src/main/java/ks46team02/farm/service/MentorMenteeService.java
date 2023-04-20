@@ -41,9 +41,9 @@ public class MentorMenteeService {
 		return mentorMenteeMapper.getMMRegType(companyCode);
 	}
 
-	public List<MMContractInfo> getMMContractList(String companyCode) {
+	public List<MMContractInfo> getMMContractList(String searchKey,String searchValue) {
 
-		List<MMContractInfo> mmContractInfo = mentorMenteeMapper.getMMContractInfo(companyCode);
+		List<MMContractInfo> mmContractInfo = mentorMenteeMapper.getMMContractInfo(searchKey,searchValue);
 		
 		return mmContractInfo;
 	}

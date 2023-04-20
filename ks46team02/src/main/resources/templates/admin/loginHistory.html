@@ -8,11 +8,6 @@
 </head>
 <th:block layout:fragment="customJs">
 <script>
-$(document).ready(function() {
-  $('button.btn-primary').click(function() {
-    window.location.href = '/admin/addAddr';
-  });
-});
 function deleteBoard(seq){
 	Swal.fire({
 	  title: '글을 삭제하시겠습니까???',
@@ -29,6 +24,7 @@ function deleteBoard(seq){
 	  }
 	})
 } 
+
 $(document).ready(function() {
 	  $('.delete').on('click', function(e) {
 	    e.preventDefault();
@@ -43,7 +39,7 @@ $(document).ready(function() {
         <div class="title">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>배송지 조회</h2>
+                    <h2>로그인 기록 조회</h2>
 
                     <ul class="nav navbar-right panel_toolbox" style="flex-direction: row-reverse">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -63,55 +59,35 @@ $(document).ready(function() {
                                 <div class="col-sm-12">
 
 
-                                    <table id="datatable"
+                                    <table id="datatable-buttons"
                                            class="table table-striped table-bordered dataTable no-footer dtr-inline"
                                            style="width: 100%;" role="grid" aria-describedby="datatable-buttons_info">
                                         <thead>
                                         <tr role="row">
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 180px;"
-                                                aria-label="Name: activate to sort column ascending">배송지 코드
+                                                aria-label="Name: activate to sort column ascending">로그인 코드
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 200px;"
-                                                aria-label="Position: activate to sort column ascending">주소(도로명)
+                                                aria-label="Position: activate to sort column ascending">로그인 시간
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 200px;"
-                                                aria-label="Office: activate to sort column ascending">주소(지번)
+                                                aria-label="Office: activate to sort column ascending">로그아웃 시간
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 150px;"
-                                                aria-label="Age: activate to sort column ascending">주소명(별칭)
+                                                aria-label="Age: activate to sort column ascending">회원아이디
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 120px;"
-                                                aria-label="Age: activate to sort column ascending">수령자
-                                            </th>
-                                            <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 187px;"
-                                                aria-label="Start date: activate to sort column ascending"
-                                                aria-sort="descending">일반전화
-                                            </th>
-                                            <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 187px;"
-                                                aria-label="Start date: activate to sort column ascending"
-                                                aria-sort="descending">휴대폰
-                                            </th>
-                                            <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 190px;"
-                                                aria-label="Start date: activate to sort column ascending"
-                                                aria-sort="descending">주소유형
-                                            </th>
-                                            <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 187px;"
-                                                aria-label="Start date: activate to sort column ascending"
-                                                aria-sort="descending">회원아이디
-                                            </th> 
+                                                aria-label="Age: activate to sort column ascending">ip주소(IPv4)
+                                            </th>                                                                                                                      
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
             									rowspan="1" colspan="1" style="width: 70px;"
             									aria-label="Start date: activate to sort column ascending"
-            									aria-sort="descending">수정
+            									aria-sort="descending">
         									</th>                                   
                                             
                                            
@@ -119,27 +95,21 @@ $(document).ready(function() {
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:unless="${addrList == null}" th:each="l : ${addrList}">
-                                            <td th:text="${l.addrcode}"></td>
-                                            <td th:text="${l.addrRoad}"></td>
-                                            <td th:text="${l.addrLoca}"></td>
-                                            <td th:text="${l.addrName}"></td>
-                                            <td th:text="${l.addrRecipient}"></td>
-                                            <td th:text="${l.addrTel}"></td>
-                                            <td th:text="${l.addrPhone}"></td>
-                                            <td th:text="${l.addrSeq}"></td>
+                                        <tr th:unless="${loginHistory == null}" th:each="l : ${loginHistory}">
+                                            <td th:text="${l.loginCode}"></td>
+                                            <td th:text="${l.LoginDate}"></td>
+                                            <td th:text="${l.logoutDate}"></td>
                                             <td th:text="${l.memberId}"></td>
+                                            <td th:text="${l.ipv4Address}"></td>
                                             <td>                                            
-                                            <a href="#"><i class="fa fa-edit"></i> 수정 &nbsp;</a>
                                             <a href="#" class="delete"><i class="fa fa-close"></i> 삭제</a>
                                             </td>
                                         </tr>
+
                                         </tbody>
-                                       </table>
+                                    </table>
+
                                 </div>
-                                	<div class="col-md-12 text-right">
-							      		<button class="btn btn-primary float-right" type="button">배송지 등록</button>
-							    	</div>
                             </div>
                         </div>
                     </div>
