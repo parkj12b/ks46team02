@@ -97,8 +97,8 @@ public class FarmController {
 	}
 
 	@GetMapping("/cycleList")
-	public String getCycleLIst(Model model){
-		List<Cycle> cycleList = farmService.getCycleList();
+	public String getAllCycleList(Model model){
+		List<Cycle> cycleList = farmService.getAllCycleList();
 		model.addAttribute("title", "싸이클 목록");
 		model.addAttribute("cycleList", cycleList);
 		return "farm/cycleList";

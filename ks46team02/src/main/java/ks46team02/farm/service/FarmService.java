@@ -39,6 +39,9 @@ public class FarmService {
 			case "productionCode":
 				searchKey = "production_code";
 				break;
+			case "cycleCode":
+				searchKey = "expected_cage_production_code";
+				break;
 
 			default:
 				break;
@@ -58,8 +61,8 @@ public class FarmService {
     }
 
 
-    public  List<Cycle> getCycleList(){
-        List<Cycle> cycleList = farmMapper.getCycleList();
+    public  List<Cycle> getAllCycleList(){
+        List<Cycle> cycleList = farmMapper.getAllCycleList();
         return cycleList;
     }
 
