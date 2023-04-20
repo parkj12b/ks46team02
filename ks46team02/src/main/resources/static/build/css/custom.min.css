@@ -1346,7 +1346,7 @@ body .container.body .right_col {
 
 .nav-md .container.body .right_col {
 	padding: 10px 20px 0;
-	margin-left: 230px
+	margin-left: 250px
 }
 
 .nav_title {
@@ -2846,7 +2846,7 @@ span.right {
 	display: block;
 	padding: 5px 0 0 0;
 	position: fixed;
-	width: 230px;
+	width: 250px;
 	background: #2A3F54
 }
 
@@ -2880,7 +2880,7 @@ span.right {
 
 @media ( min-width : 992px) {
 	footer {
-		margin-left: 230px
+		margin-left: 250px
 	}
 }
 

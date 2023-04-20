@@ -175,17 +175,18 @@ public class FarmController {
 	
 	@GetMapping("/mentorMenteeContract")
 	public String getMMContractList(Model model) {
-		
-		List<MMContractInfo> mmContractInfo = mentorMenteeService.getMMContractList("");
+		String searchKey = "company_code";
+		List<MMContractInfo> mmContractInfo = mentorMenteeService.getMMContractList(searchKey,"");
 		model.addAttribute("mmContractInfo", mmContractInfo);
 		return "farm/mmContractList";
 	}
 	
 	@GetMapping("/mentorMenteeContractDetail")
-	public String getMMContractDetail(Model model, @RequestParam(name="companyCode") String companyCode) {
-		
-		MMContractInfo mmContractInfo = mentorMenteeService.getMMContractList(companyCode).get(0);
-		
+	public String getMMContractDetail(Model model, @RequestParam(name="mentorContractRegCode") String mentorContractRegCode) {
+		String searchKey = "mentor_contract_reg_code";
+		MMContractInfo mmContractInfo = mentorMenteeService.getMMContractList(searchKey, mentorContractRegCode).get(0);
+		log.info("{}", mmContractInfo);
+		model.addAttribute("mmContractInfo",mmContractInfo);
 		
 		return "farm/mmContractDetail";
 	}
