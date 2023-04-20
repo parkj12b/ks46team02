@@ -209,10 +209,4 @@ public class AdminController {
 		model.addAttribute("contractStandardList", contractStandardList);
 		return "admin/contractStandardList";
 		}
-	  /* 멘토 멘티 승인  조회 */
-		@GetMapping("/MMApprovalList.html")
-		public String getMMApprovalList(Model model) {
-			model.addAttribute("title", "멘토 멘티 승인 조회");
-			return "admin/MMApprovalList";
-		}
 }
