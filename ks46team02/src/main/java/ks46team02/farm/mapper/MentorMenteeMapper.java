@@ -16,7 +16,7 @@ public interface MentorMenteeMapper {
 	public MMRegInfoMentor getMMRegStatMentor(String companyCode);
 
 	public int getMMRegType(String companyCode);
-	public List<MMContractInfo> getMMContractInfo(String companyCode);
+	public List<MMContractInfo> getMMContractInfo(String searchKey, String searchValue);
 
 	
 }

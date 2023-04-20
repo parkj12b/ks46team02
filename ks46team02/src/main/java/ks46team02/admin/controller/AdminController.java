@@ -12,17 +12,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import groovy.util.logging.Slf4j;
 import ks46team02.admin.dto.Addr;
 import ks46team02.admin.dto.AdminLevel;
+import ks46team02.admin.dto.ContractStandard;
 import ks46team02.admin.dto.LoginHistory;
+import ks46team02.admin.dto.MemberLevel;
 import ks46team02.admin.dto.WithdrawalMember;
 import ks46team02.admin.service.AddrService;
 import ks46team02.admin.service.AdminLevelService;
 import ks46team02.admin.service.AdminMMservice;
 import ks46team02.admin.service.AdminService;
+import ks46team02.admin.service.CompanyApprovalService;
+import ks46team02.admin.service.ContractStandardService;
 import ks46team02.admin.service.LoginHistoryService;
+import ks46team02.admin.service.MemberLevelService;
 import ks46team02.admin.service.MemberService;
 import ks46team02.admin.service.WithdrawalMemberService;
 import ks46team02.common.dto.AdminMember;
 import ks46team02.common.dto.Member;
+import ks46team02.company.dto.Company;
 import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
 
@@ -39,6 +45,9 @@ public class AdminController {
 	private final AdminLevelService adminLevelService;
 	private final MemberService memberservice;
 	private final LoginHistoryService loginHistoryService;
+	private final ContractStandardService contractStandardService;
+	private final MemberLevelService memberLevelService; 
+	private final CompanyApprovalService companyApprovalService;
 	
 	
 	private static final Logger log = LoggerFactory.getLogger(AdminController.class);
@@ -50,7 +59,10 @@ public class AdminController {
 						  ,AdminMMservice mMService
 						  ,AdminLevelService adminLevelService
     					  ,MemberService memberservice
-    					  ,LoginHistoryService loginHistoryService) {
+    					  ,LoginHistoryService loginHistoryService
+    					  ,ContractStandardService contractStandardService
+    					  ,MemberLevelService memberLevelService
+    					  ,CompanyApprovalService companyApprovalService) {
 		this.addrService = addrService;
 		this.adminService = adminService;
 		this.withdrawalMemberService = withdrawalMemberService;
@@ -58,6 +70,18 @@ public class AdminController {
 		this.adminLevelService = adminLevelService;
 	    this.memberservice = memberservice;
 	    this.loginHistoryService = loginHistoryService;
+	    this.contractStandardService = contractStandardService;
+	    this.memberLevelService = memberLevelService;
+	    this.companyApprovalService = companyApprovalService;
+	}
+    /* 승인 대기 업체 조회 */
+	@GetMapping("/companyApprovalList")
+	public String getCompanyApprovalList(Model model) {
+		List<Company> companyApprovalList = companyApprovalService.getCompanyApprovalList();
+		model.addAttribute("title", "승인 대기 업체 조회");
+		model.addAttribute("companyApprovalList", companyApprovalList);
+
+		return "admin/companyApprovalList";
 	}
     /* 전체 관리자 목록 조회 */
 	@GetMapping("/adminList")
@@ -69,6 +93,34 @@ public class AdminController {
 
 		return "admin/adminList";
 	}
+	/* 관리자 등록 */
+	@GetMapping("/addAdmin")
+	public String addAdmin(Model model){
+		model.addAttribute("title", "관리자 등록");
+		return "admin/addAdmin";
+	}
+	/* 관리자 등급 등록 */
+	@GetMapping("/addAdminLevel")
+	public String addAdminLevel(Model model){
+		model.addAttribute("title", "관리자 등급 등록");
+		return "admin/addAdminLevel";
+	}
+	/* 회원 등급 등록 */
+	@GetMapping("/addMemberLevel")
+	public String addMemberLevel(Model model){
+		model.addAttribute("title", "회원 등급 등록");
+		return "admin/addMemberLevel";
+	}
+	 /* 회원 등급 조회 */
+		@GetMapping("/memberLevelList")
+		public String getMemberLevelList(Model model) {
+			List<MemberLevel> memberLevelList = memberLevelService.getAdminLevelList();
+
+			model.addAttribute("title", "회원 등급 조회");
+			model.addAttribute("memberLevelList", memberLevelList);
+
+			return "admin/memberLevelList";
+		}
 	/* 전체 회원 배송지 목록 조회 */
 	@GetMapping("/addrList")
 	public String getAddrList(Model model) {
@@ -78,6 +130,12 @@ public class AdminController {
 		model.addAttribute("addrList", addrList);
 
 		return "admin/addrList";
+	}
+	/* 배송지 등록 */
+	@GetMapping("/addAddr")
+	public String addAddr(Model model){
+		model.addAttribute("title", "배송지등록");
+		return "admin/addAddr";
 	}
 	/* 탈퇴한 회원 목록 조회 */
 	@GetMapping("/withdrawalMemberList")
@@ -103,38 +161,52 @@ public class AdminController {
 		return "admin/menteeRegList";
 	}
 	/* 관리자 레벨 목록 조회 */
-@GetMapping("/adminLevelList")
-public String getAdminLevelList(Model model) {
-	List<AdminLevel>adminLevelList =adminLevelService.getAdminLevelList();
-	model.addAttribute("title", "관리자등급조회");
-	model.addAttribute("adminLevelList", adminLevelList);
-	return "admin/adminLevelList";
-
+	@GetMapping("/adminLevelList")
+	public String getAdminLevelList(Model model) {
+		List<AdminLevel>adminLevelList =adminLevelService.getAdminLevelList();
+		model.addAttribute("title", "관리자등급조회");
+		model.addAttribute("adminLevelList", adminLevelList);
+		return "admin/adminLevelList";
+	
+		}
+		/* 관리자 레벨 목록 조회 */
+	@GetMapping("/memberList")
+	public String getMemberList(Model model) {
+		List<Member>memberList = memberservice.getMemberList();
+		model.addAttribute("title", "회원조회");
+		model.addAttribute("memberList", memberList);
+		return "admin/memberList";
+	
+		}
+	/* 전체 회원 로그인 기록 조회 */
+	@GetMapping("/loginHistory")
+	public String getLoginHistoryList(Model model) {
+		List<LoginHistory>loginHistory = loginHistoryService.getloginHistoryList();
+		model.addAttribute("title", "로그인 기록 조회");
+		model.addAttribute("loginHistory", loginHistory);
+		return "admin/loginHistory";
+		}
+	/* 회원 등록 */
+	@GetMapping("/addMember")
+	public String addMember(Model model){
+		model.addAttribute("title", "회원 등록");
+		return "admin/addMember";
 	}
-	/* 관리자 레벨 목록 조회 */
-@GetMapping("/memberList")
-public String getMemberList(Model model) {
-	List<Member>memberList = memberservice.getMemberList();
-	model.addAttribute("title", "회원조회");
-	model.addAttribute("memberList", memberList);
-	return "admin/memberList";
-
-	}
-/* 전체 회원 로그인 기록 조회 */
-@GetMapping("/loginHistory")
-public String getLoginHistoryList(Model model) {
-	List<LoginHistory>loginHistory = loginHistoryService.getloginHistoryList();
-	model.addAttribute("title", "로그인 기록 조회");
-	model.addAttribute("loginHistory", loginHistory);
-	return "admin/loginHistory";
-	}
-
-/* 휴면 회원 조회 */
-@GetMapping("/dormantMemberList")
-public String getDormantMemberList(Model model) {
-	List<Member>dormantMemberList = memberservice.getDormantMemberList();
-	model.addAttribute("title", "로그인 기록 조회");
-	model.addAttribute("dormantMemberList", dormantMemberList);
-	return "admin/dormantMemberList";
-	}
+	
+	/* 휴면 회원 조회 */
+	@GetMapping("/dormantMemberList")
+	public String getDormantMemberList(Model model) {
+		List<Member>dormantMemberList = memberservice.getDormantMemberList();
+		model.addAttribute("title", "로그인 기록 조회");
+		model.addAttribute("dormantMemberList", dormantMemberList);
+		return "admin/dormantMemberList";
+		}
+	/* 승인 기준 조회 */
+	@GetMapping("/contractStandardList")
+	public String GetContractStandardList(Model model) {
+		List<ContractStandard>contractStandardList = contractStandardService.getAdminLevelList();
+		model.addAttribute("title", "승인 기준 조회");
+		model.addAttribute("contractStandardList", contractStandardList);
+		return "admin/contractStandardList";
+		}
 }

@@ -1,5 +1,6 @@
 package ks46team02.farm.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -41,13 +42,25 @@ public class FarmController {
 	}
 
 	@GetMapping("/farmDetail")
-	public  String getFarmDetail(Model model,
-								 @RequestParam (name="farmCode") String farmCode){
+	public  String getFarmDetail(Model model
+								 ,@RequestParam(name="tapName", required = false) String tapName
+								 ,@RequestParam(name="farmCode") String farmCode
+								 ,@RequestParam(name="searchKey", required = false) String searchKey
+								 ,@RequestParam(name="searchValue", required = false) String searchValue
+								 ,@RequestParam(name="fromDate", required = false) String fromDate
+								 ,@RequestParam(name="toDate", required = false) String toDate
+								 ,HttpSession session){
+		String companyCode =(String) session.getAttribute("sessionCompanyCode");
 		FarmInfo farmInfo = farmService.getFarmInfoByCode(farmCode);
-		List<Production> productionList = farmService.getProductionList(farmCode);
+		List<Cycle> cycleList = farmService.getCycleList(farmCode,companyCode);
+		List<Production> productionList = farmService.getProductionList(farmCode,searchKey,searchValue,fromDate,toDate);
 		model.addAttribute("title","사육장 정보");
 		model.addAttribute("farmInfo", farmInfo);
+		model.addAttribute("cycleList",cycleList);
 		model.addAttribute("productionList",productionList);
+		model.addAttribute("farmCode", farmCode);
+		model.addAttribute("tapName", tapName);
+		log.info(farmCode);
 		return "farm/farmDetail";
 	}
 
@@ -88,8 +101,8 @@ public class FarmController {
 	}
 
 	@GetMapping("/cycleList")
-	public String getCycleLIst(Model model){
-		List<Cycle> cycleList = farmService.getCycleList();
+	public String getAllCycleList(Model model){
+		List<Cycle> cycleList = farmService.getAllCycleList();
 		model.addAttribute("title", "싸이클 목록");
 		model.addAttribute("cycleList", cycleList);
 		return "farm/cycleList";
@@ -162,17 +175,18 @@ public class FarmController {
 	
 	@GetMapping("/mentorMenteeContract")
 	public String getMMContractList(Model model) {
-		
-		List<MMContractInfo> mmContractInfo = mentorMenteeService.getMMContractList("");
+		String searchKey = "company_code";
+		List<MMContractInfo> mmContractInfo = mentorMenteeService.getMMContractList(searchKey,"");
 		model.addAttribute("mmContractInfo", mmContractInfo);
 		return "farm/mmContractList";
 	}
 	
 	@GetMapping("/mentorMenteeContractDetail")
-	public String getMMContractDetail(Model model, @RequestParam(name="companyCode") String companyCode) {
-		
-		MMContractInfo mmContractInfo = mentorMenteeService.getMMContractList(companyCode).get(0);
-		
+	public String getMMContractDetail(Model model, @RequestParam(name="mentorContractRegCode") String mentorContractRegCode) {
+		String searchKey = "mentor_contract_reg_code";
+		MMContractInfo mmContractInfo = mentorMenteeService.getMMContractList(searchKey, mentorContractRegCode).get(0);
+		log.info("{}", mmContractInfo);
+		model.addAttribute("mmContractInfo",mmContractInfo);
 		
 		return "farm/mmContractDetail";
 	}

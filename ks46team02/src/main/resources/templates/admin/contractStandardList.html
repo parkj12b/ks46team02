@@ -39,7 +39,7 @@ $(document).ready(function() {
         <div class="title">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>로그인 기록 조회</h2>
+                    <h2>계약 승인 기준 조회</h2>
 
                     <ul class="nav navbar-right panel_toolbox" style="flex-direction: row-reverse">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -59,57 +59,72 @@ $(document).ready(function() {
                                 <div class="col-sm-12">
 
 
-                                    <table id="datatable-buttons"
+                                    <table id="datatable"
                                            class="table table-striped table-bordered dataTable no-footer dtr-inline"
                                            style="width: 100%;" role="grid" aria-describedby="datatable-buttons_info">
                                         <thead>
                                         <tr role="row">
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 180px;"
-                                                aria-label="Name: activate to sort column ascending">로그인 코드
+                                                aria-label="Name: activate to sort column ascending">승인기준 코드
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 200px;"
-                                                aria-label="Position: activate to sort column ascending">로그인 시간
+                                                aria-label="Position: activate to sort column ascending">승인 기준
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 200px;"
-                                                aria-label="Office: activate to sort column ascending">로그아웃 시간
+                                                aria-label="Office: activate to sort column ascending">기준 설명
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 150px;"
-                                                aria-label="Age: activate to sort column ascending">회원아이디
+                                                aria-label="Age: activate to sort column ascending">기준값
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 120px;"
-                                                aria-label="Age: activate to sort column ascending">ip주소(IPv4)
-                                            </th>                                                                                                                      
+                                                aria-label="Age: activate to sort column ascending">단위
+                                            </th>
+                                            <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
+                                                rowspan="1" colspan="1" style="width: 187px;"
+                                                aria-label="Start date: activate to sort column ascending"
+                                                aria-sort="descending">계약 승인 등록 일자
+                                            </th>
+                                            <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
+                                                rowspan="1" colspan="1" style="width: 187px;"
+                                                aria-label="Start date: activate to sort column ascending"
+                                                aria-sort="descending">등록한 관리자 아이디
+                                            </th>
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
             									rowspan="1" colspan="1" style="width: 70px;"
             									aria-label="Start date: activate to sort column ascending"
             									aria-sort="descending">
         									</th>                                   
                                             
-                                           
+                                        
 
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:unless="${loginHistory == null}" th:each="l : ${loginHistory}">
-                                            <td th:text="${l.loginCode}"></td>
-                                            <td th:text="${l.LoginDate}"></td>
-                                            <td th:text="${l.logoutDate}"></td>
-                                            <td th:text="${l.memberId}"></td>
-                                            <td th:text="${l.ipv4Address}"></td>
+                                        <tr th:unless="${contractStandardList == null}" th:each="l : ${contractStandardList}">
+                                            <td th:text="${l.contStandCode}"></td>
+                                            <td th:text="${l.contAppStand}"></td>
+                                            <td th:text="${l.contStandInfo}"></td>
+                                            <td th:text="${l.contStandValue}"></td>
+                                            <td th:text="${l.contStandUnit}"></td>
+                                            <td th:text="${l.contStandRegDate}"></td>
+                                            <td th:text="${l.adminId}"></td>
                                             <td>                                            
+                                            <a th:href="@{/admin/addAddr}"><i class="fa fa-edit"></i>수정 &nbsp;</a>
                                             <a href="#" class="delete"><i class="fa fa-close"></i> 삭제</a>
                                             </td>
                                         </tr>
 
                                         </tbody>
-                                    </table>
-
+                                    </table>                                       
                                 </div>
+                                	<div class="col-md-12 text-right">
+							      		<button class="btn btn-primary float-right" type="button">승인 기준 등록</button>
+							    	</div>
                             </div>
                         </div>
                     </div>
