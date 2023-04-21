@@ -1,6 +1,5 @@
 package ks46team02.farm.controller;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
@@ -40,9 +40,11 @@ public class FarmController {
 		this.mentorMenteeService = mentorMenteeService;
 		this.farmService = farmService;
 	}
+	
 
-	@GetMapping("/farmDetail")
-	public  String getFarmDetail(Model model
+
+	@RequestMapping(value = "/farmDetail", method = {RequestMethod.GET, RequestMethod.POST})
+	public String getFarmDetail(Model model
 								 ,@RequestParam(name="tapName", required = false) String tapName
 								 ,@RequestParam(name="farmCode") String farmCode
 								 ,@RequestParam(name="searchKey", required = false) String searchKey
@@ -65,8 +67,9 @@ public class FarmController {
 	}
 
 	@GetMapping("/feedList")
-	public String getFeedList(Model model){
-		List<Feed> feedList = farmService.getFeedList();
+	public String getFeedList(Model model
+							,@RequestParam(name="cycleCode") String cycleCode){
+		List<Feed> feedList = farmService.getFeedList(cycleCode);
 		model.addAttribute("title", "먹이 조회");
 		model.addAttribute("feedList", feedList);
 		return "farm/feedList";
