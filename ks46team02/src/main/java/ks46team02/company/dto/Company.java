@@ -22,7 +22,6 @@ public class Company {
     private String companyType;
     private String breederLevelName;
 
-
     public String getCompanyCode() {
         return companyCode;
     }
