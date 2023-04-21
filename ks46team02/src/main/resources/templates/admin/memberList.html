@@ -77,7 +77,7 @@
                                        <thead>
                                         <tr role="row">
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 180px;"
+                                                rowspan="1" colspan="1" style="width: 160px;"
                                                 aria-label="Name: activate to sort column ascending">회원아이디
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
@@ -89,7 +89,7 @@
                                                 aria-label="Office: activate to sort column ascending">회원이름
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 200px;"
+                                                rowspan="1" colspan="1" style="width: 250px;"
                                                 aria-label="Age: activate to sort column ascending">전화번호
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
@@ -97,7 +97,7 @@
                                                 aria-label="Age: activate to sort column ascending">회원이메일
                                             </th>
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 187px;"
+                                                rowspan="1" colspan="1" style="width: 220px;"
                                                 aria-label="Start date: activate to sort column ascending"
                                                 aria-sort="descending">직원별 권한 코드
                                             </th>
@@ -107,11 +107,16 @@
                                                 aria-sort="descending">업체 코드
                                             </th>
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 190px;"
+                                                rowspan="1" colspan="1" style="width: 220px;"
                                                 aria-label="Start date: activate to sort column ascending"
                                                 aria-sort="descending">회원가입날짜
                                             </th>
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
+            									rowspan="1" colspan="1" style="width: 100px;"
+            									aria-label="Start date: activate to sort column ascending"
+            									aria-sort="descending">
+        									</th>
+        									<th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
             									rowspan="1" colspan="1" style="width: 100px;"
             									aria-label="Start date: activate to sort column ascending"
             									aria-sort="descending">
@@ -130,8 +135,11 @@
 										        <td th:text="${l.memberRegDate}"></td>
 											    <td>                                            
 										        <a href="#"><i class="fa fa-edit"></i> 수정 </a>
+										        </td>
+										        <td>
 												<a href="#" class="delete"><i class="fa fa-close"></i> 삭제</a>
 										        </td>
+										     </tr>
 										</tbody>
                                     </table>
                                 </div>

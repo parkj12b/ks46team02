@@ -111,8 +111,13 @@ $(document).ready(function() {
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
             									rowspan="1" colspan="1" style="width: 70px;"
             									aria-label="Start date: activate to sort column ascending"
-            									aria-sort="descending">수정
-        									</th>  
+            									aria-sort="descending">
+        									</th>
+        									<th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
+            									rowspan="1" colspan="1" style="width: 70px;"
+            									aria-label="Start date: activate to sort column ascending"
+            									aria-sort="descending">
+        									</th> 
 
                       
 
@@ -131,8 +136,11 @@ $(document).ready(function() {
 												<td th:text="${l.mentoMenteeManagement}"></td>
 												<td>                                            
                                             		<a href="#"><i class="fa fa-edit"></i> 수정 &nbsp;</a>
+                                            	</td>
+                                            	<td>
                                             		<a href="#" class="delete"><i class="fa fa-close"></i> 삭제</a>
                                                </td>
+                                            </tr>
 		
 										</tbody>
                                     </table>
