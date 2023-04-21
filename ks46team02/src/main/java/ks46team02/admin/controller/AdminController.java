@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties.Admin;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import groovy.util.logging.Log;
 import groovy.util.logging.Slf4j;
 import ks46team02.admin.dto.Addr;
 import ks46team02.admin.dto.AdminLevel;
@@ -96,7 +98,9 @@ public class AdminController {
 	/* 관리자 등록 */
 	@GetMapping("/addAdmin")
 	public String addAdmin(Model model){
-		model.addAttribute("title", "관리자 등록");
+		List<AdminLevel>adminLevelList1 =adminLevelService.getAdminLevelList();
+		model.addAttribute("title", "관리자 등ㅇㅇ록");
+		model.addAttribute("adminLevelList1", adminLevelList1);
 		return "admin/addAdmin";
 	}
 	/* 관리자 등급 등록 */
@@ -169,7 +173,7 @@ public class AdminController {
 		return "admin/adminLevelList";
 	
 		}
-		/* 관리자 레벨 목록 조회 */
+		/* 회원 목록 조회 */
 	@GetMapping("/memberList")
 	public String getMemberList(Model model) {
 		List<Member>memberList = memberservice.getMemberList();
@@ -201,6 +205,12 @@ public class AdminController {
 		model.addAttribute("dormantMemberList", dormantMemberList);
 		return "admin/dormantMemberList";
 		}
+	/* 승인 기준 등록 */
+	@GetMapping("/addContractStandard")
+	public String addContractStandard(Model model){
+		model.addAttribute("title", "승인 기준 등록");
+		return "admin/addContractStandard";
+	}
 	/* 승인 기준 조회 */
 	@GetMapping("/contractStandardList")
 	public String GetContractStandardList(Model model) {

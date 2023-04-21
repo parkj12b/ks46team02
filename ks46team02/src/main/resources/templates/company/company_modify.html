@@ -7,7 +7,11 @@
     <title>BSFP</title>
 </head>
 <th:block layout:fragment="customJs">
-
+    <script>
+        $('#resetBtn').click(function () {
+            location.href = '/company/company_list';
+        });
+    </script>
 </th:block>
 
 <th:block layout:fragment="customContent">
@@ -19,58 +23,59 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <form class="" action="" method="post" novalidate>
+                    <form id="companyModifyForm" th:action="@{/company/company_modify}" method="post">
+                        <div th:object="${companyInfo}">
                         <span class="section">Company Modify</span>
-
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyCode">업체코드</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input id="companyCode" class="form-control" name="companyCode"
+                                           type="text" th:value="*{companyCode}"/>
+                                </div>
+                            </div>
                         <div class="field item form-group">
-                            <label class="col-form-label col-md-3 col-sm-3  label-align">사업자등록번호</label>
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyRegNum">사업자등록번호</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control optional" name="contractPostCode"
-                                       data-validate-length-range="5,15"
-                                       type="text" required="required"/></div>
-                        </div>
-                        <div class="field item form-group">
-                            <label class="col-form-label col-md-3 col-sm-3  label-align">업체명</label>
-                            <div class="col-md-6 col-sm-6">
-                                <input class="form-control email" name="contractType" required="required"
-                                       />
+                                <input id="companyRegNum" class="form-control" name="companyRegNum"
+                                       type="text" th:value="*{companyRegNum}"/>
                             </div>
                         </div>
                         <div class="field item form-group">
-                            <label class="col-form-label col-md-3 col-sm-3  label-align">업체주소</label>
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyName">업체명</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control email" name="contractStartDate"
-                                       data-validate-linked='email' required='required' /></div>
+                                <input id="companyName" class="form-control email" name="companyName"
+                                       th:value="*{companyName}"/>
+                            </div>
                         </div>
-
                         <div class="field item form-group">
-                            <label class="col-form-label col-md-3 col-sm-3  label-align">업체종류</label>
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyAddr">업체주소</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control number" type="number" name="contractEndDate"
-                                       required='required' readonly="readonly"></div>
-                        </div>
-
-                        <div class="field item form-group">
-                            <label class="col-form-label col-md-3 col-sm-3  label-align required">업체전화번호</label>
-                            <div class="col-md-6 col-sm-6">
-                                <input class="form-control date" name="contractApplyDate" required='required'
-                                       ></div>
-                        </div>
-
-
-                        <div class="field item form-group">
-                            <label class="col-form-label col-md-3 col-sm-3  label-align">사원등록비밀번호</label>
-                            <div class="col-md-6 col-sm-6">
-                                <input class="form-control" name="contractApplyCompany"
-                                       required="required" />
+                                <input id="companyAddr" class="form-control email" name="companyAddr"
+                                       th:value="*{companyAddr}"/>
                             </div>
                         </div>
 
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align required" for="companyTel">업체전화번호</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input id="companyTel" class="form-control" name="companyTel"
+                                       th:value="*{companyTel}"></div>
+                        </div>
+
+
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="regPassword">사원등록비밀번호</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input id="regPassword" class="form-control" name="regPassword"
+                                       th:value="*{regPassword}"/>
+                            </div>
+                        </div>
                         <div class="item form-group">
                             <div class="col-md-6 col-sm-6 offset-md-3">
-                                <button class="btn-btn-dark" type="reset" th:onclick="|location.href='@{#}'|">수정취소</button>
-                                <button class="btn-btn-dark" type="submit" th:onclick="|location.href='@{/company/company_modify}'|">수정완료</button>
+                                <button id="resetBtn" class="btn-btn-dark" type="button">수정취소</button>
+                                <button id="submitBtn" class="btn-btn-dark" type="submit">수정완료</button>
                             </div>
+                        </div>
                         </div>
                     </form>
                 </div>

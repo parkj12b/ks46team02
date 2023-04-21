@@ -111,6 +111,11 @@ $(document).ready(function() {
 													style="width: 150px;"
 													aria-label="Start date: activate to sort column ascending"
 													aria-sort="descending"></th>
+												<th class="sorting_desc" tabindex="0"
+													aria-controls="datatable-buttons" rowspan="1" colspan="1"
+													style="width: 150px;"
+													aria-label="Start date: activate to sort column ascending"
+													aria-sort="descending"></th>
 
 
 
@@ -128,6 +133,8 @@ $(document).ready(function() {
 												<td th:text="${l.memberRegDate}"></td>
 												<td th:text="${l.dormantMemberRegDate}"></td>
 												<td><a href="#"><i class="fa fa-reply"></i> 휴면해제 </a> 
+												</td>
+												<td>
 												   <a href="#" class="delete" ><i class="fa fa-close"></i> 삭제</a>
 												</td>
 											</tr>

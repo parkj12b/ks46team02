@@ -63,7 +63,7 @@ $(document).ready(function() {
                                 <div class="col-sm-12">
 
 
-                                    <table id="datatable"
+                                    <table id="datatable-buttons"
                                            class="table table-striped table-bordered dataTable no-footer dtr-inline"
                                            style="width: 100%;" role="grid" aria-describedby="datatable-buttons_info">
                                         <thead>
@@ -82,7 +82,7 @@ $(document).ready(function() {
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 150px;"
-                                                aria-label="Age: activate to sort column ascending">주소명(별칭)
+                                                aria-label="Age: activate to sort column ascending">주소명칭
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 120px;"
@@ -99,20 +99,25 @@ $(document).ready(function() {
                                                 aria-sort="descending">휴대폰
                                             </th>
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 190px;"
+                                                rowspan="1" colspan="1" style="width: 180px;"
                                                 aria-label="Start date: activate to sort column ascending"
                                                 aria-sort="descending">주소유형
                                             </th>
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 187px;"
+                                                rowspan="1" colspan="1" style="width: 177px;"
                                                 aria-label="Start date: activate to sort column ascending"
                                                 aria-sort="descending">회원아이디
                                             </th> 
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
+            									rowspan="1" colspan="1" style="width: 80px;"
+            									aria-label="Start date: activate to sort column ascending"
+            									aria-sort="descending">
+        									</th>
+        									<th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
             									rowspan="1" colspan="1" style="width: 70px;"
             									aria-label="Start date: activate to sort column ascending"
-            									aria-sort="descending">수정
-        									</th>                                   
+            									aria-sort="descending">
+        									</th>                                    
                                             
                                            
 
@@ -130,7 +135,9 @@ $(document).ready(function() {
                                             <td th:text="${l.addrSeq}"></td>
                                             <td th:text="${l.memberId}"></td>
                                             <td>                                            
-                                            <a href="#"><i class="fa fa-edit"></i> 수정 &nbsp;</a>
+                                            <a href="#"><i class="fa fa-edit"></i> 수정 </a>
+                                            </td>
+                                            <td>
                                             <a href="#" class="delete"><i class="fa fa-close"></i> 삭제</a>
                                             </td>
                                         </tr>

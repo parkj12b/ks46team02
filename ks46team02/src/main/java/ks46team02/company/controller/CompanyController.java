@@ -3,14 +3,13 @@ package ks46team02.company.controller;
 
 import ks46team02.company.dto.Company;
 import ks46team02.company.dto.CompanyType;
+import ks46team02.company.mapper.CompanyMapper;
 import ks46team02.company.service.CompanyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,11 +18,15 @@ import java.util.List;
 public class CompanyController {
 
     private final CompanyService companyService;
+    private final CompanyMapper companyMapper;
 
     private static final Logger log = LoggerFactory.getLogger(CompanyController.class);
 
-    public CompanyController(CompanyService companyService) {
+    public CompanyController(CompanyService companyService
+                            ,CompanyMapper companyMapper) {
         this.companyService = companyService;
+        this.companyMapper = companyMapper;
+
     }
 
     @GetMapping("/company_employee_level")
@@ -84,17 +87,29 @@ public class CompanyController {
         return "company/company_add";
     }
 
-    @GetMapping("/company_modify")
-    public String modifyCompany(Model model){
+    @PostMapping("/company_modify")
+    public String modifyCompany(Company company){
 
-        model.addAttribute("titel","업체수정");
+        companyMapper.modifyCompany(company);
+        return "redirect:/company/company_list";
+    }
+    @GetMapping("/company_modify")
+    public String modifyCompany(Model model
+                               ,@RequestParam(name="companyCode") String companyCode){
+        Company companyInfo = companyService.getCompanyInfoByCode(companyCode);
+        model.addAttribute("title","업체수정");
+        model.addAttribute("companyInfo", companyInfo);
         return "company/company_modify";
     }
 
     @GetMapping("/company_info")
-    public String getCompanyInfo(Model model){
+    public String getCompanyInfo(Model model
+                                , @RequestParam(name="companyCode") String companyCode){
+        Company companyInfo = companyService.getCompanyInfoByCode(companyCode);
 
         model.addAttribute("title", "업체상세정보");
+        model.addAttribute("companyInfo", companyInfo);
+
         return "company/company_info";
     }
 
