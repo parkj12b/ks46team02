@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team02.company.mapper.CompanyMapper">
+    <resultMap type="Company" id="companyResultMap">
+        <id     column="company_code"               property="companyCode"/>
+        <result column="company_type_num"           property="companyTypeNum"/>
+        <result column="Company_reg_num"            property="companyRegNum"/>
+        <result column="member_id"                  property="memberId"/>
+        <result column="Company_tel"                property="companyTel"/>
+        <result column="Company_addr"               property="companyAddr"/>
+        <result column="Company_name"               property="companyName"/>
+        <result column="apply_date"                 property="applyDate"/>
+        <result column="approval_status"            property="approvalStatus"/>
+        <result column="approval_denied_content"    property="approvalDeniedContent"/>
+        <result column="admin_id"                   property="adminId"/>
+        <result column="approval_date"              property="approvalDate"/>
+        <result column="apply_date"                 property="applyDate"/>
+        <result column="farm_level_num"             property="farmLevelNum"/>
+        <result column="reg_password"               property="regPassword"/>
+        <result column="farm_cnt"                   property="farmCnt"/>
+    </resultMap>
+
+<!--    <insert id="addCompany" parameterType="Company">-->
+<!--        /* 업체등록 */-->
+<!--        <selectKey keyProperty="companyCode" resultType="java.lang.String" order="BEFORE">-->
+<!--            SELECT CONCAT('comp_', LAST_INSERT_ID()) AS company_code-->
+<!--        </selectKey>-->
+<!--        INSERT into company_info-->
+<!--        (company_code-->
+<!--        ,company_type_num-->
+<!--        ,Company_reg_num-->
+<!--        ,member_id-->
+<!--        ,Company_tel-->
+<!--        ,Company_addr-->
+<!--        ,Company_name-->
+<!--        ,apply_date-->
+<!--        ,reg_password-->
+<!--        )-->
+<!--        values-->
+<!--        (#{companyCode}-->
+<!--        ,#{companyTypeNum}-->
+<!--        ,#{companyRegNum}-->
+<!--        ,#{memberId}-->
+<!--        ,#{companyTel}-->
+<!--        ,#{companyAddr}-->
+<!--        ,#{companyName}-->
+<!--        ,curdate()-->
+<!--        ,#{regPassword}-->
+<!--        );-->
+<!--    </insert>-->
+
+    <select id="getCompanyTypeList" resultType="CompanyType">
+        /* 업체 종류 조회 */
+        SELECT
+            ct.company_type_num as companyTypeNum
+            ,ct.company_type as companyType
+        FROM
+            company_type as ct;
+    </select>
+
+    <select id="getCompanyList" parameterType="String" resultType="Company">
+        /* 업체 목록 조회 */
+        SELECT
+            c.company_code  as companyCode
+            ,c.company_type_num as companyTypeNum
+            ,c.Company_reg_num as companyRegNum
+            ,c.member_id as memberId
+            ,c.Company_tel as companyTel
+            ,c.Company_addr as companyAddr
+            ,c.Company_name as companyName
+            ,c.apply_date as applyDate
+            ,c.approval_status as approvalStatus
+            ,c.approval_denied_content as approvalDeniedContent
+            ,c.admin_id as adminId
+            ,c.approval_date as approvalDate
+            ,c.farm_level_num as farmLevelNum
+            ,c.reg_password as regPassword
+            ,c.farm_cnt as farmCnt
+        FROM
+            company_info as c;
+    </select>
+</mapper>
