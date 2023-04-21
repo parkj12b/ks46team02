@@ -3,12 +3,17 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/mypageLayout}">
 <head>
+<style type="text/css">
+.dataTables_length {
+  display: none;
+}
 
+</style>
 </head>
 <th:block>
-  <script>
-   
-   </script>
+<script>
+
+</script>
 </th:block>
 
 <th:block layout:fragment="customContent">
@@ -286,6 +291,5 @@
 			</div>
 		</div>
 	</div>
-	
 </th:block>
 </html>
