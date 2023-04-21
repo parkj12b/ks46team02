@@ -270,6 +270,7 @@
 								                                            <td th:text="${c.harvestStartDate}"></td>
 								                                            <td th:text="${c.estimatedHarvestDate}"></td>
 								                                           	<td th:text="${c.dayDiffHarvest}"></td>
+								                                          	<td><a th:href="@{/farm/feedList(cycleCode=${c.cycleCode})}">급여현황</a></td>
 																		</tr>
 
 																	</tbody>

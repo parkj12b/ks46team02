@@ -4,20 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.farm.mapper.FarmMapper">
 
-	<select id="harvestCheck" parameterType="String" resultType="boolean">
-		
-		SELECT
-		    IF(COUNT(1)=0, 1, 0)
-		FROM
-		    cage_cycle AS c
-		INNER JOIN
-		    production AS p
-		ON
-		    c.expected_cage_production_code = p.expected_cage_production_code 
-		WHERE 
-		    p.expected_cage_production_code = 'ex_prod1'
 
-	</select>
 
 	<select id="getCycleList" resultType = "Cycle">
 		  SELECT
@@ -92,7 +79,9 @@
         feeding_date AS feedingDate,
         member_id AS memberId
         FROM
-        feeding;
+        feeding
+        where
+        expected_cage_production_code = #{cycleCode}
     </select>
 
     <select id="getProductionList" resultType ="Production">

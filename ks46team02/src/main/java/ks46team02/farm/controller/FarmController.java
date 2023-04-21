@@ -65,8 +65,9 @@ public class FarmController {
 	}
 
 	@GetMapping("/feedList")
-	public String getFeedList(Model model){
-		List<Feed> feedList = farmService.getFeedList();
+	public String getFeedList(Model model
+							,@RequestParam(name="cycleCode") String cycleCode){
+		List<Feed> feedList = farmService.getFeedList(cycleCode);
 		model.addAttribute("title", "먹이 조회");
 		model.addAttribute("feedList", feedList);
 		return "farm/feedList";

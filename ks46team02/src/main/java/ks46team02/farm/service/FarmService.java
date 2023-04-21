@@ -51,8 +51,8 @@ public class FarmService {
         List<FarmInfo> farmList = farmMapper.getFarmList(companyCode);
         return farmList;
     }
-    public  List<Feed> getFeedList(){
-        List<Feed> feedList = farmMapper.getFeedList();
+    public  List<Feed> getFeedList(String cycleCode){
+        List<Feed> feedList = farmMapper.getFeedList(cycleCode);
         return feedList;
     }
     public  List<Production> getProductionList(String farmCode, String searchKey, String searchValue, String fromDate, String toDate){    	
