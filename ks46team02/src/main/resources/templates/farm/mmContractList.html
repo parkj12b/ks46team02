@@ -5,18 +5,73 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+#open-checked {
+	margin-top: 20px;
+}
+.checkbox{
+	font-size: 20px;
+	display: grid;
+	border: 1px solid #17a2b8;
+	width: 20px;
+	height: 20px;
+	border-radius: 3px;
+}
+.checkbox:hover{
+	box-shadow: 0 0 0 0.1rem #17a2b8;
+}
+input[type='checkbox']{
+	accent-color: #17a2b8;
+}
+</style>
 </head>
 <body>
 	<th:block layout:fragment="customJs">
-	<script>
-		let openNewTab = function(event, mentorContractRegCode){
-			console.log(event);
-			console.log(mentorContractRegCode);
-			
-			window.open(`/farm/mentorMenteeContractDetail?mentorContractRegCode=${mentorContractRegCode}`, "_blank");
-		}
-	</script>
-		
+		<script>
+			$(function() {
+
+				$('#open-checked').click(function() {
+					$('.check-self').each(function(idx,item){
+						if($(item).prop('checked')){
+							$(item).parents('tr').find('a#contract_new_tab')[0].click();
+							console.log($(item).parents('tr').find('a#contract_new_tab'));
+						}
+						
+					})
+				})
+
+				$('#check-all').click(
+						function() {
+							let checkAllEle = $('.check-self');
+							checkAllEle.each(function(idx, item) {
+								$(item).prop('checked',
+										$('#check-all').prop('checked'));
+							});
+						});
+
+				$('.check-self').each(function(idx, item) {
+					$(item).click(function() {
+						let checkboxes = $('.check-self');
+						let allchecked = true;
+						if (item.checked == false) {
+							$('#check-all').prop('checked', false);
+						}
+						$(checkboxes).each(function(idx, item) {
+							if (item.checked == false) {
+								allchecked = false;
+							}
+						})
+						if (allchecked) {
+							$('#check-all').prop('checked', true);
+						}
+
+					})
+
+				})
+
+			});
+		</script>
+
 	</th:block>
 	<th:block layout:fragment="customContent">
 		<div class="col-md-12 col-sm-12 ">
@@ -53,20 +108,20 @@
 													<tr role="row">
 														<th class="sorting_desc" tabindex="0"
 															aria-controls="datatable-checkbox" rowspan="1"
-															colspan="1" aria-sort="descending"><input
-															type="checkbox" id="check-all"></th>
+															colspan="1" aria-sort="descending"><label class="checkbox"><input
+															type="checkbox" id="check-all"></label></th>
 														<th class="sorting" tabindex="0"
 															aria-controls="datatable-checkbox" rowspan="1"
-															colspan="1" >업체명</th>
+															colspan="1">업체명</th>
 														<th class="sorting" tabindex="0"
 															aria-controls="datatable-checkbox" rowspan="1"
-															colspan="1" >계약 개월수</th>
+															colspan="1">계약 개월수</th>
 														<th class="sorting" tabindex="0"
 															aria-controls="datatable-checkbox" rowspan="1"
-															colspan="1" >경력</th>
+															colspan="1">경력</th>
 														<th class="sorting" tabindex="0"
 															aria-controls="datatable-checkbox" rowspan="1"
-															colspan="1" >총 계약 비용(만원)</th>
+															colspan="1">총 계약 비용(만원)</th>
 
 													</tr>
 												</thead>
@@ -75,19 +130,23 @@
 														th:if="${mmContractInfo != null}">
 
 														<tr role="row" class="odd">
-															<th class="sorting_1"><input type="checkbox"
-																id="check-all"></th>
+															<th class="sorting_1 "><label class="checkbox"><input
+																	class="check-self" type="checkbox"></label></th>
 															<td th:text=${m.companyName}></td>
 															<td colspan="1">
 																<div>
-																	<a id="contract_new_tab" th:mentorContractRegCode="${m.mentorContractRegCode}" th:onclick="openNewTab(event, this.getAttribute('mentorContractRegCode'))" ><strong th:text=${m.mentorContractTitle}></strong></a>
+																	<a id="contract_new_tab" target="_blank"
+																		th:href="@{/farm/mentorMenteeContractDetail(mentorContractRegCode=${m.mentorContractRegCode})}"><strong
+																		th:text=${m.mentorContractTitle}></strong></a>
 																	<p>
-																		<span th:text="${'계약 개월수: ' + m.contractPeriod + '개월'}"></span> | 
-																		<span th:text="${m.companyAddr}"></span>
+																		<span
+																			th:text="${'계약 개월수: ' + m.contractPeriod + '개월'}"></span>
+																		| <span th:text="${m.companyAddr}"></span>
 																	</p>
 																</div>
 															</td>
-															<td th:text="${m.careerYear + '년 ' + m.careerMonth + '개월'}"></td>
+															<td
+																th:text="${m.careerYear + '년 ' + m.careerMonth + '개월'}"></td>
 															<td th:text="${m.contractCost}"></td>
 														</tr>
 														<!-- <tr role="row" class="even">
@@ -109,6 +168,8 @@
 
 												</tbody>
 											</table>
+											<button id="open-checked" type="button" class="btn btn-info">체크된
+												공고 열기</button>
 										</div>
 									</div>
 								</div>
