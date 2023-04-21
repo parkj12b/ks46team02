@@ -71,9 +71,9 @@
                                             <tr role="row" class="odd" th:unless="${companyList == null}" th:each="l : ${companyList}">
                                                 <td th:text="${l.companyCode}"></td>
                                                 <td th:text="${l.companyName}"></td>
-                                                <td th:text="${l.companyTypeNum}"></td>
+                                                <td th:text="${l.companyType}"></td>
                                                 <td th:text="${l.approvalStatus}"></td>
-                                                <td><a th:href="@{/company/company_info}">상세정보</a></td>
+                                                <td><a th:href="@{/company/company_info(companyCode=${l.companyCode})}">상세정보</a></td>
                                             </tr>
                                             <tr th:if="${companyList == null}">
                                                 <td>등록된 업체가 없습니다.</td>
