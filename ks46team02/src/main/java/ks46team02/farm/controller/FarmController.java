@@ -136,7 +136,8 @@ public class FarmController {
 	public String getMentorMenteeView(HttpSession session, Model model){
 		String companyCode = (String) session.getAttribute("sessionCompanyCode");
 		int mmRegType = mentorMenteeService.getMMRegType(companyCode);
-		model.addAttribute(mmRegType);
+		model.addAttribute("mmRegType",mmRegType);
+		log.info("{}",mmRegType);
 		return "farm/mentorMenteeIntro";
 	}
 	
@@ -187,5 +188,21 @@ public class FarmController {
 		return "farm/mmContractDetail";
 	}
 	
+	@GetMapping("/myMentorMenteeContract")
+	public String getMMContractListMentor(Model model, HttpSession session) {
+		String companyCode = (String)session.getAttribute("sessionCompanyCode");
+		List<MMContractInfo> mmContractInfo = mentorMenteeService.getMMContractList("company_code", companyCode);
+		model.addAttribute("mmContractInfo",mmContractInfo);
+		return "farm/myMMContractList";
+	}
 	
+	@GetMapping("/mentorMenteeContractModify")
+	public String getMMContractModify(Model model, @RequestParam(name="mentorContractRegCode") String mentorContractRegCode) {
+		
+		MMContractInfo mmContractInfo = mentorMenteeService.getMMContractList("mentor_contract_reg_code", mentorContractRegCode).get(0);
+		log.info("{}", mmContractInfo);
+		model.addAttribute("mmContractInfo",mmContractInfo);
+		
+		return "farm/mmContractModify";
+	}
 }
