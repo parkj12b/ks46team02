@@ -16,6 +16,12 @@ public class CompanyService {
         this.companyMapper = companyMapper;
     }
 
+    public Company getCompanyInfoByCode(String companyCode){
+
+        Company companyInfo = companyMapper.getCompanyInfoByCode(companyCode);
+        return companyInfo;
+    }
+
     public int addCompany(Company company){
         int result = companyMapper.addCompany(company);
         return result;

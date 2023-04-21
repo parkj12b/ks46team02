@@ -1,5 +1,7 @@
 package ks46team02.company.dto;
 
+import java.util.List;
+
 public class Company {
 
     private String companyCode;
@@ -17,6 +19,9 @@ public class Company {
     private int farmLevelNum;
     private String regPassword;
     private int farmCnt;
+    private String companyType;
+    private String breederLevelName;
+
 
     public String getCompanyCode() {
         return companyCode;
@@ -138,6 +143,22 @@ public class Company {
         this.farmCnt = farmCnt;
     }
 
+    public String getCompanyType() {
+        return companyType;
+    }
+
+    public void setCompanyType(String companyType) {
+        this.companyType = companyType;
+    }
+
+    public String getBreederLevelName() {
+        return breederLevelName;
+    }
+
+    public void setBreederLevelName(String breederLevelName) {
+        this.breederLevelName = breederLevelName;
+    }
+
     @Override
     public String toString() {
         return "Company{" +
@@ -156,6 +177,8 @@ public class Company {
                 ", farmLevelNum=" + farmLevelNum +
                 ", regPassword='" + regPassword + '\'' +
                 ", farmCnt=" + farmCnt +
+                ", companyType='" + companyType + '\'' +
+                ", breederLevelName='" + breederLevelName + '\'' +
                 '}';
     }
 }
