@@ -8,6 +8,11 @@
 </head>
 <th:block layout:fragment="customJs">
 <script>
+$(document).ready(function() {
+	  $('button.btn-primary').click(function() {
+	    window.location.href = '/admin/addContractStandard';
+	  });
+	});
 function deleteBoard(seq){
 	Swal.fire({
 	  title: '글을 삭제하시겠습니까???',
@@ -85,20 +90,25 @@ $(document).ready(function() {
                                                 aria-label="Age: activate to sort column ascending">단위
                                             </th>
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 187px;"
+                                                rowspan="1" colspan="1" style="width: 190px;"
                                                 aria-label="Start date: activate to sort column ascending"
                                                 aria-sort="descending">계약 승인 등록 일자
                                             </th>
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 187px;"
+                                                rowspan="1" colspan="1" style="width: 150px;"
                                                 aria-label="Start date: activate to sort column ascending"
-                                                aria-sort="descending">등록한 관리자 아이디
+                                                aria-sort="descending">등록 관리자
                                             </th>
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
             									rowspan="1" colspan="1" style="width: 70px;"
             									aria-label="Start date: activate to sort column ascending"
             									aria-sort="descending">
-        									</th>                                   
+        									</th>
+        									<th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
+            									rowspan="1" colspan="1" style="width: 70px;"
+            									aria-label="Start date: activate to sort column ascending"
+            									aria-sort="descending">
+        									</th>                                 
                                             
                                         
 
@@ -114,7 +124,9 @@ $(document).ready(function() {
                                             <td th:text="${l.contStandRegDate}"></td>
                                             <td th:text="${l.adminId}"></td>
                                             <td>                                            
-                                            <a th:href="@{/admin/addAddr}"><i class="fa fa-edit"></i>수정 &nbsp;</a>
+                                            <a th:href="@{/admin/addAddr}"><i class="fa fa-edit"></i>수정</a>
+                                            </td>
+                                            <td>
                                             <a href="#" class="delete"><i class="fa fa-close"></i> 삭제</a>
                                             </td>
                                         </tr>
