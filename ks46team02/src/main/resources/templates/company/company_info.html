@@ -19,115 +19,133 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <form class="" action="" method="post" novalidate>
+                    <form id="companyInfoForm" th:action="@{/company/company_info}" method="post" novalidate>
+                        <div th:object="${companyInfo}">
                         <span class="section">Company Info</span>
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">업체코드</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" name="contractCode" value="con1"
+                                <input class="form-control" name="companyCode" th:value="*{companyCode}"
                                        required="required" readonly="readonly"/>
                             </div>
                         </div>
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">사업자등록번호</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control optional" name="contractPostCode"
-                                       data-validate-length-range="5,15"
+                                <input class="form-control optional" name="companyRegNum"
+                                       th:value="*{companyRegNum}"
                                        type="text" readonly="readonly"/></div>
                         </div>
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">업체명</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control email" name="contractType" required="required"
-                                       readonly="readonly"/>
+                                <input class="form-control optional" name="companyName"
+                                       th:value="*{companyName}"
+                                       type="text" readonly="readonly"/>
                             </div>
                         </div>
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">업체주소</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control email" name="contractStartDate"
-                                       data-validate-linked='email' required='required' readonly="readonly"/></div>
+                                <input class="form-control optional" name="companyAddr"
+                                       th:value="*{companyAddr}"
+                                       type="text" readonly="readonly"/>
+                            </div>
                         </div>
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">업체종류</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control number" type="number" name="contractEndDate"
-                                       required='required' readonly="readonly"></div>
+                                <input class="form-control optional" name="companyType"
+                                       th:value="*{companyType}"
+                                       type="text" readonly="readonly"/>
+                            </div>
                         </div>
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align required">업체전화번호</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control date" name="contractApplyDate" required='required'
-                                       readonly="readonly"></div>
+                                <input class="form-control optional" name="companyTel"
+                                       th:value="*{companyTel}"
+                                       type="text" readonly="readonly"/>
+                            </div>
                         </div>
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">업체등록신청아이디</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control time" name="contractApprovalDate" required='required'
-                                       readonly="readonly"></div>
+                                <input class="form-control optional" name="memberId"
+                                       th:value="*{memberId}"
+                                       type="text" readonly="readonly"/>
+                            </div>
                         </div>
 
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">등록신청일</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" name="contractApprovalStatus" required="required"
-                                       readonly="readonly"/>
+                                <input class="form-control optional" name="applyDate"
+                                       th:value="*{applyDate}"
+                                       type="text" readonly="readonly"/>
                             </div>
                         </div>
 
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">승인여부</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" name="deposit"
-                                       required="required" readonly="readonly"/>
+                                <input class="form-control optional" name="approvalStatus"
+                                       th:value="*{approvalStatus}"
+                                       type="text" readonly="readonly"/>
                             </div>
                         </div>
 
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">승인일</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" name="contractPeriodAmount"
-                                       required="required" readonly="readonly"/>
+                                <input class="form-control optional" name="applyDate"
+                                       th:value="*{applyDate}"
+                                       type="text" readonly="readonly"/>
                             </div>
                         </div>
 
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">승인반려사유</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" name="contractTotalAmount"
-                                       required="required" readonly="readonly"/>
+                                <input class="form-control optional" name="approvalDeniedContent"
+                                       th:value="*{approvalDeniedContent}"
+                                       type="text" readonly="readonly"/>
                             </div>
                         </div>
 
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">사원등록비밀번호</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" name="contractApplyCompany"
-                                       required="required" readonly="readonly"/>
+                                <input class="form-control optional" name="regPassword"
+                                       th:value="*{regPassword}"
+                                       type="text" readonly="readonly"/>
                             </div>
                         </div>
 
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">사육업체등급</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" name="contractPostCompany"
-                                       required="required" readonly="readonly"/>
+                                <input class="form-control optional" name="breederLevelName"
+                                       th:value="*{breederLevelName}"
+                                       type="text" readonly="readonly"/>
                             </div>
                         </div>
 
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">사육장 수</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" name="contractAdmin"
-                                       required="required" readonly="readonly"/>
+                                <input class="form-control optional" name="farmCnt"
+                                       th:value="*{farmCnt}"
+                                       type="text" readonly="readonly"/>
                             </div>
                         </div>
 
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">관리자아이디</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control" name="contractApplyCompany"
-                                       required="required" readonly="readonly"/>
+                                <input class="form-control optional" name="adminId"
+                                       th:value="*{adminId}"
+                                       type="text" readonly="readonly"/>
                             </div>
                         </div>
 
@@ -136,6 +154,7 @@
                                 <button class="btn-btn-dark" type="button">삭제</button>
                                 <button class="btn-btn-dark" type="reset" th:onclick="|location.href='@{/company/company_modify}'|">수정</button>
                             </div>
+                        </div>
                         </div>
                     </form>
                 </div>

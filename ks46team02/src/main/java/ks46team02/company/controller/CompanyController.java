@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -92,9 +93,13 @@ public class CompanyController {
     }
 
     @GetMapping("/company_info")
-    public String getCompanyInfo(Model model){
+    public String getCompanyInfo(Model model
+                                , @RequestParam(name="companyCode") String companyCode){
+        Company companyInfo = companyService.getCompanyInfoByCode(companyCode);
 
         model.addAttribute("title", "업체상세정보");
+        model.addAttribute("companyInfo", companyInfo);
+
         return "company/company_info";
     }
 
