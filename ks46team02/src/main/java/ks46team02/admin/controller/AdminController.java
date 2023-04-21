@@ -99,7 +99,7 @@ public class AdminController {
 	@GetMapping("/addAdmin")
 	public String addAdmin(Model model){
 		List<AdminLevel>adminLevelList1 =adminLevelService.getAdminLevelList();
-		model.addAttribute("title", "관리자 등록");
+		model.addAttribute("title", "관리자 등ㅇㅇ록");
 		model.addAttribute("adminLevelList1", adminLevelList1);
 		return "admin/addAdmin";
 	}
