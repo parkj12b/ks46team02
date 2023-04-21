@@ -7,6 +7,8 @@ import java.util.List;
 
 @Mapper
 public interface CompanyMapper {
+    // 업체정보 수정
+    public int modifyCompany(Company company);
     // 업체 상세정보 조회
     public Company getCompanyInfoByCode(String companyCode);
     // 업체등록

@@ -6,11 +6,11 @@
     <resultMap type="Company" id="companyResultMap">
         <id     column="company_code"               property="companyCode"/>
         <result column="company_type_num"           property="companyTypeNum"/>
-        <result column="Company_reg_num"            property="companyRegNum"/>
+        <result column="company_reg_num"            property="companyRegNum"/>
         <result column="member_id"                  property="memberId"/>
-        <result column="Company_tel"                property="companyTel"/>
-        <result column="Company_addr"               property="companyAddr"/>
-        <result column="Company_name"               property="companyName"/>
+        <result column="company_tel"                property="companyTel"/>
+        <result column="company_addr"               property="companyAddr"/>
+        <result column="company_name"               property="companyName"/>
         <result column="apply_date"                 property="applyDate"/>
         <result column="approval_status"            property="approvalStatus"/>
         <result column="approval_denied_content"    property="approvalDeniedContent"/>
@@ -22,8 +22,32 @@
         <result column="farm_cnt"                   property="farmCnt"/>
         <result column="company_type"               property="companyType"/>
         <result column="breeder_level_name"         property="breederLevelName"/>
-
     </resultMap>
+
+    <update id="modifyCompany" parameterType="Company">
+        /* 업체정보 수정 */
+        UPDATE company_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="companyRegNum != null and companyRegNum != ''">
+                company_reg_num = #{companyRegNum},
+            </if>
+            <if test="companyName != null and companyName != ''">
+                company_name = #{companyName},
+            </if>
+            <if test="companyAddr != null and companyAddr != ''">
+                company_addr = #{companyAddr},
+            </if>
+            <if test="companyTel != null and companyTel != ''">
+                company_tel = #{companyTel},
+            </if>
+            <if test="regPassword != null and regPassword != ''">
+                reg_password = #{regPassword},
+            </if>
+        </trim>
+        WHERE
+            company_code = #{companyCode};
+    </update>
+
 
 <!--    <insert id="addCompany" parameterType="Company">-->
 <!--        /* 업체등록 */-->
