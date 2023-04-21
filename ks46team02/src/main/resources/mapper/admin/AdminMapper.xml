@@ -12,33 +12,6 @@
 		<result column="admin_phone"  					property="adminPhone"/>
 		<result column="admin_reg_date"  				property="adminRegDate"/>
 </resultMap>
-	<update id="modifyAdmin" parameterType="String" >
-		/* 관리자 정보 수정 */
-		UPDATE admin_list
-		<trim prefix="SET" suffixOverrides=",">
-			<if test="adminPw != null and adminPw != ''">
-				admin_pw = #{adminPw},
-			</if>
-			<if test="adminName != null and adminName != ''">
-				admin_name = #{adminName},
-			</if>
-			<if test="adminEmail != null and adminEmail != ''">
-				admin_email = #{adminEmail},
-			</if>
-			<if test="adminLevel != null and adminLevel != ''">
-				admin_level = #{adminLevel},
-			</if>
-			<if test="adminPhone != null and adminPhone != ''">
-				admin_phone = #{adminPhone},
-			</if>
-			<if test="adminRegDate != null and adminRegDate != ''">
-				admin_reg_date = #{adminRegDate},
-			</if>
-		</trim>
-		WHERE 
-			admin_id = #{adminId};
-
-	</update>
 		
 	<select id="getAdminList" parameterType="String" resultMap="adminMemberResultMap">
 				/* 관리자 회원 조회 */
@@ -47,15 +20,11 @@
 					,admin_pw 
 					,admin_name 
 					,admin_email 
-					,admin_position as adminPosition
+					,admin_level
 					,admin_phone 
 					,admin_reg_date 
 				FROM 
-				admin_list as m
-				inner join
-				admin_level as l
-				on 
-				m.admin_level = l.admin_level;
+				admin_list;
  
 	</select>
 	

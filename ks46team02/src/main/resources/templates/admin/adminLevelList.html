@@ -76,42 +76,47 @@ $(document).ready(function() {
                                                 aria-label="Position: activate to sort column ascending">관리자 직위
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 200px;"
-                                                aria-label="Office: activate to sort column ascending">회원관리
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 120px;"
-                                                aria-label="Age: activate to sort column ascending">계약관리
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 150px;"
-                                                aria-label="Age: activate to sort column ascending">동애등에 사육장관리
+                                                aria-label="Office: activate to sort column ascending">회원 관리
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+                                                rowspan="1" colspan="1" style="width: 140px;"
+                                                aria-label="Age: activate to sort column ascending">계약 관리
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+                                                rowspan="1" colspan="1" style="width: 170px;"
+                                                aria-label="Age: activate to sort column ascending">사육장 관리
+                                            </th>
+                                            <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
+                                                rowspan="1" colspan="1" style="width: 170px;"
+                                                aria-label="Start date: activate to sort column ascending"
+                                                aria-sort="descending">고객 문의
                                             </th>
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 187px;"
                                                 aria-label="Start date: activate to sort column ascending"
-                                                aria-sort="descending">고객 문의 관리
-                                            </th>
-                                            <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 187px;"
-                                                aria-label="Start date: activate to sort column ascending"
-                                                aria-sort="descending">플랫폼 설정 관리
+                                                aria-sort="descending">플랫폼 설정
                                             </th>
                                              <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 187px;"
+                                                rowspan="1" colspan="1" style="width: 170px;"
                                                 aria-label="Start date: activate to sort column ascending"
                                                 aria-sort="descending">결제 관리
                                             </th>
                                              <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 187px;"
+                                                rowspan="1" colspan="1" style="width: 200px;"
                                                 aria-label="Start date: activate to sort column ascending"
                                                 aria-sort="descending">관리자 등록일자
                                             </th>
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-            									rowspan="1" colspan="1" style="width: 70px;"
+            									rowspan="1" colspan="1" style="width: 30x;"
             									aria-label="Start date: activate to sort column ascending"
-            									aria-sort="descending">수정
-        									</th>  
+            									aria-sort="descending">
+        									</th>
+        									<th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
+            									rowspan="1" colspan="1" style="width: 10px;"
+            									aria-label="Start date: activate to sort column ascending"
+            									aria-sort="descending">
+        									</th>    
 
                       
 
@@ -129,10 +134,12 @@ $(document).ready(function() {
 												<td th:text="${l.adminPayment}"></td>
 												<td th:text="${l.adminRegDate}"></td>
 												<td>                                            
-                                            		<a href="#"><i class="fa fa-edit"></i> 수정 &nbsp;</a>
+                                            		<a href="#"><i class="fa fa-edit"></i> 수정</a>
+                                            	</td>
+                                            	<td>
                                             		<a href="#" class="delete"><i class="fa fa-close"></i> 삭제</a>
                                                </td>
-		
+											</tr>
 										</tbody>
                                     </table>
                                 </div>
