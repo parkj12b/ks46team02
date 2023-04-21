@@ -34,8 +34,6 @@ public class FarmService {
     	    Cycle cycle = cycleList.get(i);
     	    for (int x = 0; x < productionList.size(); x++) {
     	    	Production production = productionList.get(x);
-    	    	log.info(cycle.getCycleCode());
-    	    	log.info(production.getExpectedCageProductionCode());
     	        if (cycle.getCycleCode().equals(production.getExpectedCageProductionCode())) {
     	            cycle.setDayDiffHarvest("수확완료");
     	        }
