@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mypageLayout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<th:block layout:fragment="customJs">
+	<script>
+		
+	</script>
+</th:block>
+<body>
+	<th:block layout:fragment="customContent" th:object="${mmContractInfo}">
+		<div class="">
+
+			<div class="row">
+				<div class="col-md-9 col-sm-9" style="margin: 0px auto;">
+					<div class="x_panel">
+						<div class="x_title">
+							<h2>
+								동애등에 사육장 <small>나의 등록 계약 조회</small>
+							</h2>
+							
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<br>
+							<form id="demo-form2" data-parsley-validate=""
+								class="form-horizontal form-label-left">
+								<div class="item form-group">
+									<label class="col-form-label col-md-3 col-sm-3 label-align"
+										for="career-year">멘토 계약공고 코드</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="text" id="career-year" name="careerYear"
+											required="required" class="form-control" th:value="*{mentorContractRegCode}">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="col-form-label col-md-3 col-sm-3 label-align"
+										for="career-month">업체코드 </label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="text" id="career-month" th:value="*{companyCode}" name="careerMonth"
+											required="required" class="form-control">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="col-form-label col-md-3 col-sm-3 label-align"
+										for="career-month">계약 개월수(월) </label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="number" id="career-month" th:value="*{contractPeriod}" name="careerMonth"
+											required="required" class="form-control">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="col-form-label col-md-3 col-sm-3 label-align"
+										for="career-month">회원아이디</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="text" id="career-month" name="careerMonth"
+											required="required" class="form-control" th:value="${session.sessionId}">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="col-form-label col-md-3 col-sm-3 label-align"
+										for="career-month">총 방문 횟수</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="number" id="career-month" name="careerMonth"
+											required="required" class="form-control" th:value="*{totalVisitation}">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="col-form-label col-md-3 col-sm-3 label-align"
+										for="career-month">월별 방문횟수</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="number" id="career-month" name="careerMonth"
+											required="required" class="form-control" th:value="*{monthVisitation}">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="col-form-label col-md-3 col-sm-3 label-align"
+										for="career-month">총 계약 비용(만원)</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="number" id="career-month" name="careerMonth"
+											required="required" class="form-control" th:value="*{contractCost}">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="col-form-label col-md-3 col-sm-3 label-align"
+										for="career-month">계약금(만원)</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="number" id="career-month" name="careerMonth"
+											required="required" class="form-control" th:value="*{deposit}">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="col-form-label col-md-3 col-sm-3 label-align"
+										for="career-month">계약 제목</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="text" id="career-month" name="careerMonth"
+											required="required" class="form-control" th:value="*{mentorContractTitle}">
+									</div>
+								</div>
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</th:block>
+</body>
+</html>
