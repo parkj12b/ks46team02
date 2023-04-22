@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mypageLayout}">
+
+<head>
+<style>
+#info-container {
+	width: 960px;
+	margin: 0 auto;
+	
+}
+#contract-title{
+	font-size: 26px;
+}
+.x_panel{
+	border:1px solid #e5e6eb;
+	padding: 40px 40px;
+}
+.mentor-head-info th{
+	width: 150px;
+}
+.mentor-head-info{
+	border-top: 1px solid #e5e6eb;
+	padding: 25px 0px;
+	box-sizing: border-box;
+	width: 420px;
+	float: left;
+	height: 180px;
+}
+.mentor-head-info-right{
+	margin-left: 30px;
+	display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+#contract-body{
+	clear: both;
+    position: relative;
+    padding-top: 12px;
+    border-top: 1px solid #e5e6eb;
+    line-height: 18px;
+}
+#contract-body:before{
+	width: 30px;
+	left: 420px;
+	position: absolute;
+	top: -1px;
+	height: 1px;
+	background: #fff;
+	content: "";
+	display:block;
+}
+#round-bar{
+	margin-top: 30px;
+	border: 3px dashed #e5e6eb;
+	border-radius: 5px;
+}
+#reg-contract{
+	display: block;
+	margin-left: auto;
+	margin-top:25px;
+}
+#contract-body-html{
+	margin: 40px 20px;
+}
+</style>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<th:block layout:fragment="customJs">
+		<script>
+			$('#contract-reg').click(function(){
+				window.open()
+			});
+		</script>
+	</th:block>
+	<th:block layout:fragment="customContent" th:object="${mmContractInfo}">
+		<div id="info-container">
+			<div class="x_panel">
+				<h2 id="company-name" th:text="*{companyName}"></h2>
+				<div class="clearfix"></div>
+				<h1 th:text=*{mentorContractTitle} id="contract-title"></h1>	
+				<div class="x_content" style="display: block;">
+					<div class="mentor-head-info">
+						<table  id="mentor-head-info">
+							<tr>
+								<th>경력:</th>
+								<td th:text='|${mmContractInfo.careerYear +"년 "+ mmContractInfo.careerMonth +"개월"}|'></td>
+							</tr>
+							<tr>
+								<th>계약 개월수: </th>
+								<td th:text='|${mmContractInfo.contractPeriod + "개월"}|'></td>
+							</tr>
+							<tr>
+								<th>주소: </th>
+								<td th:text='|${mmContractInfo.companyAddr}|'></td>
+							</tr>
+							<tr>
+								<th>전화번호: </th>
+								<td th:text='|${mmContractInfo.companyTel}|'></td>
+							</tr>
+							<tr>
+								<th>총 방문 횟수: </th>
+								<td th:text='|${mmContractInfo.totalVisitation}번|'></td>
+							</tr>
+							<tr>
+								<th>월 방문 횟수: </th>
+								<td th:text='|${mmContractInfo.monthVisitation}번|'></td>
+							</tr>
+							
+							
+						</table>
+					</div>
+					<div class="mentor-head-info mentor-head-info-right">
+						<table id="mentor-head-info">
+							<tr>
+								<th>경력:</th>
+								<td th:text='|${mmContractInfo.careerYear +"년 "+ mmContractInfo.careerMonth +"개월"}|'></td>
+							</tr>
+							<tr>
+								<th>계약 개월수: </th>
+								<td th:text='|${mmContractInfo.contractPeriod + "개월"}|'></td>
+							</tr>
+							<tr>
+								<th>주소: </th>
+								<td th:text='|${mmContractInfo.companyAddr}|'></td>
+							</tr>
+						</table>
+						<table>
+							<tr>
+								<th>총 계약 비용(만원): </th>
+								<td th:text='|${mmContractInfo.contractCost}|'></td>
+							</tr>
+							<tr>
+								<th>계약금(만원): </th>
+								<td th:text='|${mmContractInfo.deposit}|'></td>
+							</tr>
+						</table>
+							
+						
+					</div>
+					<div id="contract-body">
+						<div>
+							<button id="reg-contract" type="button" class="btn btn-round btn-primary">접수 <i class="fa fa-paper-plane-o"></i></button>
+						</div>
+						<div id="round-bar"></div>
+						<div id="contract-body-html">
+							<h2>계약 내용</h2>
+							<p th:text="${mmContractInfo.contractContent}"></p>	
+						</div>
+						
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</th:block>
+	<th:block layout:fragment="customJs">
+		
+	</th:block>
+</body>
+</html>
