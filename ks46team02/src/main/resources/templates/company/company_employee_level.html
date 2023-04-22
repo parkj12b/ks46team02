@@ -16,7 +16,7 @@
         <div class="title">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>업체관리</h2>
+                    <h2>업체별 사원 등급</h2>
 
                     <ul class="nav navbar-right panel_toolbox" style="flex-direction: row-reverse">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -40,43 +40,55 @@
 
                                         <table id="datatable-buttons"
                                                class="table table-striped table-bordered dataTable no-footer dtr-inline"
-                                               style="width: 100%;" role="grid"
-                                               aria-describedby="datatable-buttons_info">
+                                               style="width: 100%;" role="grid" aria-describedby="datatable-buttons_info">
                                             <thead>
                                             <tr role="row">
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                     rowspan="1" colspan="1" style="width: 255px;"
-                                                    aria-label="Name: activate to sort column ascending">업체코드
+                                                    aria-label="Name: activate to sort column ascending">등급코드
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                     rowspan="1" colspan="1" style="width: 387px;"
-                                                    aria-label="Position: activate to sort column ascending">업체명
+                                                    aria-label="Position: activate to sort column ascending">등급이름
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                     rowspan="1" colspan="1" style="width: 199px;"
-                                                    aria-label="Office: activate to sort column ascending">업체종류
+                                                    aria-label="Office: activate to sort column ascending">사원관리
                                                 </th>
                                                 <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                     rowspan="1" colspan="1" style="width: 108px;"
-                                                    aria-label="Age: activate to sort column ascending">승인여부
+                                                    aria-label="Age: activate to sort column ascending">계약관리
                                                 </th>
-                                                <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                    rowspan="1" colspan="1" style="width: 187px;"
-                                                    aria-label="Start date: activate to sort column ascending"
-                                                    aria-sort="descending">
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+                                                    rowspan="1" colspan="1" style="width: 108px;"
+                                                    aria-label="Age: activate to sort column ascending">결제관리
                                                 </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+                                                    rowspan="1" colspan="1" style="width: 108px;"
+                                                    aria-label="Age: activate to sort column ascending">업체정보관리
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+                                                    rowspan="1" colspan="1" style="width: 108px;"
+                                                    aria-label="Age: activate to sort column ascending">멘토멘티관리
+                                                </th>
+                                                <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+                                                    rowspan="1" colspan="1" style="width: 108px;"
+                                                    aria-label="Age: activate to sort column ascending">
+                                                </th>
+
+
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr role="row" class="odd" th:unless="${companyList == null}" th:each="l : ${companyList}">
-                                                <td th:text="${l.companyCode}"></td>
-                                                <td th:text="${l.companyName}"></td>
-                                                <td th:text="${l.companyType}"></td>
-                                                <td th:text="${l.approvalStatus}"></td>
-                                                <td><a th:href="@{/company/company_info(companyCode=${l.companyCode})}">상세정보</a></td>
-                                            </tr>
-                                            <tr th:if="${companyList == null}">
-                                                <td>등록된 업체가 없습니다.</td>
+                                            <tr role="row" class="odd">
+                                                <td>com1</td>
+                                                <td>건조1</td>
+                                                <td>건조</td>
+                                                <td>o</td>
+                                                <td>o</td>
+                                                <td>o</td>
+                                                <td>o</td>
+                                                <td><a th:href="@{/company/company_info}">수정</a></td>
                                             </tr>
 
                                             </tbody>

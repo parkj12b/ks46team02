@@ -2,6 +2,7 @@ package ks46team02.farm.service;
 
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -24,16 +25,35 @@ public class FarmService {
     public FarmService(FarmMapper farmMapper){
         this.farmMapper = farmMapper;
     }
+    
+    
+    public List<Cycle> getCycleList(String farmCode, String companyCode){
+    	List<Cycle> cycleList = farmMapper.getCycleList(farmCode);
+    	List<Production> productionList = farmMapper.getAllProductionList(companyCode);
+    	for (int i = 0; i < cycleList.size(); i++) {
+    	    Cycle cycle = cycleList.get(i);
+    	    for (int x = 0; x < productionList.size(); x++) {
+    	    	Production production = productionList.get(x);
+    	        if (cycle.getCycleCode().equals(production.getExpectedCageProductionCode())) {
+    	            cycle.setDayDiffHarvest("수확완료");
+    	        }
+    	    }
+    	    cycleList.set(i, cycle);
+    	    
+    	}
+    	
+    	return cycleList;
+    }
 
     public List<FarmInfo> getFarmList(String companyCode){
         List<FarmInfo> farmList = farmMapper.getFarmList(companyCode);
         return farmList;
     }
-    public  List<Feed> getFeedList(){
-        List<Feed> feedList = farmMapper.getFeedList();
+    public  List<Feed> getFeedList(String cycleCode){
+        List<Feed> feedList = farmMapper.getFeedList(cycleCode);
         return feedList;
     }
-    public  List<Production> getProductionList(String farmCode, String searchKey, String searchValue, String fromDate, String toDate){
+    public  List<Production> getProductionList(String farmCode, String searchKey, String searchValue, String fromDate, String toDate){    	
     	if(searchKey != null) {
     		switch (searchKey) {
 			case "productionCode":
@@ -47,7 +67,7 @@ public class FarmService {
 				break;
 			}
     	}
-        List<Production> productionList = farmMapper.getProductionList(farmCode, searchKey, searchValue, fromDate, toDate);
+        List<Production> productionList = farmMapper.getProductionList(farmCode, searchKey, searchValue, fromDate, toDate);       
         return productionList;
     }
     public FarmInfo getFarmInfoByCode(String farmCode){

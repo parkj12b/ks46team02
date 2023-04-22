@@ -9,7 +9,7 @@
 <script>
 $(document).ready(function() {
   $('button.btn-primary').click(function() {
-    window.location.href = '/admin/addAdminLevel';
+    window.location.href = '/admin/addMemberLevel';
   });
 });
 function deleteBoard(seq){
@@ -28,6 +28,7 @@ function deleteBoard(seq){
 	  }
 	})
 } 
+
 $(document).ready(function() {
 	  $('.delete').on('click', function(e) {
 	    e.preventDefault();
@@ -42,7 +43,7 @@ $(document).ready(function() {
         <div class="title">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>관리자 등급 조회</h2>
+                    <h2>업체 내의 직원별 권한 조회</h2>
 
                     <ul class="nav navbar-right panel_toolbox" style="flex-direction: row-reverse">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -68,83 +69,84 @@ $(document).ready(function() {
                                         <thead>
                                         <tr role="row">
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 255px;"
-                                                aria-label="Name: activate to sort column ascending">관리자 등급 코드
+                                                rowspan="1" colspan="1" style="width: 200px;"
+                                                aria-label="Name: activate to sort column ascending">직원별 권한 코드
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 200px;"
-                                                aria-label="Position: activate to sort column ascending">관리자 직위
+                                                rowspan="1" colspan="1" style="width: 250px;"
+                                                aria-label="Position: activate to sort column ascending">직원별 권한 명칭
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+                                                rowspan="1" colspan="1" style="width: 180px;"
+                                                aria-label="Office: activate to sort column ascending">등록 일자
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+                                                rowspan="1" colspan="1" style="width: 120px;"
+                                                aria-label="Age: activate to sort column ascending">등록 관리자
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 150px;"
-                                                aria-label="Office: activate to sort column ascending">회원 관리
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 140px;"
-                                                aria-label="Age: activate to sort column ascending">계약 관리
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 170px;"
-                                                aria-label="Age: activate to sort column ascending">사육장 관리
-                                            </th>
-                                            <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 170px;"
-                                                aria-label="Start date: activate to sort column ascending"
-                                                aria-sort="descending">고객 문의
+                                                aria-label="Age: activate to sort column ascending">사원 관리
                                             </th>
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 187px;"
                                                 aria-label="Start date: activate to sort column ascending"
-                                                aria-sort="descending">플랫폼 설정
+                                                aria-sort="descending">계약 관리
                                             </th>
-                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 170px;"
+                                            <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
+                                                rowspan="1" colspan="1" style="width: 187px;"
                                                 aria-label="Start date: activate to sort column ascending"
                                                 aria-sort="descending">결제 관리
                                             </th>
                                              <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 200px;"
                                                 aria-label="Start date: activate to sort column ascending"
-                                                aria-sort="descending">관리자 등록일자
+                                                aria-sort="descending">업체정보 관리
+                                            </th>
+                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
+                                                rowspan="1" colspan="1" style="width: 200px;"
+                                                aria-label="Start date: activate to sort column ascending"
+                                                aria-sort="descending">멘토멘티 관리
                                             </th>
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-            									rowspan="1" colspan="1" style="width: 30x;"
+            									rowspan="1" colspan="1" style="width: 70px;"
             									aria-label="Start date: activate to sort column ascending"
             									aria-sort="descending">
         									</th>
         									<th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-            									rowspan="1" colspan="1" style="width: 10px;"
+            									rowspan="1" colspan="1" style="width: 70px;"
             									aria-label="Start date: activate to sort column ascending"
             									aria-sort="descending">
-        									</th>    
+        									</th> 
 
                       
 
                                         </tr>
                                         </thead>
                                           <tbody>
-											<tr th:unless="${adminLevelList == null}" th:each="l : ${adminLevelList}">
-												<td th:text="${l.adminLevel}"></td>
-												<td th:text="${l.adminPosition}"></td>
-												<td th:text="${l.adminMember}"></td>
-												<td th:text="${l.adminContract}"></td>
-												<td th:text="${l.adminFarm}"></td>
-												<td th:text="${l.adminQuestion}"></td>
-												<td th:text="${l.adminSetting}"></td>
-												<td th:text="${l.adminPayment}"></td>
-												<td th:text="${l.adminRegDate}"></td>
+											<tr th:unless="${memberLevelList == null}" th:each="l : ${memberLevelList}">
+												<td th:text="${l.positionLevelCode}"></td>
+												<td th:text="${l.memberLevelName}"></td>
+												<td th:text="${l.compayRegDate}"></td>
+												<td th:text="${l.adminId}"></td>
+												<td th:text="${l.memberManagement}"></td>
+												<td th:text="${l.contractManagement}"></td>
+												<td th:text="${l.paymentManagement}"></td>
+												<td th:text="${l.companyInfoManagement}"></td>
+												<td th:text="${l.mentoMenteeManagement}"></td>
 												<td>                                            
-                                            		<a href="#"><i class="fa fa-edit"></i> 수정</a>
+                                            		<a href="#"><i class="fa fa-edit"></i> 수정 &nbsp;</a>
                                             	</td>
                                             	<td>
                                             		<a href="#" class="delete"><i class="fa fa-close"></i> 삭제</a>
                                                </td>
-											</tr>
+                                            </tr>
+		
 										</tbody>
                                     </table>
                                 </div>
                                 	<div class="col-md-12 text-right">
-							      		<button class="btn btn-primary float-right" type="button">관리자 등급 등록</button>
+							      		<button class="btn btn-primary float-right" type="button">회원 등급 등록</button>
 							    	</div>
                             </div>
                         </div>
