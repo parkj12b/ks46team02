@@ -71,8 +71,9 @@ public class CompanyController {
 
     @GetMapping("/company_type_list")
     public String getCompanyType(Model model){
-
+        List<CompanyType> companyTypeList = companyService.getCompanyTypeList();
         model.addAttribute("title","업체종류");
+        model.addAttribute("companyTypeList", companyTypeList);
         return "company/company_type_list";
     }
     @PostMapping("/company_add")

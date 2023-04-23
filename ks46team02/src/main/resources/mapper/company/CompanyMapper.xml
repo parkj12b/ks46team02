@@ -115,6 +115,8 @@
         SELECT
             ct.company_type_num as companyTypeNum
             ,ct.company_type as companyType
+            ,ct.reg_date as regDate
+            ,ct.admin_id as adminId
         FROM
             company_type as ct;
     </select>
