@@ -1,72 +1,70 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.common.mapper.MainMapper">
-	<resultMap type="Member" id="memberResultMap">
-		<id column="member_id" property="memberId" />
-		<result column="member_pw" property="memberPw"></result>
-		<result column="member_name" property="memberName"></result>
-		<result column="member_email" property="memberEmail"></result>
-		<result column="member_phone" property="memberPhone"></result>
-		<result column="position_level_code"
-			property="positionLevelCode"></result>
-		<result column="company_code" property="companyCode"></result>
-		<result column="member_reg_date" property="memberRegDate"></result>
-		<result column="member_ci" property="memberCi"></result>
-		<result column="member_status" property="memberStatus"></result>
-		<result column="dormant_member_reg_date"
-			property="dormantMemberRegDate"></result>
-		<result column="isOwner" property="isOwner"></result>
-		<result column="isExist" property="isExist"></result>
-		<result column="company_type_num" property="companyTypeNum"></result>
-	</resultMap>
-	<resultMap type="AdminMember" id="adminMemberResultMap">
-		<id column="admin_id" property="adminId" />
-		<result column="admin_pw" property="adminPw"></result>
-		<result column="admin_name" property="adminName"></result>
-		<result column="admin_email" property="adminEmail"></result>
-		<result column="admin_level" property="adminLevel"></result>
-		<result column="admin_phone" property="adminPhone"></result>
-		<result column="admin_reg_date" property="adminRegDate"></result>
-		<result column="isExist" property="isExist"></result>
-	</resultMap>
-	<select id="getMemberLoginInfo" parameterType="MemberLoginInfo"
-		resultMap="memberResultMap">
-		select
-		*, count(1) as isExist
-		from
-		member_info mi
-		left join
-		company_info ci
-		on
-		mi.company_code = ci.company_code
-		where mi.member_id = #{memberId};
-	</select>
-	<select id="getAdminLoginInfo" parameterType="MemberLoginInfo"
-		resultMap="adminMemberResultMap">
-		select
-		*, count(1) as isExist
-		from
-		admin_list
-		where admin_id =
-		#{memberId};
-	</select>
-	<select id="isDuplicateId" parameterType="String"
-		resultType="boolean">
-		select
-		count(1)
-		from
-		member_info
-		where
-		member_id = #{memberId};
-	</select>
-	<select id="isEmailUsed" resultType="boolean">
-		select
-		count(1)
-		from
-		member_info
-		where
-		member_email = #{email};
-	</select>
+    <resultMap type="Member" id="memberResultMap">
+        <id column="member_id"                      property="memberId"/>
+        <result column="member_pw"                  property="memberPw"/>
+        <result column="member_name"                property="memberName"/>
+        <result column="member_email"               property="memberEmail"/>
+        <result column="member_phone"               property="memberPhone"/>
+        <result column="position_level_code"        property="positionLevelCode"/>
+        <result column="company_code"               property="companyCode"/>
+        <result column="member_reg_date"            property="memberRegDate"/>
+        <result column="member_ci"                  property="memberCi"/>
+        <result column="member_status"              property="memberStatus"/>
+        <result column="dormant_member_reg_date"    property="dormantMemberRegDate"/>
+        <result column="isOwner"                    property="isOwner"/>
+        <result column="isExist"                    property="isExist"/>
+        <result column="company_type_num"           property="companyTypeNum"/>
+    </resultMap>
+    <resultMap type="AdminMember" id="adminMemberResultMap">
+        <id column="admin_id"               property="adminId"/>
+        <result column="admin_pw"           property="adminPw"/>
+        <result column="admin_name"         property="adminName"/>
+        <result column="admin_email"        property="adminEmail"/>
+        <result column="admin_level"        property="adminLevel"/>
+        <result column="admin_phone"        property="adminPhone"/>
+        <result column="admin_reg_date"     property="adminRegDate"/>
+        <result column="isExist"            property="isExist"/>
+    </resultMap>
+    <select id="getMemberLoginInfo" parameterType="MemberLoginInfo"
+            resultMap="memberResultMap">
+        select
+        *, count(1) as isExist
+        from
+        member_info mi
+        left join
+        company_info ci
+        on
+        mi.company_code = ci.company_code
+        where mi.member_id = #{memberId};
+    </select>
+    <select id="getAdminLoginInfo" parameterType="MemberLoginInfo"
+            resultMap="adminMemberResultMap">
+        select
+        *, count(1) as isExist
+        from
+        admin_list
+        where admin_id =
+        #{memberId};
+    </select>
+    <select id="isDuplicateId" parameterType="String"
+            resultType="boolean">
+        select
+        count(1)
+        from
+        member_info
+        where
+        member_id = #{memberId};
+    </select>
+    <select id="isEmailUsed" resultType="boolean">
+        select
+        count(1)
+        from
+        member_info
+        where
+        member_email = #{email};
+    </select>
 </mapper>
