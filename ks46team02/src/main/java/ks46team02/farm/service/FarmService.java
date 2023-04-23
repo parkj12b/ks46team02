@@ -34,8 +34,6 @@ public class FarmService {
     	    Cycle cycle = cycleList.get(i);
     	    for (int x = 0; x < productionList.size(); x++) {
     	    	Production production = productionList.get(x);
-    	    	log.info(cycle.getCycleCode());
-    	    	log.info(production.getExpectedCageProductionCode());
     	        if (cycle.getCycleCode().equals(production.getExpectedCageProductionCode())) {
     	            cycle.setDayDiffHarvest("수확완료");
     	        }
@@ -51,8 +49,8 @@ public class FarmService {
         List<FarmInfo> farmList = farmMapper.getFarmList(companyCode);
         return farmList;
     }
-    public  List<Feed> getFeedList(){
-        List<Feed> feedList = farmMapper.getFeedList();
+    public  List<Feed> getFeedList(String cycleCode){
+        List<Feed> feedList = farmMapper.getFeedList(cycleCode);
         return feedList;
     }
     public  List<Production> getProductionList(String farmCode, String searchKey, String searchValue, String fromDate, String toDate){    	

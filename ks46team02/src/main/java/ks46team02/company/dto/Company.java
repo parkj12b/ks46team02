@@ -1,7 +1,5 @@
 package ks46team02.company.dto;
 
-import java.util.List;
-
 public class Company {
 
     private String companyCode;

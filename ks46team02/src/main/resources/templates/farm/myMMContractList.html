@@ -27,12 +27,12 @@ input[type='checkbox'] {
 	accent-color: #17a2b8;
 }
 
-.table-striped tbody tr:nth-of-type(odd):hover{
-    background-color: rgba(0,0,0,.1);
+.table-striped tbody tr:nth-of-type(odd):hover {
+	background-color: rgba(0, 0, 0, .1);
 }
 
-.table-striped tbody tr:nth-of-type(even):hover{
-    background-color: rgba(0,0,0,0.05);
+.table-striped tbody tr:nth-of-type(even):hover {
+	background-color: rgba(0, 0, 0, 0.05);
 }
 </style>
 </head>
@@ -63,10 +63,10 @@ input[type='checkbox'] {
 										$('#check-all').prop('checked'));
 							});
 						});
-/* 체크박스 확인 전체 체크  */
+
 				$('.check-self').each(function(idx, item) {
 					$(item).click(function() {
-					
+
 						let checkboxes = $('.check-self');
 						let allchecked = true;
 						if (item.checked == false) {
@@ -84,8 +84,8 @@ input[type='checkbox'] {
 					})
 
 				})
-/* tr클릭시 해당계약으로 등록신청페이지로 */
-				$('table td').each(function(idx,item){
+				/* tr클릭시 해당계약으로 등록신청페이지로 */
+				/* $('table td').each(function(idx,item){
 					$(item).css('cursor', 'pointer');
 					
 					$(item).click(function(e) {
@@ -97,7 +97,7 @@ input[type='checkbox'] {
 						}
 						return false;
 					});
-				})
+				}) */
 
 			});
 		</script>
@@ -154,6 +154,12 @@ input[type='checkbox'] {
 														<th class="sorting" tabindex="0"
 															aria-controls="datatable-checkbox" rowspan="1"
 															colspan="1">총 계약 비용(만원)</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="datatable-checkbox" rowspan="1"
+															colspan="1">수정</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="datatable-checkbox" rowspan="1"
+															colspan="1">삭제</th>
 
 													</tr>
 												</thead>
@@ -161,17 +167,13 @@ input[type='checkbox'] {
 													<th:block th:each="m : ${mmContractInfo}"
 														th:if="${mmContractInfo != null}">
 
-														<tr role="row" class="odd"
-															th:href="@{/farm/mentorMenteeContractDetail(mentorContractRegCode=${m.mentorContractRegCode})}">
+														<tr role="row" class="odd">
 															<th class="sorting_1 "><label class="checkbox"><input
 																	class="check-self" type="checkbox"></label></th>
 															<td th:text=${m.companyName}></td>
 															<td colspan="1">
 																<div>
-																	<a class="contract_new_tab" target="_blank"
-																		th:name="${m.mentorContractRegCode}"
-																		th:href="@{/farm/mentorMenteeContractDetail(mentorContractRegCode=${m.mentorContractRegCode})}"><strong
-																		th:text=${m.mentorContractTitle}></strong></a>
+																	<strong th:text=${m.mentorContractTitle}></strong>
 																	<p>
 																		<span
 																			th:text="${'계약 개월수: ' + m.contractPeriod + '개월'}"></span>
@@ -182,6 +184,8 @@ input[type='checkbox'] {
 															<td
 																th:text="${m.careerYear + '년 ' + m.careerMonth + '개월'}"></td>
 															<td th:text="${m.contractCost}"></td>
+															<td><a th:href="@{/farm/mentorMenteeContractModify(mentorContractRegCode=${m.mentorContractRegCode})}">수정</a></td>
+															<td><a th:href="@{/farm/mentorMenteeContractDelete}">삭제</a></td>
 														</tr>
 
 
@@ -199,7 +203,7 @@ input[type='checkbox'] {
 
 													<tr role="row" class="odd"
 														th:unless="${mmContractInfo != null}">
-														<td colspan="8">멘토멘티 신청여부가 존재하지 않습니다.</td>
+														<td colspan="10">등록한 멘토멘티 계약이 존재하지 않습니다.</td>
 													</tr>
 
 												</tbody>
