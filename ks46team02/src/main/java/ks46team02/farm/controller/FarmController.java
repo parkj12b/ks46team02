@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
@@ -40,6 +39,27 @@ public class FarmController {
 	public FarmController(MentorMenteeService mentorMenteeService, FarmService farmService) {
 		this.mentorMenteeService = mentorMenteeService;
 		this.farmService = farmService;
+	}
+	
+	
+	@PostMapping("/farmDetail")
+	public String getFarmDetail1(Model model, HttpSession session, Cycle cycle, String searchKey, 
+			String searchValue, String fromDate, String toDate, String farmCode, String tapName , HttpSession session1) {
+		
+		String companyCode =(String) session1.getAttribute("sessionCompanyCode");
+		FarmInfo farmInfo = farmService.getFarmInfoByCode(farmCode);
+		List<Production> productionList = farmService.getProductionList(farmCode);
+		List<Cycle> cycleList = farmService.getCycleList(farmCode,companyCode,searchKey,searchValue,fromDate,toDate);
+		model.addAttribute("title","사육장 정보");
+		model.addAttribute("farmInfo", farmInfo);
+		model.addAttribute("cycleList",cycleList);
+		model.addAttribute("productionList",productionList);
+		model.addAttribute("farmCode", farmCode);
+		model.addAttribute("tapName", tapName);
+		
+		log.info("{}", cycle);
+		log.info(searchKey +" " + searchValue +" " + fromDate+" " + toDate +" " + farmCode);
+		return "farm/farm_detail";
 	}
 	
 
