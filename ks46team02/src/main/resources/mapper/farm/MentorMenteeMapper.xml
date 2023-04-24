@@ -101,6 +101,7 @@
 		</where>
 	</select>
 	<select id="getContractInfo" parameterType="String" resultMap="MMContractInfoMap">
-		
+		select
+			
 	</select>
 </mapper>
