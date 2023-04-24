@@ -221,4 +221,19 @@ public class FarmController {
 		log.info("{}", contractInfo);
 		return "redirect:/farm/myMentorMenteeContract";
 	}
+	
+	@GetMapping("/registerMentorMenteeContract")
+	public String addMMContractRegister() {
+		
+		
+		return "farm/mmContractModify";
+	}
+	
+	@GetMapping("/mentorMenteeContractApprove")
+	public String mentorMenteeContractApprove() {
+		
+		
+		
+		return "farm/myMMContractList";
+	}
 }
