@@ -2,7 +2,9 @@ package ks46team02.company.controller;
 
 
 import ks46team02.company.dto.Company;
+import ks46team02.company.dto.CompanyPositionLevel;
 import ks46team02.company.dto.CompanyType;
+import ks46team02.company.dto.FarmProductCategory;
 import ks46team02.company.mapper.CompanyMapper;
 import ks46team02.company.service.CompanyService;
 import org.slf4j.Logger;
@@ -36,8 +38,9 @@ public class CompanyController {
     }
     @GetMapping("/company_employee_level")
     public String getCompanyEmployeeLevel(Model model){
-
+        List<CompanyPositionLevel> companyPositionLevelList = companyService.getCompanyPositionList();
         model.addAttribute("title","업체별 사원 등급관리");
+        model.addAttribute("companyPositionLevel",companyPositionLevelList);
         return "company/company_employee_level";
     }
 
@@ -57,8 +60,9 @@ public class CompanyController {
 
     @GetMapping("/company_product_category")
     public String getCompanyProductCategory(Model model){
-
+        List<FarmProductCategory> farmProductCategoryList = companyService.getFarmProductCategoryList();
         model.addAttribute("title","사육업체제품종류");
+        model.addAttribute("farmProductCategoryList",farmProductCategoryList);
         return "company/company_product_category";
     }
 
@@ -71,8 +75,9 @@ public class CompanyController {
 
     @GetMapping("/company_type_list")
     public String getCompanyType(Model model){
-
+        List<CompanyType> companyTypeList = companyService.getCompanyTypeList();
         model.addAttribute("title","업체종류");
+        model.addAttribute("companyTypeList", companyTypeList);
         return "company/company_type_list";
     }
     @PostMapping("/company_add")
