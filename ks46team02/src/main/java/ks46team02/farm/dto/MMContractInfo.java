@@ -35,6 +35,7 @@ public class MMContractInfo {
 	private String farmCnt;
 	private String mentorContractTitle;
 	
+	
 	public String getFarmLevelNum() {
 		return farmLevelNum;
 	}
@@ -238,17 +239,17 @@ public class MMContractInfo {
 		return "MMContractInfo [mentorContractRegCode=" + mentorContractRegCode + ", companyCode=" + companyCode
 				+ ", contractPeriod=" + contractPeriod + ", totalVisitation=" + totalVisitation + ", monthVisitation="
 				+ monthVisitation + ", contractContent=" + contractContent + ", contractCost=" + contractCost
-				+ ", contractRegDate=" + contractRegDate + ", deposit=" + deposit + ", mentorAppCode=" + mentorAppCode
-				+ ", mentorApplyDate=" + mentorApplyDate + ", mentorApprovalDate=" + mentorApprovalDate
-				+ ", mentorApproval=" + mentorApproval + ", previousYear=" + previousYear + ", previousYearSales="
-				+ previousYearSales + ", salesSuitability=" + salesSuitability + ", careerYear=" + careerYear
-				+ ", careerMonth=" + careerMonth + ", careerSuitability=" + careerSuitability + ", documentaryEvidence="
-				+ documentaryEvidence + ", companyTypeNum=" + companyTypeNum + ", companyRegNum=" + companyRegNum
-				+ ", companyTel=" + companyTel + ", companyName=" + companyName + ", companyAddr=" + companyAddr
-				+ ", applyDate=" + applyDate + ", approvalStatus=" + approvalStatus + ", approvalDeniedContent="
-				+ approvalDeniedContent + ", approvalDate=" + approvalDate + ", farmLevelNum=" + farmLevelNum
-				+ ", regPassword=" + regPassword + ", farmCnt=" + farmCnt + ", mentorContractTitle="
-				+ mentorContractTitle + "]";
+				+ ", contractRegDate=" + contractRegDate + ", deposit=" + deposit + 
+				", mentorAppCode=" + mentorAppCode + ", mentorApplyDate=" + mentorApplyDate + ", mentorApprovalDate="
+				+ mentorApprovalDate + ", mentorApproval=" + mentorApproval + ", previousYear=" + previousYear
+				+ ", previousYearSales=" + previousYearSales + ", salesSuitability=" + salesSuitability
+				+ ", careerYear=" + careerYear + ", careerMonth=" + careerMonth + ", careerSuitability="
+				+ careerSuitability + ", documentaryEvidence=" + documentaryEvidence + ", companyTypeNum="
+				+ companyTypeNum + ", companyRegNum=" + companyRegNum + ", companyTel=" + companyTel + ", companyName="
+				+ companyName + ", companyAddr=" + companyAddr + ", applyDate=" + applyDate + ", approvalStatus="
+				+ approvalStatus + ", approvalDeniedContent=" + approvalDeniedContent + ", approvalDate=" + approvalDate
+				+ ", farmLevelNum=" + farmLevelNum + ", regPassword=" + regPassword + ", farmCnt=" + farmCnt
+				+ ", mentorContractTitle=" + mentorContractTitle + "]";
 	}
 	
 	

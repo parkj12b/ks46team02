@@ -151,8 +151,8 @@
 
                         <div class="item form-group">
                             <div class="col-md-6 col-sm-6 offset-md-3">
-                                <button class="btn-btn-dark" type="button">삭제</button>
-                                <button class="btn-btn-dark" type="reset" th:onclick="|location.href='@{/company/company_modify(companyCode=*{companyCode})}'|">수정</button>
+                                <button class="btn btn-dark" type="button" th:onclick="|location.href='@{/company/company_delete(companyCode=*{companyCode})}'|">삭제</button>
+                                <button class="btn btn-dark" type="reset" th:onclick="|location.href='@{/company/company_modify(companyCode=*{companyCode})}'|">수정</button>
                             </div>
                         </div>
                         </div>

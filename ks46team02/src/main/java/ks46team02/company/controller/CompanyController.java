@@ -29,6 +29,11 @@ public class CompanyController {
 
     }
 
+    @PostMapping("/company_delete")
+    public String deleteCompany(){
+        String redirectURI = "redirect:/company/company_delete/deleteCompany?";
+        return redirectURI;
+    }
     @GetMapping("/company_employee_level")
     public String getCompanyEmployeeLevel(Model model){
 
