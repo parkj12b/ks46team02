@@ -12,6 +12,7 @@ public class Production {
     private Double lossRate;
     private String memberId;
     private String productionRegDate;
+    private String calculationStandardCode;
     
 
 	@Override
@@ -21,6 +22,17 @@ public class Production {
 				+ realHarvestDay + ", realProduction=" + realProduction + ", lossRate=" + lossRate + ", memberId="
 				+ memberId + ", productionRegDate=" + productionRegDate + "]";
 	}
+	
+
+	public String getCalculationStandardCode() {
+		return calculationStandardCode;
+	}
+
+
+	public void setCalculationStandardCode(String calculationStandardCode) {
+		this.calculationStandardCode = calculationStandardCode;
+	}
+
 
 	public String getProductionCode() {
         return productionCode;
