@@ -178,21 +178,22 @@
 			<li><a><i class="fa fa-cogs"></i> 관리자 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a th:href="@{/admin/adminList}">!최봉준 관리자 관리</a></li>
-					<li><a th:href="@{/admin/adminLevelList}">! 최봉준 관리자 등급 관리</a></li>
+					<li><a th:href="@{/admin/admin_list}">!최봉준 관리자 관리</a></li>
+					<li><a th:href="@{/admin/adminLevel_list}">! 최봉준 관리자 등급 관리</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-users"></i> 회원관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a th:href="@{/admin/memberList}">! 최봉준 등록 된 회원관리</a></li>
-					<li><a th:href="@{/admin/addrList}">!최봉준 배송지 관리</a></li>
-					<li><a th:href="@{/admin/loginHistory}">! 최봉준 로그인 기록 관리</a></li>
-					<li><a th:href="@{/admin/withdrawalMemberList}">!최봉준 탈퇴 회원 관리</a></li>
+					<li><a th:href="@{/admin/member_list}">! 최봉준 등록 된 회원관리</a></li>
+					<li><a th:href="@{/admin/memberLevel_list}">! 직원별 권한 관리</a></li>
+					<li><a th:href="@{/admin/addr_list}">!최봉준 배송지 관리</a></li>
+					<li><a th:href="@{/admin/loginHistory_list}">! 최봉준 로그인 기록 관리</a></li>
+					<li><a th:href="@{/admin/withdrawalMember_list}">!최봉준 탈퇴 회원 관리</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-users"></i> 승인 관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a th:href="@{/admin/contractStandardList}">승인 기준 관리</a></li>
+					<li><a th:href="@{/admin/contractStandard_list}">승인 기준 관리</a></li>
 					<li><a href="#">업체 승인</a></li>
 					<li><a href="#">멘토 멘티 승인</a></li>
 					<li><a href="#">계약 승인</a></li>
@@ -225,8 +226,8 @@
 			<li><a><i class="fa fa-users"></i> 멘토멘티 관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="/admin/mentorRegManageList">#멘토 신청 관리</a></li>
-					<li><a href="/admin/menteeRegManageList">#멘티 신청 관리</a></li>
+					<li><a href="/admin/mentorRegManage_list">#멘토 신청 관리</a></li>
+					<li><a href="/admin/menteeRegManage_list">#멘티 신청 관리</a></li>
 					<li><a href="#">#멘토 방문 기록 관리</a></li>
 					<li><a href="#">#멘토 평가 결과 기록 관리</a></li>
 					<li><a href="#">#멘토 멘티 평가 대분류 관리</a></li>
