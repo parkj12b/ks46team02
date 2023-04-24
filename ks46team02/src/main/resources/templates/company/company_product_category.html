@@ -27,18 +27,18 @@
                                 <tr role="row">
                                     <th>제품카테고리코드</th>
                                     <th>제품명</th>
-                                    <th>제품카테고리등록일</th>
                                     <th>관리자아이디</th>
+                                    <th>제품카테고리등록일</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr role="row" class="odd">
-                                    <td>gcm_1</td>
-                                    <td>살아있는 애벌레</td>
-                                    <td>2023-01-02</td>
-                                    <td>admin1</td>
+                                <tr role="row" class="odd" th:unless="${farmProductCategoryList == null}" th:each="l : ${farmProductCategoryList}">
+                                    <td th:text="${l.productCategoryCode}"></td>
+                                    <td th:text="${l.productName}"></td>
+                                    <td th:text="${l.adminId}"></td>
+                                    <td th:text="${l.productCategoryRegDate}"></td>
                                     <td>
                                         <a th:href="@{/company/company_product_category_modify}">수정</a>
                                     </td>
@@ -46,12 +46,15 @@
                                         <a href="#">삭제</a>
                                     </td>
                                 </tr>
+                                <tr th:if="${farmProductCategoryList == null}">
+                                    <td>등록된 사육업체 상품이 없습니다.</td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="dataTables_paginate paging_simple_numbers">
                             <button type="button" class="btn btn-secondary"
-                                    onclick="location.href='/company/company_product_insert'">제품카테고리등록
+                                    onclick="location.href='/company/insertCompanyProduct'">제품카테고리등록
                             </button>
                         </div>
                     </div>

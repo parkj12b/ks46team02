@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mypageLayout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+#open-checked {
+	margin-top: 20px;
+}
+
+.checkbox {
+	font-size: 20px;
+	display: grid;
+	border: 1px solid #17a2b8;
+	width: 20px;
+	height: 20px;
+	border-radius: 3px;
+}
+
+.checkbox:hover {
+	box-shadow: 0 0 0 0.1rem #17a2b8;
+}
+
+input[type='checkbox'] {
+	accent-color: #17a2b8;
+}
+
+.table-striped tbody tr:nth-of-type(odd):hover{
+    background-color: rgba(0,0,0,.1);
+}
+
+.table-striped tbody tr:nth-of-type(even):hover{
+    background-color: rgba(0,0,0,0.05);
+}
+</style>
+</head>
+<body>
+	<th:block layout:fragment="customJs">
+		<script>
+			$(function() {
+
+				$('#open-checked').click(
+						function() {
+							$('.check-self').each(
+									function(idx, item) {
+										if ($(item).prop('checked')) {
+											$(item).parents('tr').find(
+													'a.contract_new_tab')[0]
+													.click();
+
+										}
+
+									})
+						})
+
+				$('#check-all').click(
+						function() {
+							let checkAllEle = $('.check-self');
+							checkAllEle.each(function(idx, item) {
+								$(item).prop('checked',
+										$('#check-all').prop('checked'));
+							});
+						});
+/* 체크박스 확인 전체 체크  */
+				$('.check-self').each(function(idx, item) {
+					$(item).click(function() {
+					
+						let checkboxes = $('.check-self');
+						let allchecked = true;
+						if (item.checked == false) {
+							$('#check-all').prop('checked', false);
+						}
+						$(checkboxes).each(function(idx, item) {
+							if (item.checked == false) {
+								allchecked = false;
+							}
+						})
+						if (allchecked) {
+							$('#check-all').prop('checked', true);
+						}
+
+					})
+
+				})
+/* tr클릭시 해당계약으로 등록신청페이지로 */
+				$('table td').each(function(idx,item){
+					$(item).css('cursor', 'pointer');
+					
+					$(item).click(function(e) {
+						let link = $(item).parents('tr').attr('href');
+						if(e.ctrlKey){
+							window.open(link,'_blank');
+						} else {
+							location.href = link;
+						}
+						return false;
+					});
+				})
+
+			});
+		</script>
+
+	</th:block>
+	<th:block layout:fragment="customContent">
+		<div class="col-md-12 col-sm-12 ">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>멘토멘티 공고조회</h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-expanded="false"><i
+								class="fa fa-wrench"></i></a>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+								<a class="dropdown-item" href="#">Settings 1</a> <a
+									class="dropdown-item" href="#">Settings 2</a>
+							</div></li>
+						<li><a class="close-link"><i class="fa fa-close"></i></a></li>
+					</ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-box table-responsive">
+								<div id="datatable-checkbox_wrapper"
+									class="dataTables_wrapper container-fluid dt-bootstrap no-footer">
+									<div class="row">
+										<div class="col-sm-12">
+											<span style="float: right;">(Ctrl + Click로 새탭에서 열기)</span>
+											<table id="datatable-checkbox"
+												class="table table-striped table-bordered bulk_action dataTable no-footer"
+												style="width: 100%" role="grid"
+												aria-describedby="datatable-checkbox_info">
+												<thead>
+													<tr role="row">
+														<th class="sorting_desc" tabindex="0"
+															aria-controls="datatable-checkbox" rowspan="1"
+															colspan="1" aria-sort="descending"><label
+															class="checkbox"><input type="checkbox"
+																id="check-all"></label></th>
+														<th class="sorting" tabindex="0"
+															aria-controls="datatable-checkbox" rowspan="1"
+															colspan="1">업체명</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="datatable-checkbox" rowspan="1"
+															colspan="1">계약 개월수</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="datatable-checkbox" rowspan="1"
+															colspan="1">경력</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="datatable-checkbox" rowspan="1"
+															colspan="1">총 계약 비용(만원)</th>
+
+													</tr>
+												</thead>
+												<tbody>
+													<th:block th:each="m : ${mmContractInfo}"
+														th:if="${mmContractInfo != null}">
+
+														<tr role="row" class="odd"
+															th:href="@{/farm/mentorMenteeContractDetail(mentorContractRegCode=${m.mentorContractRegCode})}">
+															<th class="sorting_1 "><label class="checkbox"><input
+																	class="check-self" type="checkbox"></label></th>
+															<td th:text=${m.companyName}></td>
+															<td colspan="1">
+																<div>
+																	<a class="contract_new_tab" target="_blank"
+																		th:name="${m.mentorContractRegCode}"
+																		th:href="@{/farm/mentorMenteeContractDetail(mentorContractRegCode=${m.mentorContractRegCode})}"><strong
+																		th:text=${m.mentorContractTitle}></strong></a>
+																	<p>
+																		<span
+																			th:text="${'계약 개월수: ' + m.contractPeriod + '개월'}"></span>
+																		| <span th:text="${m.companyAddr}"></span>
+																	</p>
+																</div>
+															</td>
+															<td
+																th:text="${m.careerYear + '년 ' + m.careerMonth + '개월'}"></td>
+															<td th:text="${m.contractCost}"></td>
+														</tr>
+
+
+														<!-- <tr role="row" class="even">
+
+															<td th:text="${m.contractPeriod}"></td>
+															<td th:text="${m.totalVisitation}"></td>
+															<td th:text="${m.monthVisitation}"></td>
+															<td th:text="${m.contractCost}"></td>
+															<td th:text="${m.careerYear + '년' + m.careerMonth + '월'}"></td>
+															<td th:text="${m.companyAddr}"></td>
+															<td th:text="${m.previousYearSales}"></td>
+														</tr> -->
+													</th:block>
+
+													<tr role="row" class="odd"
+														th:unless="${mmContractInfo != null}">
+														<td colspan="8">멘토멘티 신청여부가 존재하지 않습니다.</td>
+													</tr>
+
+												</tbody>
+											</table>
+											<button id="open-checked" type="button" class="btn btn-info">체크된
+												공고 열기</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</th:block>
+</body>
+</html>

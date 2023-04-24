@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/mypage}">
+<head>
+    <meta charset="UTF-8">
+    <title>BSFP</title>
+</head>
+<th:block layout:fragment="customJs">
+    <script>
+        $('#resetBtn').click(function () {
+            location.href = '/company/companyList';
+        });
+    </script>
+</th:block>
+
+<th:block layout:fragment="customContent">
+    <div class="page-title">
+        <div class="title">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>업체수정</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <form id="companyModifyForm" th:action="@{/company/modifyCompany}" method="post">
+                        <div th:object="${companyInfo}">
+                        <span class="section">Company Modify</span>
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyCode">업체코드</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input id="companyCode" class="form-control" name="companyCode"
+                                           type="text" th:value="*{companyCode}"/>
+                                </div>
+                            </div>
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyRegNum">사업자등록번호</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input id="companyRegNum" class="form-control" name="companyRegNum"
+                                       type="text" th:value="*{companyRegNum}"/>
+                            </div>
+                        </div>
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyName">업체명</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input id="companyName" class="form-control email" name="companyName"
+                                       th:value="*{companyName}"/>
+                            </div>
+                        </div>
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyAddr">업체주소</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input id="companyAddr" class="form-control email" name="companyAddr"
+                                       th:value="*{companyAddr}"/>
+                            </div>
+                        </div>
+
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align required" for="companyTel">업체전화번호</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input id="companyTel" class="form-control" name="companyTel"
+                                       th:value="*{companyTel}"></div>
+                        </div>
+
+
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="regPassword">사원등록비밀번호</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input id="regPassword" class="form-control" name="regPassword"
+                                       th:value="*{regPassword}"/>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <div class="col-md-6 col-sm-6 offset-md-3">
+                                <button id="resetBtn" class="btn btn-dark" type="button">수정취소</button>
+                                <button id="submitBtn" class="btn btn-dark" type="submit">수정완료</button>
+                            </div>
+                        </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

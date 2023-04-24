@@ -94,6 +94,7 @@ public class CommonController {
 	
 	@GetMapping("/mypage")
 	public String mypage() {
+
 		return "mypage";
 	}
 	

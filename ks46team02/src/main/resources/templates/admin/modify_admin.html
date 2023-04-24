@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/mypage}">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 정보 수정</title>
+</head>
+<th:block layout:fragment="customJs">
+    <script>
+    /* 뒤로가는 버튼 */
+        $('#resetBtn').click(function(){
+			history.go(-1);
+		});
+	/* 휴대폰 전화 자동 하이픈 */
+        $(document).ready(function () {
+           $(function () {
+                    
+                    $('#adminPhone').keydown(function (event) {
+                     var key = event.charCode || event.keyCode || 0;
+                     $text = $(this); 
+                     if (key !== 8 && key !== 9) {
+                         if ($text.val().length === 3) {
+                             $text.val($text.val() + '-');
+                         }
+                         if ($text.val().length === 8) {
+                             $text.val($text.val() + '-');
+                         }
+                     }
+
+                     return (key == 8 || key == 9 || key == 46 || (key >= 48 && key <= 57) || (key >= 96 && key <= 105));
+        			 // Key 8번 백스페이스, Key 9번 탭, Key 46번 Delete 부터 0 ~ 9까지, Key 96 ~ 105까지 넘버패트
+        			 // 한마디로 JQuery 0 ~~~ 9 숫자 백스페이스, 탭, Delete 키 넘버패드외에는 입력못함
+                 })
+           });
+
+        });
+    </script>
+</th:block>
+
+<th:block layout:fragment="customContent">
+    <div class="page-title">
+        <div class="title">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>관리자 정보 수정</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <form id="adminModifyForm" th:action="@{/admin/modifyAdmin}" method="post">
+                        <div th:object="${adminInfo}">
+                        <span class="section"></span>
+                            <div class="field item form-group">
+							    <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyCode">관리자 아이디</label>
+							    <div class="col-md-3 col-sm-3 input-group">
+							        <input id="adminId" class="form-control" name="adminId" type="text" th:value="*{adminId}" readonly/>
+							        <span class="input-group-btn">
+							            <input type="button" class="btn btn-dark" onclick="sample4_execDaumPostcode()" value="아이디 중복체크">
+							        </span>
+							    </div>
+							</div>
+
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyRegNum">관리자 비밀번호</label>
+                            <div class="col-md-3 col-sm-3">
+                                <input id="adminPw" class="form-control" name="adminPw"
+                                       type="password" th:value="*{adminPw}"/>
+                            </div>
+                        </div>
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyName">관리자 이름</label>
+                            <div class="col-md-3 col-sm-3">
+                                <input id="adminName" class="form-control" name="adminName"
+                                       th:value="*{adminName}"/>
+                            </div>
+                        </div>
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyAddr">관리자 이메일</label>
+                            <div class="col-md-3 col-sm-3">
+                                <input id="adminEmail" class="form-control" name="adminEmail"
+                                       th:value="*{adminEmail}"/>
+                            </div>
+                        </div>
+
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align required" for="companyTel">관리자 등급</label>
+                            <div class="col-md-3 col-sm-3">
+                                <input id="adminLevel" class="form-control" name="adminLevel"
+                                       th:value="*{adminLevel}"></div>
+                        </div>
+
+
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="regPassword">휴대폰 번호</label>
+                            <div class="col-md-3 col-sm-3">
+                                <input id="adminPhone" class="form-control" name="adminPhone"
+                                       th:value="*{adminPhone}"/>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <div class="col-md-6 col-sm-6 offset-md-3">
+                   
+                                <button id="submitBtn" class="btn btn-dark" type="submit">수정완료</button>
+                                <button id="resetBtn" class="btn btn-dark" type="button">수정취소</button>
+                            </div>
+                        </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

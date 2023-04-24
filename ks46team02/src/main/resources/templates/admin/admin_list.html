@@ -10,7 +10,7 @@
 <script>
 $(document).ready(function() {
   $('button.btn-primary').click(function() {
-    window.location.href = '/admin/admin_add';
+    window.location.href = '/admin/addAdmin';
   });
 });
 function deleteBoard(seq){
@@ -122,10 +122,11 @@ $(document).ready(function() {
 												<td th:text="${l.adminPhone}"></td>
 												<td th:text="${l.adminRegDate}"></td>
 												<td th:if="${l.adminId != 'master'}">                                            
-                                            		<a th:href="@{/admin/admin_modify(adminId=${adminId})}">수정</a>
+                                            		<a th:href="@{/admin/modifyAdmin(adminId=*{l.adminId})}">수정</a>
                                             	</td>
                                             	<td th:if="${l.adminId != 'master'}">
                                             		<a href="#" class="delete"><i class="fa fa-close"></i> 삭제</a>
+                                            		
                                                </td>
                                                  <td th:if="${l.adminId == 'master'}"></td>
                                                  <td th:if="${l.adminId == 'master'}"></td>

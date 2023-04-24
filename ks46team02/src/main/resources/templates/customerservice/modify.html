@@ -1,0 +1,98 @@
+<!DOTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>board_modify</title>
+Favicon
+<link rel="icon" type="image/x-icon" href="${root }assets/favicon.ico" />
+Icons. Uncomment required icon fonts
+<link rel="stylesheet" href="${root }assets/vendor/fonts/boxicons.css" />
+Bootstrap icons
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+	rel="stylesheet" />
+Core theme CSS (includes Bootstrap)
+<link href="${root }css/main.css" rel="stylesheet" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+	integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+	crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+Helpers
+<script src="${root }assets/vendor/js/helpers.js"></script>
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
+</head>
+<body>
+
+	<th:block layout:fragment="customContent">
+
+
+	<section class="py-2">
+		<div class="container px-4 px-lg-5 mt-1">
+			<h2>Q & A</h2>
+			<div class="row">
+				<div class="col-sm-3"></div>
+				<div class="col-sm-6 col-lg-12">
+					<div class="card shadow">
+						<div class="card-body">
+							<th:form action="" method="post"
+								modelAttribute="" enctype="">
+								<th:hidden path="" />
+								<th:hidden path="" />
+								<input type="hidden" name="page" value="${page }" />
+								<div class="form-group mb-3">
+									<th:label path="" class="form-label">작성자</th:label>
+									<th:input path="" class="form-control" readonly="true" />
+								</div>
+								<div class="form-group mb-3">
+									<th:label path="" class="form-label">작성날짜</th:label>
+									<th:input path="" class="form-control" readonly="true" />
+								</div>
+								<div class="form-group mb-3">
+									<th:label path="" class="form-label">제목</th:label>
+									<th:input path="" class="form-control" />
+									<th:errors path="" style="color:red" />
+								</div>
+								<div class="form-group mb-3">
+									<th:label path="" class="form-label">내용</th:label>
+									<form:textarea path="" class="form-control" rows="10"
+										style="resize:none"></form:textarea>
+									<th:errors path="" style="color:red" />
+								</div>
+								<div class="form-group mb-3">
+									<th:label path="" class="form-label">첨부 이미지</th:label>
+									<th:if test="${modifyBoardBean.j_file != null }">
+										<img src="${root }upload/${modifyBoardBean.j_file}"
+											width="50%" />
+										<th:hidden path="" />
+									</th:if>
+									<th:input type="file" path="upload_file" class="form-control"
+										accept="image/*" />
+								</div>
+								<div class="form-group">
+									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+										<th:button class="btn btn-primary">수정완료</th:button>
+										<a
+											href="${root }board/read?board_info_idx=${board_info_idx}&board_idx=${board_idx}&page=${page}"
+											class="btn btn-info">취소</a>
+									</div>
+								</div>
+							</th:form>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3"></div>
+			</div>
+		</div>
+	</section>
+	</th:block>
+</body>
+</html> --> -->

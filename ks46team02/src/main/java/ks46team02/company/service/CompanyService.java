@@ -1,7 +1,9 @@
 package ks46team02.company.service;
 
 import ks46team02.company.dto.Company;
+import ks46team02.company.dto.CompanyPositionLevel;
 import ks46team02.company.dto.CompanyType;
+import ks46team02.company.dto.FarmProductCategory;
 import ks46team02.company.mapper.CompanyMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,21 @@ public class CompanyService {
 
     public CompanyService(CompanyMapper companyMapper){
         this.companyMapper = companyMapper;
+    }
+
+    public int insertCompanyProduct(FarmProductCategory farmProductCategory){
+        int result = companyMapper.insertCompanyProduct(farmProductCategory);
+        return result;
+    }
+
+    public List<FarmProductCategory> getFarmProductCategoryList(){
+        List<FarmProductCategory> farmProductCategoryList = companyMapper.getFarmProductCategoryList();
+        return farmProductCategoryList;
+    }
+
+    public List<CompanyPositionLevel> getCompanyPositionList(){
+        List<CompanyPositionLevel> companyPositionLevelList = companyMapper.getCompanyPositionList();
+        return companyPositionLevelList;
     }
 
     public Company getCompanyInfoByCode(String companyCode){

@@ -19,7 +19,7 @@
 				 admin_id
 				,admin_pw
 				,admin_name
-				,admin_name
+				,admin_email
 				,admin_level
 				,admin_phone
 				,admin_reg_date
