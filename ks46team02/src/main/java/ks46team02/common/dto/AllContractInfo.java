@@ -1,4 +1,4 @@
-package ks46team02.company.dto;
+package ks46team02.common.dto;
 
 public class AllContractInfo {
 	private	String contractCode;

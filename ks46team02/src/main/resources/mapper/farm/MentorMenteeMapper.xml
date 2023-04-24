@@ -3,131 +3,150 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.farm.mapper.MentorMenteeMapper">
-<resultMap type="MMContractInfo" id="MMContractInfoMap">
-	<id column="mentor_contract_reg_code" property="mentorContractRegCode"></id>
-	<result column="company_code" property="companyCode"></result>
-	<result column="contract_period" property="contractPeriod"></result>
-	<result column="total_visitation" property="totalVisitation"></result>
-	<result column="month_visitation" property="monthVisitation"></result>
-	<result column="contract_content" property="contractContent"></result>
-	<result column="contract_cost" property="contractCost"></result>
-	<result column="contract_reg_date" property="contractRegDate"></result>
-	<result column="deposit" property="deposit"></result>
-	<result column="mentor_app_code" property="mentorAppCode"></result>
-	<result column="mentor_apply_date" property="mentorApplyDate"></result>
-	<result column="mentor_approval_date" property="mentorApprovalDate"></result>
-	<result column="mentor_approval" property="mentorApproval"></result>
-	<result column="previous_year" property="previousYear"></result>
-	<result column="previous_year_sales" property="previousYearSales"></result>
-	<result column="sales_suitability" property="salesSuitability"></result>
-	<result column="career_year" property="careerYear"></result>
-	<result column="career_month" property="careerMonth"></result>
-	<result column="career_suitability" property="careerSuitability"></result>
-	<result column="documentary_evidence" property="documentaryEvidence"></result>
-	<result column="company_type_num" property="companyTypeNum"></result>
-	<result column="company_tel" property="companyTel"></result>
-	<result column="company_addr" property="companyAddr"></result>
-	<result column="company_name" property="companyName"></result>
-	<result column="apply_date" property="applyDate"></result>
-	<result column="approval_status" property="approvalStatus"></result>
-	<result column="approval_denied_content" property="approvalDeniedContent"></result>
-	<result column="approval_date" property="approvalDate"></result>
-	<result column="farm_level_num" property="farmLevelNum"></result>
-	<result column="reg_password" property="regPassword"></result>
-	<result column="farm_cnt" property="farmCnt"></result>
-	<result column="mentor_contract_title" property="mentorContractTitle"></result>
-	<result column="mcr.member_id" property="memberId"></result>
-</resultMap>
-<resultMap type="AllContractInfo" id="AllContractInfoMap">
-	<id column="contract_code" property="contractCode"></id>
-	<result column="contract_registration_code" property="contractRegistrationCode"></result>
-	<result column="contract_type" property="contractType"></result>
-	<result column="member_id" property="memberId"></result>
-	<result column="contract_apply_date" property="contractApplyDate"></result>
-	<result column="contract_start_date" property="contractStartDate"></result>
-	<result column="contract_end_date" property="contractEndDate"></result>
-	<result column="contract_paper" property="contractPaper"></result>
-	<result column="admin_id" property="adminId"></result>
-	<result column="contract_approval_date" property="contractApprovalDate"></result>
-	<result column="contract_approval" property="contractApproval"></result>
-	<result column="deposit" property="deposit"></result>
-	<result column="delivery_cycle" property="deliveryCycle"></result>
-	<result column="contract_amount" property="contractAmount"></result>
-	<result column="total_amount" property="totalAmount"></result>
-	<result column="contractee_company_code" property="contracteeCompanyCode"></result>
-	<result column="contractor_company_code" property="contractorCompanyCode"></result>
-	
-</resultMap>
+	<resultMap type="MMContractInfo" id="MMContractInfoMap">
+		<id column="mentor_contract_reg_code"
+			property="mentorContractRegCode"></id>
+		<result column="company_code" property="companyCode"></result>
+		<result column="contract_period" property="contractPeriod"></result>
+		<result column="total_visitation" property="totalVisitation"></result>
+		<result column="month_visitation" property="monthVisitation"></result>
+		<result column="contract_content" property="contractContent"></result>
+		<result column="contract_cost" property="contractCost"></result>
+		<result column="contract_reg_date" property="contractRegDate"></result>
+		<result column="deposit" property="deposit"></result>
+		<result column="mentor_app_code" property="mentorAppCode"></result>
+		<result column="mentor_apply_date" property="mentorApplyDate"></result>
+		<result column="mentor_approval_date"
+			property="mentorApprovalDate"></result>
+		<result column="mentor_approval" property="mentorApproval"></result>
+		<result column="previous_year" property="previousYear"></result>
+		<result column="previous_year_sales"
+			property="previousYearSales"></result>
+		<result column="sales_suitability" property="salesSuitability"></result>
+		<result column="career_year" property="careerYear"></result>
+		<result column="career_month" property="careerMonth"></result>
+		<result column="career_suitability"
+			property="careerSuitability"></result>
+		<result column="documentary_evidence"
+			property="documentaryEvidence"></result>
+		<result column="company_type_num" property="companyTypeNum"></result>
+		<result column="company_tel" property="companyTel"></result>
+		<result column="company_addr" property="companyAddr"></result>
+		<result column="company_name" property="companyName"></result>
+		<result column="apply_date" property="applyDate"></result>
+		<result column="approval_status" property="approvalStatus"></result>
+		<result column="approval_denied_content"
+			property="approvalDeniedContent"></result>
+		<result column="approval_date" property="approvalDate"></result>
+		<result column="farm_level_num" property="farmLevelNum"></result>
+		<result column="reg_password" property="regPassword"></result>
+		<result column="farm_cnt" property="farmCnt"></result>
+		<result column="mentor_contract_title"
+			property="mentorContractTitle"></result>
+		<result column="mcr.member_id" property="memberId"></result>
+	</resultMap>
+	<resultMap type="AllContractInfo" id="AllContractInfoMap">
+		<id column="contract_code" property="contractCode"></id>
+		<result column="contract_registration_code"
+			property="contractRegistrationCode"></result>
+		<result column="contract_type" property="contractType"></result>
+		<result column="member_id" property="memberId"></result>
+		<result column="contract_apply_date"
+			property="contractApplyDate"></result>
+		<result column="contract_start_date"
+			property="contractStartDate"></result>
+		<result column="contract_end_date" property="contractEndDate"></result>
+		<result column="contract_paper" property="contractPaper"></result>
+		<result column="admin_id" property="adminId"></result>
+		<result column="contract_approval_date"
+			property="contractApprovalDate"></result>
+		<result column="contract_approval" property="contractApproval"></result>
+		<result column="deposit" property="deposit"></result>
+		<result column="delivery_cycle" property="deliveryCycle"></result>
+		<result column="contract_amount" property="contractAmount"></result>
+		<result column="total_amount" property="totalAmount"></result>
+		<result column="contractee_company_code"
+			property="contracteeCompanyCode"></result>
+		<result column="contractor_company_code"
+			property="contractorCompanyCode"></result>
+
+	</resultMap>
 	<select id="getMMRegStatMentee" resultType="MMRegInfoMentee">
-		select 
-			mentee_app_code as menteeAppCode,
-			company_code as companyCode,
-			member_id as memberId,
-			mentee_apply_date as menteeApplyDate,
-			mentee_approval_date as menteeApprovalDate,
-			mentee_approval as menteeApproval,
-			admin_id as adminId,
-			previous_year as previousYear,
-			previous_year_sales as previousYearSales,
-			sales_suitability as salesSuitability,
-			documentary_evidence as documentaryEvidence
+		select
+		mentee_app_code as menteeAppCode,
+		company_code as companyCode,
+		member_id as memberId,
+		mentee_apply_date as menteeApplyDate,
+		mentee_approval_date as menteeApprovalDate,
+		mentee_approval as menteeApproval,
+		admin_id as adminId,
+		previous_year as previousYear,
+		previous_year_sales as previousYearSales,
+		sales_suitability as salesSuitability,
+		documentary_evidence as documentaryEvidence
 		from
-			mentee_apply
-		where 
-			company_code = #{companyCode};
+		mentee_apply
+		where
+		company_code = #{companyCode};
 	</select>
 	<select id="getMMRegStatMentor" resultType="MMRegInfoMentor">
-		select 
-			mentor_app_code as MentorAppCode,
-			company_code as companyCode,
-			member_id as memberId,
-			mentor_apply_date as mentorApplyDate,
-			mentor_approval_date as mentorApprovalDate,
-			mentor_approval as mentorApproval,
-			admin_id as adminId,
-			previous_year as previousYear,
-			previous_year_sales as previousYearSales,
-			sales_suitability as salesSuitability,
-			career_year as careerYear,
-			career_month as careerMonth,
-			career_suitability as careerSuitability,
-			documentary_evidence as documentaryEvidence
+		select
+		mentor_app_code as MentorAppCode,
+		company_code as companyCode,
+		member_id as memberId,
+		mentor_apply_date as mentorApplyDate,
+		mentor_approval_date as mentorApprovalDate,
+		mentor_approval as mentorApproval,
+		admin_id as adminId,
+		previous_year as previousYear,
+		previous_year_sales as previousYearSales,
+		sales_suitability as salesSuitability,
+		career_year as careerYear,
+		career_month as careerMonth,
+		career_suitability as careerSuitability,
+		documentary_evidence as documentaryEvidence
 		from
-			mentor_apply
-		where 
-			company_code = #{companyCode};
+		mentor_apply
+		where
+		company_code = #{companyCode};
 	</select>
 	<select id="getMMRegType" resultType="int">
-		select 
-			IFNULL(farm_level_num, 0) as farmLevelNum
+		select
+		IFNULL(farm_level_num, 0) as farmLevelNum
 		from
-			company_info
-		where 
-			company_code = #{companyCode};
+		company_info
+		where
+		company_code = #{companyCode};
 	</select>
-	<select id="getMMContractInfo" parameterType="String" resultMap="MMContractInfoMap">
-		select 
-			*,mcr.member_id
-		from 
-			mentor_contract_registration mcr
-			left join
-			mentor_apply ma 
-			using (company_code)
-			left join
-			company_info ci 
-			using (company_code)
+	<select id="getMMContractInfo" parameterType="String"
+		resultMap="MMContractInfoMap">
+		select
+		*,mcr.member_id
+		from
+		mentor_contract_registration mcr
+		left join
+		mentor_apply ma
+		using (company_code)
+		left join
+		company_info ci
+		using (company_code)
 		<where>
 			<if test="searchValue != ''">${searchKey} = #{searchValue}</if>
 		</where>
 	</select>
-	<select id="getMMContractApproveList" parameterType="String" resultMap="AllContractInfoMap">
+	<select id="getContractInfoByKeyValue" parameterType="Map"
+		resultMap="AllContractInfoMap">
 		select
-			*
+		*
 		from
-			all_contract
+		all_contract
 		<where>
-			contract_type = 'mentormentee'
-			<if test="searchKey != null and searchValue != ''">and ${searchKey} = #{searchValue}</if>
+			<if test="value1 != null and value1 != ''"> ${key1} = #{value1}</if>
+			<if test="value2 != null and value2 != ''">and ${key2} = #{value2}</if>
+			<if test="value3 != null and value3 != ''">and ${key3} = #{value3}</if>
 		</where>
+		
+		
+
 	</select>
 </mapper>

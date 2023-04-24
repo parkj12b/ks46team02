@@ -1,14 +1,19 @@
 package ks46team02.common.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import ks46team02.common.dto.AdminMember;
+import ks46team02.common.dto.AllContractInfo;
 import ks46team02.common.dto.Member;
 import ks46team02.common.dto.MemberLoginInfo;
 import ks46team02.common.emailTest.EmailService;
@@ -114,7 +119,27 @@ public class CommonController {
     }
 	
 	@GetMapping("/contractPaper")
-	public String getContractPaperDetail(HttpSession session) {
+	public String getContractPaperDetail(Model model, HttpSession session, @RequestParam(name="contractCode") String contractCode) {
+		Map<String,String> keyValue = new HashMap<String,String>();
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		if(companyCode == null) {
+			return "redirect:/";
+		}
+		
+		keyValue.put("key1", "contract_code");
+		keyValue.put("value1", contractCode);
+		keyValue.put("key2", "contractor_company_code");
+		keyValue.put("value2", companyCode);
+		
+		
+		AllContractInfo contractInfo = mentorMenteeService.getMMContractByKeyValue(keyValue);
+		
+		if(contractInfo == null) {
+			return "redirect:/";
+		}
+		
+		log.info("{}",contractInfo);
+		model.addAttribute("contractInfo",contractInfo);
 		
 		return "contractPaper";
 	}

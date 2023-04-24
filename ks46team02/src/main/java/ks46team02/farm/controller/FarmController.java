@@ -1,5 +1,6 @@
 package ks46team02.farm.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
-import ks46team02.company.dto.AllContractInfo;
+import ks46team02.common.dto.AllContractInfo;
 import ks46team02.farm.dto.Cage;
 import ks46team02.farm.dto.Cycle;
 import ks46team02.farm.dto.FarmInfo;
@@ -233,7 +234,15 @@ public class FarmController {
 	public String mentorMenteeContractApprove(Model model, HttpSession session) {
 		
 		String companyCode = (String) session.getAttribute("sessionCompanyCode");
-		List<AllContractInfo> contractList = mentorMenteeService.getMMContractApproveList("contractor_company_code", companyCode);
+		Map<String, String> keyValue = new HashMap<String,String>();
+		keyValue.put("key1", "contractor_company_code");
+		keyValue.put("value1", companyCode);
+		keyValue.put("key2", "contract_type");
+		keyValue.put("value2", "mentormentee");
+		keyValue.put("key3", "contract_approval");
+		keyValue.put("value3", "under review");
+		
+		List<AllContractInfo> contractList = mentorMenteeService.getMMContractListByKeyValue(keyValue);
 		model.addAttribute("contractList",contractList);
 		log.info("{}",contractList);
 		return "farm/my_mm_contract_approve_list";
