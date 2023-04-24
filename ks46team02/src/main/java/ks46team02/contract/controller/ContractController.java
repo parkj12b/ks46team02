@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/contract")
 public class ContractController {
 
-    @GetMapping("/contract_info")
+    @GetMapping("/contractInfo")
     public String getContractInfo(Model model){
         model.addAttribute("title","계약상세정보");
 
         return "contract/contract_info";
     }
 
-    @GetMapping("/contract_list")
+    @GetMapping("/contractList")
     public String getContractList(Model model){
         model.addAttribute("title","계약관리");
 
