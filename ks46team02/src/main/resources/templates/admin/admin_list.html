@@ -121,12 +121,14 @@ $(document).ready(function() {
 												<td th:text="${l.adminLevel}"></td>
 												<td th:text="${l.adminPhone}"></td>
 												<td th:text="${l.adminRegDate}"></td>
-												<td>                                            
+												<td th:if="${l.adminId != 'master'}">                                            
                                             		<a th:href="@{/admin/admin_modify(adminId=${adminId})}">수정</a>
                                             	</td>
-                                            	<td>
+                                            	<td th:if="${l.adminId != 'master'}">
                                             		<a href="#" class="delete"><i class="fa fa-close"></i> 삭제</a>
                                                </td>
+                                                 <td th:if="${l.adminId == 'master'}"></td>
+                                                 <td th:if="${l.adminId == 'master'}"></td>
 											</tr>
 										</tbody>
                                     </table>

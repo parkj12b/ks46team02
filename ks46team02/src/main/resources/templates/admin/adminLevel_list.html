@@ -133,12 +133,14 @@ $(document).ready(function() {
 												<td th:text="${l.adminSetting}"></td>
 												<td th:text="${l.adminPayment}"></td>
 												<td th:text="${l.adminRegDate}"></td>
-												<td>                                            
+												<td th:if="${l.adminLevel != '0'}">                                                
                                             		<a href="#"><i class="fa fa-edit"></i> 수정</a>
                                             	</td>
-                                            	<td>
+                                            	<td th:if="${l.adminLevel != '0'}">
                                             		<a href="#" class="delete"><i class="fa fa-close"></i> 삭제</a>
                                                </td>
+                                                 <td th:if="${l.adminLevel == '0'}"></td>
+                                                 <td th:if="${l.adminLevel == '0'}"></td>
 											</tr>
 										</tbody>
                                     </table>

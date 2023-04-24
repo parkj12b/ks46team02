@@ -99,7 +99,6 @@ public class AdminController {
 
 		return "admin/admin_list";
 	}
-	/* 특정 관리자 조회*/
 	
 	/* 관리자 수정 */
 	@PostMapping("/admin_modify")
@@ -142,16 +141,16 @@ public class AdminController {
 		model.addAttribute("title", "회원 등급 등록");
 		return "admin/memberLevel_add";
 	}
-	 /* 회원 등급 조회 */
-		@GetMapping("/memberLevel_list")
-		public String getMemberLevelList(Model model) {
-			List<MemberLevel> memberLevelList = memberLevelService.getAdminLevelList();
+	/* 회원 등급 조회 */
+	@GetMapping("/memberLevel_list")
+	public String getMemberLevelList(Model model) {
+		List<MemberLevel> memberLevelList = memberLevelService.getAdminLevelList();
 
-			model.addAttribute("title", "회원 등급 조회");
-			model.addAttribute("memberLevelList", memberLevelList);
+		model.addAttribute("title", "회원 등급 조회");
+		model.addAttribute("memberLevelList", memberLevelList);
 
-			return "admin/memberLevel_list";
-		}
+		return "admin/memberLevel_list";
+	}
 	/* 전체 회원 배송지 목록 조회 */
 	@GetMapping("/addr_list")
 	public String getAddrList(Model model) {
