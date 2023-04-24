@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mypageLayout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+#editor-container {
+	max-width: 874px;
+	margin: 50px auto 0;
+}
+
+</style>
+</head>
+<th:block layout:fragment="customJs">
+	<script>
+	const useDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+	const isSmallScreen = window.matchMedia('(max-width: 1023.5px)').matches;
+	
+	
+	
+	$('#get-code').click(function(){
+		let htmlCode = tinymce.get("mytextarea").getContent();
+		alert(htmlCode);
+	})
+	$('#set-code').click(function(){
+		tinymce.get("mytextarea").setContent("<p>You have set the default template<p>");
+	})
+//editor1.setHTMLCode("Use inline HTML or setHTMLCode to init the default content.");
+	
+	let htmlInput = $('#inputHTML').change(function(e){
+		let HtmlFile = $('#inputHTML')[0].files[0];
+		var data = e.target;
+		
+		var reader = new FileReader();
+		reader.onload = function(){
+			console.log(reader.result);
+			tinymce.get("mytextarea").setContent(reader.result);
+		};
+		reader.readAsText(HtmlFile);
+		
+	})
+	
+	
+	tinymce.init({
+		//editor size setting
+		//Autoresize texarea
+
+//Nonresize textarea
+		//initial value
+		setup: function (editor) {
+	      editor.on('init', function (e) {
+	        editor.setContent(`[[${mmContractInfo.contractContent}]]`);
+	      });
+	    },
+		//editor size setting
+		selector: '#mytextarea',
+		  plugins: 'autoresize preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
+		  editimage_cors_hosts: ['picsum.photos'],
+		  menubar: 'file edit view insert format tools table help',
+		  toolbar: 'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media template link anchor codesample | ltr rtl',
+		  toolbar_sticky: true,
+		  toolbar_sticky_offset: isSmallScreen ? 102 : 108,
+		  autosave_ask_before_unload: true,
+		  autosave_interval: '30s',
+		  autosave_prefix: '{path}{query}-{id}-',
+		  autosave_restore_when_empty: false,
+		  autosave_retention: '2m',
+		  image_advtab: true,
+		  link_list: [
+		    { title: 'My page 1', value: 'https://www.tiny.cloud' },
+		    { title: 'My page 2', value: 'http://www.moxiecode.com' }
+		  ],
+		  image_list: [
+		    { title: 'My page 1', value: 'https://www.tiny.cloud' },
+		    { title: 'My page 2', value: 'http://www.moxiecode.com' }
+		  ],
+		  image_class_list: [
+		    { title: 'None', value: '' },
+		    { title: 'Some class', value: 'class-name' }
+		  ],
+		  importcss_append: true,
+		  file_picker_callback: (callback, value, meta) => {
+		    /* Provide file and text for the link dialog */
+		    if (meta.filetype === 'file') {
+		      callback('https://www.google.com/logos/google.jpg', { text: 'My text' });
+		    }
+
+		    /* Provide image and alt text for the image dialog */
+		    if (meta.filetype === 'image') {
+		      callback('https://www.google.com/logos/google.jpg', { alt: 'My alt text' });
+		    }
+
+		    /* Provide alternative source and posted for the media dialog */
+		    if (meta.filetype === 'media') {
+		      callback('movie.mp4', { source2: 'alt.ogg', poster: 'https://www.google.com/logos/google.jpg' });
+		    }
+		  },
+		  templates: [
+		    { title: 'New Table', description: 'creates a new table', content: '<div class="mceTmpl"><table width="98%%"  border="0" cellspacing="0" cellpadding="0"><tr><th scope="col"> </th><th scope="col"> </th></tr><tr><td> </td><td> </td></tr></table></div>' },
+		    { title: 'Starting my story', description: 'A cure for writers block', content: 'Once upon a time...' },
+		    { title: 'New list with dates', description: 'New List with dates', content: '<div class="mceTmpl"><span class="cdate">cdate</span><br><span class="mdate">mdate</span><h2>My List</h2><ul><li></li><li></li></ul></div>' }
+		  ],
+		  template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
+		  template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
+		  
+		  image_caption: true,
+		  quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+		  noneditable_class: 'mceNonEditable',
+		  toolbar_mode: 'sliding',
+		  contextmenu: 'link image table',
+		  content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
+		  /* preview define to make it fit to the actual view size in contract view */
+			content_style: `
+		body {
+			max-width: 830px;
+			margin: 0 auto;
+			}
+		  `
+	  });
+	
+	
+	</script>
+</th:block>
+
+<body>
+	<th:block layout:fragment="customContent" th:object="${mmContractInfo}">
+		<div class="">
+
+			<div class="row">
+				<div class="col-md-9 col-sm-9" style="margin: 0px auto;">
+					<div class="x_panel">
+						<div class="x_title">
+							<h2>
+								동애등에 사육장 <small>나의 등록 계약 조회</small>
+							</h2>
+
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<br>
+							<form id="demo-form2" method="post"
+								class="form-horizontal form-label-left"
+								action="/farm/mmContractModifyAction">
+								<div class="item form-group">
+									<label class="col-form-label col-md-3 col-sm-3 label-align"
+										for="career-year">멘토 계약공고 코드</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="text" id="mentor-contract-reg-code"
+											name="mentorContractRegCode" required="required" readonly
+											class="form-control" th:value="*{mentorContractRegCode}">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="col-form-label col-md-3 col-sm-3 label-align"
+										for="career-month">업체코드 </label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="text" id="company-code" th:value="*{companyCode}"
+											name="companyCode" required="required" class="form-control">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="col-form-label col-md-3 col-sm-3 label-align"
+										for="career-month">계약 개월수(월) </label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="number" id="career-month"
+											th:value="*{contractPeriod}" name="contractPeriod"
+											required="required" class="form-control">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="col-form-label col-md-3 col-sm-3 label-align"
+										for="career-month">회원아이디</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="text" id="career-month" name="memberId"
+											required="required" class="form-control"
+											th:value="${session.sessionId}">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="col-form-label col-md-3 col-sm-3 label-align"
+										for="career-month">총 방문 횟수</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="number" id="career-month" name="totalVisitation"
+											required="required" class="form-control"
+											th:value="*{totalVisitation}">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="col-form-label col-md-3 col-sm-3 label-align"
+										for="career-month">월별 방문횟수</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="number" id="career-month" name="monthVisitation"
+											required="required" class="form-control"
+											th:value="*{monthVisitation}">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="col-form-label col-md-3 col-sm-3 label-align"
+										for="career-month">총 계약 비용(만원)</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="number" id="career-month" name="contractCost"
+											required="required" class="form-control"
+											th:value="*{contractCost}">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="col-form-label col-md-3 col-sm-3 label-align"
+										for="career-month">계약금(만원)</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="number" id="career-month" name="deposit"
+											required="required" class="form-control"
+											th:value="*{deposit}">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="col-form-label col-md-3 col-sm-3 label-align"
+										for="career-month">계약 제목</label>
+									<div class="col-md-6 col-sm-6 ">
+										<input type="text" id="career-month"
+											name="mentorContractTitle" required="required"
+											class="form-control" th:value="*{mentorContractTitle}">
+									</div>
+								</div>
+								<label for="contractContent">계약 내용:</label>
+								<!--Include the JS & CSS-->
+								<button type="button" id="get-code">html code</button>
+								<button type="button" id="set-code">html code</button>
+								<input id="inputHTML" name="inputHTML" type="file"
+									accept=".html" />
+								<div style="float: right;">
+									<p>view -> preview 를 눌러 실제 공고시사를 확인하세요.</p>
+								</div>
+
+								<div id="editor-container">
+									<textarea id="mytextarea" name="contractContent"></textarea>
+								</div>
+								<button type="submit">수정</button>
+
+							</form>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</th:block>
+</body>
+</html>
