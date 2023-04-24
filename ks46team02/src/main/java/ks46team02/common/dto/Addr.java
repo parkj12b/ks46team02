@@ -1,4 +1,4 @@
-package ks46team02.admin.dto;
+package ks46team02.common.dto;
 
 public class Addr {
 	private String addrCode;
