@@ -85,36 +85,26 @@
     </select>
 
    <select id="getProductionList" resultType ="Production">
-	    SELECT 
-	    production_code AS productionCode,
-	    company_code AS companyCode,
-	    farm_code AS farmCode,
-	    expected_cage_production_code AS expectedCageProductionCode,
-	    real_harvest_day AS realHarvestDay,
-	    real_production AS realProduction,
-	    loss_rate AS lossRate,
-	    member_id AS memberId,
-	    production_reg_date AS productionRegDate
-	    FROM
-	    production
-	    <where>
-	        farm_code = #{farmCode}
-	        <if test="searchKey != null and searchKey != ''">
-	            and (${searchKey} LIKE CONCAT('%', #{searchValue}, '%'))
-	        </if>
-	        <if test="fromDate != null and fromDate != '' and toDate != null and toDate != ''">
-	            AND DATE_FORMAT(production_reg_date, '%Y-%m-%d') BETWEEN #{fromDate} AND #{toDate}
-	        </if>
-	        <if test="fromDate != null and fromDate != '' and (toDate == null or toDate == '')">
-	            AND DATE_FORMAT(production_reg_date, '%Y-%m-%d') &gt;= #{fromDate}
-	        </if>
-	        <if test="(fromDate == null or fromDate == '') and toDate != null and toDate != ''">
-	            AND DATE_FORMAT(real_harvest_day, '%Y-%m-%d') &lt;= #{toDate}
-	        </if>
-	        <if test="(fromDate == null or fromDate == '') and (toDate == null or toDate == '')">
-	            <!-- 날짜 필터가 적용되지 않음 -->
-	        </if>
-	    </where>
+	   SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d') AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+			INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		WHERE
+			  p.farm_code = #{farmCode}
+		ORDER BY real_harvest_day  DESC;
+	
 	</select>
 
 

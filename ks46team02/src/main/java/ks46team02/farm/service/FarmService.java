@@ -53,21 +53,8 @@ public class FarmService {
         List<Feed> feedList = farmMapper.getFeedList(cycleCode);
         return feedList;
     }
-    public  List<Production> getProductionList(String farmCode, String searchKey, String searchValue, String fromDate, String toDate){    	
-    	if(searchKey != null) {
-    		switch (searchKey) {
-			case "productionCode":
-				searchKey = "production_code";
-				break;
-			case "cycleCode":
-				searchKey = "expected_cage_production_code";
-				break;
-
-			default:
-				break;
-			}
-    	}
-        List<Production> productionList = farmMapper.getProductionList(farmCode, searchKey, searchValue, fromDate, toDate);       
+    public  List<Production> getProductionList(String farmCode){    		
+        List<Production> productionList = farmMapper.getProductionList(farmCode);       
         return productionList;
     }
     public FarmInfo getFarmInfoByCode(String farmCode){

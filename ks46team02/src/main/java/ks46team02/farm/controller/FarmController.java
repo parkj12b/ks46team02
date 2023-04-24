@@ -43,7 +43,8 @@ public class FarmController {
 	
 
 
-	@RequestMapping(value = "/farmDetail", method = {RequestMethod.GET, RequestMethod.POST})
+
+	@GetMapping("/farmDetail")
 	public String getFarmDetail(Model model
 								 ,@RequestParam(name="tapName", required = false) String tapName
 								 ,@RequestParam(name="farmCode") String farmCode
@@ -55,7 +56,7 @@ public class FarmController {
 		String companyCode =(String) session.getAttribute("sessionCompanyCode");
 		FarmInfo farmInfo = farmService.getFarmInfoByCode(farmCode);
 		List<Cycle> cycleList = farmService.getCycleList(farmCode,companyCode);
-		List<Production> productionList = farmService.getProductionList(farmCode,searchKey,searchValue,fromDate,toDate);
+		List<Production> productionList = farmService.getProductionList(farmCode);
 		model.addAttribute("title","사육장 정보");
 		model.addAttribute("farmInfo", farmInfo);
 		model.addAttribute("cycleList",cycleList);
