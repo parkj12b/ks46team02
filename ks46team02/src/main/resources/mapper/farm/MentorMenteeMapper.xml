@@ -100,4 +100,8 @@
 			<if test="searchValue != ''">${searchKey} = #{searchValue}</if>
 		</where>
 	</select>
+	<select id="getContractInfo" parameterType="String" resultMap="MMContractInfoMap">
+		select
+			
+	</select>
 </mapper>
