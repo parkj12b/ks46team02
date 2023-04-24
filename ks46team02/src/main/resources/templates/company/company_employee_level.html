@@ -80,15 +80,18 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr role="row" class="odd">
-                                                <td>com1</td>
-                                                <td>건조1</td>
-                                                <td>건조</td>
-                                                <td>o</td>
-                                                <td>o</td>
-                                                <td>o</td>
-                                                <td>o</td>
+                                            <tr role="row" class="odd" th:unless="${companyPositionLevel == null}" th:each="l : ${companyPositionLevel}">
+                                                <td th:text="${l.positionLevelCode}"></td>
+                                                <td th:text="${l.memberLevelName}"></td>
+                                                <td th:text="${l.mentorMenteeManagement}"></td>
+                                                <td th:text="${l.contractManagement}"></td>
+                                                <td th:text="${l.paymentManagement}"></td>
+                                                <td th:text="${l.companyInfoManagement}"></td>
+                                                <td th:text="${l.mentorMenteeManagement}"></td>
                                                 <td><a th:href="@{/company/company_info}">수정</a></td>
+                                            </tr>
+                                            <tr th:if="${companyPositionLevel == null}">
+                                                <td>등록된 업체별 등급이 없습니다.</td>
                                             </tr>
 
                                             </tbody>

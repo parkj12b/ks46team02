@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default}">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title _msttexthash="44395234" _msthash="0">젠텔렐라 알레라! |</title>
+
+<link href="../vendors/bootstrap/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<link href="../vendors/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet">
+
+<link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+
+<link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+
+<link href="../build/css/custom.min.css" rel="stylesheet">
+<meta name="robots" content="index, nofollow">
+<script defer="" referrerpolicy="origin"
+	src="/cdn-cgi/zaraz/s.js?z=JTdCJTIyZXhlY3V0ZWQlMjIlM0ElNUIlNUQlMkMlMjJ0JTIyJTNBJTIyR2VudGVsZWxsYSUyMEFsZWxhISUyMCU3QyUyMCUyMiUyQyUyMnglMjIlM0EwLjk2NDY0NDI1ODc5NzE4MzMlMkMlMjJ3JTIyJTNBMTY2NCUyQyUyMmglMjIlM0ExMTEwJTJDJTIyaiUyMiUzQTk5MSUyQyUyMmUlMjIlM0ExNjY0JTJDJTIybCUyMiUzQSUyMmh0dHBzJTNBJTJGJTJGY29sb3JsaWIuY29tJTJGcG9seWdvbiUyRmdlbnRlbGVsbGElMkZ0YWJsZXMuaHRtbCUyMiUyQyUyMnIlMjIlM0ElMjJodHRwcyUzQSUyRiUyRmNvbG9ybGliLmNvbSUyRnBvbHlnb24lMkZnZW50ZWxlbGxhJTJGdGFibGVzX2R5bmFtaWMuaHRtbCUyMiUyQyUyMmslMjIlM0EyNCUyQyUyMm4lMjIlM0ElMjJVVEYtOCUyMiUyQyUyMm8lMjIlM0EtNTQwJTJDJTIycSUyMiUzQSU1QiU1RCU3RA=="></script>
+<script nonce="7189b0fe-9bb7-417b-94b5-3a28c76a6569">(function(w,d){!function(cO,cP,cQ,cR){cO[cQ]=cO[cQ]||{};cO[cQ].executed=[];cO.zaraz={deferred:[],listeners:[]};cO.zaraz.q=[];cO.zaraz._f=function(cS){return function(){var cT=Array.prototype.slice.call(arguments);cO.zaraz.q.push({m:cS,a:cT})}};for(const cU of["track","set","debug"])cO.zaraz[cU]=cO.zaraz._f(cU);cO.zaraz.init=()=>{var cV=cP.getElementsByTagName(cR)[0],cW=cP.createElement(cR),cX=cP.getElementsByTagName("title")[0];cX&&(cO[cQ].t=cP.getElementsByTagName("title")[0].text);cO[cQ].x=Math.random();cO[cQ].w=cO.screen.width;cO[cQ].h=cO.screen.height;cO[cQ].j=cO.innerHeight;cO[cQ].e=cO.innerWidth;cO[cQ].l=cO.location.href;cO[cQ].r=cP.referrer;cO[cQ].k=cO.screen.colorDepth;cO[cQ].n=cP.characterSet;cO[cQ].o=(new Date).getTimezoneOffset();if(cO.dataLayer)for(const da of Object.entries(Object.entries(dataLayer).reduce(((db,dc)=>({...db[1],...dc[1]})))))zaraz.set(da[0],da[1],{scope:"page"});cO[cQ].q=[];for(;cO.zaraz.q.length;){const dd=cO.zaraz.q.shift();cO[cQ].q.push(dd)}cW.defer=!0;for(const de of[localStorage,sessionStorage])Object.keys(de||{}).filter((dg=>dg.startsWith("_zaraz_"))).forEach((df=>{try{cO[cQ]["z_"+df.slice(7)]=JSON.parse(de.getItem(df))}catch{cO[cQ]["z_"+df.slice(7)]=de.getItem(df)}}));cW.referrerPolicy="origin";cW.src="/cdn-cgi/zaraz/s.js?z="+btoa(encodeURIComponent(JSON.stringify(cO[cQ])));cV.parentNode.insertBefore(cW,cV)};["complete","interactive"].includes(cP.readyState)?zaraz.init():cO.addEventListener("DOMContentLoaded",zaraz.init)}(w,d,"zarazData","script");})(window,document);</script>
+
+</head>
+<body>
+
+	<th:block layout:fragment="customContent">
+		<section class="py-2">
+			<div class="container px-4 px-lg-5 mt-1">
+				<h2>Q & A</h2>
+				<div class="row">
+					<div class="col-sm-3"></div>
+					<div class="col-sm-6 col-lg-12">
+						<div class="card shadow">
+							<div class="card-body">
+								<div class="form-group mb-3">
+
+									<label for="memberId" class="form-label">작성자</label> <input
+										type="text" id="memberId" name="memberId"
+										class="form-control" value=""
+										disabled="disabled" />
+								</div>
+								<div class="form-group mb-3">
+									<label for="" class="form-label">작성날짜</label> <input
+										type="text" id="" name="" class="form-control"
+										value="" disabled="disabled" />
+								</div>
+								<div class="form-group mb-3">
+									<label for="" class="form-label">제목</label> <input
+										type="text" id="" name="" class="form-control"
+										value="" disabled="disabled" />
+								</div>
+								<div class="form-group mb-3">
+									<label for="" class="form-label">내용</label>
+									<textarea id="" name="" class="form-control" rows="10"
+										style="resize: none" disabled="disabled"></textarea>
+								</div>
+								<th:if test="">
+									<div class="form-group mb-3">
+										<label for="board_file" class="form-label">첨부 이미지</label> <img
+											src="" width="50%" />
+									</div>
+								</th:if>
+								<div class="form-group mb-3">
+									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+										<a
+											href=""
+											class="btn btn-outline-dark">목록보기</a> <a
+											href=""
+											class="btn btn-outline-dark">수정하기</a> <a
+											href="}"
+											onclick="return cinfirm('정말 삭제하시겠습니까?');"
+											class="btn btn-outline-dark">삭제하기</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-3"></div>
+					<div class="m-1"></div>
+					Comments section
+					<section class="mb-5">
+						<div class="card bg-light">
+							<div class="card-body">
+								Comment form
+								<th:form action="" method="post"
+									modelAttribute="writeCommentBean" class="mb-4">
+									<input type="hidden" name="j_board_info_idx"
+										value="" />
+									<input type="hidden" name="j_board_idx" value="}" />
+									<input type="hidden" name="page" value="" />
+									<input type="hidden" name=""
+										value="" />
+									<textarea path="" class="form-control" rows="3"
+										placeholder="Join the discussion and leave a comment!"></textarea>
+									<th:errors path="" style="color:red" />
+									<div class="m-2"></div>
+									<div class="form-group mb-3">
+										<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+											<th:button class="btn btn-outline-dark">댓글입력</th:button>
+										</div>
+									</div>
+								</th:form>
+
+								<th:forEach var="item" items="">
+									<div class="d-flex mt-2">
+										<th:if test="">
+											Single comment
+											<div class="flex-shrink-0">
+												<img class="rounded-circle"
+													src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
+													alt="..." />
+											</div>
+										</th:if>
+										<div class="ms-3">
+											<th:if test="">
+												<div>
+													<span class="fw-bold"></span> -
+													 <a class="btn btn-warning btn-sm"
+														data-bs-toggle="collapse" href="#collapse"
+														role="button" aria-expanded="false"
+														aria-controls="collapse">댓글</a>
+													<th:if test="">
+														<a
+															href=""
+															onclick="return confirm('정말 삭제하시겠습니까?');"
+															class="btn btn-danger btn-sm">삭제</a>
+													</th:if>
+												</div>
+							
+											</th:if>
+											<th:forEach var="child" items="">
+												<th:if
+													test="">
+													Child comment
+													<div class="d-flex mt-2">
+														<div class="flex-shrink-0">
+															<img class="rounded-circle"
+																src="https://dummyimage.com/50x50/ced4da/6c757d.jpg"
+																alt="..." />
+														</div>
+														<div class="ms-3">
+															<div>
+																<span class="fw-bold"></span>
+																
+																<th:if test="">
+																	<a
+																		href=""
+																		onclick="return confirm('정말 삭제하시겠습니까?');"
+																		class="btn btn-danger btn-sm">삭제</a>
+																</th:if>
+															</div>
+														
+														</div>
+													</div>
+												</th:if>
+											</th:forEach>
+										</div>
+									</div>
+
+									<div class="collapse" id="collapse">
+										<th:form action=c" method="post"
+											modelAttribute="writeCommentBean" class="mb-4">
+											<input type="hidden" name=""
+												value="" />
+											<input type="hidden" name="" value="" />
+											<input type="hidden" name="page" value="" />
+											<input type="hidden" name=""
+												value="" />
+											<input type="hidden" name=""
+												value="" />
+											<input type="hidden" name="
+												value="" />
+											<th:textarea path="" class="form-control" rows="3"
+												placeholder="Join the discussion and leave a comment!"></th:textarea>
+											<th:errors path="" style="color:red" />
+											<div class="m-2"></div>s
+											<div class="form-group mb-3">
+												<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+													<th:button class="btn btn-warning">댓글입력</th:button>
+												</div>
+											</div>
+										</th:form>
+									</div>
+								</th:forEach>
+							</div>
+						</div>
+					</section>
+				</div>
+			</div>
+
+		</section>
+	</th:block>
+
+</html> -->

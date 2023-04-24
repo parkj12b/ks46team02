@@ -2,7 +2,9 @@ package ks46team02.company.controller;
 
 
 import ks46team02.company.dto.Company;
+import ks46team02.company.dto.CompanyPositionLevel;
 import ks46team02.company.dto.CompanyType;
+import ks46team02.company.dto.FarmProductCategory;
 import ks46team02.company.mapper.CompanyMapper;
 import ks46team02.company.service.CompanyService;
 import org.slf4j.Logger;
@@ -29,85 +31,88 @@ public class CompanyController {
 
     }
 
-    @PostMapping("/company_delete")
+    @PostMapping("/deleteCompany")
     public String deleteCompany(){
         String redirectURI = "redirect:/company/company_delete/deleteCompany?";
         return redirectURI;
     }
-    @GetMapping("/company_employee_level")
+    @GetMapping("/companyEmployeeLevel")
     public String getCompanyEmployeeLevel(Model model){
-
+        List<CompanyPositionLevel> companyPositionLevelList = companyService.getCompanyPositionList();
         model.addAttribute("title","업체별 사원 등급관리");
+        model.addAttribute("companyPositionLevel",companyPositionLevelList);
         return "company/company_employee_level";
     }
 
-    @GetMapping("/company_product_category_modify")
+    @GetMapping("/modifyCompanyProductCategory")
     public String modifyProductCategory(Model model){
 
         model.addAttribute("title","제품카테고리수정");
-        return "company/company_product_category_modify";
+        return "company/modify_company_product_category";
     }
 
-    @GetMapping("/company_product_insert")
+    @GetMapping("/insertCompanyProduct")
     public String companyProductInsert(Model model){
 
         model.addAttribute("title","제품카테고리등록");
-        return "company/company_product_insert";
+        return "company/insert_company_product";
     }
 
-    @GetMapping("/company_product_category")
+    @GetMapping("/companyProductCategory")
     public String getCompanyProductCategory(Model model){
-
+        List<FarmProductCategory> farmProductCategoryList = companyService.getFarmProductCategoryList();
         model.addAttribute("title","사육업체제품종류");
+        model.addAttribute("farmProductCategoryList",farmProductCategoryList);
         return "company/company_product_category";
     }
 
-    @GetMapping("/company_type_insert")
+    @GetMapping("/companyTypeInsert")
     public String companyTypeInsert(Model model){
 
         model.addAttribute("title","업체종류추가");
-        return "company/company_type_insert";
+        return "company/insert_company_type";
     }
 
-    @GetMapping("/company_type_list")
+    @GetMapping("/companyTypeList")
     public String getCompanyType(Model model){
-
+        List<CompanyType> companyTypeList = companyService.getCompanyTypeList();
         model.addAttribute("title","업체종류");
+        model.addAttribute("companyTypeList", companyTypeList);
         return "company/company_type_list";
     }
-    @PostMapping("/company_add")
+    @PostMapping("/addCompany")
     public String addCompany(Company company){
         log.info("화면에서 전달받은 데이터 : {}", company);
         companyService.addCompany(company);
-        return "redirect:/company/company_add";
+        return "redirect:/company/addCompany";
     }
 
-    @GetMapping("/company_add")
+    @GetMapping("/addCompany")
     public String companyAdd(Model model){
 
         List<CompanyType> companyTypeList = companyService.getCompanyTypeList();
 
         model.addAttribute("title","업체등록");
         model.addAttribute("companyTypeList",companyTypeList);
-        return "company/company_add";
+        return "company/add_company";
     }
 
-    @PostMapping("/company_modify")
+    @PostMapping("/modifyCompany")
     public String modifyCompany(Company company){
 
         companyMapper.modifyCompany(company);
         return "redirect:/company/company_list";
     }
-    @GetMapping("/company_modify")
+    @GetMapping("/modifyCompany")
     public String modifyCompany(Model model
                                ,@RequestParam(name="companyCode") String companyCode){
         Company companyInfo = companyService.getCompanyInfoByCode(companyCode);
         model.addAttribute("title","업체수정");
         model.addAttribute("companyInfo", companyInfo);
-        return "company/company_modify";
+        return "company/modify_company";
     }
 
-    @GetMapping("/company_info")
+    @GetMapping("/companyInfo")
     public String getCompanyInfo(Model model
                                 , @RequestParam(name="companyCode") String companyCode){
         Company companyInfo = companyService.getCompanyInfoByCode(companyCode);
@@ -118,7 +123,7 @@ public class CompanyController {
         return "company/company_info";
     }
 
-    @GetMapping("/company_list")
+    @GetMapping("/companyList")
     public String getCompanyList(Model model){
 
         List<Company> companyList = companyService.getCompanyList();

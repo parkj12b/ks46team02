@@ -200,17 +200,17 @@
 			<li><a><i class="fa fa-question-circle"></i> 플랫폼 문의 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="#">#문의 내역 관리</a></li>
-					<li><a href="#">#문의 답변 관리</a></li>
-					<li><a href="#">#문의 유형 목록 관리(카테고리 등록)</a></li>
+					<li><a th:href="@{/customerservice/questionlist}">#문의 내역 관리</a></li>
+					<li><a th:href="@{/customerservice/answerlist}">#문의 답변 관리</a></li>
+					<li><a th:href="@{/customerservice/questiontypelist}">#문의 유형 목록 관리(카테고리 등록)</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-building-o"></i> 업체 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a th:href="@{/company/company_list}">!최학준 업체관리</a></li>
-					<li><a th:href="@{/company/company_type_list}">!최학준 업체 종류 관리</a></li>
-					<li><a th:href="@{/company/company_employee_level}">!최학준 업체별 사원 등급 관리</a></li>
-					<li><a th:href="@{/company/company_product_category}">!최학준 사육장 제품 카테고리 관리</a></li>
+					<li><a th:href="@{/company/companyList}">!최학준 업체관리</a></li>
+					<li><a th:href="@{/company/companyTypeList}">!최학준 업체 종류 관리</a></li>
+					<li><a th:href="@{/company/companyEmployeeLevel}">!최학준 업체별 사원 등급 관리</a></li>
+					<li><a th:href="@{/company/companyProductCategory}">!최학준 사육장 제품 카테고리 관리</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-file-text-o"></i> 계약 <span
 					class="fa fa-chevron-down"></span></a>
