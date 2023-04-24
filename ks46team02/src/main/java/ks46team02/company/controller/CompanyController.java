@@ -1,6 +1,7 @@
 package ks46team02.company.controller;
 
 
+import jakarta.servlet.http.HttpSession;
 import ks46team02.company.dto.Company;
 import ks46team02.company.dto.CompanyPositionLevel;
 import ks46team02.company.dto.CompanyType;
@@ -51,8 +52,19 @@ public class CompanyController {
         return "company/modify_company_product_category";
     }
 
+    @PostMapping("/insertCompanyProduct")
+    public String insertCompanyProduct(FarmProductCategory farmProductCategory
+                                      ,HttpSession session
+                                      ){
+        String adminId = (String)session.getAttribute("sessionId");
+        farmProductCategory.setAdminId(adminId);
+        companyService.insertCompanyProduct(farmProductCategory);
+        return "redirect:/company/companyProductCategory";
+    };
+
     @GetMapping("/insertCompanyProduct")
-    public String companyProductInsert(Model model){
+    public String companyProductInsert(Model model
+                                      ){
 
         model.addAttribute("title","제품카테고리등록");
         return "company/insert_company_product";
@@ -66,7 +78,7 @@ public class CompanyController {
         return "company/company_product_category";
     }
 
-    @GetMapping("/companyTypeInsert")
+    @GetMapping("/insertCompanyType")
     public String companyTypeInsert(Model model){
 
         model.addAttribute("title","업체종류추가");
@@ -101,7 +113,7 @@ public class CompanyController {
     public String modifyCompany(Company company){
 
         companyMapper.modifyCompany(company);
-        return "redirect:/company/company_list";
+        return "redirect:/company/companyList";
     }
     @GetMapping("/modifyCompany")
     public String modifyCompany(Model model
@@ -112,11 +124,11 @@ public class CompanyController {
         return "company/modify_company";
     }
 
+
     @GetMapping("/companyInfo")
     public String getCompanyInfo(Model model
                                 , @RequestParam(name="companyCode") String companyCode){
         Company companyInfo = companyService.getCompanyInfoByCode(companyCode);
-
         model.addAttribute("title", "업체상세정보");
         model.addAttribute("companyInfo", companyInfo);
 

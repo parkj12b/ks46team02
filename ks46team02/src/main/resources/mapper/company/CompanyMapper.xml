@@ -24,8 +24,15 @@
         <result column="breeder_level_name"         property="breederLevelName"/>
     </resultMap>
 
+    <insert id="insertCompanyProduct" parameterType="FarmProductCategory">
+        /* 사육업체상품카테고리 등록 */
+        INSERT into farm_product_category
+            (product_category_code, product_name, admin_id, product_category_reg_date)
+        values
+            (#{productCategoryCode},#{productName},#{adminId},curdate());
+    </insert>
     <select id="getFarmProductCategoryList" resultType="FarmProductCategory">
-        /* 업체직원별권한조회 */
+        /* 사육업체상품카테고리조회 */
         SELECT
             product_category_code as productCategoryCode
             ,product_name as productName

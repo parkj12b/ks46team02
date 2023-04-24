@@ -18,6 +18,11 @@ public class CompanyService {
         this.companyMapper = companyMapper;
     }
 
+    public int insertCompanyProduct(FarmProductCategory farmProductCategory){
+        int result = companyMapper.insertCompanyProduct(farmProductCategory);
+        return result;
+    }
+
     public List<FarmProductCategory> getFarmProductCategoryList(){
         List<FarmProductCategory> farmProductCategoryList = companyMapper.getFarmProductCategoryList();
         return farmProductCategoryList;
