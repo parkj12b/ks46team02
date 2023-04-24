@@ -24,6 +24,33 @@
         <result column="breeder_level_name"         property="breederLevelName"/>
     </resultMap>
 
+    <select id="getFarmProductCategoryList" resultType="FarmProductCategory">
+        /* 업체직원별권한조회 */
+        SELECT
+            product_category_code as productCategoryCode
+            ,product_name as productName
+            ,admin_id as adminId
+            ,product_category_reg_date as productCategoryRegDate
+        FROM
+            farm_product_category;
+    </select>
+
+    <select id="getCompanyPositionList" resultType="CompanyPositionLevel">
+        /* 업체직원별권한조회 */
+        SELECT
+            position_level_code as positionLevelCode
+            ,member_level_name as memberLevelName
+            ,company_reg_date as companyRegDate
+            ,admin_id as adminId
+            ,member_management as memberManagement
+            ,contract_management as contractManagement
+            ,payment_management as paymentManagement
+            ,company_info_management as companyInfoManagement
+            ,mento_mentee_management as MentorMenteeManagement
+        FROM
+            company_position_level;
+    </select>
+
     <update id="modifyCompany" parameterType="Company">
         /* 업체정보 수정 */
         UPDATE company_info
