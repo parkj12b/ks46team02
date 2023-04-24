@@ -153,11 +153,11 @@
         SELECT
             ci.company_code
             ,ct.company_type
-            ,ci.Company_reg_num
+            ,ci.company_reg_num
             ,ci.member_id
-            ,ci.Company_tel
-            ,ci.Company_addr
-            ,ci.Company_name
+            ,ci.company_tel
+            ,ci.company_addr
+            ,ci.company_name
             ,ci.apply_date
             ,ci.approval_status
             ,ci.approval_denied_content
@@ -171,6 +171,6 @@
             inner join
             company_type as ct
             on
-            ci.company_type_num = ct.company_type_num ;
+            ci.company_type_num = ct.company_type_num;
     </select>
 </mapper>
