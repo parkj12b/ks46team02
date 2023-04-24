@@ -81,13 +81,17 @@
                                        th:value="*{adminEmail}"/>
                             </div>
                         </div>
-
-                        <div class="field item form-group">
-                            <label class="col-form-label col-md-3 col-sm-3  label-align required" for="companyTel">관리자 등급</label>
-                            <div class="col-md-3 col-sm-3">
-                                <input id="adminLevel" class="form-control" name="adminLevel"
-                                       th:value="*{adminLevel}"></div>
-                        </div>
+						<div class="form-group row">
+						  <label class="control-label col-md-3 col-sm-3 label-align" for="companyAddr">관리자 등급</label>
+						  <div class="col-md-3 col-sm-3">
+						    <select class="form-control" name="adminLevel">
+						      <option value="">---선택--</option>
+						      <th:block th:each="l : ${adminLevelList}" th:if="${l.adminLevel != '0'}">
+						        <option th:value="${l.adminLevel}" th:text="${l.adminLevel}"></option>
+						      </th:block>
+						    </select>
+						  </div>
+						</div>
 
 
                         <div class="field item form-group">

@@ -115,10 +115,11 @@ public class AdminController {
 							 ,@RequestParam(name="adminId") String adminId){
 		
 		AdminMember adminInfo = adminService.getAdminInfoById(adminId);
+		List<AdminMember> adminList = adminService.getAdminList();
 		log.info("log"+adminInfo );
 		model.addAttribute("title", "관리자 수정");
 		model.addAttribute("adminInfo", adminInfo);
-		
+		model.addAttribute("adminList", adminList);
 		return "admin/modify_admin";
 	}
 
