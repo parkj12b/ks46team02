@@ -36,6 +36,7 @@
 	<result column="reg_password" property="regPassword"></result>
 	<result column="farm_cnt" property="farmCnt"></result>
 	<result column="mentor_contract_title" property="mentorContractTitle"></result>
+	<result column="mcr.member_id" property="memberId"></result>
 </resultMap>
 	<select id="getMMRegStatMentee" resultType="MMRegInfoMentee">
 		select 
@@ -86,7 +87,7 @@
 	</select>
 	<select id="getMMContractInfo" parameterType="String" resultMap="MMContractInfoMap">
 		select 
-			*
+			*,mcr.member_id
 		from 
 			mentor_contract_registration mcr
 			left join
@@ -98,5 +99,9 @@
 		<where>
 			<if test="searchValue != ''">${searchKey} = #{searchValue}</if>
 		</where>
+	</select>
+	<select id="getContractInfo" parameterType="String" resultMap="MMContractInfoMap">
+		select
+			
 	</select>
 </mapper>

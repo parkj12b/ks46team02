@@ -9,6 +9,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title></title>
+<!-- tinyMCE for web WYSIWYG editor-->
+
+<script th:src="@{/vendors/tinymce/js/tinymce/tinymce.min.js}" referrerpolicy="origin"></script>
+
+
+
 <!-- popper js -->
 <script src="https://unpkg.com/@popperjs/core@2"></script>
 <!-- Bootstrap -->
@@ -23,20 +29,82 @@
 <link th:href="@{/vendors/dropzone/dist/min/dropzone.min.css}"
 	rel="stylesheet">
 <!-- Datatables -->
-    
-    <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+
+<link
+	href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css"
+	rel="stylesheet">
 <!-- Custom Theme Style -->
 <link th:href="@{/build/css/custom.min.css}" rel="stylesheet">
 <style>
 .nav-sm>.side-menu>li {
 	width: 70px;
 }
+
 .col-md-3 {
 	transition: width 1s ease;
+}
+
+/* tinyMCE style default setting */
+figure.image {
+  display: inline-block;
+  border: 1px solid gray;
+  margin: 0 2px 0 1px;
+  background: #f5f2f0;
+}
+
+figure.align-left {
+  float: left;
+}
+
+figure.align-right {
+  float: right;
+}
+
+figure.image img {
+  margin: 8px 8px 0 8px;
+}
+
+figure.image figcaption {
+  margin: 6px 8px 6px 8px;
+  text-align: center;
+}
+
+/*
+ Alignment using classes rather than inline styles
+ check out the "formats" option
+*/
+
+img.align-left {
+  float: left;
+}
+
+img.align-right {
+  float: right;
+}
+
+/* Basic styles for Table of Contents plugin (tableofcontents) */
+.mce-toc {
+  border: 1px solid gray;
+}
+
+.mce-toc h2 {
+  margin: 4px;
+}
+
+.mce-toc li {
+  list-style-type: none;
 }
 </style>
 </head>
@@ -46,8 +114,8 @@
 			<div class="col-md-3 left_col">
 				<div class="left_col scroll-view">
 					<div class="navbar nav_title" style="border: 0;">
-						<a href="/" class="site_title"><i class="fa fa-paw"></i>
-							<span>Gentelella Alela!</span> </a>
+						<a href="/" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella
+								Alela!</span> </a>
 					</div>
 
 					<div class="clearfix"></div>
@@ -68,7 +136,7 @@
 					<br />
 					<!-- sidebar menu -->
 					<th:block layout:fragment="sidebar"></th:block>
-					
+
 					<!-- /sidebar menu -->
 					<!-- /menu footer buttons -->
 					<!-- <div th:replace="~{fragments/menuFooter :: sidebarFooterFragment}"></div> -->
@@ -99,22 +167,30 @@
 	<script th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
 	<!-- NProgress -->
 	<script th:src="@{/vendors/nprogress/nprogress.js}"></script>
-	 <!-- Datatables -->
-    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-    <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-    <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-    <script src="../vendors/jszip/dist/jszip.min.js"></script>
-    <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
-    <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+	<!-- Datatables -->
+	<script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+	<script
+		src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+	<script
+		src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+	<script
+		src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+	<script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+	<script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+	<script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+	<script
+		src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+	<script
+		src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+	<script
+		src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+	<script
+		src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+	<script
+		src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+	<script src="../vendors/jszip/dist/jszip.min.js"></script>
+	<script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
+	<script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 	<script src="../vendors/sweetalert2/sweetalert2.js"></script>
 	<!-- Custom Theme Scripts -->
 	<script th:src="@{/build/js/custom.js}"></script>

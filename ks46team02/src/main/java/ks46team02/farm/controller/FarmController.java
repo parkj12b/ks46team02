@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,7 +56,7 @@ public class FarmController {
 								 ,HttpSession session){
 		String companyCode =(String) session.getAttribute("sessionCompanyCode");
 		FarmInfo farmInfo = farmService.getFarmInfoByCode(farmCode);
-		List<Cycle> cycleList = farmService.getCycleList(farmCode,companyCode);
+		List<Cycle> cycleList = farmService.getCycleList(farmCode,companyCode,searchKey,searchValue,fromDate,toDate);
 		List<Production> productionList = farmService.getProductionList(farmCode);
 		model.addAttribute("title","사육장 정보");
 		model.addAttribute("farmInfo", farmInfo);
@@ -64,7 +65,7 @@ public class FarmController {
 		model.addAttribute("farmCode", farmCode);
 		model.addAttribute("tapName", tapName);
 		log.info(farmCode);
-		return "farm/farmDetail";
+		return "farm/farm_detail";
 	}
 
 	@GetMapping("/feedList")
@@ -73,7 +74,7 @@ public class FarmController {
 		List<Feed> feedList = farmService.getFeedList(cycleCode);
 		model.addAttribute("title", "먹이 조회");
 		model.addAttribute("feedList", feedList);
-		return "farm/feedList";
+		return "farm/feed_list";
 	}
 
 	@GetMapping("/productionList")
@@ -83,25 +84,25 @@ public class FarmController {
 		List<Production> allProductionList = farmService.getAllProductionList(companyCode);
 		model.addAttribute("title", "생산량 목록");
 		model.addAttribute("allProductionList", allProductionList);
-		return "farm/productionList";
+		return "farm/production_list";
 	}
 
 	@GetMapping("/addFarm")
 	public String addFarm(Model model){
 		model.addAttribute("title", "사육장 등록");
-		return "farm/addFarm";
+		return "farm/add_farm";
 	}
 
 	@GetMapping("/addCage")
 	public String addCage(Model model){
 		model.addAttribute("title", "케이지 등록");
-		return "farm/addCage";
+		return "farm/add_cage";
 	}
 
 	@GetMapping("/addCycle")
 	public String addCycle(Model model){
 		model.addAttribute("title", "싸이클 등록");
-		return "farm/addCycle";
+		return "farm/add_cycle";
 	}
 
 	@GetMapping("/cycleList")
@@ -109,7 +110,7 @@ public class FarmController {
 		List<Cycle> cycleList = farmService.getAllCycleList();
 		model.addAttribute("title", "싸이클 목록");
 		model.addAttribute("cycleList", cycleList);
-		return "farm/cycleList";
+		return "farm/cycle_list";
 	}
 
 	@GetMapping("/cageList")
@@ -117,7 +118,7 @@ public class FarmController {
 		List<Cage> cageList = farmService.getCageList();
 		model.addAttribute("title", "케이지 목록");
 		model.addAttribute("cageList", cageList);
-		return "farm/cageList";
+		return "farm/cage_list";
 	}
 
 
@@ -128,7 +129,7 @@ public class FarmController {
 		List<FarmInfo> farmList = farmService.getFarmList(companyCode);
 		model.addAttribute("title", "사육장 목록");
 		model.addAttribute("farmList", farmList);
-		return "farm/farmList";
+		return "farm/farm_list";
 	}
 
 	@GetMapping("/farmStatusList")
@@ -137,25 +138,26 @@ public class FarmController {
 		model.addAttribute("title", "사육장 상태 정보");
 		model.addAttribute("farmStatusListList", farmStatusListList);
 
-		return "farm/farmStatusList";
+		return "farm/farm_status_list";
 	}
 	
 	@GetMapping("/mentorMentee")
 	public String getMentorMenteeView(HttpSession session, Model model){
 		String companyCode = (String) session.getAttribute("sessionCompanyCode");
 		int mmRegType = mentorMenteeService.getMMRegType(companyCode);
-		model.addAttribute(mmRegType);
-		return "farm/mentorMenteeIntro";
+		model.addAttribute("mmRegType",mmRegType);
+		log.info("{}",mmRegType);
+		return "farm/mentor_mentee_intro";
 	}
 	
 	@GetMapping("/mentorSignUp")
 	public String getMentorSignUpForm(){
-		return "farm/mentorSignUp";
+		return "farm/mentor_sign_up";
 	}
 	
 	@GetMapping("/menteeSignUp")
 	public String getMenteeSignUpForm(){
-		return "farm/menteeSignUp";
+		return "farm/mentee_sign_up";
 	}
 	
 	@GetMapping("/mentorMenteeRegisterStatus")
@@ -174,7 +176,7 @@ public class FarmController {
 		}
 		model.addAttribute("mmRegType", mmRegType);
 		
-		return "farm/mentorMenteeRegisterStatus";
+		return "farm/mentor_mentee_register_status";
 	}
 	
 	@GetMapping("/mentorMenteeContract")
@@ -182,7 +184,7 @@ public class FarmController {
 		String searchKey = "company_code";
 		List<MMContractInfo> mmContractInfo = mentorMenteeService.getMMContractList(searchKey,"");
 		model.addAttribute("mmContractInfo", mmContractInfo);
-		return "farm/mmContractList";
+		return "farm/mm_contract_list";
 	}
 	
 	@GetMapping("/mentorMenteeContractDetail")
@@ -192,8 +194,46 @@ public class FarmController {
 		log.info("{}", mmContractInfo);
 		model.addAttribute("mmContractInfo",mmContractInfo);
 		
-		return "farm/mmContractDetail";
+		return "farm/mm_contract_detail";
 	}
 	
+	@GetMapping("/myMentorMenteeContract")
+	public String getMMContractListMentor(Model model, HttpSession session) {
+		String companyCode = (String)session.getAttribute("sessionCompanyCode");
+		List<MMContractInfo> mmContractInfo = mentorMenteeService.getMMContractList("company_code", companyCode);
+		model.addAttribute("mmContractInfo",mmContractInfo);
+		return "farm/my_mm_contract_list";
+	}
 	
+	@GetMapping("/mentorMenteeContractModify")
+	public String getMMContractModify(Model model, @RequestParam(name="mentorContractRegCode") String mentorContractRegCode) {
+		
+		MMContractInfo mmContractInfo = mentorMenteeService.getMMContractList("mentor_contract_reg_code", mentorContractRegCode).get(0);
+		log.info("{}", mmContractInfo);
+		model.addAttribute("mmContractInfo",mmContractInfo);
+		
+		return "farm/mm_contract_modify";
+	}
+	//미구현
+	@PostMapping("/mmContractModifyAction")
+	public String setMMContractModify(MMContractInfo contractInfo) {
+		
+		log.info("{}", contractInfo);
+		return "redirect:/farm/myMentorMenteeContract";
+	}
+	
+	@GetMapping("/registerMentorMenteeContract")
+	public String addMMContractRegister() {
+		
+		
+		return "farm/mm_contract_register";
+	}
+	
+	@GetMapping("/mentorMenteeContractApprove")
+	public String mentorMenteeContractApprove() {
+		
+		
+		
+		return "farm/my_mm_contract_list";
+	}
 }

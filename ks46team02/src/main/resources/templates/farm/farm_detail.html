@@ -38,12 +38,7 @@
 									data-toggle="tab" href="#cycle" role="tab"
 									aria-controls="cycle" aria-selected="false">싸이클 조회</a>
 								</li>
-								<li class="nav-item"><a class="nav-link"
-									th:classappend="${tapName} == 'production' ? 'active'"
-									id="productionList-tab" data-toggle="tab"
-									href="#productionList" role="tab"
-									aria-controls="productionList" aria-selected="false">생산량 조회</a>
-								</li>
+							
 							
 							</ul>
 							<!-- tab 머리 끝-->
@@ -182,7 +177,7 @@
 									<div class="tab-pane fade" id="cycle" role="tabpanel"
 									th:classappend="${tapName} == 'cycle' ? 'active show'"
 									aria-labelledby="cycle-tab">
-									<div th:include="~{farm/search/search :: productionSearch}"></div>
+									<div th:include="~{farm/search/search :: cycleSearch}"></div>
 												
 										<div class="x_content">
 											<div class="row">
@@ -222,7 +217,7 @@
 																				<th class="sorting" tabindex="0"
 																					aria-controls="datatable-responsive" rowspan="1"
 																					colspan="1" style="width: 25px;"
-																					aria-label="Age: activate to sort column ascending">목표 생산량
+																					aria-label="Age: activate to sort column ascending">목표 생산량[g]
 																				</th>
 																				<th class="sorting" tabindex="0"
 																					aria-controls="datatable-responsive" rowspan="1"
@@ -232,7 +227,7 @@
 																				<th class="sorting" tabindex="0"
 																					aria-controls="datatable-responsive" rowspan="1"
 																					colspan="1" style="width: 48px;"
-																					aria-label="Salary: activate to sort column ascending">여상 수확일</th>
+																					aria-label="Salary: activate to sort column ascending">예상 수확일</th>
 																				<th class="sorting" tabindex="0"
 																					aria-controls="datatable-responsive" rowspan="1"
 																					colspan="1" style="width: 32px;"
@@ -241,6 +236,8 @@
 																					aria-controls="datatable-responsive" rowspan="1"
 																					colspan="1" style="width: 140px;"
 																					aria-label="E-mail: activate to sort column ascending">금여현황</th>
+																					<th>수정</th>
+              																		
 																			</tr>
 																		</thead>
 																		<tbody>
@@ -255,14 +252,19 @@
 									                                            <td th:text="${c.estimatedHarvestDate}"></td>
 									                                           	<td th:text="${c.dayDiffHarvest}"></td>
 									                                          	<td><a th:href="@{/farm/feedList(cycleCode=${c.cycleCode})}">급여현황</a></td>
+									                                          	<td th:href="@{#}">수정</td>
+             																 
 																			</tr>
 																		</tbody>
 																	</table>
+																	
 																
 														
 
 														</div>
 													</div>
+													<br>
+													<button style="margin-left: 25px;"type="button" class="btn btn-success" ><a th:href="@{/farm/addCycle}" style="color: white;">싸이클 등록</a></button>
 												</div>
 											</div>
 										</div>

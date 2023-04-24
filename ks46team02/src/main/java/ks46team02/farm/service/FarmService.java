@@ -27,8 +27,24 @@ public class FarmService {
     }
     
     
-    public List<Cycle> getCycleList(String farmCode, String companyCode){
-    	List<Cycle> cycleList = farmMapper.getCycleList(farmCode);
+    public List<Cycle> getCycleList(String farmCode, String companyCode, String searchKey, String searchValue, String fromDate, String toDate){ 
+    	if(searchKey != null) {
+    		switch (searchKey) {
+			case "cageCode":
+				searchKey = "cy.expected_cage_production_code";
+				break;
+			case "estimatedProduction":
+				searchKey = "estimated_production";
+				break;
+			case "dayDiffHarvest":
+				searchKey = "estimated_harvest_date";
+				break;
+
+			default:
+				break;
+			}
+    	}
+    	List<Cycle> cycleList = farmMapper.getCycleList(farmCode,searchKey,searchValue,fromDate,toDate);
     	List<Production> productionList = farmMapper.getAllProductionList(companyCode);
     	for (int i = 0; i < cycleList.size(); i++) {
     	    Cycle cycle = cycleList.get(i);

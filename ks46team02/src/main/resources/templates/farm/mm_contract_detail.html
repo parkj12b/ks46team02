@@ -63,12 +63,20 @@
 }
 #contract-body-html{
 	margin: 40px 20px;
+	width: 830px;
 }
 </style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
+	<th:block layout:fragment="customJs">
+		<script>
+			$('#contract-reg').click(function(){
+				window.open()
+			});
+		</script>
+	</th:block>
 	<th:block layout:fragment="customContent" th:object="${mmContractInfo}">
 		<div id="info-container">
 			<div class="x_panel">

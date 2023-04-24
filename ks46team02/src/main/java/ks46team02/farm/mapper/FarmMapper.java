@@ -18,7 +18,7 @@ public interface FarmMapper {
 	
 	
 	public List<Cycle> getAllCycleList();
-	public List<Cycle> getCycleList(String farmCode);
+	public List<Cycle> getCycleList(String farmCode, String searchKey, String searchValue, String fromDate, String toDate);
  
     public List<Production> getAllProductionList(String companyCode);
     public List<Production> getProductionList(String farmCode);
