@@ -7,7 +7,11 @@
     <title>BSFP</title>
 </head>
 <th:block layout:fragment="customJs">
-
+    <script>
+        $('#resetBtn').click(function () {
+            location.href = '/company/companyProductCategory';
+        });
+    </script>
 </th:block>
 
 <th:block layout:fragment="customContent">
@@ -33,8 +37,8 @@
 
                         <div class="item form-group">
                             <div class="col-md-6 col-sm-6 offset-md-3">
-                                <button class="btn-btn-dark" type="reset" th:onclick="|location.href='@{#}'|">수정취소</button>
-                                <button class="btn-btn-dark" type="submit" th:onclick="|location.href='@{/company/company_modify}'|">수정완료</button>
+                                <button id="resetBtn" class="btn btn-dark" type="reset" th:onclick="|location.href='@{#}'|">수정취소</button>
+                                <button class="btn btn-dark" type="submit" th:onclick="|location.href='@{/company/company_modify}'|">수정완료</button>
                             </div>
                         </div>
                     </form>
