@@ -14,39 +14,43 @@
 		<result column="shipping_addr_seq"  				property="addrSeq"/>
 		<result column="member_id"  						property="memberId"/>
 </resultMap>
-	<update id="modifyAddr" parameterType="String" >
-		/* 배송지 정보 수정 */
+	<delete id="removeAddrByCode" parameterType="String">
+			/* 배송지 삭제 */
+			DELETE
+				*
+			FROM
+			 	addr_manage
+			WHERE 
+				shipping_addr_code = #{addrCode};
+		</delete>
+<update id="modifyAdmin" parameterType="String" >
+		/* 관리자 정보 수정 */
 		UPDATE admin_list
 		<trim prefix="SET" suffixOverrides=",">
-			<if test="addrRoad != null and addrRoad != ''">
-				shipping_addr_road = #{addrRoad},
+			<if test="adminPw != null and adminPw != ''">
+				admin_pw = #{adminPw},
 			</if>
-			<if test="addrLoca != null and addrLoca != ''">
-				shipping_addr_loca = #{addrLoca},
+			<if test="adminName != null and adminName != ''">
+				admin_name = #{adminName},
 			</if>
-			<if test="addrName != null and addrName != ''">
-				shipping_addr_name = #{addrName},
+			<if test="adminEmail != null and adminEmail != ''">
+				admin_email = #{adminEmail},
 			</if>
-			<if test="addrRecipient != null and addrRecipient != ''">
-				shipping_addr_recipient = #{addrRecipient},
+			<if test="adminLevel != null and adminLevel != ''">
+				admin_level = #{adminLevel},
 			</if>
-			<if test="addrTel != null and addrTel != ''">
-				shipping_addr_tel = #{addrTel},
+			<if test="adminPhone != null and adminPhone != ''">
+				admin_phone = #{adminPhone},
 			</if>
-			<if test="addrPhone != null and addrPhone != ''">
-				shipping_addr_phone = #{addrPhone},
-			</if>
-			<if test="addrSeq != null and addrSeq != ''">
-				shipping_addr_seq = #{addrSeq},
-			</if>
-			<if test="MemberId != null and MemberId != ''">
-				member_id = #{MemberId},
+			<if test="adminRegDate != null and adminRegDate != ''">
+				admin_reg_date = #{adminRegDate},
 			</if>
 		</trim>
 		WHERE 
 			admin_id = #{adminId};
 
 	</update>
+	
 		
 	<select id="getAddrList" parameterType="String" resultMap="adminAddrResultMap">
 				/* 전체 회원 배송지 조회 */

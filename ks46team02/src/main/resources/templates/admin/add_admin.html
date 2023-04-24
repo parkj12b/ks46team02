@@ -52,7 +52,7 @@
 									<select class="form-control">
 										<option></option>
 										<th:block th:if="${adminLevelList1 != null}">
-  										<option th:each="l : ${adminLevelList1}" th:text="${l.adminLevel}"></option>
+  										<option th:each="l : ${adminLevelList1}" th:value="${l.adminLevel}" th:text="${l.adminPosition}"></option>
 										</th:block>
 									</select>								</div>
 							</div>

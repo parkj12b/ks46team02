@@ -22,5 +22,9 @@ private final AdminMapper adminMapper;
 		List<AdminMember> AdminList = adminMapper.getAdminList();
 		return AdminList;
 	}
+	public AdminMember getAdminInfoById(String adminId) {
+		AdminMember adminInfo =adminMapper.getAdminInfoById(adminId);
+		return adminInfo;
+	}
 	
 }

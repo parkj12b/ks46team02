@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/mypage}">
+<head>
+    <meta charset="UTF-8">
+    <title>BSFP</title>
+</head>
+<th:block layout:fragment="customJs">
+
+</th:block>
+
+<th:block layout:fragment="customContent">
+    <div class="page-title">
+        <div class="title">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>상품카테고리수정</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                <form id="modifyAdminForm" th:action="@{/admin/admin_modify}" method="post">
+						<a th:object="${goodsInfo}"></a>
+                        <span class="section">Product Category Modify</span>
+
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">제품명</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input class="form-control optional" name="contractPostCode"
+                                       data-validate-length-range="5,15"
+                                       type="text" required="required"/></div>
+                        </div>
+
+
+                        <div class="item form-group">
+                            <div class="col-md-6 col-sm-6 offset-md-3">
+                                <button class="btn-btn-dark" type="reset" th:onclick="|location.href='@{#}'|">수정취소</button>
+                                <button class="btn-btn-dark" type="submit" th:onclick="|location.href='@{/company/company_modify}'|">수정완료</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ks46team02.admin.dto.Addr;
 import ks46team02.admin.mapper.MemberMapper;
 import ks46team02.common.dto.Member;
 @Service
