@@ -2,7 +2,7 @@ package ks46team02.company.dto;
 
 public class AllContractInfo {
 	private	String contractCode;
-	private	String contratRegistrationCode;
+	private	String contractRegistrationCode;
 	private	String contractType;
 	private	String memberId;
 	private	String contractApplyDate;
@@ -24,11 +24,12 @@ public class AllContractInfo {
 	public void setContractCode(String contractCode) {
 		this.contractCode = contractCode;
 	}
-	public String getContratRegistrationCode() {
-		return contratRegistrationCode;
+	
+	public String getContractRegistrationCode() {
+		return contractRegistrationCode;
 	}
-	public void setContratRegistrationCode(String contratRegistrationCode) {
-		this.contratRegistrationCode = contratRegistrationCode;
+	public void setContractRegistrationCode(String contractRegistrationCode) {
+		this.contractRegistrationCode = contractRegistrationCode;
 	}
 	public String getContractType() {
 		return contractType;
@@ -122,10 +123,10 @@ public class AllContractInfo {
 	}
 	@Override
 	public String toString() {
-		return "AllContractInfo [contractCode=" + contractCode + ", contratRegistrationCode=" + contratRegistrationCode
-				+ ", contractType=" + contractType + ", memberId=" + memberId + ", contractApplyDate="
-				+ contractApplyDate + ", contractStartDate=" + contractStartDate + ", contractEndDate="
-				+ contractEndDate + ", contractPaper=" + contractPaper + ", adminId=" + adminId
+		return "AllContractInfo [contractCode=" + contractCode + ", contractRegistrationCode="
+				+ contractRegistrationCode + ", contractType=" + contractType + ", memberId=" + memberId
+				+ ", contractApplyDate=" + contractApplyDate + ", contractStartDate=" + contractStartDate
+				+ ", contractEndDate=" + contractEndDate + ", contractPaper=" + contractPaper + ", adminId=" + adminId
 				+ ", contractApprovalDate=" + contractApprovalDate + ", contractApproval=" + contractApproval
 				+ ", deposit=" + deposit + ", deliveryCycle=" + deliveryCycle + ", contractAmount=" + contractAmount
 				+ ", totalAmount=" + totalAmount + ", contracteeCompanyCode=" + contracteeCompanyCode

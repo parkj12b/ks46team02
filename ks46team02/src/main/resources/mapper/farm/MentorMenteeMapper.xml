@@ -38,6 +38,26 @@
 	<result column="mentor_contract_title" property="mentorContractTitle"></result>
 	<result column="mcr.member_id" property="memberId"></result>
 </resultMap>
+<resultMap type="AllContractInfo" id="AllContractInfoMap">
+	<id column="contract_code" property="contractCode"></id>
+	<result column="contract_registration_code" property="contractRegistrationCode"></result>
+	<result column="contract_type" property="contractType"></result>
+	<result column="member_id" property="memberId"></result>
+	<result column="contract_apply_date" property="contractApplyDate"></result>
+	<result column="contract_start_date" property="contractStartDate"></result>
+	<result column="contract_end_date" property="contractEndDate"></result>
+	<result column="contract_paper" property="contractPaper"></result>
+	<result column="admin_id" property="adminId"></result>
+	<result column="contract_approval_date" property="contractApprovalDate"></result>
+	<result column="contract_approval" property="contractApproval"></result>
+	<result column="deposit" property="deposit"></result>
+	<result column="delivery_cycle" property="deliveryCycle"></result>
+	<result column="contract_amount" property="contractAmount"></result>
+	<result column="total_amount" property="totalAmount"></result>
+	<result column="contractee_company_code" property="contracteeCompanyCode"></result>
+	<result column="contractor_company_code" property="contractorCompanyCode"></result>
+	
+</resultMap>
 	<select id="getMMRegStatMentee" resultType="MMRegInfoMentee">
 		select 
 			mentee_app_code as menteeAppCode,
@@ -100,8 +120,14 @@
 			<if test="searchValue != ''">${searchKey} = #{searchValue}</if>
 		</where>
 	</select>
-	<select id="getContractInfo" parameterType="String" resultMap="MMContractInfoMap">
+	<select id="getMMContractApproveList" parameterType="String" resultMap="AllContractInfoMap">
 		select
-			
+			*
+		from
+			all_contract
+		<where>
+			contract_type = 'mentormentee'
+			<if test="searchKey != null and searchValue != ''">and ${searchKey} = #{searchValue}</if>
+		</where>
 	</select>
 </mapper>

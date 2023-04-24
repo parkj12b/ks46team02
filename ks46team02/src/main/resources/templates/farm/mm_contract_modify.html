@@ -5,7 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
 #editor-container {
 	max-width: 874px;
 	margin: 50px auto 0;
@@ -46,7 +48,6 @@
 	tinymce.init({
 		//editor size setting
 		//Autoresize texarea
-
 //Nonresize textarea
 		//initial value
 		setup: function (editor) {
@@ -110,12 +111,13 @@
 		  noneditable_class: 'mceNonEditable',
 		  toolbar_mode: 'sliding',
 		  contextmenu: 'link image table',
-		  content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
 		  /* preview define to make it fit to the actual view size in contract view */
 			content_style: `
 		body {
 			max-width: 830px;
 			margin: 0 auto;
+			font-family: 'Noto Sans KR';
+		  font-weight: 500;
 			}
 		  `
 	  });
@@ -157,7 +159,8 @@
 										for="career-month">업체코드 </label>
 									<div class="col-md-6 col-sm-6 ">
 										<input type="text" id="company-code" th:value="*{companyCode}"
-											name="companyCode" required="required" class="form-control">
+											name="companyCode" required="required" class="form-control"
+											readonly>
 									</div>
 								</div>
 								<div class="item form-group">
@@ -175,7 +178,7 @@
 									<div class="col-md-6 col-sm-6 ">
 										<input type="text" id="career-month" name="memberId"
 											required="required" class="form-control"
-											th:value="${session.sessionId}">
+											th:value="${session.sessionId}" readonly>
 									</div>
 								</div>
 								<div class="item form-group">

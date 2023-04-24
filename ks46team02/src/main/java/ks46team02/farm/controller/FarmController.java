@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
+import ks46team02.company.dto.AllContractInfo;
 import ks46team02.farm.dto.Cage;
 import ks46team02.farm.dto.Cycle;
 import ks46team02.farm.dto.FarmInfo;
@@ -229,10 +230,13 @@ public class FarmController {
 	}
 	
 	@GetMapping("/mentorMenteeContractApprove")
-	public String mentorMenteeContractApprove() {
+	public String mentorMenteeContractApprove(Model model, HttpSession session) {
 		
-		
-		
-		return "farm/my_mm_contract_list";
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		List<AllContractInfo> contractList = mentorMenteeService.getMMContractApproveList("contractor_company_code", companyCode);
+		model.addAttribute("contractList",contractList);
+		log.info("{}",contractList);
+		return "farm/my_mm_contract_approve_list";
 	}
+	
 }

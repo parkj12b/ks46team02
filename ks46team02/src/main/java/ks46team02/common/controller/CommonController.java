@@ -112,4 +112,10 @@ public class CommonController {
     public String testing() {
     	return "dataTableTest";
     }
+	
+	@GetMapping("/contractPaper")
+	public String getContractPaperDetail(HttpSession session) {
+		
+		return "contractPaper";
+	}
 }

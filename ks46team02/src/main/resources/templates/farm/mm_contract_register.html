@@ -49,6 +49,11 @@
 
 //Nonresize textarea
 		//initial value
+		setup: function (editor) {
+	      editor.on('init', function (e) {
+	        editor.setContent(`<h4>기업 소개</h4><h4>계약에 대해</h4>`);
+	      });
+	    },
 		//editor size setting
 		selector: '#mytextarea',
 		  plugins: 'autoresize preview importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons',
@@ -111,7 +116,10 @@
 		body {
 			max-width: 830px;
 			margin: 0 auto;
+			font-family: 'Noto Sans KR', sans-serif;
+
 			}
+		 
 		  `
 	  });
 	
@@ -222,7 +230,7 @@
 								<div id="editor-container">
 									<textarea id="mytextarea" name="contractContent"></textarea>
 								</div>
-								<button type="submit">수정</button>
+								<button type="submit">등록</button>
 
 							</form>
 
