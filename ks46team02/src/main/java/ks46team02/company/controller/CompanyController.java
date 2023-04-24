@@ -37,6 +37,8 @@ public class CompanyController {
         String redirectURI = "redirect:/company/company_delete/deleteCompany?";
         return redirectURI;
     }
+
+
     @GetMapping("/companyEmployeeLevel")
     public String getCompanyEmployeeLevel(Model model){
         List<CompanyPositionLevel> companyPositionLevelList = companyService.getCompanyPositionList();
@@ -117,17 +119,29 @@ public class CompanyController {
     }
     @GetMapping("/modifyCompany")
     public String modifyCompany(Model model
-                               ,@RequestParam(name="companyCode") String companyCode){
+                               ,@RequestParam(name="companyCode") String companyCode
+                               ,HttpSession session){
+        String positionLevel = (String)session.getAttribute("sessionLevel");
         Company companyInfo = companyService.getCompanyInfoByCode(companyCode);
         model.addAttribute("title","업체수정");
         model.addAttribute("companyInfo", companyInfo);
+        model.addAttribute("positionLevel",positionLevel);
         return "company/modify_company";
     }
 
+    @GetMapping("/companyInfoUser")
+    public String getCompanyInfoUser(Model model
+                                    ,HttpSession session){
+        String companyCode = (String)session.getAttribute("sessionCompanyCode");
+        Company companyInfo = companyService.getCompanyInfoByCode(companyCode);
+        model.addAttribute("title", "업체상세정보");
+        model.addAttribute("companyInfo", companyInfo);
 
+        return "company/company_info_user";
+    }
     @GetMapping("/companyInfo")
     public String getCompanyInfo(Model model
-                                , @RequestParam(name="companyCode") String companyCode){
+                                ,@RequestParam(name="companyCode") String companyCode){
         Company companyInfo = companyService.getCompanyInfoByCode(companyCode);
         model.addAttribute("title", "업체상세정보");
         model.addAttribute("companyInfo", companyInfo);

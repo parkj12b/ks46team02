@@ -116,6 +116,7 @@
         SELECT
         ci.company_code
         ,ct.company_type
+        ,ci.company_type_num
         ,ci.Company_reg_num
         ,ci.member_id
         ,ci.Company_tel
