@@ -9,6 +9,9 @@ import java.util.List;
 
 @Mapper
 public interface CompanyMapper {
+    // 사육업체상품카테고리등록
+    public int insertCompanyProduct(FarmProductCategory farmProductCategory);
+
     // 사육업체상품카테고리조회
     public  List<FarmProductCategory> getFarmProductCategoryList();
     // 업체직원별권한조회
