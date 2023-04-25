@@ -150,3 +150,37 @@
 			from 
 				withdrawal_member;
  {executed in 17 msec}
+10:04:57.396 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 12737 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+10:04:57.397 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+10:04:58.700 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 1.497 seconds (process running for 1.741)
+10:05:03.522 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_11';
+ {executed in 28 msec}
