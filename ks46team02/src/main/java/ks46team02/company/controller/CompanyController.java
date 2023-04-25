@@ -112,10 +112,20 @@ public class CompanyController {
     }
 
     @PostMapping("/modifyCompany")
-    public String modifyCompany(Company company){
-
-        companyMapper.modifyCompany(company);
-        return "redirect:/company/companyList";
+    public String modifyCompany(Company company
+                               ,HttpSession session){
+        String redirect = "";
+        String sessionLevel = (String)session.getAttribute("sessionLevel");
+        if(sessionLevel == "admin") {
+            companyService.modifyCompanyAdmin(company);
+            redirect = "redirect:/company/companyList";
+        } else {
+            String sessionCompanyCode = (String)session.getAttribute("sessionCompanyCode");
+            company.setCompanyCode(sessionCompanyCode);
+            companyService.modifyCompanyUser(company);
+            redirect = "redirect:/company/companyInfoUser";
+        }
+        return redirect;
     }
     @GetMapping("/modifyCompany")
     public String modifyCompany(Model model

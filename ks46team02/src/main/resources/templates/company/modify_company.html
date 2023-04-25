@@ -30,9 +30,10 @@
                             <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyCode">업체코드</label>
                             <div class="col-md-6 col-sm-6">
                                 <input id="companyCode" class="form-control" name="companyCode"
-                                       type="text" th:value="*{companyCode}"/>
+                                       type="text" th:value="*{companyCode}" readonly="readonly"/>
                             </div>
                         </div>
+                        <input type="hidden" th:value="*{companyCode}" th:if="positionLevel != 'admin'"/>
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyRegNum">사업자등록번호</label>
                             <div class="col-md-6 col-sm-6">
