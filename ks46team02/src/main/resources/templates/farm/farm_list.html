@@ -36,6 +36,7 @@
               <th>사육장 주소</th>
               <th>케이지 개수</th>
               <th>총 용량</th>
+              <th>상태 확인</th>
               <th>사육장 등록일</th>
               <th>수정</th>
               <th>삭제</th>
@@ -49,17 +50,20 @@
 
               </td>
               <td th:text="${l.farmAddr}"></td>
-              <td th:text="${l.cageAmount}"></td>
+              <td th:text="${l.cageAmount}"></td>     
               <td th:text="${l.totalCapacity}"></td>
+              <td>
+                <a th:href="@{/farm/farmStatusList(farmCode=${l.farmCode})}">상태보기</a>
+              </td>
               <td th:text="${l.farmRegDate}"></td>
+              <td th:href="@{#}">수정</td>
               <td th:href="@{#}">삭제</td>
-              <td><a class="glyphicon glyphicon-trash" th:href="@{#}"></a></td>
 
 
             </tr>
             </tbody>
           </table>
-          <button type="button" class="btn btn-success" ><a th:href="@{/farm/addFarm}" style="color: white;">사육장 등록</a></button>
+          <button type="button" class="btn btn-dark"><a th:href="@{/farm/addFarm}" style="color: white;">사육장 등록</a></button>
         </div>
       </div>
     </div>

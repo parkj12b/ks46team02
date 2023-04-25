@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ks46team02.farm.mapper.FarmMapper_backup">
+
+
+
+	<select id="getCycleList" resultType = "Cycle">
+		  SELECT
+  		c.cage_volum as cageVolum,
+  		c.cage_num as cageNum,
+  		c.cage_total cageTotal, 
+        cy.expected_cage_production_code AS cycleCode,
+        cy.company_code AS companyCode,
+        cy.farm_code AS farmCode,
+        cy.cage_code AS cageCode,
+        Date(harvest_start_date) AS harvestStartDate,
+        Date(estimated_harvest_date) AS estimatedHarvestDate,
+        input_egg AS inputEgg,
+        calculation_standard_code AS calculationStandardCode,
+        estimated_production AS estimatedProduction,
+        cy. member_id AS memberId,
+        estimated_production_reg_date AS estimatedProductionRegDate,
+         DATEDIFF(estimated_harvest_date, NOW()) AS dayDiffHarvest 
+        FROM
+        	cage_cycle AS cy
+        INNER JOIN
+        	cage AS c
+        ON cy.cage_code = c.cage_code
+        <where>
+          cy.farm_code = #{farmCode}
+            <if test="searchKey != null and searchKey != ''">
+                <choose>
+                    <when test="searchKey == 'dayDiffHarvest'">
+                        AND DATEDIFF(estimated_harvest_date, NOW()) = #{searchValue}
+                    </when>
+                    <otherwise>
+                        AND (${searchKey} LIKE CONCAT('%', #{searchValue}, '%'))
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="fromDate != null and fromDate != '' and toDate != null and toDate != ''">
+                AND DATE_FORMAT(estimated_harvest_date, '%Y-%m-%d') BETWEEN #{fromDate} AND #{toDate}
+            </if>
+            <if test="fromDate != null and fromDate != '' and (toDate == null or toDate == '')">
+                AND DATE_FORMAT(estimated_harvest_date, '%Y-%m-%d') &gt;= #{fromDate}
+            </if>
+            <if test="(fromDate == null or fromDate == '') and toDate != null and toDate != ''">
+                AND DATE_FORMAT(estimated_harvest_date, '%Y-%m-%d') &lt;= #{toDate}
+            </if>
+        </where>
+	
+	</select>
+    <select id="getAllProductionList" resultType ="Production">
+        SELECT
+        production_code AS productionCode,
+        company_code AS companyCode,
+        farm_code AS farmCode,
+        expected_cage_production_code AS expectedCageProductionCode,
+        real_harvest_day AS realHarvestDay,
+        real_production AS realProduction,
+        loss_rate AS lossRate,
+        member_id AS memberId,
+        production_reg_date AS productionRegDate
+        FROM
+        production
+        WHERE
+        company_code = #{companyCode}
+
+    </select>
+
+    <select id="getFarmInfoByCode" parameterType="String" resultType="FarmInfo">
+        SELECT
+        farm_code AS farmCode,
+        farm_name AS farmName,
+        farm_detail as farmDetail,
+        company_code AS companyCode,
+        farm_address AS farmAddr,
+        farm_reg_date AS farmRegDate,
+        cage_amount AS cageAmount,
+        total_capacity AS totalCapacity,
+        member_id AS memberId
+        FROM
+        farm_info
+        WHERE
+        farm_code = #{farmCode}
+
+    </select>
+
+    <select id="getFeedList" resultType="Feed">
+        SELECT
+        feeding_num AS feedingNum,
+        company_code AS companyCode,
+        farm_code AS farmCode,
+        expected_cage_production_code AS expectedCageProductionCode,
+        feeding_amount AS feedingAmount,
+        feeding_date AS feedingDate,
+        member_id AS memberId
+        FROM
+        feeding
+        where
+        expected_cage_production_code = #{cycleCode}
+    </select>
+
+   <select id="getProductionList" resultType ="Production">
+	SELECT 
+		p.production_code AS productionCode,
+		p.company_code AS companyCode,
+		p.farm_code AS farmCode,
+		p.expected_cage_production_code AS expectedCageProductionCode,
+		DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+		p.real_production AS realProduction,
+		p.loss_rate AS lossRate,
+		p.member_id AS memberId,
+		p.production_reg_date AS productionRegDate,
+		ex.calculation_standard_code AS calculationStandardCode
+	FROM
+		production AS p
+	INNER JOIN
+		expeted_cage_production AS ex
+		ON p.expected_cage_production_code = ex.expeted_cage_production_code
+	    <where>
+	        p.farm_code = #{farmCode}
+	    </where>
+	    ORDER BY real_harvest_day  DESC;
+	</select>
+
+
+    <select id="getAllCycleList" resultType="Cycle">
+        SELECT
+        expected_cage_production_code AS cycleCode,
+        company_code AS companyCode,
+        farm_code AS farmCode,
+        cage_code AS cageCode,
+        harvest_start_date AS harvestStartDate,
+        estimated_harvest_date AS estimatedHarvestDate,
+        input_egg AS inputEgg,
+        calculation_standard_code AS calculationStandardCode,
+        estimated_production AS estimatedProduction,
+        member_id AS memberId,
+        estimated_production_reg_date AS estimatedProductionRegDate
+        FROM
+        cage_cycle ;
+
+    </select>
+
+
+    <select id="getCageList" resultType="Cage">
+        SELECT
+        cage_code AS cageCode,
+        cage_name AS cageName,
+        company_code AS companyCode,
+        farm_code AS farmCode,
+        optimal_input_egg AS optimalInputEgg,
+        member_id AS memberId,
+        cage_reg_date AS cageRegDate,
+        cage_num AS cageNum,
+        cage_volum AS cageVolume,
+        cage_volum_unit AS cageVolumeUnit,
+        cage_total AS cageTotal
+        FROM cage;
+    </select>
+
+    <select id="getFarmList" resultType="FarmInfo">
+        SELECT
+        farm_code AS farmCode,
+        farm_name AS farmName,
+        farm_detail as farmDetail,
+        company_code AS companyCode,
+        farm_address AS farmAddr,
+        farm_reg_date AS farmRegDate,
+        cage_amount AS cageAmount,
+        total_capacity AS totalCapacity,
+        member_id AS memberId
+        FROM
+        farm_info
+        WHERE
+        company_code = #{companyCode}
+    </select>
+
+    <select id="getFarmStatusList" resultType="FarmStatus">
+        SELECT
+        farm_code AS farmCode,
+        farm_status_hum AS farmStatusHum,
+        farm_status_illum  AS farmStatusIllum,
+        farm_status_temp AS farmStatusTemp,
+        farm_status_reg_date AS farmStatusRegDate
+        FROM
+        farm_status_log
+    </select>
+</mapper>
