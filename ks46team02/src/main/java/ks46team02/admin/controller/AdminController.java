@@ -283,6 +283,7 @@ public class AdminController {
 		model.addAttribute("dormantMemberList", dormantMemberList);
 		return "admin/dormantMember_list";
 		}
+	
 	/* 승인 기준 등록 */
 	@GetMapping("/addContractStandard")
 	public String addContractStandard(Model model){

@@ -33,5 +33,10 @@ private final MemberMapper memberMapper;
 		Member memberInfo =memberMapper.getMemberInfoById(memberId);
 		return memberInfo;
 	}
+	/* 특정 휴면 회원 조회 */
+	public Member getDormantMemberInfoById(String memberId) {
+		Member dormantmemberInfo =memberMapper.getDormantMemberInfoById(memberId);
+		return dormantmemberInfo;
+	}
 	
 }
