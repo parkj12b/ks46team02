@@ -9,6 +9,8 @@ import ks46team02.common.dto.Member;
 
 @Mapper
 public interface MemberMapper {
+	/* 업체별 직원 조회 */
+	public List<Member> getEmployeeList(String companyCode);
 	/* 전체 회원  조회*/
 	public List<Member> getMemberList();
 	/* 휴면 회원 조회 */

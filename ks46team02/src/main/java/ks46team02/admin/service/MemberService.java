@@ -17,6 +17,12 @@ private final MemberMapper memberMapper;
 		this.memberMapper = memberMapper;
 
 	}
+	/* 업체별 직원 조회 */
+	public List<Member> getEmployeeList(String companyCode){
+		List<Member> employeeList = memberMapper.getEmployeeList(companyCode);
+		return employeeList;
+	}
+
 	/* 전체 회원 조회*/
 	public List<Member> getMemberList(){
 		List<Member> MemberList = memberMapper.getMemberList();

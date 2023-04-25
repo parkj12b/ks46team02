@@ -16,6 +16,15 @@ public class Member {
 	private boolean isOwner;
 	private boolean isExist;
 	private String companyTypeNum;
+
+	public String getMemberLevelName() {
+		return memberLevelName;
+	}
+	public void setMemberLevelName(String memberLevelName) {
+		this.memberLevelName = memberLevelName;
+	}
+
+	private String memberLevelName;
 	
 	public String getCompanyTypeNum() {
 		return companyTypeNum;
@@ -101,16 +110,27 @@ public class Member {
 	public void setDormantMemberRegDate(String dormantMemberRegDate) {
 		this.dormantMemberRegDate = dormantMemberRegDate;
 	}
+
 	@Override
 	public String toString() {
-		return "Member [memberId=" + memberId + ", memberPw=" + memberPw + ", memberName=" + memberName
-				+ ", memberPhone=" + memberPhone + ", memberEmail=" + memberEmail + ", positionLevelCode="
-				+ positionLevelCode + ", companyCode=" + companyCode + ", memberRegDate=" + memberRegDate
-				+ ", memberCi=" + memberCi + ", memberStatus=" + memberStatus + ", dormantMemberRegDate="
-				+ dormantMemberRegDate + ", isOwner=" + isOwner + ", isExist=" + isExist + ", companyTypeNum="
-				+ companyTypeNum + "]";
+		return "Member{" +
+				"memberId='" + memberId + '\'' +
+				", memberPw='" + memberPw + '\'' +
+				", memberName='" + memberName + '\'' +
+				", memberPhone='" + memberPhone + '\'' +
+				", memberEmail='" + memberEmail + '\'' +
+				", positionLevelCode='" + positionLevelCode + '\'' +
+				", companyCode='" + companyCode + '\'' +
+				", memberRegDate='" + memberRegDate + '\'' +
+				", memberCi='" + memberCi + '\'' +
+				", memberStatus='" + memberStatus + '\'' +
+				", dormantMemberRegDate='" + dormantMemberRegDate + '\'' +
+				", isOwner=" + isOwner +
+				", isExist=" + isExist +
+				", companyTypeNum='" + companyTypeNum + '\'' +
+				", memberLevelName='" + memberLevelName + '\'' +
+				'}';
 	}
-	
-	
-	
+
+
 }
