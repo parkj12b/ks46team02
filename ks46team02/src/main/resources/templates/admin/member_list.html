@@ -134,7 +134,7 @@
 										        <td th:text="${l.companyCode}"></td>
 										        <td th:text="${l.memberRegDate}"></td>
 											    <td>                                            
-										        <a href="#"><i class="fa fa-edit"></i> 수정 </a>
+										       <a th:href="@{/admin/modifyMember(memberId=*{l.memberId})}">수정</a>
 										        </td>
 										        <td>
 												<a href="#" class="delete"><i class="fa fa-close"></i> 삭제</a>

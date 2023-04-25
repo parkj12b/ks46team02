@@ -21,7 +21,7 @@
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
 					<li><a th:href="@{/company/companyInfoUser}">!최학준 내 업체 정보</a></li>
-					<li><a href="#">#최학준 업체 사원 조회</a></li>
+					<li><a th:href="@{/company/companyEmployeeList}">!최학준 사원 조회</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-file-text-o"></i> 계약 관리 <span
 					class="fa fa-chevron-down"></span></a>
@@ -46,8 +46,8 @@
 			<li><a><i class="fa fa-building-o"></i> 업체관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a th:href="@{/company/companyInfoUser}">!최학준 업체 정보수정</a></li>
-					<li><a href="#">#최학준 업체 사원 조회</a></li>
+					<li><a th:href="@{/company/companyInfoUser}">!최학준 내 업체 정보</a></li>
+					<li><a th:href="@{/company/companyEmployeeList}">!최학준 사원 조회</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-file-text-o"></i> 계약 관리 <span
 					class="fa fa-chevron-down"></span></a>
@@ -134,8 +134,8 @@
 			<li><a><i class="fa fa-building-o"></i> 업체관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a th:href="@{/company/companyInfoUser}">!최학준 업체 정보수정</a></li>
-					<li><a href="#">#최학준 업체 사원 조회</a></li>
+					<li><a th:href="@{/company/companyInfoUser}">!최학준 내 업체 정보</a></li>
+					<li><a th:href="@{/company/companyEmployeeList}">!최학준 사원 조회</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-file-text-o"></i> 계약 관리 <span
 					class="fa fa-chevron-down"></span></a>
@@ -181,6 +181,7 @@
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
 					<li><a th:href="@{/admin/memberList}">! 최봉준 등록 된 회원관리</a></li>
+					<li><a th:href="@{/admin/dormantMemberList}">! 최봉준 휴면 회원 관리</a></li>
 					<li><a th:href="@{/admin/memberLevelList}">! 직원별 권한 관리</a></li>
 					<li><a th:href="@{/admin/addrList}">!최봉준 배송지 관리</a></li>
 					<li><a th:href="@{/admin/loginHistoryList}">! 최봉준 로그인 기록 관리</a></li>

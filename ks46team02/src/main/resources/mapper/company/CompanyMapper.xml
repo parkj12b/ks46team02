@@ -31,6 +31,7 @@
         values
             (#{productCategoryCode},#{productName},#{adminId},curdate());
     </insert>
+
     <select id="getFarmProductCategoryList" resultType="FarmProductCategory">
         /* 사육업체상품카테고리조회 */
         SELECT
@@ -111,6 +112,7 @@
 <!--        ,#{regPassword}-->
 <!--        );-->
 <!--    </insert>-->
+
     <select id="getCompanyInfoByCode" parameterType="String" resultMap="companyResultMap">
         /* 업체상세 정보조회 */
         SELECT
