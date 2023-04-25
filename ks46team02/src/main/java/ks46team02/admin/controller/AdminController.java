@@ -186,8 +186,9 @@ public class AdminController {
 							 ,@RequestParam(name="addrCode") String addrCode){
 		
 		Addr addrInfo = addrService.getAddrInfoById(addrCode);
+		log.info("log"+addrInfo );
 		model.addAttribute("title", "회원 수정");
-		model.addAttribute("memberInfo", addrInfo);
+		model.addAttribute("addrInfo", addrInfo);
 		return "admin/modify_addr";
 	}
 	/* 배송지 삭제 */

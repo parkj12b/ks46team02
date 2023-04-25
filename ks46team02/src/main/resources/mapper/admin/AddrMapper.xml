@@ -5,8 +5,10 @@
 <mapper namespace="ks46team02.admin.mapper.AddrMapper">
 <resultMap type="Addr" id="adminAddrResultMap">
 		<id 	column="shipping_addr_code"  				property="addrCode" />
+		<id 	column="shipping_addr_postal"  				property="addrPostal" />
 		<result column="shipping_addr_road"  				property="addrRoad"/>
 		<result column="shipping_addr_loca"  				property="addrLoca"/>
+		<result column="shipping_addr_detail"  				property="addrDetail"/>
 		<result column="shipping_addr_name"  				property="addrName"/>
 		<result column="shipping_addr_recipient"  			property="addrRecipient"/>
 		<result column="shipping_addr_tel"  				property="addrTel"/>
@@ -14,21 +16,15 @@
 		<result column="shipping_addr_seq"  				property="addrSeq"/>
 		<result column="member_id"  						property="memberId"/>
 </resultMap>
-	<delete id="removeAddrByCode" parameterType="String">
-			/* 배송지 삭제 */
-			DELETE
-				*
-			FROM
-			 	addr_manage
-			WHERE 
-				shipping_addr_code = #{addrCode};
-		</delete>
+
 <select id="getAddrInfoById" parameterType="String" resultMap="adminAddrResultMap">
-		/* 배송지 조회 */
+		/* 특정 배송지 조회 */
 			select 
 				 shipping_addr_code
+				,shipping_addr_postal
 				,shipping_addr_road
 				,shipping_addr_loca
+				,shipping_addr_detail
 				,shipping_addr_name
 				,shipping_addr_recipient
 				,shipping_addr_tel
@@ -48,8 +44,14 @@
 			<if test="addrRoad != null and addrRoad != ''">
 				shipping_addr_road = #{addrRoad},
 			</if>
+			<if test="addrPostal != null and addrPostal != ''">
+				shipping_addr_postal = #{addrPostal},
+			</if>
 			<if test="addrLoca != null and addrLoca != ''">
 				shipping_addr_loca = #{addrLoca},
+			</if>
+			<if test="addrDetail != null and addrDetail != ''">
+				shipping_addr_detail = #{addrDetail},
 			</if>
 			<if test="addrName != null and addrName != ''">
 				shipping_addr_name = #{addrName},
