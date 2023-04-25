@@ -16,16 +16,17 @@ import ks46team02.farm.dto.Production;
 @Mapper
 public interface FarmMapper {
 	
+	// 전체 사육장 리스트 //
+	public List<FarmInfo> getFarmList(String companyCode);
+	// 한 사육장 정보 조회 //
+	public FarmInfo getFarmInfoByCode(String farmCode);
+	// 한 사육장 생산량 조회 //
+	public List<Production> getProductionByCode(String farmCode);
+	// 전체 사육장 생산량 조회 //
+	public List<Production> getProductionList(String companyCode);
+	// 한사육장 싸이클 조회 및 검색 //
+	public List<Cycle> getSearchCycle(String farmCode, String searchKey, String searchValue, String fromDate, String toDate);
+	// 사육장 검색 //
+	public List<Production> getSearchProduction(String companyCode, String searchKey, String searchValue, String fromDate, String toDate);
 	
-	public List<Cycle> getAllCycleList();
-	public List<Cycle> getCycleList(String farmCode, String searchKey, String searchValue, String fromDate, String toDate);
- 
-    public List<Production> getAllProductionList(String companyCode);
-    public List<Production> getProductionList(String farmCode);
-   
-    public FarmInfo getFarmInfoByCode(String farmCode);
-    public List<Feed> getFeedList(String cycleCode);
-    public List<Cage> getCageList();
-    public List<FarmInfo> getFarmList(String companyCode);
-    public List<FarmStatus> getFarmStatusList();
 }

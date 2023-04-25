@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<div th:fragment="cycleSearch" class="container" style="float: left; margin-left: 8px; margin-bottom: 10px;">
 			<div class="row">
-				<form class="form-inline" th:action="@{/farm/farmDetail(farmCode=${farmCode})}" id="search" method="post">
+				<form class="form-inline" th:action="@{/farm/farmDetail(farmCode=${farmCode})}" id="search" method="get">
 					<input type="hidden" name="tapName" value="cycle"/>
-				  <!--   <input type="hidden" name="farmCode" th:value="${farmCode}"/> -->
+					<input type="hidden" name="farmCode" th:value="${farmCode}"/> 
 			
 					<div class="form-group">
 					<div class="col-sm-1"></div>
