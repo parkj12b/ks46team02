@@ -2,19 +2,27 @@ package ks46team02.common.dto;
 
 public class Addr {
 	private String addrCode;
+	private String addrPostal;
 	private String addrRoad;
 	private String addrLoca;
+	private String addrDetail;
 	private String addrName;
 	private String addrRecipient;
 	private String addrTel;
 	private String addrPhone;
 	private String addrSeq;
 	private String memberId;
-	public String getAddrcode() {
+	public String getAddrCode() {
 		return addrCode;
 	}
-	public void setAddrcode(String addrcode) {
-		this.addrCode = addrcode;
+	public void setAddrCode(String addrCode) {
+		this.addrCode = addrCode;
+	}
+	public String getAddrPostal() {
+		return addrPostal;
+	}
+	public void setAddrPostal(String addrPostal) {
+		this.addrPostal = addrPostal;
 	}
 	public String getAddrRoad() {
 		return addrRoad;
@@ -27,6 +35,12 @@ public class Addr {
 	}
 	public void setAddrLoca(String addrLoca) {
 		this.addrLoca = addrLoca;
+	}
+	public String getAddrDetail() {
+		return addrDetail;
+	}
+	public void setAddrDetail(String addrDetail) {
+		this.addrDetail = addrDetail;
 	}
 	public String getAddrName() {
 		return addrName;
@@ -66,9 +80,10 @@ public class Addr {
 	}
 	@Override
 	public String toString() {
-		return "Addr [addrcode=" + addrCode + ", addrRoad=" + addrRoad + ", addrLoca=" + addrLoca + ", addrName="
-				+ addrName + ", addrRecipient=" + addrRecipient + ", addrTel=" + addrTel + ", addrPhone=" + addrPhone
-				+ ", addrSeq=" + addrSeq + ", memberId=" + memberId + "]";
+		return "Addr [addrCode=" + addrCode + ", addrPostal=" + addrPostal + ", addrRoad=" + addrRoad + ", addrLoca="
+				+ addrLoca + ", addrDetail=" + addrDetail + ", addrName=" + addrName + ", addrRecipient="
+				+ addrRecipient + ", addrTel=" + addrTel + ", addrPhone=" + addrPhone + ", addrSeq=" + addrSeq
+				+ ", memberId=" + memberId + "]";
 	}
 
 }
