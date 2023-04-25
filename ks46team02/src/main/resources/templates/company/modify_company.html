@@ -9,7 +9,7 @@
 <th:block layout:fragment="customJs">
     <script>
         $('#resetBtn').click(function () {
-            location.href = '/company/company_list';
+            location.href = '/company/companyList';
         });
     </script>
 </th:block>
@@ -23,16 +23,16 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <form id="companyModifyForm" th:action="@{/company/company_modify}" method="post">
+                    <form id="companyModifyForm" th:action="@{/company/modifyCompany}" method="post">
                         <div th:object="${companyInfo}">
                         <span class="section">Company Modify</span>
-                            <div class="field item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyCode">업체코드</label>
-                                <div class="col-md-6 col-sm-6">
-                                    <input id="companyCode" class="form-control" name="companyCode"
-                                           type="text" th:value="*{companyCode}"/>
-                                </div>
+                        <div class="field item form-group" th:if="${positionLevel == 'admin'}">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyCode">업체코드</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input id="companyCode" class="form-control" name="companyCode"
+                                       type="text" th:value="*{companyCode}"/>
                             </div>
+                        </div>
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyRegNum">사업자등록번호</label>
                             <div class="col-md-6 col-sm-6">

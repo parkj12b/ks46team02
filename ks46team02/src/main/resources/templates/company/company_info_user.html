@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/mypage}">
+<head>
+    <meta charset="UTF-8">
+    <title>BSFP</title>
+</head>
+<th:block layout:fragment="customJs">
+<script>
+    function deleteBoard(seq, companyCode){
+        Swal.fire({
+            title: '글을 삭제하시겠습니까???',
+            text: "삭제하시면 다시 복구시킬 수 없습니다.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '삭제',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: '/company/deleteCompany',
+                    type: 'POST',
+                    data: {
+                        seq: seq,
+                        companyCode: companyCode
+                    },
+                    success: function(response) {
+                        // 삭제에 성공한 경우의 처리
+                        Swal.fire({
+                            title: '삭제 완료',
+                            text: "삭제가 완료되었습니다.",
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: '확인'
+                        }).then((result) => {
+                            if (result.value) {
+                                // 삭제 후 이동할 페이지 URL
+                                window.location.href = '/company/companyList';
+                            }
+                        });
+                    },
+                    error: function(error) {
+                        // 삭제에 실패한 경우의 처리
+                        Swal.fire({
+                            title: '삭제 실패',
+                            text: "삭제에 실패하였습니다. 다시 시도해주세요.",
+                            icon: 'error',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: '확인'
+                        });
+                    }
+                });
+            }
+        })
+    }
+    $(document).ready(function() {
+        $('#deleteBtn').on('click', function(e) {
+            e.preventDefault();
+            var seq = $(this).data('seq'); // data-seq 속성을 사용하여 seq 값을 가져옵니다.
+            deleteBoard(seq); // deleteBoard 함수를 호출합니다.
+        });
+    });
+</script>
+</th:block>
+
+<th:block layout:fragment="customContent">
+    <div class="page-title">
+        <div class="title">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>내 업체 정보</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <form id="companyInfoForm" th:action="@{/company/companyInfoUser}" method="post" novalidate>
+                        <div th:object="${companyInfo}">
+                        <span class="section">Company Info</span>
+
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">사업자등록번호</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input class="form-control optional" name="companyRegNum"
+                                       th:value="*{companyRegNum}"
+                                       type="text" readonly="readonly"/></div>
+                        </div>
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">업체명</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input class="form-control optional" name="companyName"
+                                       th:value="*{companyName}"
+                                       type="text" readonly="readonly"/>
+                            </div>
+                        </div>
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">업체주소</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input class="form-control optional" name="companyAddr"
+                                       th:value="*{companyAddr}"
+                                       type="text" readonly="readonly"/>
+                            </div>
+                        </div>
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">업체종류</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input class="form-control optional" name="companyType"
+                                       th:value="*{companyType}"
+                                       type="text" readonly="readonly"/>
+                            </div>
+                        </div>
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align required">업체전화번호</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input class="form-control optional" name="companyTel"
+                                       th:value="*{companyTel}"
+                                       type="text" readonly="readonly"/>
+                            </div>
+                        </div>
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">업체등록신청아이디</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input class="form-control optional" name="memberId"
+                                       th:value="*{memberId}"
+                                       type="text" readonly="readonly"/>
+                            </div>
+                        </div>
+
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">등록신청일</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input class="form-control optional" name="applyDate"
+                                       th:value="*{applyDate}"
+                                       type="text" readonly="readonly"/>
+                            </div>
+                        </div>
+
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">승인여부</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input class="form-control optional" name="approvalStatus"
+                                       th:value="*{approvalStatus}"
+                                       type="text" readonly="readonly"/>
+                            </div>
+                        </div>
+
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">승인일</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input class="form-control optional" name="applyDate"
+                                       th:value="*{applyDate}"
+                                       type="text" readonly="readonly"/>
+                            </div>
+                        </div>
+
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">승인반려사유</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input class="form-control optional" name="approvalDeniedContent"
+                                       th:value="*{approvalDeniedContent}"
+                                       type="text" readonly="readonly"/>
+                            </div>
+                        </div>
+
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">사원등록비밀번호</label>
+                            <div class="col-md-6 col-sm-6">
+                                <input class="form-control optional" name="regPassword"
+                                       th:value="*{regPassword}"
+                                       type="text" readonly="readonly"/>
+                            </div>
+                        </div>
+                        <th:block th:if="${companyInfo.companyTypeNum == 2}">
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">사육업체등급</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control optional" name="breederLevelName"
+                                           th:value="*{breederLevelName}"
+                                           type="text" readonly="readonly"/>
+                                </div>
+                            </div>
+                            <div class="field item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3  label-align">사육장 수</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control optional" name="farmCnt"
+                                           th:value="*{farmCnt}"
+                                           type="text" readonly="readonly"/>
+                                </div>
+                            </div>
+                        </th:block>
+                        <div class="item form-group">
+                            <div class="col-md-6 col-sm-6 offset-md-3">
+                                <button id="deleteBtn" class="btn btn-dark" type="button" th:href="@{#}">삭제</button>
+                                <button class="btn btn-dark" type="reset" th:onclick="|location.href='@{/company/modifyCompany(companyCode=*{companyCode})}'|">수정</button>
+                            </div>
+                        </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

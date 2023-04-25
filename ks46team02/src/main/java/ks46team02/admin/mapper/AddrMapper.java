@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import ks46team02.admin.dto.Addr;
+import ks46team02.common.dto.Addr;
 
 
 @Mapper
 public interface AddrMapper {
 	/* 전체 회원 배송지 조회*/
 	public List<Addr> getAddrList();
+	/* 배송지 삭제 */
+	public int removeAddrByCode(String addrCode);
 }

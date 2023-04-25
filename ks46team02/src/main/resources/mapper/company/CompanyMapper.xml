@@ -24,6 +24,40 @@
         <result column="breeder_level_name"         property="breederLevelName"/>
     </resultMap>
 
+    <insert id="insertCompanyProduct" parameterType="FarmProductCategory">
+        /* 사육업체상품카테고리 등록 */
+        INSERT into farm_product_category
+            (product_category_code, product_name, admin_id, product_category_reg_date)
+        values
+            (#{productCategoryCode},#{productName},#{adminId},curdate());
+    </insert>
+    <select id="getFarmProductCategoryList" resultType="FarmProductCategory">
+        /* 사육업체상품카테고리조회 */
+        SELECT
+            product_category_code as productCategoryCode
+            ,product_name as productName
+            ,admin_id as adminId
+            ,product_category_reg_date as productCategoryRegDate
+        FROM
+            farm_product_category;
+    </select>
+
+    <select id="getCompanyPositionList" resultType="CompanyPositionLevel">
+        /* 업체직원별권한조회 */
+        SELECT
+            position_level_code as positionLevelCode
+            ,member_level_name as memberLevelName
+            ,company_reg_date as companyRegDate
+            ,admin_id as adminId
+            ,member_management as memberManagement
+            ,contract_management as contractManagement
+            ,payment_management as paymentManagement
+            ,company_info_management as companyInfoManagement
+            ,mento_mentee_management as MentorMenteeManagement
+        FROM
+            company_position_level;
+    </select>
+
     <update id="modifyCompany" parameterType="Company">
         /* 업체정보 수정 */
         UPDATE company_info
@@ -82,6 +116,7 @@
         SELECT
         ci.company_code
         ,ct.company_type
+        ,ci.company_type_num
         ,ci.Company_reg_num
         ,ci.member_id
         ,ci.Company_tel
@@ -115,6 +150,8 @@
         SELECT
             ct.company_type_num as companyTypeNum
             ,ct.company_type as companyType
+            ,ct.reg_date as regDate
+            ,ct.admin_id as adminId
         FROM
             company_type as ct;
     </select>
@@ -124,11 +161,11 @@
         SELECT
             ci.company_code
             ,ct.company_type
-            ,ci.Company_reg_num
+            ,ci.company_reg_num
             ,ci.member_id
-            ,ci.Company_tel
-            ,ci.Company_addr
-            ,ci.Company_name
+            ,ci.company_tel
+            ,ci.company_addr
+            ,ci.company_name
             ,ci.apply_date
             ,ci.approval_status
             ,ci.approval_denied_content
@@ -142,6 +179,6 @@
             inner join
             company_type as ct
             on
-            ci.company_type_num = ct.company_type_num ;
+            ci.company_type_num = ct.company_type_num;
     </select>
 </mapper>
