@@ -4,6 +4,22 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.farm.mapper.FarmMapper">
 
+	<!-- 하나의 싸이클 먹이급여 조회 -->
+	 <select id="getFeedListByCycleCode" resultType="Feed">
+        SELECT
+	        feeding_num AS feedingNum,
+	        company_code AS companyCode,
+	        farm_code AS farmCode,
+	        expected_cage_production_code AS expectedCageProductionCode,
+	        feeding_amount AS feedingAmount,
+	        feeding_date AS feedingDate,
+	        member_id AS memberId
+        FROM
+        	feeding
+        where
+        	expected_cage_production_code = #{cycleCode}
+    </select>
+
 	<!-- 전체 사육장 생산량 검색 -->
 	 <select id="getSearchProduction" resultType ="Production">
         SELECT 
@@ -24,17 +40,24 @@
 			ON p.expected_cage_production_code = ex.expeted_cage_production_code
 		    <where>
 		     	p.company_code = #{companyCode}
-		     	<if test="searchKey != null and searchKey != ''">
-		     	 AND (${searchKey} LIKE CONCAT('%', #{searchValue}, '%'))
-		     	</if>
+		     	
 		     	 <if test="fromDate != null and fromDate != '' and toDate != null and toDate != ''">
-                AND DATE_FORMAT(realHarvestDay, '%Y-%m-%d') BETWEEN #{fromDate} AND #{toDate}
+                AND DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d') BETWEEN #{fromDate} AND #{toDate}
+	                <if test="searchKey != null and searchKey != ''">
+			     	 AND (${searchKey} LIKE CONCAT('%', #{searchValue}, '%'))
+			     	</if>
 	            </if>
 	            <if test="fromDate != null and fromDate != '' and (toDate == null or toDate == '')">
-	                AND DATE_FORMAT(realHarvestDay, '%Y-%m-%d') &gt;= #{fromDate}
+	                AND DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d') &gt;= #{fromDate}
+		            <if test="searchKey != null and searchKey != ''">
+			     	 AND (${searchKey} LIKE CONCAT('%', #{searchValue}, '%'))
+			     	</if>
 	            </if>
 	            <if test="(fromDate == null or fromDate == '') and toDate != null and toDate != ''">
-	                AND DATE_FORMAT(realHarvestDay, '%Y-%m-%d') &lt;= #{toDate}
+	                AND DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d') &lt;= #{toDate}
+	                <if test="searchKey != null and searchKey != ''">
+			     	 AND (${searchKey} LIKE CONCAT('%', #{searchValue}, '%'))
+			     	</if>
 	            </if>
 			    </where>
 		    ORDER BY real_harvest_day  DESC;

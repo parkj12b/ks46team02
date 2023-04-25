@@ -42,9 +42,26 @@ public class FarmController {
 		this.mentorMenteeService = mentorMenteeService;
 		this.farmService = farmService;
 	}
+
 	
 	/**
-	 * 사육장 전체 검색 조회
+	 * 하나의 싸이클 먹이 조회
+	 * @param model
+	 * @param cycleCode
+	 * @return
+	 */
+	
+	@GetMapping("/feedList")
+	public String getFeedListByCycleCode(Model model
+							,@RequestParam(name="cycleCode") String cycleCode){
+		List<Feed> feedList = farmService.getFeedListByCycleCode(cycleCode);
+		model.addAttribute("title", "먹이 조회");
+		model.addAttribute("feedList", feedList);
+		return "farm/feed_list";
+	}	
+	
+	/**
+	 * 전체 사육장 생산량 조회
 	 * @param model
 	 * @param session
 	 * @return
@@ -66,14 +83,6 @@ public class FarmController {
 
 	/**
 	 * 한 사육장 세부 정보 (사육장 정보, 생산량, 싸이클)
-	 * @param model
-	 * @param tapName
-	 * @param farmCode
-	 * @param searchKey
-	 * @param searchValue
-	 * @param fromDate
-	 * @param toDate
-	 * @param session
 	 * @return "farm/farm_detail"
 	 */
 	@GetMapping("/farmDetail")

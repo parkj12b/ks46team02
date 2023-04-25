@@ -28,5 +28,7 @@ public interface FarmMapper {
 	public List<Cycle> getSearchCycle(String farmCode, String searchKey, String searchValue, String fromDate, String toDate);
 	// 사육장 검색 //
 	public List<Production> getSearchProduction(String companyCode, String searchKey, String searchValue, String fromDate, String toDate);
+	// 하나의 사이클 급여먹이 조회 //
+	public List<Feed> getFeedListByCycleCode(String cycleCode);
 	
 }

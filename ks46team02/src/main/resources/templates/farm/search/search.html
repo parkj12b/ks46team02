@@ -39,6 +39,43 @@
 			</div>
 		</div>
 		
+		<div th:fragment="productionSearch" class="container" style="float: left; margin-left: 8px; margin-bottom: 10px;">
+			<div class="row">
+				<form class="form-inline" th:action="@{/farm/productionList}" id="search" method="get">
+					<div class="form-group">
+					<div class="col-sm-1"></div>
+						<div class="col-sm-2">
+							<input name="fromDate" class="date-picker form-control" placeholder="연도-월-일" type="date" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='date'">
+						</div>
+					</div>
+					<span style="font-size: x-large; vertical-align: middle;">~</span>
+					<div class="form-group">
+						<div class="col-sm-2">
+							<input name="toDate" class="date-picker form-control" placeholder="연도-월-일" type="date" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='date'">
+						</div>
+					</div>
+					<div class="form-group">
+						<select name="searchKey" style="padding-top:7px; padding-bottom: 7px; text-align: center;">
+							<option value="">:::선택:::</option>
+							<option value="productionCode">생산량 코드</option>
+							<option value="farmCode">사육장 코드</option>
+							<option value="expectedCageProductionCode">싸이클 코드</option>
+							<option value="calculationStandardCode">품목</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<div class="col-md-8">
+							<input type="text" name="searchValue" class="form-control" style="width: 200px;" placeholder="검색어를 입력해주세요">
+						</div>
+						<div class="col-md-4">
+							<button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 5px;">검색</button>
+						</div>
+					</div>
+					
+				</form>
+			</div>
+		</div>
+		
 		
 
 

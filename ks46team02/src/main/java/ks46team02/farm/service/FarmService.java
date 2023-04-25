@@ -24,6 +24,15 @@ public class FarmService {
         this.farmMapper = farmMapper;
     }
     
+    /**
+     * 
+     * @param cycleCode
+     * @return
+     */
+    public  List<Feed> getFeedListByCycleCode(String cycleCode){
+        List<Feed> feedList = farmMapper.getFeedListByCycleCode(cycleCode);
+        return feedList;
+    }
     
     /**
      * 전체 생산량 검색 조회
@@ -33,6 +42,25 @@ public class FarmService {
 												,String searchValue
 												,String fromDate
 												,String toDate){
+    	if(searchKey != null) {
+    		switch (searchKey) {
+			case "productionCode":
+				searchKey = "p.production_code";
+				break;
+			case "farmCode":
+				searchKey = "p.farm_code";
+				break;
+			case "expectedCageProductionCode":
+				searchKey = "ex.calculation_standard_code";
+				break;
+			case "calculationStandardCode":
+				searchKey = "ex.calculation_standard_code";
+				break;
+
+			default:
+				break;
+			}
+    	}
         List<Production> allProductionList = farmMapper.getSearchProduction(companyCode,searchKey,searchValue,fromDate,toDate);
         return allProductionList;
     }
