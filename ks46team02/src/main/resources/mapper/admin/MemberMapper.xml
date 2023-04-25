@@ -16,6 +16,56 @@
 		<result column="member_status"  						property="memberStatus"/>
 		<result column="dormant_member_reg_date"  				property="dormantMemberRegDate"/>
 </resultMap>
+<select id="getMemberInfoById" parameterType="String" resultMap="MemberResultMap">
+		/* 특정 회원 조회 */
+			select 
+				 member_id
+				,member_pw
+				,member_name
+				,member_phone
+				,member_email
+				,position_level_code
+				,company_code
+				,member_reg_date
+				,member_ci
+				,member_status
+				,dormant_member_reg_date
+			from 
+				member_info 
+			where 
+				member_id = #{memberId};
+	</select>
+
+	<update id="modifyMember" parameterType="String" >
+		/* 회원 정보 수정 */	
+		UPDATE member_info
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="memberPw != null and memberPw != ''">
+				member_pw = #{memberPw},
+			</if>
+			<if test="memberName != null and memberName != ''">
+				member_name = #{adminName},
+			</if>
+			<if test="memberPhone != null and memberPhone != ''">
+				member_phone = #{memberPhone},
+			</if>
+			<if test="memberEmail != null and memberEmail != ''">
+				member_email = #{memberEmail},
+			</if>
+			<if test="positionLevelCode != null and positionLevelCode != ''">
+				position_level_code = #{positionLevelCode},
+			</if>
+			<if test="memberRegDate != null and memberRegDate != ''">
+				member_reg_date = #{memberRegDate},
+			</if>
+			<if test="memberStatus != null and memberStatus != ''">
+				member_status = #{memberStatus},
+			</if>
+		</trim>
+		WHERE 
+			member_id = #{memberId};
+
+	</update>
 	<select id="getDormantMemberList" parameterType="String" resultMap="MemberResultMap">
 				/* 휴면 회원 조회 */
 			select 

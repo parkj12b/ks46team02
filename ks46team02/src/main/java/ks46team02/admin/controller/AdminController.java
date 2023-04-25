@@ -17,7 +17,9 @@ import ks46team02.admin.dto.ContractStandard;
 import ks46team02.admin.dto.LoginHistory;
 import ks46team02.admin.dto.MemberLevel;
 import ks46team02.admin.dto.WithdrawalMember;
+import ks46team02.admin.mapper.AddrMapper;
 import ks46team02.admin.mapper.AdminMapper;
+import ks46team02.admin.mapper.MemberMapper;
 import ks46team02.admin.service.AddrService;
 import ks46team02.admin.service.AdminLevelService;
 import ks46team02.admin.service.AdminMMservice;
@@ -51,7 +53,9 @@ public class AdminController {
 	private final ContractStandardService contractStandardService;
 	private final MemberLevelService memberLevelService; 
 	private final CompanyApprovalService companyApprovalService;
-	private final AdminMapper adminMapper; 
+	private final AdminMapper adminMapper;
+	private final MemberMapper memberMapper;
+	private final AddrMapper addrMapper;
 	
 	
 	private static final Logger log = LoggerFactory.getLogger(AdminController.class);
@@ -67,7 +71,9 @@ public class AdminController {
     					  ,ContractStandardService contractStandardService
     					  ,MemberLevelService memberLevelService
     					  ,CompanyApprovalService companyApprovalService
-    					  ,AdminMapper adminMapper) {
+    					  ,AdminMapper adminMapper
+    					  ,MemberMapper memberMapper
+    					  ,AddrMapper addrMapper) {
 		this.addrService = addrService;
 		this.adminService = adminService;
 		this.withdrawalMemberService = withdrawalMemberService;
@@ -79,6 +85,8 @@ public class AdminController {
 	    this.memberLevelService = memberLevelService;
 	    this.companyApprovalService = companyApprovalService;
 	    this.adminMapper = adminMapper;
+	    this.memberMapper = memberMapper;
+	    this.addrMapper = addrMapper;
 	}
     /* 승인 대기 업체 조회 */
 	@GetMapping("/companyApprovalList")
@@ -102,7 +110,7 @@ public class AdminController {
 	
 	/* 관리자 수정 */
 	@PostMapping("/modifyAdmin")
-	public String modifyGoods(AdminMember adminMember) {
+	public String modifyAdmin(AdminMember adminMember) {
 		
 		adminMapper.modifyAdmin(adminMember);
 		
@@ -111,15 +119,15 @@ public class AdminController {
 	/* 관리자 수정 */
 	
 	@GetMapping("/modifyAdmin")
-	public String modifyGoods(Model model
+	public String modifyAdmin(Model model
 							 ,@RequestParam(name="adminId") String adminId){
 		
 		AdminMember adminInfo = adminService.getAdminInfoById(adminId);
-		List<AdminMember> adminList = adminService.getAdminList();
+		List<AdminLevel>adminLevelList =adminLevelService.getAdminLevelList();
 		log.info("log"+adminInfo );
 		model.addAttribute("title", "관리자 수정");
 		model.addAttribute("adminInfo", adminInfo);
-		model.addAttribute("adminList", adminList);
+		model.addAttribute("adminLevelList", adminLevelList);
 		return "admin/modify_admin";
 	}
 
@@ -163,6 +171,25 @@ public class AdminController {
 
 		return "admin/addr_list";
 	}
+	/* 배송지 수정 */
+	@PostMapping("/modifyAddr")
+	public String modifyAddr(Addr addr) {
+		
+		addrMapper.modifyAddr(addr);
+		
+		return "redirect:/admin/addrList";
+	}
+	/* 배송지 수정 */
+	
+	@GetMapping("/modifyAddr")
+	public String modifyAddr(Model model
+							 ,@RequestParam(name="addrCode") String addrCode){
+		
+		Addr addrInfo = addrService.getAddrInfoById(addrCode);
+		model.addAttribute("title", "회원 수정");
+		model.addAttribute("memberInfo", addrInfo);
+		return "admin/modify_addr";
+	}
 	/* 배송지 삭제 */
 	/* 배송지 등록 */
 	@GetMapping("/addAddr")
@@ -202,6 +229,27 @@ public class AdminController {
 		return "admin/adminLevel_list";
 	
 		}
+	/* 회원 수정 */
+	@PostMapping("/modifyMember")
+	public String modifyMember(Member member) {
+		
+		memberMapper.modifyMember(member);
+		
+		return "redirect:/admin/memberList";
+	}
+	/* 회원 수정 */
+	
+	@GetMapping("/modifyMember")
+	public String modifyMember(Model model
+							 ,@RequestParam(name="memberId") String memberId){
+		
+		Member memberInfo = memberservice.getMemberInfoById(memberId);
+		List<MemberLevel> memberLevelList = memberLevelService.getAdminLevelList();
+		model.addAttribute("title", "회원 수정");
+		model.addAttribute("memberInfo", memberInfo);
+		model.addAttribute("memberLevelList", memberLevelList);
+		return "admin/modify_member";
+	}
 		/* 회원 목록 조회 */
 	@GetMapping("/memberList")
 	public String getMemberList(Model model) {
