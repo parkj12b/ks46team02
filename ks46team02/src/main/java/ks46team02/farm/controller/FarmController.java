@@ -42,6 +42,36 @@ public class FarmController {
 		this.mentorMenteeService = mentorMenteeService;
 		this.farmService = farmService;
 	}
+	
+	
+	/**
+	 * 사육 장 등록
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/addFarm")
+	public String addFarm(Model model){
+		model.addAttribute("title", "사육장 등록");
+		
+		return "farm/add_farm";
+	}
+	
+	
+	
+	/**
+	 * 한 사육장 상태 조회
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/farmStatusList")
+	public String getFarmStatusList(Model model
+									,@RequestParam(name="farmCode") String farmCode){
+		List<FarmStatus> farmStatusListList = farmService.getFarmStatusList(farmCode);
+		model.addAttribute("title", "사육장 상태 정보");
+		model.addAttribute("farmStatusListList", farmStatusListList);
+
+		return "farm/farm_status_list";
+	}
 
 	
 	/**

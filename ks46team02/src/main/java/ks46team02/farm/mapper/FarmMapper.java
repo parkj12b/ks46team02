@@ -16,6 +16,9 @@ import ks46team02.farm.dto.Production;
 @Mapper
 public interface FarmMapper {
 	
+	
+	// 한 사육장 생타 조회 //
+	public List<FarmStatus> getFarmStatusList(String farmCode);
 	// 전체 사육장 리스트 //
 	public List<FarmInfo> getFarmList(String companyCode);
 	// 한 사육장 정보 조회 //

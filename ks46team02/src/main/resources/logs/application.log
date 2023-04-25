@@ -2482,3 +2482,1096 @@ java.sql.SQLSyntaxErrorException: Unknown column 'realHarvestDay' in 'where clau
 		     WHERE p.company_code = 'comp_1' 
 		    ORDER BY real_harvest_day  DESC;
  {executed in 13 msec}
+12:42:53.724 [http-nio-8088-exec-2] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1'
+
+                AND DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d') BETWEEN '2023-04-05' AND '2023-04-21'
+
+			     	 AND (p.production_code LIKE CONCAT('%', '@#!@#!@', '%')) 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 12 msec}
+12:43:02.648 [http-nio-8088-exec-4] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 14 msec}
+12:48:43.081 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 13204 (C:\Users\ECS\git\ks46team02\ks46team02\target\classes started by ECS in C:\Users\ECS\git\ks46team02\ks46team02)
+12:48:43.082 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+12:48:44.664 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 1.645 seconds (process running for 724.188)
+13:35:53.006 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 73 msec}
+13:36:25.046 [http-nio-8088-exec-5] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 11 msec}
+13:36:27.885 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - SELECT
+		   farm_code AS farmCode,
+		   farm_name AS farmName,
+		   farm_detail as farmDetail,
+		   company_code AS companyCode,
+		   farm_address AS farmAddr,
+		   farm_reg_date AS farmRegDate,
+		   cage_amount AS cageAmount,
+		   total_capacity AS totalCapacity,
+		   member_id AS memberId
+	   FROM
+	  		farm_info
+	   WHERE
+	   		company_code = 'comp_1'
+ {executed in 21 msec}
+13:36:34.655 [http-nio-8088-exec-8] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 14 msec}
+13:36:52.099 [http-nio-8088-exec-7] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 10 msec}
+13:36:56.985 [http-nio-8088-exec-8] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 12 msec}
+13:36:59.509 [http-nio-8088-exec-9] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 12 msec}
+13:37:03.799 [http-nio-8088-exec-4] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 12 msec}
+13:37:07.755 [http-nio-8088-exec-3] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 12 msec}
+13:37:13.245 [http-nio-8088-exec-10] INFO  jdbc.sqltiming - SELECT
+		   farm_code AS farmCode,
+		   farm_name AS farmName,
+		   farm_detail as farmDetail,
+		   company_code AS companyCode,
+		   farm_address AS farmAddr,
+		   farm_reg_date AS farmRegDate,
+		   cage_amount AS cageAmount,
+		   total_capacity AS totalCapacity,
+		   member_id AS memberId
+	   FROM
+	  		farm_info
+	   WHERE
+	   		company_code = 'comp_1'
+ {executed in 10 msec}
+13:37:14.769 [http-nio-8088-exec-7] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 11 msec}
+13:37:19.234 [http-nio-8088-exec-10] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 10 msec}
+13:39:28.431 [http-nio-8088-exec-6] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 11 msec}
+13:39:33.829 [http-nio-8088-exec-8] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 12 msec}
+13:39:43.244 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 13204 (C:\Users\ECS\git\ks46team02\ks46team02\target\classes started by ECS in C:\Users\ECS\git\ks46team02\ks46team02)
+13:39:43.245 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+13:39:44.555 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 1.379 seconds (process running for 3784.085)
+13:40:04.328 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1'
+
+			     	 AND (ex.calculation_standard_code LIKE CONCAT('%', 'pupa', '%')) 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 42 msec}
+13:40:07.794 [http-nio-8088-exec-5] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1'
+
+			     	 AND (ex.calculation_standard_code LIKE CONCAT('%', 'lava', '%')) 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 18 msec}
+13:40:16.126 [http-nio-8088-exec-4] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1'
+
+			     	 AND (ex.calculation_standard_code LIKE CONCAT('%', 'pupa', '%')) 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 13 msec}
+13:40:18.155 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 13204 (C:\Users\ECS\git\ks46team02\ks46team02\target\classes started by ECS in C:\Users\ECS\git\ks46team02\ks46team02)
+13:40:18.156 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+13:40:19.520 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 1.421 seconds (process running for 3819.05)
+13:41:56.112 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1'
+
+			     	 AND (p.farm_code LIKE CONCAT('%', 'farm_1', '%')) 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 16 msec}
+13:42:38.185 [http-nio-8088-exec-7] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1'
+
+			     	 AND (p.farm_code LIKE CONCAT('%', 'farm_1', '%')) 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 9 msec}
+13:45:01.359 [http-nio-8088-exec-2] INFO  jdbc.sqltiming - SELECT
+		   farm_code AS farmCode,
+		   farm_name AS farmName,
+		   farm_detail as farmDetail,
+		   company_code AS companyCode,
+		   farm_address AS farmAddr,
+		   farm_reg_date AS farmRegDate,
+		   cage_amount AS cageAmount,
+		   total_capacity AS totalCapacity,
+		   member_id AS memberId
+	   FROM
+	  		farm_info
+	   WHERE
+	   		company_code = 'comp_1'
+ {executed in 21 msec}
+13:46:42.527 [http-nio-8088-exec-3] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 10 msec}
+13:46:45.806 [http-nio-8088-exec-9] INFO  jdbc.sqltiming - SELECT
+		   farm_code AS farmCode,
+		   farm_name AS farmName,
+		   farm_detail as farmDetail,
+		   company_code AS companyCode,
+		   farm_address AS farmAddr,
+		   farm_reg_date AS farmRegDate,
+		   cage_amount AS cageAmount,
+		   total_capacity AS totalCapacity,
+		   member_id AS memberId
+	   FROM
+	  		farm_info
+	   WHERE
+	   		company_code = 'comp_1'
+ {executed in 10 msec}
+13:48:15.038 [http-nio-8088-exec-4] INFO  jdbc.sqltiming - SELECT
+		   farm_code AS farmCode,
+		   farm_name AS farmName,
+		   farm_detail as farmDetail,
+		   company_code AS companyCode,
+		   farm_address AS farmAddr,
+		   farm_reg_date AS farmRegDate,
+		   cage_amount AS cageAmount,
+		   total_capacity AS totalCapacity,
+		   member_id AS memberId
+	   FROM
+	  		farm_info
+	   WHERE
+	   		company_code = 'comp_1'
+ {executed in 9 msec}
+13:48:32.900 [http-nio-8088-exec-5] INFO  jdbc.sqltiming - SELECT
+		   farm_code AS farmCode,
+		   farm_name AS farmName,
+		   farm_detail as farmDetail,
+		   company_code AS companyCode,
+		   farm_address AS farmAddr,
+		   farm_reg_date AS farmRegDate,
+		   cage_amount AS cageAmount,
+		   total_capacity AS totalCapacity,
+		   member_id AS memberId
+	   FROM
+	  		farm_info
+	   WHERE
+	   		company_code = 'comp_1'
+ {executed in 11 msec}
+13:52:10.615 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 13204 (C:\Users\ECS\git\ks46team02\ks46team02\target\classes started by ECS in C:\Users\ECS\git\ks46team02\ks46team02)
+13:52:10.616 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+13:52:12.125 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 1.608 seconds (process running for 4531.655)
+13:52:26.634 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 13204 (C:\Users\ECS\git\ks46team02\ks46team02\target\classes started by ECS in C:\Users\ECS\git\ks46team02\ks46team02)
+13:52:26.636 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+13:52:28.054 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 1.488 seconds (process running for 4547.585)
+13:52:40.464 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 13204 (C:\Users\ECS\git\ks46team02\ks46team02\target\classes started by ECS in C:\Users\ECS\git\ks46team02\ks46team02)
+13:52:40.465 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+13:52:41.591 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 1.179 seconds (process running for 4561.122)
+13:53:55.725 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 13204 (C:\Users\ECS\git\ks46team02\ks46team02\target\classes started by ECS in C:\Users\ECS\git\ks46team02\ks46team02)
+13:53:55.726 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+13:53:57.094 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 1.423 seconds (process running for 4636.624)
+13:54:36.492 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 13204 (C:\Users\ECS\git\ks46team02\ks46team02\target\classes started by ECS in C:\Users\ECS\git\ks46team02\ks46team02)
+13:54:36.492 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+13:54:37.915 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 1.532 seconds (process running for 4677.445)
+13:54:53.539 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 13204 (C:\Users\ECS\git\ks46team02\ks46team02\target\classes started by ECS in C:\Users\ECS\git\ks46team02\ks46team02)
+13:54:53.539 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+13:54:55.295 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 1.873 seconds (process running for 4694.826)
+13:54:57.634 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - SELECT
+		   farm_code AS farmCode,
+		   farm_name AS farmName,
+		   farm_detail as farmDetail,
+		   company_code AS companyCode,
+		   farm_address AS farmAddr,
+		   farm_reg_date AS farmRegDate,
+		   cage_amount AS cageAmount,
+		   total_capacity AS totalCapacity,
+		   member_id AS memberId
+	   FROM
+	  		farm_info
+	   WHERE
+	   		company_code = 'comp_1'
+ {executed in 15 msec}
+13:55:11.986 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 13204 (C:\Users\ECS\git\ks46team02\ks46team02\target\classes started by ECS in C:\Users\ECS\git\ks46team02\ks46team02)
+13:55:11.987 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+13:55:13.360 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 1.429 seconds (process running for 4712.891)
+13:55:56.630 [http-nio-8088-exec-6] INFO  jdbc.sqltiming - SELECT
+		   farm_code AS farmCode,
+		   farm_name AS farmName,
+		   farm_detail as farmDetail,
+		   company_code AS companyCode,
+		   farm_address AS farmAddr,
+		   farm_reg_date AS farmRegDate,
+		   cage_amount AS cageAmount,
+		   total_capacity AS totalCapacity,
+		   member_id AS memberId
+	   FROM
+	  		farm_info
+	   WHERE
+	   		company_code = 'comp_1'
+ {executed in 12 msec}
+13:57:53.788 [http-nio-8088-exec-4] INFO  jdbc.sqltiming - SELECT
+		   farm_code AS farmCode,
+		   farm_name AS farmName,
+		   farm_detail as farmDetail,
+		   company_code AS companyCode,
+		   farm_address AS farmAddr,
+		   farm_reg_date AS farmRegDate,
+		   cage_amount AS cageAmount,
+		   total_capacity AS totalCapacity,
+		   member_id AS memberId
+	   FROM
+	  		farm_info
+	   WHERE
+	   		company_code = 'comp_1'
+ {executed in 10 msec}
+13:57:55.630 [http-nio-8088-exec-8] INFO  jdbc.sqltiming - SELECT
+	        farm_code AS farmCode,
+	        farm_status_hum AS farmStatusHum,
+	        farm_status_illum  AS farmStatusIllum,
+	        farm_status_temp AS farmStatusTemp,
+	        farm_status_reg_date AS farmStatusRegDate
+        FROM
+        	farm_status_log
+        WHERE
+	       	farm_code = 'farm_1'
+ {executed in 20 msec}
+13:58:03.922 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 13204 (C:\Users\ECS\git\ks46team02\ks46team02\target\classes started by ECS in C:\Users\ECS\git\ks46team02\ks46team02)
+13:58:03.931 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+13:58:05.205 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 1.336 seconds (process running for 4884.736)
+13:59:18.831 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - SELECT
+	        farm_code AS farmCode,
+	        farm_status_hum AS farmStatusHum,
+	        farm_status_illum  AS farmStatusIllum,
+	        farm_status_temp AS farmStatusTemp,
+	        farm_status_reg_date AS farmStatusRegDate
+        FROM
+        	farm_status_log
+        WHERE
+	       	farm_code = 'farm_1'
+ {executed in 17 msec}
+13:59:23.354 [http-nio-8088-exec-6] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 17 msec}
+13:59:25.430 [http-nio-8088-exec-2] INFO  jdbc.sqltiming - SELECT
+		   farm_code AS farmCode,
+		   farm_name AS farmName,
+		   farm_detail as farmDetail,
+		   company_code AS companyCode,
+		   farm_address AS farmAddr,
+		   farm_reg_date AS farmRegDate,
+		   cage_amount AS cageAmount,
+		   total_capacity AS totalCapacity,
+		   member_id AS memberId
+	   FROM
+	  		farm_info
+	   WHERE
+	   		company_code = 'comp_1'
+ {executed in 9 msec}
+13:59:31.624 [http-nio-8088-exec-7] INFO  jdbc.sqltiming - SELECT
+		   farm_code AS farmCode,
+		   farm_name AS farmName,
+		   farm_detail as farmDetail,
+		   company_code AS companyCode,
+		   farm_address AS farmAddr,
+		   farm_reg_date AS farmRegDate,
+		   cage_amount AS cageAmount,
+		   total_capacity AS totalCapacity,
+		   member_id AS memberId
+	   FROM
+	  		farm_info
+	   WHERE
+	   		company_code = 'comp_1'
+ {executed in 9 msec}
+14:00:15.525 [http-nio-8088-exec-4] INFO  jdbc.sqltiming - SELECT
+	        farm_code AS farmCode,
+	        farm_status_hum AS farmStatusHum,
+	        farm_status_illum  AS farmStatusIllum,
+	        farm_status_temp AS farmStatusTemp,
+	        farm_status_reg_date AS farmStatusRegDate
+        FROM
+        	farm_status_log
+        WHERE
+	       	farm_code = 'farm_1'
+ {executed in 9 msec}
+14:02:22.572 [http-nio-8088-exec-5] INFO  jdbc.sqltiming - SELECT
+		   farm_code AS farmCode,
+		   farm_name AS farmName,
+		   farm_detail as farmDetail,
+		   company_code AS companyCode,
+		   farm_address AS farmAddr,
+		   farm_reg_date AS farmRegDate,
+		   cage_amount AS cageAmount,
+		   total_capacity AS totalCapacity,
+		   member_id AS memberId
+	   FROM
+	  		farm_info
+	   WHERE
+	   		company_code = 'comp_1'
+ {executed in 9 msec}
+14:02:29.696 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - SELECT
+		        farm_code AS farmCode,
+		        farm_name AS farmName,
+		        farm_detail as farmDetail,
+		        company_code AS companyCode,
+		        farm_address AS farmAddr,
+		        farm_reg_date AS farmRegDate,
+		        cage_amount AS cageAmount,
+		        total_capacity AS totalCapacity,
+		        member_id AS memberId
+	        FROM
+	        	farm_info
+	        WHERE
+	        	farm_code = 'farm_5'
+ {executed in 9 msec}
+14:02:29.711 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.farm_code = 'farm_5' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 12 msec}
+14:02:29.733 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - SELECT
+	  		c.cage_volum as cageVolum,
+	  		c.cage_num as cageNum,
+	  		c.cage_total cageTotal, 
+	        cy.expected_cage_production_code AS cycleCode,
+	        cy.company_code AS companyCode,
+	        cy.farm_code AS farmCode,
+	        cy.cage_code AS cageCode,
+	        Date(harvest_start_date) AS harvestStartDate,
+	        Date(estimated_harvest_date) AS estimatedHarvestDate,
+	        input_egg AS inputEgg,
+	        calculation_standard_code AS calculationStandardCode,
+	        estimated_production AS estimatedProduction,
+	        cy. member_id AS memberId,
+	        estimated_production_reg_date AS estimatedProductionRegDate,
+	        DATEDIFF(estimated_harvest_date, NOW()) AS dayDiffHarvest 
+        FROM
+        	cage_cycle AS cy
+        INNER JOIN
+        	cage AS c
+        ON cy.cage_code = c.cage_code
+         WHERE cy.farm_code = 'farm_5'
+ {executed in 20 msec}
+14:02:29.751 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 16 msec}
+14:02:29.754 [http-nio-8088-exec-1] INFO  k.farm.controller.FarmController - farm_5
+14:02:34.135 [http-nio-8088-exec-8] INFO  jdbc.sqltiming - SELECT
+		   farm_code AS farmCode,
+		   farm_name AS farmName,
+		   farm_detail as farmDetail,
+		   company_code AS companyCode,
+		   farm_address AS farmAddr,
+		   farm_reg_date AS farmRegDate,
+		   cage_amount AS cageAmount,
+		   total_capacity AS totalCapacity,
+		   member_id AS memberId
+	   FROM
+	  		farm_info
+	   WHERE
+	   		company_code = 'comp_1'
+ {executed in 8 msec}
+14:02:42.176 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 13204 (C:\Users\ECS\git\ks46team02\ks46team02\target\classes started by ECS in C:\Users\ECS\git\ks46team02\ks46team02)
+14:02:42.178 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+14:02:43.450 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 1.329 seconds (process running for 5162.98)
+14:32:33.972 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 13096 (C:\Users\ECS\git\ks46team02\ks46team02\target\classes started by ECS in C:\Users\ECS\git\ks46team02\ks46team02)
+14:32:33.977 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+14:32:43.393 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 10.498 seconds (process running for 12.313)
+14:33:06.425 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - SELECT
+		   farm_code AS farmCode,
+		   farm_name AS farmName,
+		   farm_detail as farmDetail,
+		   company_code AS companyCode,
+		   farm_address AS farmAddr,
+		   farm_reg_date AS farmRegDate,
+		   cage_amount AS cageAmount,
+		   total_capacity AS totalCapacity,
+		   member_id AS memberId
+	   FROM
+	  		farm_info
+	   WHERE
+	   		company_code = 'comp_1'
+ {executed in 29 msec}
+15:01:40.460 [http-nio-8088-exec-3] INFO  jdbc.sqltiming - select
+        *, count(1) as isExist
+        from
+        member_info mi
+        left join
+        company_info ci
+        on
+        mi.company_code = ci.company_code
+        where mi.member_id = 'farm_id_1';
+ {executed in 17 msec}
+15:01:40.488 [http-nio-8088-exec-3] INFO  k.common.controller.CommonController - Member [memberId=farm_id_1, memberPw=pw1, memberName=김수민, memberPhone=010-1111-1111, memberEmail=suminkim@gmail.com, positionLevelCode=level_code_1, companyCode=comp_1, memberRegDate=2022-01-02 20:35:00, memberCi=HAGGYY1ZZZ9R9, memberStatus=normal, dormantMemberRegDate=null, isOwner=false, isExist=true, companyTypeNum=2]
+15:01:40.505 [http-nio-8088-exec-3] INFO  jdbc.sqltiming - select
+		IFNULL(farm_level_num, 0) as farmLevelNum
+		from
+		company_info
+		where
+		company_code = 'comp_1';
+ {executed in 11 msec}
+15:01:49.294 [http-nio-8088-exec-6] INFO  jdbc.sqltiming - SELECT
+		   farm_code AS farmCode,
+		   farm_name AS farmName,
+		   farm_detail as farmDetail,
+		   company_code AS companyCode,
+		   farm_address AS farmAddr,
+		   farm_reg_date AS farmRegDate,
+		   cage_amount AS cageAmount,
+		   total_capacity AS totalCapacity,
+		   member_id AS memberId
+	   FROM
+	  		farm_info
+	   WHERE
+	   		company_code = 'comp_1'
+ {executed in 10 msec}
+15:01:50.780 [http-nio-8088-exec-6] INFO  jdbc.sqltiming - SELECT
+		        farm_code AS farmCode,
+		        farm_name AS farmName,
+		        farm_detail as farmDetail,
+		        company_code AS companyCode,
+		        farm_address AS farmAddr,
+		        farm_reg_date AS farmRegDate,
+		        cage_amount AS cageAmount,
+		        total_capacity AS totalCapacity,
+		        member_id AS memberId
+	        FROM
+	        	farm_info
+	        WHERE
+	        	farm_code = 'farm_1'
+ {executed in 10 msec}
+15:01:50.793 [http-nio-8088-exec-6] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.farm_code = 'farm_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 10 msec}
+15:01:50.852 [http-nio-8088-exec-6] INFO  jdbc.sqltiming - SELECT
+	  		c.cage_volum as cageVolum,
+	  		c.cage_num as cageNum,
+	  		c.cage_total cageTotal, 
+	        cy.expected_cage_production_code AS cycleCode,
+	        cy.company_code AS companyCode,
+	        cy.farm_code AS farmCode,
+	        cy.cage_code AS cageCode,
+	        Date(harvest_start_date) AS harvestStartDate,
+	        Date(estimated_harvest_date) AS estimatedHarvestDate,
+	        input_egg AS inputEgg,
+	        calculation_standard_code AS calculationStandardCode,
+	        estimated_production AS estimatedProduction,
+	        cy. member_id AS memberId,
+	        estimated_production_reg_date AS estimatedProductionRegDate,
+	        DATEDIFF(estimated_harvest_date, NOW()) AS dayDiffHarvest 
+        FROM
+        	cage_cycle AS cy
+        INNER JOIN
+        	cage AS c
+        ON cy.cage_code = c.cage_code
+         WHERE cy.farm_code = 'farm_1'
+ {executed in 19 msec}
+15:01:50.868 [http-nio-8088-exec-6] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 11 msec}
+15:01:50.905 [http-nio-8088-exec-6] INFO  k.farm.controller.FarmController - farm_1
+15:05:47.398 [http-nio-8088-exec-5] INFO  jdbc.sqltiming - select
+        *, count(1) as isExist
+        from
+        admin_list
+        where admin_id =
+        'admin_1';
+ {executed in 16 msec}
+15:05:59.857 [http-nio-8088-exec-5] INFO  jdbc.sqltiming - /* 전체 회원 배송지 조회 */
+				select 
+				 *
+				from addr_manage;
+ {executed in 50 msec}
+15:06:33.435 [http-nio-8088-exec-4] INFO  jdbc.sqltiming - select
+        *, count(1) as isExist
+        from
+        member_info mi
+        left join
+        company_info ci
+        on
+        mi.company_code = ci.company_code
+        where mi.member_id = 'farm_id_1';
+ {executed in 17 msec}
+15:06:33.462 [http-nio-8088-exec-4] INFO  k.common.controller.CommonController - Member [memberId=farm_id_1, memberPw=pw1, memberName=김수민, memberPhone=010-1111-1111, memberEmail=suminkim@gmail.com, positionLevelCode=level_code_1, companyCode=comp_1, memberRegDate=2022-01-02 20:35:00, memberCi=HAGGYY1ZZZ9R9, memberStatus=normal, dormantMemberRegDate=null, isOwner=false, isExist=true, companyTypeNum=2]
+15:06:33.476 [http-nio-8088-exec-4] INFO  jdbc.sqltiming - select
+		IFNULL(farm_level_num, 0) as farmLevelNum
+		from
+		company_info
+		where
+		company_code = 'comp_1';
+ {executed in 12 msec}
+15:06:50.107 [http-nio-8088-exec-9] INFO  jdbc.sqltiming - SELECT
+		   farm_code AS farmCode,
+		   farm_name AS farmName,
+		   farm_detail as farmDetail,
+		   company_code AS companyCode,
+		   farm_address AS farmAddr,
+		   farm_reg_date AS farmRegDate,
+		   cage_amount AS cageAmount,
+		   total_capacity AS totalCapacity,
+		   member_id AS memberId
+	   FROM
+	  		farm_info
+	   WHERE
+	   		company_code = 'comp_1'
+ {executed in 13 msec}
+15:15:55.709 [http-nio-8088-exec-2] INFO  jdbc.sqltiming - SELECT
+		   farm_code AS farmCode,
+		   farm_name AS farmName,
+		   farm_detail as farmDetail,
+		   company_code AS companyCode,
+		   farm_address AS farmAddr,
+		   farm_reg_date AS farmRegDate,
+		   cage_amount AS cageAmount,
+		   total_capacity AS totalCapacity,
+		   member_id AS memberId
+	   FROM
+	  		farm_info
+	   WHERE
+	   		company_code = 'comp_1'
+ {executed in 13 msec}
+15:22:03.606 [http-nio-8088-exec-8] INFO  jdbc.sqltiming - SELECT
+		   farm_code AS farmCode,
+		   farm_name AS farmName,
+		   farm_detail as farmDetail,
+		   company_code AS companyCode,
+		   farm_address AS farmAddr,
+		   farm_reg_date AS farmRegDate,
+		   cage_amount AS cageAmount,
+		   total_capacity AS totalCapacity,
+		   member_id AS memberId
+	   FROM
+	  		farm_info
+	   WHERE
+	   		company_code = 'comp_1'
+ {executed in 14 msec}
+15:22:05.945 [http-nio-8088-exec-6] INFO  jdbc.sqltiming - SELECT
+		        farm_code AS farmCode,
+		        farm_name AS farmName,
+		        farm_detail as farmDetail,
+		        company_code AS companyCode,
+		        farm_address AS farmAddr,
+		        farm_reg_date AS farmRegDate,
+		        cage_amount AS cageAmount,
+		        total_capacity AS totalCapacity,
+		        member_id AS memberId
+	        FROM
+	        	farm_info
+	        WHERE
+	        	farm_code = 'farm_1'
+ {executed in 12 msec}
+15:22:05.962 [http-nio-8088-exec-6] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.farm_code = 'farm_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 15 msec}
+15:22:05.981 [http-nio-8088-exec-6] INFO  jdbc.sqltiming - SELECT
+	  		c.cage_volum as cageVolum,
+	  		c.cage_num as cageNum,
+	  		c.cage_total cageTotal, 
+	        cy.expected_cage_production_code AS cycleCode,
+	        cy.company_code AS companyCode,
+	        cy.farm_code AS farmCode,
+	        cy.cage_code AS cageCode,
+	        Date(harvest_start_date) AS harvestStartDate,
+	        Date(estimated_harvest_date) AS estimatedHarvestDate,
+	        input_egg AS inputEgg,
+	        calculation_standard_code AS calculationStandardCode,
+	        estimated_production AS estimatedProduction,
+	        cy. member_id AS memberId,
+	        estimated_production_reg_date AS estimatedProductionRegDate,
+	        DATEDIFF(estimated_harvest_date, NOW()) AS dayDiffHarvest 
+        FROM
+        	cage_cycle AS cy
+        INNER JOIN
+        	cage AS c
+        ON cy.cage_code = c.cage_code
+         WHERE cy.farm_code = 'farm_1'
+ {executed in 17 msec}
+15:22:05.997 [http-nio-8088-exec-6] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 13 msec}
+15:22:06.002 [http-nio-8088-exec-6] INFO  k.farm.controller.FarmController - farm_1
+15:22:26.642 [http-nio-8088-exec-9] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 14 msec}
+15:23:35.706 [http-nio-8088-exec-9] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1'
+
+                AND DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d') BETWEEN '2023-03-30' AND '2023-02-07' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 14 msec}
+15:23:43.105 [http-nio-8088-exec-3] INFO  jdbc.sqltiming - SELECT 
+			p.production_code AS productionCode,
+			p.company_code AS companyCode,
+			p.farm_code AS farmCode,
+			p.expected_cage_production_code AS expectedCageProductionCode,
+			DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d')AS realHarvestDay,
+			p.real_production AS realProduction,
+			p.loss_rate AS lossRate,
+			p.member_id AS memberId,
+			p.production_reg_date AS productionRegDate,
+			ex.calculation_standard_code AS calculationStandardCode
+		FROM
+			production AS p
+		INNER JOIN
+			expeted_cage_production AS ex
+			ON p.expected_cage_production_code = ex.expeted_cage_production_code
+		     WHERE p.company_code = 'comp_1' 
+		    ORDER BY real_harvest_day  DESC;
+ {executed in 14 msec}

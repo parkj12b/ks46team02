@@ -4,6 +4,22 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.farm.mapper.FarmMapper">
 
+
+	<!-- 하나의 사육장 상태 조회 -->
+	
+	 <select id="getFarmStatusList" resultType="FarmStatus">
+        SELECT
+	        farm_code AS farmCode,
+	        farm_status_hum AS farmStatusHum,
+	        farm_status_illum  AS farmStatusIllum,
+	        farm_status_temp AS farmStatusTemp,
+	        farm_status_reg_date AS farmStatusRegDate
+        FROM
+        	farm_status_log
+        WHERE
+	       	farm_code = #{farmCode}
+    </select>
+    
 	<!-- 하나의 싸이클 먹이급여 조회 -->
 	 <select id="getFeedListByCycleCode" resultType="Feed">
         SELECT
@@ -59,6 +75,11 @@
 			     	 AND (${searchKey} LIKE CONCAT('%', #{searchValue}, '%'))
 			     	</if>
 	            </if>
+	             <if test="fromDate ==''and toDate ==''">
+	             	<if test="searchKey != null and searchKey != ''">
+			     	 AND (${searchKey} LIKE CONCAT('%', #{searchValue}, '%'))
+			     	</if>
+	             </if>
 			    </where>
 		    ORDER BY real_harvest_day  DESC;
     </select>

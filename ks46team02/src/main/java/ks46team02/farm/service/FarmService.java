@@ -25,10 +25,20 @@ public class FarmService {
     }
     
     /**
-     * 
+     * 한 사육장 상태 조회
+     * @return
+     */
+    public List<FarmStatus> getFarmStatusList(String farmCode){
+        List<FarmStatus> farmStatusList = farmMapper.getFarmStatusList(farmCode);
+        return farmStatusList;
+    }
+    
+    /**
+     * 싸이클 코드에대한 먹이 급여 조회
      * @param cycleCode
      * @return
      */
+    
     public  List<Feed> getFeedListByCycleCode(String cycleCode){
         List<Feed> feedList = farmMapper.getFeedListByCycleCode(cycleCode);
         return feedList;
