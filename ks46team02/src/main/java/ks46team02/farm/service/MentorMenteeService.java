@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import ks46team02.common.dto.AllContractInfo;
 import ks46team02.farm.dto.MMContractInfo;
 import ks46team02.farm.mapper.MentorMenteeMapper;
 
@@ -47,7 +48,20 @@ public class MentorMenteeService {
 		
 		return mmContractInfo;
 	}
+
+	public List<AllContractInfo> getMMContractListByKeyValue(Map<String, String> keyValue) {
+		// TODO Auto-generated method stub
+		
+		List<AllContractInfo> contractInfoList = mentorMenteeMapper.getContractInfoByKeyValue(keyValue);
+		
+		return contractInfoList;
+	}
 	
+	public AllContractInfo getMMContractByKeyValue(Map<String, String> keyValue) {
+		List<AllContractInfo> contractInfo = mentorMenteeMapper.getContractInfoByKeyValue(keyValue);
+		
+		return contractInfo.get(0);
+	}
 	
 	
 }
