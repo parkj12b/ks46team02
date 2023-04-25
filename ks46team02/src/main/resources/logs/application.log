@@ -9,3 +9,144 @@
 09:24:43.325 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 27388 (C:\Users\p3153\git\repository\ks46team02\target\classes started by p3153 in C:\Users\p3153\git\repository\ks46team02)
 09:24:43.326 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
 09:24:46.720 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 3.872 seconds (process running for 4.583)
+09:45:44.377 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 13832 (C:\Users\p3153\git\repository\ks46team02\target\classes started by p3153 in C:\Users\p3153\git\repository\ks46team02)
+09:45:44.379 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+09:53:06.189 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 2168 (C:\Users\p3153\git\repository\ks46team02\target\classes started by p3153 in C:\Users\p3153\git\repository\ks46team02)
+09:53:06.191 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+09:54:29.789 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 33712 (C:\Users\p3153\git\repository\ks46team02\target\classes started by p3153 in C:\Users\p3153\git\repository\ks46team02)
+09:54:29.793 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+09:54:34.315 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 5.553 seconds (process running for 6.235)
+09:54:42.794 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - select
+		*,mcr.member_id
+		from
+		mentor_contract_registration mcr
+		left join
+		mentor_apply ma
+		using (company_code)
+		left join
+		company_info ci
+		using (company_code)
+		 WHERE mentor_contract_reg_code = 'mt_01'
+ {executed in 34 msec}
+09:54:53.605 [http-nio-8088-exec-8] INFO  jdbc.sqltiming - select
+		*
+		from
+		all_contract
+		 WHERE contractor_company_code = 'comp_1'
+			and contract_type = 'mentormentee'
+			and contract_approval = 'under review'
+ {executed in 14 msec}
+09:54:53.609 [http-nio-8088-exec-8] INFO  k.farm.controller.FarmController - [AllContractInfo [contractCode=con_5, contractRegistrationCode=mt_1, contractType=mentormentee, memberId=farm_id_16, contractApplyDate=2023-01-09 00:00:00, contractStartDate=2023-01-20 00:00:00, contractEndDate=2023-07-20 00:00:00, contractPaper=/uploads/documents/, adminId=admin_1, contractApprovalDate=2023-01-10 0:00, contractApproval=under review, deposit=150, deliveryCycle=0, contractAmount=0, totalAmount=0, contracteeCompanyCode=comp_4, contractorCompanyCode=comp_1]]
+09:54:55.547 [http-nio-8088-exec-6] INFO  jdbc.sqltiming - select
+		*
+		from
+		all_contract
+		 WHERE contract_code = 'con_5'
+			and contractor_company_code = 'comp_1'
+ {executed in 14 msec}
+09:54:55.548 [http-nio-8088-exec-6] INFO  k.common.controller.CommonController - AllContractInfo [contractCode=con_5, contractRegistrationCode=mt_1, contractType=mentormentee, memberId=farm_id_16, contractApplyDate=2023-01-09 00:00:00, contractStartDate=2023-01-20 00:00:00, contractEndDate=2023-07-20 00:00:00, contractPaper=/uploads/documents/, adminId=admin_1, contractApprovalDate=2023-01-10 0:00, contractApproval=under review, deposit=150, deliveryCycle=0, contractAmount=0, totalAmount=0, contracteeCompanyCode=comp_4, contractorCompanyCode=comp_1]
+09:55:04.288 [http-nio-8088-exec-3] INFO  jdbc.sqltiming - select
+		*,mcr.member_id
+		from
+		mentor_contract_registration mcr
+		left join
+		mentor_apply ma
+		using (company_code)
+		left join
+		company_info ci
+		using (company_code)
+ {executed in 14 msec}
+09:55:19.143 [http-nio-8088-exec-3] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_1';
+ {executed in 17 msec}
+09:55:33.407 [http-nio-8088-exec-7] INFO  jdbc.sqltiming - select
+        *, count(1) as isExist
+        from
+        admin_list
+        where admin_id =
+        'admin_1';
+ {executed in 14 msec}
+09:55:36.885 [http-nio-8088-exec-5] INFO  jdbc.sqltiming - /* 관리자 레벨 조회 */
+				SELECT 
+					admin_level, 
+					admin_position,
+					CASE WHEN manage_member = 1 THEN 'O' ELSE 'X' END AS manage_member,
+					CASE WHEN manage_contract = 1 THEN 'O' ELSE 'X' END AS manage_contract,
+					CASE WHEN manage_farm = 1 THEN 'O' ELSE 'X' END AS manage_farm,
+					CASE WHEN manage_question = 1 THEN 'O' ELSE 'X' END AS manage_question,
+					CASE WHEN manage_setting = 1 THEN 'O' ELSE 'X' END AS manage_setting,
+					CASE WHEN manage_payment = 1 THEN 'O' ELSE 'X' END AS manage_payment,
+					manage_reg_date
+				FROM 
+					admin_level
+ {executed in 20 msec}
+09:55:36.886 [http-nio-8088-exec-5] INFO  k.admin.service.AdminLevelService - [AdminLevel [adminLevel=0, adminPosition=마스터 관리자, adminMember=O, adminContract=O, adminFarm=O, adminQuestion=O, adminSetting=O, adminPayment=O, adminRegDate=2021-01-01 20:35:00], AdminLevel [adminLevel=1, adminPosition=회원관리자, adminMember=O, adminContract=X, adminFarm=X, adminQuestion=X, adminSetting=X, adminPayment=X, adminRegDate=2021-01-01 21:35:00], AdminLevel [adminLevel=2, adminPosition=고객문의관리, adminMember=O, adminContract=X, adminFarm=X, adminQuestion=O, adminSetting=X, adminPayment=X, adminRegDate=2022-01-02 21:35:00], AdminLevel [adminLevel=3, adminPosition=계약관리자, adminMember=X, adminContract=O, adminFarm=X, adminQuestion=X, adminSetting=X, adminPayment=X, adminRegDate=2022-01-03 21:35:00], AdminLevel [adminLevel=4, adminPosition=멘토멘티 관리자, adminMember=X, adminContract=O, adminFarm=X, adminQuestion=X, adminSetting=X, adminPayment=X, adminRegDate=2022-01-05 21:35:00]]
+09:55:37.810 [http-nio-8088-exec-2] INFO  jdbc.sqltiming - /* 관리자 회원 조회 */
+				SELECT 
+					 admin_id 
+					,admin_pw 
+					,admin_name 
+					,admin_email 
+					,admin_level
+					,admin_phone 
+					,admin_reg_date 
+				FROM 
+				admin_list;
+ {executed in 11 msec}
+09:55:40.620 [http-nio-8088-exec-3] INFO  jdbc.sqltiming - /* 전체 회원 조회 */
+			select 
+				 member_id
+				,member_pw
+				,member_name
+				,member_email
+				,member_phone
+				,position_level_code
+				,company_code
+				,member_reg_date
+				,member_ci
+				,member_status
+				,dormant_member_reg_date
+
+			from 
+				member_info
+			where
+				member_status='normal';
+ {executed in 15 msec}
+09:55:41.541 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - /* 전체 회원 배송지 조회 */
+				select 
+				 *
+				from addr_manage;
+ {executed in 16 msec}
+09:55:42.695 [http-nio-8088-exec-5] INFO  jdbc.sqltiming - select 
+				*
+			from 
+				withdrawal_member;
+ {executed in 17 msec}
