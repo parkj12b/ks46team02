@@ -5040,3 +5040,21 @@ java.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check th
 	   WHERE
 	   		company_code = 'comp_1'
  {executed in 10 msec}
+17:12:21.731 [http-nio-8088-exec-7] INFO  jdbc.sqltiming - SELECT
+		   farm_code AS farmCode,
+		   farm_name AS farmName,
+		   farm_detail as farmDetail,
+		   company_code AS companyCode,
+		   farm_address AS farmAddr,
+		   farm_reg_date AS farmRegDate,
+		   cage_amount AS cageAmount,
+		   total_capacity AS totalCapacity,
+		   member_id AS memberId
+	   FROM
+	  		farm_info
+	   WHERE
+	   		company_code = 'comp_1'
+ {executed in 11 msec}
+17:14:41.534 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 13096 (C:\Users\ECS\git\ks46team02\ks46team02\target\classes started by ECS in C:\Users\ECS\git\ks46team02\ks46team02)
+17:14:41.535 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+17:14:43.035 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 1.625 seconds (process running for 9731.956)
