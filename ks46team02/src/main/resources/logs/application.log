@@ -7538,3 +7538,1671 @@
         WHERE
             company_code = 'comp_11';
  {executed in 15 msec}
+13:53:44.614 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14023 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+13:53:44.615 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+13:53:45.976 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 1.552 seconds (process running for 1.823)
+13:53:57.210 [http-nio-8088-exec-5] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_11';
+ {executed in 19 msec}
+13:53:59.226 [http-nio-8088-exec-5] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_11';
+ {executed in 15 msec}
+13:54:01.578 [http-nio-8088-exec-3] INFO  jdbc.sqltiming - /* 업체정보 수정 */
+        UPDATE company_info
+         SET company_reg_num = '345-56-000301',
+
+                company_name = '(주) A 음식물 건조',
+
+                company_addr = '전주시 덕진구 송천동',
+
+                company_tel = '010-1111-1121',
+
+                reg_password = '1000002' 
+        WHERE
+            company_code = 'comp_11';
+ {executed in 30 msec}
+13:54:01.605 [http-nio-8088-exec-8] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_11';
+ {executed in 15 msec}
+13:54:03.537 [http-nio-8088-exec-4] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_11';
+ {executed in 15 msec}
+13:54:06.348 [http-nio-8088-exec-8] INFO  jdbc.sqltiming - /* 업체정보 수정 */
+        UPDATE company_info
+         SET company_reg_num = '345-56-000301',
+
+                company_name = '(주) A 음식물 건조',
+
+                company_addr = '전주시 덕진구 송천동',
+
+                company_tel = '010-1111-1121',
+
+                reg_password = '1000001' 
+        WHERE
+            company_code = 'comp_11';
+ {executed in 31 msec}
+13:54:06.368 [http-nio-8088-exec-2] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_11';
+ {executed in 15 msec}
+13:55:44.736 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14053 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+13:55:44.737 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+13:55:46.132 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 1.598 seconds (process running for 1.858)
+13:55:50.812 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_11';
+ {executed in 18 msec}
+13:56:42.842 [http-nio-8088-exec-8] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_11';
+ {executed in 15 msec}
+13:57:08.187 [http-nio-8088-exec-3] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_11';
+ {executed in 13 msec}
+13:57:10.278 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - /* 업체 목록 조회 */
+        SELECT
+            ci.company_code
+            ,ct.company_type
+            ,ci.company_reg_num
+            ,ci.member_id
+            ,ci.company_tel
+            ,ci.company_addr
+            ,ci.company_name
+            ,ci.apply_date
+            ,ci.approval_status
+            ,ci.approval_denied_content
+            ,ci.admin_id
+            ,ci.approval_date
+            ,ci.farm_level_num
+            ,ci.reg_password
+            ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num;
+ {executed in 15 msec}
+13:58:39.071 [http-nio-8088-exec-2] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_1';
+ {executed in 13 msec}
+13:58:41.798 [http-nio-8088-exec-4] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_1';
+ {executed in 14 msec}
+13:58:46.512 [http-nio-8088-exec-9] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_11';
+ {executed in 15 msec}
+13:58:50.920 [http-nio-8088-exec-7] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_11';
+ {executed in 13 msec}
+14:00:14.168 [http-nio-8088-exec-6] INFO  jdbc.sqltiming - select
+        *, count(1) as isExist
+        from
+        admin_list
+        where admin_id =
+        'admin_1';
+ {executed in 18 msec}
+14:00:23.176 [http-nio-8088-exec-8] INFO  jdbc.sqltiming - /* 업체 종류 조회 */
+        SELECT
+            ct.company_type_num as companyTypeNum
+            ,ct.company_type as companyType
+            ,ct.reg_date as regDate
+            ,ct.admin_id as adminId
+        FROM
+            company_type as ct;
+ {executed in 15 msec}
+14:00:26.112 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - /* 업체직원별권한조회 */
+        SELECT
+            position_level_code as positionLevelCode
+            ,member_level_name as memberLevelName
+            ,company_reg_date as companyRegDate
+            ,admin_id as adminId
+            ,member_management as memberManagement
+            ,contract_management as contractManagement
+            ,payment_management as paymentManagement
+            ,company_info_management as companyInfoManagement
+            ,mento_mentee_management as MentorMenteeManagement
+        FROM
+            company_position_level;
+ {executed in 17 msec}
+14:00:29.661 [http-nio-8088-exec-3] INFO  jdbc.sqltiming - /* 사육업체상품카테고리조회 */
+        SELECT
+            product_category_code as productCategoryCode
+            ,product_name as productName
+            ,admin_id as adminId
+            ,product_category_reg_date as productCategoryRegDate
+        FROM
+            farm_product_category;
+ {executed in 17 msec}
+14:00:31.311 [http-nio-8088-exec-3] INFO  jdbc.sqltiming - /* 업체 목록 조회 */
+        SELECT
+            ci.company_code
+            ,ct.company_type
+            ,ci.company_reg_num
+            ,ci.member_id
+            ,ci.company_tel
+            ,ci.company_addr
+            ,ci.company_name
+            ,ci.apply_date
+            ,ci.approval_status
+            ,ci.approval_denied_content
+            ,ci.admin_id
+            ,ci.approval_date
+            ,ci.farm_level_num
+            ,ci.reg_password
+            ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num;
+ {executed in 15 msec}
+14:00:33.275 [http-nio-8088-exec-8] INFO  jdbc.sqltiming - /* 업체 종류 조회 */
+        SELECT
+            ct.company_type_num as companyTypeNum
+            ,ct.company_type as companyType
+            ,ct.reg_date as regDate
+            ,ct.admin_id as adminId
+        FROM
+            company_type as ct;
+ {executed in 17 msec}
+14:02:07.154 [http-nio-8088-exec-2] INFO  jdbc.sqltiming - /* 업체 목록 조회 */
+        SELECT
+            ci.company_code
+            ,ct.company_type
+            ,ci.company_reg_num
+            ,ci.member_id
+            ,ci.company_tel
+            ,ci.company_addr
+            ,ci.company_name
+            ,ci.apply_date
+            ,ci.approval_status
+            ,ci.approval_denied_content
+            ,ci.admin_id
+            ,ci.approval_date
+            ,ci.farm_level_num
+            ,ci.reg_password
+            ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num;
+ {executed in 20 msec}
+14:02:11.676 [http-nio-8088-exec-8] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_1';
+ {executed in 15 msec}
+14:02:18.032 [http-nio-8088-exec-2] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_11';
+ {executed in 14 msec}
+14:02:36.119 [http-nio-8088-exec-10] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_15';
+ {executed in 12 msec}
+14:02:45.850 [http-nio-8088-exec-4] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_12';
+ {executed in 13 msec}
+14:02:52.479 [http-nio-8088-exec-3] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_12';
+ {executed in 14 msec}
+14:02:56.631 [http-nio-8088-exec-4] INFO  jdbc.sqltiming - /* 업체정보 수정 */
+        UPDATE company_info
+         SET company_reg_num = '345-56-000302',
+
+                company_name = '(주) B 음식물 건조',
+
+                company_addr = '전주시 덕진구 송천동',
+
+                company_tel = '010-1111-1122',
+
+                reg_password = '10000011' 
+        WHERE
+            company_code = 'comp_12';
+ {executed in 32 msec}
+14:02:56.651 [http-nio-8088-exec-3] INFO  jdbc.sqltiming - /* 업체 목록 조회 */
+        SELECT
+            ci.company_code
+            ,ct.company_type
+            ,ci.company_reg_num
+            ,ci.member_id
+            ,ci.company_tel
+            ,ci.company_addr
+            ,ci.company_name
+            ,ci.apply_date
+            ,ci.approval_status
+            ,ci.approval_denied_content
+            ,ci.admin_id
+            ,ci.approval_date
+            ,ci.farm_level_num
+            ,ci.reg_password
+            ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num;
+ {executed in 16 msec}
+14:02:59.740 [http-nio-8088-exec-7] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_14';
+ {executed in 14 msec}
+14:03:05.724 [http-nio-8088-exec-6] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_12';
+ {executed in 14 msec}
+14:03:21.969 [http-nio-8088-exec-8] INFO  jdbc.sqltiming - /* 사육업체상품카테고리조회 */
+        SELECT
+            product_category_code as productCategoryCode
+            ,product_name as productName
+            ,admin_id as adminId
+            ,product_category_reg_date as productCategoryRegDate
+        FROM
+            farm_product_category;
+ {executed in 14 msec}
+14:03:25.778 [http-nio-8088-exec-7] INFO  jdbc.sqltiming - /* 업체직원별권한조회 */
+        SELECT
+            position_level_code as positionLevelCode
+            ,member_level_name as memberLevelName
+            ,company_reg_date as companyRegDate
+            ,admin_id as adminId
+            ,member_management as memberManagement
+            ,contract_management as contractManagement
+            ,payment_management as paymentManagement
+            ,company_info_management as companyInfoManagement
+            ,mento_mentee_management as MentorMenteeManagement
+        FROM
+            company_position_level;
+ {executed in 14 msec}
+14:03:27.521 [http-nio-8088-exec-7] INFO  jdbc.sqltiming - /* 업체 종류 조회 */
+        SELECT
+            ct.company_type_num as companyTypeNum
+            ,ct.company_type as companyType
+            ,ct.reg_date as regDate
+            ,ct.admin_id as adminId
+        FROM
+            company_type as ct;
+ {executed in 13 msec}
+14:03:28.386 [http-nio-8088-exec-4] INFO  jdbc.sqltiming - /* 업체 목록 조회 */
+        SELECT
+            ci.company_code
+            ,ct.company_type
+            ,ci.company_reg_num
+            ,ci.member_id
+            ,ci.company_tel
+            ,ci.company_addr
+            ,ci.company_name
+            ,ci.apply_date
+            ,ci.approval_status
+            ,ci.approval_denied_content
+            ,ci.admin_id
+            ,ci.approval_date
+            ,ci.farm_level_num
+            ,ci.reg_password
+            ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num;
+ {executed in 14 msec}
+14:21:04.695 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14053 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+14:21:04.695 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+14:21:05.132 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.45 seconds (process running for 1520.919)
+14:27:10.064 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14053 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+14:27:10.065 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+14:30:16.761 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14053 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+14:30:16.761 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+14:30:17.175 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.431 seconds (process running for 2072.984)
+14:31:44.656 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14053 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+14:31:44.656 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+14:31:45.094 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.453 seconds (process running for 2160.906)
+14:32:11.541 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14053 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+14:32:11.541 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+14:32:11.993 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.464 seconds (process running for 2187.806)
+14:34:15.229 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14053 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+14:34:15.229 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+14:34:15.631 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.418 seconds (process running for 2311.449)
+14:34:59.388 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14053 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+14:34:59.388 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+14:34:59.760 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.385 seconds (process running for 2355.58)
+14:35:15.917 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14053 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+14:35:15.917 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+14:35:16.318 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.414 seconds (process running for 2372.139)
+14:35:58.894 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14053 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+14:35:58.894 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+14:35:59.274 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.392 seconds (process running for 2415.097)
+14:36:01.405 [http-nio-8088-exec-2] INFO  jdbc.sqltiming - select
+        *, count(1) as isExist
+        from
+        member_info mi
+        left join
+        company_info ci
+        on
+        mi.company_code = ci.company_code
+        where mi.member_id = 'dry_id_1';
+ {executed in 21 msec}
+14:36:01.438 [http-nio-8088-exec-2] INFO  k.common.controller.CommonController - Member [memberId=dry_id_1, memberPw=drypw1, memberName=임세미, memberPhone=010-1111-1145, memberEmail=semylim@gmail.com, positionLevelCode=level_code_1, companyCode=comp_11, memberRegDate=2022-01-30 01:35:00, memberCi=xIunZm9nSDFn1tahIjLnGfrfsehLwQ2f, memberStatus=normal, dormantMemberRegDate=null, isOwner=false, isExist=true, companyTypeNum=1]
+14:36:01.464 [http-nio-8088-exec-2] INFO  jdbc.sqltiming - select
+		IFNULL(farm_level_num, 0) as farmLevelNum
+		from
+		company_info
+		where
+		company_code = 'comp_11';
+ {executed in 15 msec}
+14:36:04.875 [http-nio-8088-exec-4] INFO  jdbc.sqltiming - /* 업체별 직원 조회 */
+ {executed in 14 msec}
+14:43:33.767 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14053 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+14:43:33.767 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+14:43:34.205 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.449 seconds (process running for 2869.959)
+14:44:41.216 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14407 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+14:44:41.217 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+14:44:42.619 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 1.602 seconds (process running for 1.874)
+15:01:28.175 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+15:01:28.176 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:01:29.604 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 1.621 seconds (process running for 1.89)
+15:04:36.168 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+15:04:36.169 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:04:36.603 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.454 seconds (process running for 188.892)
+15:17:07.397 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+15:17:07.397 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:17:07.804 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.427 seconds (process running for 940.107)
+15:20:08.295 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+15:20:08.295 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:20:08.697 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.418 seconds (process running for 1121.002)
+15:23:14.908 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+15:23:14.909 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:23:15.305 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.414 seconds (process running for 1307.613)
+15:23:16.452 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - /* 업체별 직원 조회 */
+		SELECT
+			m.member_name
+			,m.member_email
+			,m.member_phone
+			,cp.member_level_name
+		FROM
+			member_info as m
+			inner join
+			company_position_level as cp
+			on
+			m.position_level_code = cp.position_level_code
+		WHERE
+			m.company_code = 'comp_11' and m.member_status != 'dormant';
+ {executed in 21 msec}
+15:23:21.386 [http-nio-8088-exec-4] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_11';
+ {executed in 17 msec}
+15:23:22.377 [http-nio-8088-exec-8] INFO  jdbc.sqltiming - /* 업체별 직원 조회 */
+		SELECT
+			m.member_name
+			,m.member_email
+			,m.member_phone
+			,cp.member_level_name
+		FROM
+			member_info as m
+			inner join
+			company_position_level as cp
+			on
+			m.position_level_code = cp.position_level_code
+		WHERE
+			m.company_code = 'comp_11' and m.member_status != 'dormant';
+ {executed in 12 msec}
+15:23:39.703 [http-nio-8088-exec-3] INFO  jdbc.sqltiming - select
+        *, count(1) as isExist
+        from
+        member_info mi
+        left join
+        company_info ci
+        on
+        mi.company_code = ci.company_code
+        where mi.member_id = 'farm_id_21';
+ {executed in 14 msec}
+15:23:39.729 [http-nio-8088-exec-3] INFO  k.common.controller.CommonController - Member{memberId='farm_id_21', memberPw='pw21', memberName='장재영', memberPhone='010-1111-1131', memberEmail='jaeyoungjang@gmail.com', positionLevelCode='level_code_2', companyCode='comp_5', memberRegDate='2022-01-19 09:35:00', memberCi='02a49db4e0d153a4fcdSDFe0e5221a', memberStatus='normal', dormantMemberRegDate='null', isOwner=false, isExist=true, companyTypeNum='2', memberLevelName='null'}
+15:23:39.745 [http-nio-8088-exec-3] INFO  jdbc.sqltiming - select
+		IFNULL(farm_level_num, 0) as farmLevelNum
+		from
+		company_info
+		where
+		company_code = 'comp_5';
+ {executed in 12 msec}
+15:25:56.108 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+15:25:56.108 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:25:56.527 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.435 seconds (process running for 1468.838)
+15:26:03.109 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+15:26:03.109 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:26:03.494 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.397 seconds (process running for 1475.805)
+15:26:51.479 [http-nio-8088-exec-7] INFO  jdbc.sqltiming - /* 업체별 직원 조회 */
+		SELECT
+			m.member_name
+			,m.member_email
+			,m.member_phone
+			,cp.member_level_name
+		FROM
+			member_info as m
+			inner join
+			company_position_level as cp
+			on
+			m.position_level_code = cp.position_level_code
+		WHERE
+			m.company_code = 'comp_5' and m.member_status != 'dormant';
+ {executed in 25 msec}
+15:27:51.226 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+15:27:51.226 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:27:51.587 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.372 seconds (process running for 1583.9)
+15:27:53.842 [http-nio-8088-exec-8] INFO  jdbc.sqltiming - select
+        *, count(1) as isExist
+        from
+        member_info mi
+        left join
+        company_info ci
+        on
+        mi.company_code = ci.company_code
+        where mi.member_id = 'farm_id_6';
+ {executed in 15 msec}
+15:27:53.872 [http-nio-8088-exec-8] INFO  k.common.controller.CommonController - Member{memberId='farm_id_6', memberPw='pw6', memberName='한예슬', memberPhone='010-1111-1116', memberEmail='yesulhan@gmail.com', positionLevelCode='level_code_1', companyCode='comp_2', memberRegDate='2022-01-07 09:35:00', memberCi='02a49db4e023423a4243270bfe0e5221a', memberStatus='normal', dormantMemberRegDate='null', isOwner=false, isExist=true, companyTypeNum='2', memberLevelName='null'}
+15:27:53.899 [http-nio-8088-exec-8] INFO  jdbc.sqltiming - select
+		IFNULL(farm_level_num, 0) as farmLevelNum
+		from
+		company_info
+		where
+		company_code = 'comp_2';
+ {executed in 13 msec}
+15:27:57.652 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - /* 업체별 직원 조회 */
+		SELECT
+			m.member_name
+			,m.member_email
+			,m.member_phone
+			,cp.member_level_name
+		FROM
+			member_info as m
+			inner join
+			company_position_level as cp
+			on
+			m.position_level_code = cp.position_level_code
+		WHERE
+			m.company_code = 'comp_2' and m.member_status != 'dormant';
+ {executed in 17 msec}
+15:33:39.468 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+15:33:39.468 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:33:39.865 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.412 seconds (process running for 1932.184)
+15:49:26.303 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+15:49:26.303 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:49:26.688 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.399 seconds (process running for 2879.112)
+15:49:27.635 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - /* 업체별 직원 조회 */
+		SELECT
+			*
+		FROM
+			member_info as m
+			inner join
+			company_position_level as cp
+			on
+			m.position_level_code = cp.position_level_code
+		WHERE
+			m.company_code = 'comp_2' and m.member_status != 'dormant';
+ {executed in 16 msec}
+15:49:32.166 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - /* 업체별 직원 조회 */
+		SELECT
+			*
+		FROM
+			member_info as m
+			inner join
+			company_position_level as cp
+			on
+			m.position_level_code = cp.position_level_code
+		WHERE
+			m.company_code = 'comp_2' and m.member_status != 'dormant';
+ {executed in 14 msec}
+15:50:09.357 [http-nio-8088-exec-10] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_2';
+ {executed in 22 msec}
+15:50:11.139 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+15:50:11.139 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:50:11.521 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.397 seconds (process running for 2923.947)
+15:51:01.381 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_2';
+ {executed in 22 msec}
+15:51:02.242 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+15:51:02.242 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:51:02.626 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.397 seconds (process running for 2975.054)
+15:51:03.399 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_2';
+ {executed in 13 msec}
+15:51:16.365 [http-nio-8088-exec-2] INFO  jdbc.sqltiming - SELECT
+        farm_code AS farmCode,
+        farm_name AS farmName,
+        farm_detail as farmDetail,
+        company_code AS companyCode,
+        farm_address AS farmAddr,
+        farm_reg_date AS farmRegDate,
+        cage_amount AS cageAmount,
+        total_capacity AS totalCapacity,
+        member_id AS memberId
+        FROM
+        farm_info
+        WHERE
+        company_code = 'comp_2'
+ {executed in 15 msec}
+15:51:26.515 [http-nio-8088-exec-9] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_2';
+ {executed in 13 msec}
+15:51:32.662 [http-nio-8088-exec-4] INFO  jdbc.sqltiming - /* 업체별 직원 조회 */
+		SELECT
+			*
+		FROM
+			member_info as m
+			inner join
+			company_position_level as cp
+			on
+			m.position_level_code = cp.position_level_code
+		WHERE
+			m.company_code = 'comp_2' and m.member_status != 'dormant';
+ {executed in 13 msec}
+15:51:33.683 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_2';
+ {executed in 13 msec}
+15:53:51.286 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+15:53:51.286 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:53:51.666 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.396 seconds (process running for 3144.102)
+15:56:07.044 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+15:56:07.044 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:56:07.618 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.589 seconds (process running for 3280.06)
+15:57:25.034 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+15:57:25.034 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:57:25.412 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.39 seconds (process running for 3357.858)
+15:57:26.187 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_2';
+ {executed in 17 msec}
+15:57:30.085 [http-nio-8088-exec-6] INFO  jdbc.sqltiming - /* 업체별 직원 조회 */
+		SELECT
+			*
+		FROM
+			member_info as m
+			inner join
+			company_position_level as cp
+			on
+			m.position_level_code = cp.position_level_code
+		WHERE
+			m.company_code = 'comp_2' and m.member_status != 'dormant';
+ {executed in 17 msec}
+15:58:10.130 [http-nio-8088-exec-9] INFO  jdbc.sqltiming - /* 업체별 직원 조회 */
+		SELECT
+			*
+		FROM
+			member_info as m
+			inner join
+			company_position_level as cp
+			on
+			m.position_level_code = cp.position_level_code
+		WHERE
+			m.company_code = 'comp_2' and m.member_status != 'dormant';
+ {executed in 13 msec}
+15:58:11.062 [http-nio-8088-exec-10] INFO  jdbc.sqltiming - /* 업체별 직원 조회 */
+		SELECT
+			*
+		FROM
+			member_info as m
+			inner join
+			company_position_level as cp
+			on
+			m.position_level_code = cp.position_level_code
+		WHERE
+			m.company_code = 'comp_2' and m.member_status != 'dormant';
+ {executed in 14 msec}
+15:58:11.874 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+15:58:11.874 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:58:12.226 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.363 seconds (process running for 3404.673)
+15:58:45.267 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - /* 업체별 직원 조회 */
+		SELECT
+			*
+		FROM
+			member_info as m
+			inner join
+			company_position_level as cp
+			on
+			m.position_level_code = cp.position_level_code
+		WHERE
+			m.company_code = 'comp_2' and m.member_status != 'dormant';
+ {executed in 16 msec}
+15:58:46.114 [http-nio-8088-exec-5] INFO  jdbc.sqltiming - /* 업체별 직원 조회 */
+		SELECT
+			*
+		FROM
+			member_info as m
+			inner join
+			company_position_level as cp
+			on
+			m.position_level_code = cp.position_level_code
+		WHERE
+			m.company_code = 'comp_2' and m.member_status != 'dormant';
+ {executed in 13 msec}
+15:58:46.674 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+15:58:46.674 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:58:47.047 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.386 seconds (process running for 3439.497)
+15:59:11.881 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - /* 업체별 직원 조회 */
+		SELECT
+			*
+		FROM
+			member_info as m
+			inner join
+			company_position_level as cp
+			on
+			m.position_level_code = cp.position_level_code
+		WHERE
+			m.company_code = 'comp_2' and m.member_status != 'dormant';
+ {executed in 18 msec}
+15:59:13.187 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+15:59:13.187 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:59:13.543 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.366 seconds (process running for 3465.994)
+15:59:35.022 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - /* 업체별 직원 조회 */
+		SELECT
+			*
+		FROM
+			member_info as m
+			inner join
+			company_position_level as cp
+			on
+			m.position_level_code = cp.position_level_code
+		WHERE
+			m.company_code = 'comp_2' and m.member_status != 'dormant';
+ {executed in 14 msec}
+15:59:36.261 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+15:59:36.261 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:59:36.613 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.363 seconds (process running for 3489.065)
+16:01:58.675 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - /* 업체별 직원 조회 */
+		SELECT
+			*
+		FROM
+			member_info as m
+			inner join
+			company_position_level as cp
+			on
+			m.position_level_code = cp.position_level_code
+		WHERE
+			m.company_code = 'comp_2' and m.member_status != 'dormant';
+ {executed in 18 msec}
+16:01:59.838 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+16:01:59.838 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+16:02:00.223 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.398 seconds (process running for 3632.682)
+16:02:19.757 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - /* 업체별 직원 조회 */
+		SELECT
+			*
+		FROM
+			member_info as m
+			inner join
+			company_position_level as cp
+			on
+			m.position_level_code = cp.position_level_code
+		WHERE
+			m.company_code = 'comp_2' and m.member_status != 'dormant';
+ {executed in 20 msec}
+16:02:20.779 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.6 with PID 14511 (/Users/choehagjun/IdeaProject/ks46team02/ks46team02/target/classes started by choehagjun in /Users/choehagjun/IdeaProject/ks46team02/ks46team02)
+16:02:20.779 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+16:02:21.185 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 0.419 seconds (process running for 3653.645)
+16:02:36.992 [http-nio-8088-exec-5] INFO  jdbc.sqltiming - select
+        *, count(1) as isExist
+        from
+        member_info mi
+        left join
+        company_info ci
+        on
+        mi.company_code = ci.company_code
+        where mi.member_id = 'farm_id_1';
+ {executed in 18 msec}
+16:02:37.025 [http-nio-8088-exec-5] INFO  k.common.controller.CommonController - Member{memberId='farm_id_1', memberPw='pw1', memberName='김수민', memberPhone='010-1111-1111', memberEmail='suminkim@gmail.com', positionLevelCode='level_code_1', companyCode='comp_1', memberRegDate='2022-01-02 20:35:00', memberCi='HAGGYY1ZZZ9R9', memberStatus='normal', dormantMemberRegDate='null', isOwner=false, isExist=true, companyTypeNum='2', memberLevelName='null'}
+16:02:37.048 [http-nio-8088-exec-5] INFO  jdbc.sqltiming - select
+		IFNULL(farm_level_num, 0) as farmLevelNum
+		from
+		company_info
+		where
+		company_code = 'comp_1';
+ {executed in 14 msec}
+16:02:40.923 [http-nio-8088-exec-6] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_1';
+ {executed in 18 msec}
+16:02:43.038 [http-nio-8088-exec-10] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_1';
+ {executed in 14 msec}
+16:02:44.531 [http-nio-8088-exec-7] INFO  jdbc.sqltiming - /* 업체정보 수정 */
+        UPDATE company_info
+         SET company_reg_num = '345-56-000123',
+
+                company_name = '(주) A 등에 사육',
+
+                company_addr = '전주시 완산구 서신동',
+
+                company_tel = '010-1111-1111',
+
+                reg_password = '100000012' 
+        WHERE
+            company_code = 'comp_1';
+ {executed in 56 msec}
+16:02:44.547 [http-nio-8088-exec-3] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_1';
+ {executed in 13 msec}
+16:02:46.141 [http-nio-8088-exec-1] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_1';
+ {executed in 16 msec}
+16:02:48.362 [http-nio-8088-exec-3] INFO  jdbc.sqltiming - /* 업체정보 수정 */
+        UPDATE company_info
+         SET company_reg_num = '345-56-000123',
+
+                company_name = '(주) A 등에 사육',
+
+                company_addr = '전주시 완산구 서신동',
+
+                company_tel = '010-1111-1111',
+
+                reg_password = '10000001' 
+        WHERE
+            company_code = 'comp_1';
+ {executed in 35 msec}
+16:02:48.383 [http-nio-8088-exec-2] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_1';
+ {executed in 15 msec}
+16:02:52.171 [http-nio-8088-exec-8] INFO  jdbc.sqltiming - /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.Company_reg_num
+        ,ci.member_id
+        ,ci.Company_tel
+        ,ci.Company_addr
+        ,ci.Company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        FROM
+            company_info as ci
+            inner join
+            company_type as ct
+            on
+            ci.company_type_num = ct.company_type_num
+            inner join
+            farm_level as fl
+            on
+            ci.farm_level_num = fl.farm_level_num
+        WHERE
+            company_code = 'comp_1';
+ {executed in 15 msec}
+16:02:53.624 [http-nio-8088-exec-7] INFO  jdbc.sqltiming - /* 업체별 직원 조회 */
+		SELECT
+			*
+		FROM
+			member_info as m
+			inner join
+			company_position_level as cp
+			on
+			m.position_level_code = cp.position_level_code
+		WHERE
+			m.company_code = 'comp_1' and m.member_status != 'dormant';
+ {executed in 15 msec}

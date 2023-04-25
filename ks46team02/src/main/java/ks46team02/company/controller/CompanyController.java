@@ -2,6 +2,9 @@ package ks46team02.company.controller;
 
 
 import jakarta.servlet.http.HttpSession;
+import ks46team02.admin.mapper.MemberMapper;
+import ks46team02.admin.service.MemberService;
+import ks46team02.common.dto.Member;
 import ks46team02.company.dto.Company;
 import ks46team02.company.dto.CompanyPositionLevel;
 import ks46team02.company.dto.CompanyType;
@@ -22,15 +25,31 @@ public class CompanyController {
 
     private final CompanyService companyService;
     private final CompanyMapper companyMapper;
+    private final MemberService memberService;
+    private final MemberMapper memberMapper;
 
     private static final Logger log = LoggerFactory.getLogger(CompanyController.class);
 
     public CompanyController(CompanyService companyService
-                            ,CompanyMapper companyMapper) {
+                            , CompanyMapper companyMapper
+                            , MemberService memberService
+                            , MemberMapper memberMapper) {
         this.companyService = companyService;
         this.companyMapper = companyMapper;
+        this.memberService = memberService;
+        this.memberMapper = memberMapper;
 
     }
+    @GetMapping("/companyEmployeeList")
+    public String getCompanyEmployeeList(Model model,
+                                         HttpSession session){
+        String sessionCompanyCode = (String)session.getAttribute("sessionCompanyCode");
+        List<Member> employeeList = memberService.getEmployeeList(sessionCompanyCode);
+        model.addAttribute("title","직원목록");
+        model.addAttribute("employeeList",employeeList);
+        return "company/company_employee_list";
+    }
+
 
     @PostMapping("/deleteCompany")
     public String deleteCompany(){
