@@ -144,48 +144,53 @@ input[type='checkbox'] {
 																id="check-all"></label></th>
 														<th class="sorting" tabindex="0"
 															aria-controls="datatable-checkbox" rowspan="1"
-															colspan="1">업체명</th>
+															colspan="1">계약 코드</th>
 														<th class="sorting" tabindex="0"
 															aria-controls="datatable-checkbox" rowspan="1"
-															colspan="1">계약 개월수</th>
+															colspan="1">계약 공고 코드</th>
 														<th class="sorting" tabindex="0"
 															aria-controls="datatable-checkbox" rowspan="1"
-															colspan="1">경력</th>
+															colspan="1">신청 회원 아이디</th>
 														<th class="sorting" tabindex="0"
 															aria-controls="datatable-checkbox" rowspan="1"
-															colspan="1">총 계약 비용(만원)</th>
+															colspan="1">계약 신청일자</th>
 														<th class="sorting" tabindex="0"
 															aria-controls="datatable-checkbox" rowspan="1"
-															colspan="1">수정</th>
+															colspan="1">관리자 아이디</th>
 														<th class="sorting" tabindex="0"
 															aria-controls="datatable-checkbox" rowspan="1"
-															colspan="1">삭제</th>
-		
+															colspan="1">계약 승인 날짜</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="datatable-checkbox" rowspan="1"
+															colspan="1">계약 승인 상태</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="datatable-checkbox" rowspan="1"
+															colspan="1">계약금(만원)</th>
+														<th class="sorting" tabindex="0"
+															aria-controls="datatable-checkbox" rowspan="1"
+															colspan="1">계약 신청업체</th>														
+														<th class="sorting" tabindex="0"
+															aria-controls="datatable-checkbox" rowspan="1"
+															colspan="1">계약서</th>
 													</tr>
 												</thead>
 												<tbody>
-													<th:block th:each="m : ${mmContractInfo}"
-														th:if="${mmContractInfo != null}">
+													<th:block th:each="m : ${contractList}"
+														th:if="${contractList != null}">
 
 														<tr role="row" class="odd">
 															<th class="sorting_1 "><label class="checkbox"><input
 																	class="check-self" type="checkbox"></label></th>
-															<td th:text=${m.companyName}></td>
-															<td colspan="1">
-																<div>
-																	<strong th:text=${m.mentorContractTitle}></strong>
-																	<p>
-																		<span
-																			th:text="${'계약 개월수: ' + m.contractPeriod + '개월'}"></span>
-																		| <span th:text="${m.companyAddr}"></span>
-																	</p>
-																</div>
-															</td>
-															<td
-																th:text="${m.careerYear + '년 ' + m.careerMonth + '개월'}"></td>
-															<td th:text="${m.contractCost}"></td>
-															<td><a th:href="@{/farm/mentorMenteeContractModify(mentorContractRegCode=${m.mentorContractRegCode})}">수정</a></td>
-															<td><a th:href="@{/farm/mentorMenteeContractDelete}">삭제</a></td>
+															<td th:text=${m.contractCode}></td>
+															<td><a th:text=${m.contractRegistrationCode} th:href="@{/farm/mentorMenteeContractDetail(mentorContractRegCode=${m.contractRegistrationCode})}" style="text-decoration: underline;"></a></td>
+															<td th:text=${m.memberId}></td>
+															<td th:text=${m.contractApplyDate}></td>
+															<td th:text=${m.adminId}></td>
+															<td th:text=${m.contractApprovalDate}></td>
+															<td th:text=${m.contractApproval}></td>
+															<td th:text=${m.deposit}></td>
+															<td th:text=${m.contracteeCompanyCode}></td>
+															<td><a th:href="@{/contractPaper(contractCode=${m.contractCode})}">계약서 바로가기</a></td>
 														</tr>
 
 
@@ -202,8 +207,8 @@ input[type='checkbox'] {
 													</th:block>
 
 													<tr role="row" class="odd"
-														th:unless="${mmContractInfo != null}">
-														<td colspan="10">신청받은 멘토멘티 계약이 존재하지 않습니다.</td>
+														th:unless="${contractList != null}">
+														<td colspan="13">신청받은 멘토멘티 계약이 존재하지 않습니다.</td>
 													</tr>
 
 												</tbody>
