@@ -43,6 +43,24 @@ public class FarmController {
 		this.farmService = farmService;
 	}
 	
+	/**
+	 * 전체 사육장 케이지 검색 조회
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/cageList")
+	public String getSearchCageList(Model model
+							,@RequestParam(name="searchKey", required = false) String searchKey
+							,@RequestParam(name="searchValue", required = false) String searchValue
+							,HttpSession session){
+		String companyCode =(String) session.getAttribute("sessionCompanyCode");
+		List<Cage> cageList = farmService.getSearchCageList(companyCode,searchKey,searchValue);
+		model.addAttribute("title", "케이지 목록");
+		model.addAttribute("cageList", cageList);
+		return "farm/cage_list";
+	}
+
+	
 	
 	/**
 	 * 사육 장 등록

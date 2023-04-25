@@ -76,6 +76,30 @@
 			</div>
 		</div>
 		
+		<div th:fragment="cageSearch" class="container" style="float: left; margin-left: 8px; margin-bottom: 10px;">
+			<div class="row">
+				<form class="form-inline" th:action="@{/farm/cageList}" id="search" method="get">
+					<div class="form-group">
+						<select name="searchKey" style="padding-top:7px; padding-bottom: 7px; text-align: center;">
+							<option value="">:::선택:::</option>
+							<option value="farmCode">사육장 코드</option>
+							<option value="productionCode">케이지 코드</option>
+							<option value="cageName">케이지 이름</option>
+							<option value="cageVolume">케이지 용량</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<div class="col-md-8">
+							<input type="text" name="searchValue" class="form-control" style="width: 200px;" placeholder="검색어를 입력해주세요">
+						</div>
+						<div class="col-md-4">
+							<button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 5px;">검색</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		
 		
 
 

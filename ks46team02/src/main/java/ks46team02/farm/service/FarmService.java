@@ -24,6 +24,37 @@ public class FarmService {
         this.farmMapper = farmMapper;
     }
     
+    
+    /**
+     * 전체 사육장 케이지 조회
+     */
+    public  List<Cage> getSearchCageList(String companyCode
+						    		,String searchKey
+						    		,String searchValue){
+    	if(searchKey != null) {
+    		switch (searchKey) {
+			case "farmCode":
+				searchKey = "farm_code";
+				break;
+			case "cageCode":
+				searchKey = "cage_code";
+				break;
+			case "cageName":
+				searchKey = "cage_ame";
+				break;
+			case "cageVolume":
+				searchKey = "cage_volume";
+				break;
+
+			default:
+				break;
+			}
+    	}
+        List<Cage> cageList = farmMapper.getSearchCageList(companyCode,searchKey,searchValue);
+        return cageList;
+    }
+    
+    
     /**
      * 한 사육장 상태 조회
      * @return

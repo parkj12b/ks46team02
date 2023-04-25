@@ -3,10 +3,32 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.farm.mapper.FarmMapper">
+	
+	<!-- 전체 사육장 케이지 검색 조회 -->
+	 <select id="getSearchCageList" resultType="Cage">
+        SELECT
+	        cage_code AS cageCode,
+	        cage_name AS cageName,
+	        company_code AS companyCode,
+	        farm_code AS farmCode,
+	        optimal_input_egg AS optimalInputEgg,
+	        member_id AS memberId,
+	        cage_reg_date AS cageRegDate,
+	        cage_num AS cageNum,
+	        cage_volum AS cageVolume,
+	        cage_volum_unit AS cageVolumeUnit,
+	        cage_total AS cageTotal
+        FROM 
+        	cage
+        WHERE
+        	company_code = #{companyCode}
+        	 <if test="searchKey != null and searchKey != ''">
+			 AND (${searchKey} LIKE CONCAT('%', #{searchValue}, '%'))
+			 </if>
+    </select>
 
 
 	<!-- 하나의 사육장 상태 조회 -->
-	
 	 <select id="getFarmStatusList" resultType="FarmStatus">
         SELECT
 	        farm_code AS farmCode,
