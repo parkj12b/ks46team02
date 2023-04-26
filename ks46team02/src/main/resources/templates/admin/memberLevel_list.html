@@ -10,9 +10,17 @@ input {
   height: 20px;
 }
 #modifybutton,
-#deletebutton {
+#deletebutton,
+#cancelbutton {
   font-size: smaller; /* 원하는 크기로 변경 가능 */
   padding: 5px 10px; /* 내용과 버튼의 크기 조정 */
+  
+}
+select option[value="1"] {
+  content: "O";
+}
+select option[value="0"] {
+  content: "X";
 }
 </style>
 </head>
@@ -62,7 +70,7 @@ $(document).ready(function() {
 	      $(this).html(input);
 	    });
 	    modifyButton.text('저장');
-	    deleteButton.text('뒤로가기');
+	    deleteButton.text('취소');
 	    deleteButton.attr('id', 'cancelbutton');
 	  });
 
