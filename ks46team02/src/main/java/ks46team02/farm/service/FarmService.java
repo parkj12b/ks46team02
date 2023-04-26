@@ -1,13 +1,11 @@
 package ks46team02.farm.service;
 
-
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import ks46team02.farm.controller.FarmController;
 import ks46team02.farm.dto.Cage;
@@ -20,83 +18,173 @@ import ks46team02.farm.mapper.FarmMapper;
 
 @Service
 public class FarmService {
-	private static final Logger log = LoggerFactory.getLogger(FarmController.class);
     private final FarmMapper farmMapper;
     public FarmService(FarmMapper farmMapper){
+
         this.farmMapper = farmMapper;
     }
-    
-    
-    public List<Cycle> getCycleList(String farmCode, String companyCode, String searchKey, String searchValue, String fromDate, String toDate){ 
-    	if(searchKey != null) {
-    		switch (searchKey) {
-			case "cageCode":
-				searchKey = "cy.expected_cage_production_code";
-				break;
-			case "estimatedProduction":
-				searchKey = "estimated_production";
-				break;
-			case "dayDiffHarvest":
-				searchKey = "estimated_harvest_date";
-				break;
 
-			default:
-				break;
-			}
-    	}
-    	List<Cycle> cycleList = farmMapper.getCycleList(farmCode,searchKey,searchValue,fromDate,toDate);
-    	List<Production> productionList = farmMapper.getAllProductionList(companyCode);
-    	for (int i = 0; i < cycleList.size(); i++) {
-    	    Cycle cycle = cycleList.get(i);
-    	    for (int x = 0; x < productionList.size(); x++) {
-    	    	Production production = productionList.get(x);
-    	        if (cycle.getCycleCode().equals(production.getExpectedCageProductionCode())) {
-    	            cycle.setDayDiffHarvest("수확완료");
-    	        }
-    	    }
-    	    cycleList.set(i, cycle);
-    	    
-    	}
-    	
-    	return cycleList;
+
+    /**
+     * 전체 사육장 케이지 조회
+     */
+    public  List<Cage> getSearchCageList(String companyCode
+            ,String searchKey
+            ,String searchValue){
+        if(searchKey != null) {
+            switch (searchKey) {
+                case "farmCode":
+                    searchKey = "farm_code";
+                    break;
+                case "cageCode":
+                    searchKey = "cage_code";
+                    break;
+                case "cageName":
+                    searchKey = "cage_ame";
+                    break;
+                case "cageVolume":
+                    searchKey = "cage_volume";
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        List<Cage> cageList = farmMapper.getSearchCageList(companyCode,searchKey,searchValue);
+        return cageList;
     }
 
+
+    /**
+     * 한 사육장 상태 조회
+     * @return
+     */
+    public List<FarmStatus> getFarmStatusList(String farmCode){
+        List<FarmStatus> farmStatusList = farmMapper.getFarmStatusList(farmCode);
+        return farmStatusList;
+    }
+
+    /**
+     * 싸이클 코드에대한 먹이 급여 조회
+     * @param cycleCode
+     * @return
+     */
+
+    public  List<Feed> getFeedListByCycleCode(String cycleCode){
+        List<Feed> feedList = farmMapper.getFeedListByCycleCode(cycleCode);
+        return feedList;
+    }
+
+    /**
+     * 전체 생산량 검색 조회
+     */
+    public List<Production> getSearchProduction(String companyCode
+            ,String searchKey
+            ,String searchValue
+            ,String fromDate
+            ,String toDate){
+        if(searchKey != null) {
+            switch (searchKey) {
+                case "productionCode":
+                    searchKey = "p.production_code";
+                    break;
+                case "farmCode":
+                    searchKey = "p.farm_code";
+                    break;
+                case "expectedCageProductionCode":
+                    searchKey = "ex.calculation_standard_code";
+                    break;
+                case "calculationStandardCode":
+                    searchKey = "ex.calculation_standard_code";
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        List<Production> allProductionList = farmMapper.getSearchProduction(companyCode,searchKey,searchValue,fromDate,toDate);
+        return allProductionList;
+    }
+
+
+    /**
+     * 싸이클 검색및 조회
+     * @return
+     */
+    public List<Cycle> getSearchCycle(String farmCode, String companyCode, String searchKey, String searchValue, String fromDate, String toDate){
+        if(searchKey != null) {
+            switch (searchKey) {
+                case "cageCode":
+                    searchKey = "cy.expected_cage_production_code";
+                    break;
+                case "estimatedProduction":
+                    searchKey = "estimated_production";
+                    break;
+                case "dayDiffHarvest":
+                    searchKey = "estimated_harvest_date";
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        List<Cycle> cycleList = farmMapper.getSearchCycle(farmCode,searchKey,searchValue,fromDate,toDate);
+        List<Production> productionList = farmMapper.getProductionList(companyCode);
+        for (int i = 0; i < cycleList.size(); i++) {
+            Cycle cycle = cycleList.get(i);
+            for (int x = 0; x < productionList.size(); x++) {
+                Production production = productionList.get(x);
+                if (cycle.getCycleCode().equals(production.getExpectedCageProductionCode())) {
+                    cycle.setDayDiffHarvest("수확완료");
+                }
+            }
+            cycleList.set(i, cycle);
+
+        }
+
+        return cycleList;
+    }
+
+    /**
+     * 전체 사육장 조회
+     * @param companyCode
+     * @return
+     */
     public List<FarmInfo> getFarmList(String companyCode){
         List<FarmInfo> farmList = farmMapper.getFarmList(companyCode);
         return farmList;
     }
-    public  List<Feed> getFeedList(String cycleCode){
-        List<Feed> feedList = farmMapper.getFeedList(cycleCode);
-        return feedList;
-    }
-    public  List<Production> getProductionList(String farmCode){    		
-        List<Production> productionList = farmMapper.getProductionList(farmCode);       
-        return productionList;
-    }
+
+    /**
+     * 하나의 사육장 정보 조회
+     * @param farmCode
+     * @return
+     */
     public FarmInfo getFarmInfoByCode(String farmCode){
         FarmInfo farmInfo = farmMapper.getFarmInfoByCode(farmCode);
         return farmInfo;
     }
 
-    public List<Production> getAllProductionList(String companyCode){
-        List<Production> allProductionList = farmMapper.getAllProductionList(companyCode);
-        return allProductionList;
+    /**
+     * 하나의 사육장 생산량 조회
+     * @param farmCode
+     * @return
+     */
+    public List<Production> getProductionByCode(String farmCode){
+        List<Production> productionList = farmMapper.getProductionByCode(farmCode);
+        return productionList;
+    }
+
+    /**
+     * 전체 사육장 생산량 조회
+     * @param companyCode
+     * @return
+     */
+    public List<Production> getProductionList(String companyCode){
+        List<Production> productionList = farmMapper.getProductionList(companyCode);
+        return productionList;
     }
 
 
-    public  List<Cycle> getAllCycleList(){
-        List<Cycle> cycleList = farmMapper.getAllCycleList();
-        return cycleList;
-    }
-
-    public  List<Cage> getCageList(){
-        List<Cage> cageList = farmMapper.getCageList();
-        return cageList;
-    }
-
-    public List<FarmStatus> getFarmStatusList(){
-        List<FarmStatus> farmStatusList = farmMapper.getFarmStatusList();
-        return farmStatusList;
-    }
 
 }
