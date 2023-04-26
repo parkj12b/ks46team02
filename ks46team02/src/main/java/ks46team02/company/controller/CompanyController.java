@@ -40,6 +40,32 @@ public class CompanyController {
         this.memberMapper = memberMapper;
 
     }
+
+    @PostMapping("/modifyEmployeeLevel")
+    public String modifyEmployeeLevel(Member member){
+        String nameValue = member.getMemberLevelName();
+        log.info(nameValue);
+        if(nameValue == "매니저"){
+            member.setPositionLevelCode("level_code_2");
+        } else if (nameValue == "사원") {
+            member.setPositionLevelCode("level_code_3");
+        } else {
+            member.setPositionLevelCode("level_code_1");
+        }
+        memberService.modifyEmployeeLevel(member);
+        return "redirect:/company/companyEmployeeList";
+    }
+
+    @GetMapping("/modifyEmployeeLevel")
+    public String modifyEmployeeLevel(Model model
+                                    ,@RequestParam(name="memberId") String memberId){
+        List<CompanyPositionLevel> companyPositionLevelList = companyService.getCompanyPositionList();
+        model.addAttribute("title","직원권한수정");
+        model.addAttribute("companyPositionLevelList",companyPositionLevelList);
+        model.addAttribute("memberId",memberId);
+        return "company/modify_employee_level";
+    }
+
     @GetMapping("/companyEmployeeList")
     public String getCompanyEmployeeList(Model model,
                                          HttpSession session){
