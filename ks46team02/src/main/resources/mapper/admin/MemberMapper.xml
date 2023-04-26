@@ -17,7 +17,7 @@
 		<result column="dormant_member_reg_date"  				property="dormantMemberRegDate"/>
 		<result column="member_level_name"						property="memberLevelName"/>
 </resultMap>
-<<<<<<< HEAD
+
 <select id="getMemberInfoById" parameterType="String" resultMap="MemberResultMap">
 		/* 특정 회원 조회 */
 			select 
@@ -99,7 +99,7 @@
 			member_id = #{memberId};
 
 	</update>
-=======
+
 	<select id="getEmployeeList" parameterType="String" resultMap="MemberResultMap">
 		/* 업체별 직원 조회 */
 		SELECT
@@ -114,7 +114,7 @@
 			m.company_code = #{companyCode} and m.member_status != 'dormant';
 	</select>
 
->>>>>>> refs/heads/develop
+
 	<select id="getDormantMemberList" parameterType="String" resultMap="MemberResultMap">
 				/* 휴면 회원 조회 */
 			select 
