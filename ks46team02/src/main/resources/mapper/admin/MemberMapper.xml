@@ -17,7 +17,6 @@
 		<result column="dormant_member_reg_date"  				property="dormantMemberRegDate"/>
 		<result column="member_level_name"						property="memberLevelName"/>
 </resultMap>
-
 <select id="getMemberInfoById" parameterType="String" resultMap="MemberResultMap">
 		/* 특정 회원 조회 */
 			select 
@@ -113,7 +112,6 @@
 		WHERE
 			m.company_code = #{companyCode} and m.member_status != 'dormant';
 	</select>
-
 
 	<select id="getDormantMemberList" parameterType="String" resultMap="MemberResultMap">
 				/* 휴면 회원 조회 */

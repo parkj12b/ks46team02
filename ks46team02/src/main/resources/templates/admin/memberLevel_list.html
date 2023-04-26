@@ -4,11 +4,30 @@
       layout:decorate="~{layout/mypageLayout}">
 
 <head>
+<style>
+input {
+  width: 50px; /* 원하는 크기로 조정 가능 */
+  height: 20px;
+}
+#modifybutton,
+#deletebutton,
+#cancelbutton {
+  font-size: smaller; /* 원하는 크기로 변경 가능 */
+  padding: 5px 10px; /* 내용과 버튼의 크기 조정 */
+  
+}
+select option[value="1"] {
+  content: "O";
+}
+select option[value="0"] {
+  content: "X";
+}
+</style>
 </head>
 <th:block layout:fragment="customJs">
 <script>
 $(document).ready(function() {
-  $('button.btn-primary').click(function() {
+  $('#addbutton').click(function() {
     window.location.href = '/admin/addMemberLevel';
   });
 });
@@ -28,12 +47,48 @@ function deleteBoard(seq){
 	  }
 	})
 } 
-
 $(document).ready(function() {
-	  $('.delete').on('click', function(e) {
+	  $('#deletebutton').on('click', function(e) {
 	    e.preventDefault();
 	    var seq = $(this).data('seq'); // data-seq 속성을 사용하여 seq 값을 가져옵니다.
 	    deleteBoard(seq); // deleteBoard 함수를 호출합니다.
+	  });
+	});
+$(document).ready(function() {
+	  $('table tbody').on('click', '#modifybutton', function() {
+	    var tr = $(this).closest('tr');
+	    var modifyButton = $(this);
+	    var deleteButton = tr.find('#deletebutton');
+	    tr.find('td:nth-child(n+2):nth-child(-n+7)').each(function() {
+	      var value = $(this).text();
+	      var input;
+	      if ($(this).index() === 2 || $(this).index() === 3 || $(this).index() === 4 || $(this).index() === 5 || $(this).index() === 6) {
+	        input = $('<select>').append($('<option>').text('O').val(1)).append($('<option>').text('X').val(0));
+	      } else {
+	        input = $('<input>').val(value);
+	      }
+	      $(this).html(input);
+	    });
+	    modifyButton.text('저장');
+	    deleteButton.text('취소');
+	    deleteButton.attr('id', 'cancelbutton');
+	  });
+
+	  $('table tbody').on('click', '#cancelbutton', function() {
+	    var tr = $(this).closest('tr');
+	    var modifyButton = tr.find('#modifybutton');
+	    var deleteButton = $(this);
+	    tr.find('td:nth-child(n+2):nth-child(-n+7)').each(function() {
+	      var value = $(this).find('select').val() || $(this).find('input').val();
+	      $(this).html(value);
+	    });
+	    modifyButton.text('수정');
+	    deleteButton.text('삭제');
+	    deleteButton.attr('id', 'deletebutton');
+	  });
+
+	  $('table tbody').on('click', '#deletebutton', function() {
+	    // 삭제 버튼의 동작
 	  });
 	});
 </script>
@@ -77,14 +132,6 @@ $(document).ready(function() {
                                                 aria-label="Position: activate to sort column ascending">직원별 권한 명칭
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 180px;"
-                                                aria-label="Office: activate to sort column ascending">등록 일자
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 120px;"
-                                                aria-label="Age: activate to sort column ascending">등록 관리자
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 150px;"
                                                 aria-label="Age: activate to sort column ascending">사원 관리
                                             </th>
@@ -108,6 +155,14 @@ $(document).ready(function() {
                                                 aria-label="Start date: activate to sort column ascending"
                                                 aria-sort="descending">멘토멘티 관리
                                             </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+                                                rowspan="1" colspan="1" style="width: 120px;"
+                                                aria-label="Age: activate to sort column ascending">등록 관리자
+                                            </th>
+                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+                                                rowspan="1" colspan="1" style="width: 180px;"
+                                                aria-label="Office: activate to sort column ascending">등록 일자
+                                            </th>
                                             <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
             									rowspan="1" colspan="1" style="width: 70px;"
             									aria-label="Start date: activate to sort column ascending"
@@ -127,18 +182,18 @@ $(document).ready(function() {
 											<tr th:unless="${memberLevelList == null}" th:each="l : ${memberLevelList}">
 												<td th:text="${l.positionLevelCode}"></td>
 												<td th:text="${l.memberLevelName}"></td>
-												<td th:text="${l.compayRegDate}"></td>
-												<td th:text="${l.adminId}"></td>
 												<td th:text="${l.memberManagement}"></td>
 												<td th:text="${l.contractManagement}"></td>
 												<td th:text="${l.paymentManagement}"></td>
 												<td th:text="${l.companyInfoManagement}"></td>
 												<td th:text="${l.mentoMenteeManagement}"></td>
+												<td th:text="${l.adminId}"></td>
+												<td th:text="${l.compayRegDate}"></td>
 												<td>                                            
-                                            		<i class="fa fa-edit"></i> 수정
+                                            		<button class="btn btn-dark" type="button" id="modifybutton" >수정</button>
                                             	</td>
                                             	<td>
-                                            		<a href="#" class="delete"><i class="fa fa-close"></i> 삭제</a>
+                                            		<button class="btn btn-dark" type="button" id="deletebutton" >삭제</button>
                                                </td>
                                             </tr>
 		
@@ -146,7 +201,7 @@ $(document).ready(function() {
                                     </table>
                                 </div>
                                 	<div class="col-md-12 text-right">
-							      		<button class="btn btn-primary float-right" type="button">회원 등급 등록</button>
+							      		<button class="btn btn-primary float-right" type="button" id="addbutton" >회원 등급 등록</button>
 							    	</div>
                             </div>
                         </div>
