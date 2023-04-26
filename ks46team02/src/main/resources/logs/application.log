@@ -9206,3 +9206,8 @@
 		WHERE
 			m.company_code = 'comp_1' and m.member_status != 'dormant';
  {executed in 15 msec}
+15:07:09.448 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.5 with PID 14720 (C:\kimyujin\workspace\git\ks46team02\target\classes started by mamlo in C:\kimyujin\workspace\git\ks46team02)
+15:07:09.452 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:10:08.023 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.5 with PID 12780 (C:\kimyujin\workspace\git\ks46team02\target\classes started by mamlo in C:\kimyujin\workspace\git\ks46team02)
+15:10:08.028 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:10:15.339 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 8.306 seconds (process running for 9.831)
