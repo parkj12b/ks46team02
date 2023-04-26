@@ -9211,3 +9211,6 @@
 15:10:08.023 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.5 with PID 12780 (C:\kimyujin\workspace\git\ks46team02\target\classes started by mamlo in C:\kimyujin\workspace\git\ks46team02)
 15:10:08.028 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
 15:10:15.339 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 8.306 seconds (process running for 9.831)
+15:21:37.763 [restartedMain] INFO  ks46team02.Ks46team02Application - Starting Ks46team02Application using Java 17.0.5 with PID 12540 (C:\kimyujin\workspace\git\ks46team02\target\classes started by mamlo in C:\kimyujin\workspace\git\ks46team02)
+15:21:37.767 [restartedMain] INFO  ks46team02.Ks46team02Application - No active profile set, falling back to 1 default profile: "default"
+15:21:46.071 [restartedMain] INFO  ks46team02.Ks46team02Application - Started Ks46team02Application in 9.537 seconds (process running for 11.449)
