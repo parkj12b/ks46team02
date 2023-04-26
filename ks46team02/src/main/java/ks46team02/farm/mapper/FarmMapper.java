@@ -15,7 +15,9 @@ import ks46team02.farm.dto.Production;
 
 @Mapper
 public interface FarmMapper {
-
+	
+	// 그래프 테스트 //
+	public List<Production> test(String farmCode);
     // 전체 사육장 케이지 조회 및 검색 //
     public List<Cage> getSearchCageList(String companyCode,String searchKey ,String searchValue);
     // 한 사육장 생타 조회 //

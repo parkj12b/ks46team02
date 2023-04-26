@@ -4,6 +4,15 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.farm.mapper.FarmMapper">
 
+	<!-- 그래프 테스트 -->
+	<select id="test" resultType="Production">
+	real_production, real_harvest_day 
+	FROM production p 
+	WHERE farm_code = #{farmCode} 
+	ORDER BY production_reg_date ASC;
+	
+	</select>
+
     <!-- 전체 사육장 케이지 검색 조회 -->
     <select id="getSearchCageList" resultType="Cage">
         SELECT

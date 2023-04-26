@@ -2,12 +2,9 @@ package ks46team02.farm.service;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import ks46team02.farm.controller.FarmController;
+
 import ks46team02.farm.dto.Cage;
 import ks46team02.farm.dto.Cycle;
 import ks46team02.farm.dto.FarmInfo;
@@ -22,6 +19,16 @@ public class FarmService {
     public FarmService(FarmMapper farmMapper){
 
         this.farmMapper = farmMapper;
+    }
+    
+    
+    /**
+     * 그래프 테스트
+     */
+    public List<Production> test(String farmCode){
+    	List<Production> productionList = farmMapper.test(farmCode);
+    	
+    	return productionList;
     }
 
 

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.gson.Gson;
+
 import jakarta.servlet.http.HttpSession;
 import ks46team02.common.dto.AllContractInfo;
 import ks46team02.farm.dto.Cage;
@@ -41,6 +43,20 @@ public class FarmController {
 	public FarmController(MentorMenteeService mentorMenteeService, FarmService farmService) {
 		this.mentorMenteeService = mentorMenteeService;
 		this.farmService = farmService;
+	}
+	
+	/**
+	 * 그래프 테스트
+	 */
+	@GetMapping("/test")
+	public String test(Model model) {
+		String farmCode = "farm_1";
+		List<Production> productionList = farmService.test(farmCode);
+		Gson gson = new Gson();
+    	String json = gson.toJson(productionList);
+    	model.addAttribute("json", json);
+		model.addAttribute("title", "그래프");
+		return "farm/test";
 	}
 
 	/**
