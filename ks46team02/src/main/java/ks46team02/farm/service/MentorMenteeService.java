@@ -3,11 +3,11 @@ package ks46team02.farm.service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import ks46team02.common.dto.AllContractInfo;
+import ks46team02.common.mapper.MainMapper;
 import ks46team02.farm.dto.MMContractInfo;
 import ks46team02.farm.mapper.MentorMenteeMapper;
 
@@ -15,9 +15,11 @@ import ks46team02.farm.mapper.MentorMenteeMapper;
 public class MentorMenteeService {
 
 	private final MentorMenteeMapper mentorMenteeMapper;
+	private final MainMapper mainMapper;
 	
-	public MentorMenteeService(MentorMenteeMapper mentorMenteeMapper) {
+	public MentorMenteeService(MentorMenteeMapper mentorMenteeMapper, MainMapper mainMapper) {
 		this.mentorMenteeMapper = mentorMenteeMapper;
+		this.mainMapper = mainMapper;
 	}
 	
 	public Map<String, Object> getMentorMenteeRegisterStatus(String companyCode) {
@@ -49,16 +51,30 @@ public class MentorMenteeService {
 		return mmContractInfo;
 	}
 
-	public List<AllContractInfo> getMMContractListByKeyValue(Map<String, String> keyValue) {
+	public List<AllContractInfo> getMMContractListByKeyValue(List<Map<String, Object>> searchList) {
 		// TODO Auto-generated method stub
 		
-		List<AllContractInfo> contractInfoList = mentorMenteeMapper.getContractInfoByKeyValue(keyValue);
+		List<AllContractInfo> contractInfoList = mainMapper.getContractInfoByKeyValueAnd(searchList);
 		
 		return contractInfoList;
 	}
 	
-	public AllContractInfo getMMContractByKeyValue(Map<String, String> keyValue) {
-		List<AllContractInfo> contractInfo = mentorMenteeMapper.getContractInfoByKeyValue(keyValue);
+	public AllContractInfo getMMContractByKeyValue(List<Map<String, Object>> searchList) {
+		List<AllContractInfo> contractInfo = mainMapper.getContractInfoByKeyValueAnd(searchList);
+		
+		if(contractInfo.isEmpty()) {
+			return null;
+		}
+		
+		return contractInfo.get(0);
+	}
+	
+	public AllContractInfo getMMContractDetail(List<Map<String, Object>> searchList) {
+		List<AllContractInfo> contractInfo = mainMapper.getContractInfoByKeyValueOr(searchList);
+		
+		if(contractInfo.isEmpty()) {
+			return null;
+		}
 		
 		return contractInfo.get(0);
 	}
