@@ -1,8 +1,10 @@
 package ks46team02.farm.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -250,13 +252,53 @@ public class FarmController {
 
 		return "farm/mm_contract_detail";
 	}
-
-	@GetMapping("/myMentorMenteeContract")
+	
+	@GetMapping("/myMentorMenteeContractMentor")
 	public String getMMContractListMentor(Model model, HttpSession session) {
 		String companyCode = (String)session.getAttribute("sessionCompanyCode");
 		List<MMContractInfo> mmContractInfo = mentorMenteeService.getMMContractList("company_code", companyCode);
 		model.addAttribute("mmContractInfo",mmContractInfo);
-		return "farm/my_mm_contract_list";
+		log.info("{}", mmContractInfo);
+		return "farm/my_mm_contract_list_mentor";
+	}
+	
+	@GetMapping("/myMentorMenteeContractMentee")
+	public String getMMContractListMentee(Model model, HttpSession session) {
+		String companyCode = (String)session.getAttribute("sessionCompanyCode");
+		
+		Map<String, String> paramMap = new HashMap<String,String>();
+		paramMap.put("contractee_company_code", companyCode);
+		paramMap.put("contract_type", "mentormentee");
+		paramMap.put("contract_approval", "approve");
+		
+		Set<String> keySet = paramMap.keySet();
+		List<Map<String, Object>> searchList = new ArrayList<>();
+		
+		for(String key : keySet) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("key", key);
+			map.put("value", paramMap.get(key));
+			searchList.add(map);
+		}
+		
+		AllContractInfo mmContractInfo = mentorMenteeService.getMMContractByKeyValue(searchList);
+		
+		int contractDays = mmContractInfo.getContractDays();
+		int daysLeft = mmContractInfo.getDaysLeft();
+		
+		if(daysLeft <= 0) {
+			daysLeft = 0;
+		}
+		
+		double contractPercentDone = ((double) (contractDays-daysLeft)*100)/contractDays;
+		
+		
+		log.info("num={}",contractPercentDone);
+		log.info("num={}",contractDays);
+		log.info("num={}",daysLeft);
+		model.addAttribute("mmContractInfo",mmContractInfo);
+		model.addAttribute("contractPercentDone", contractPercentDone);
+		return "farm/my_mm_contract_mentee";
 	}
 
 	@GetMapping("/mentorMenteeContractModify")
@@ -287,15 +329,25 @@ public class FarmController {
 	public String mentorMenteeContractApprove(Model model, HttpSession session) {
 
 		String companyCode = (String) session.getAttribute("sessionCompanyCode");
-		Map<String, String> keyValue = new HashMap<String,String>();
-		keyValue.put("key1", "contractor_company_code");
-		keyValue.put("value1", companyCode);
-		keyValue.put("key2", "contract_type");
-		keyValue.put("value2", "mentormentee");
-		keyValue.put("key3", "contract_approval");
-		keyValue.put("value3", "under review");
+		
+		Map<String, String> paramMap = new HashMap<String,String>();
+		paramMap.put("contractor_company_code", companyCode);
+		paramMap.put("contract_type", "mentormentee");
+		paramMap.put("contract_approval", "under_review");
+		
+		Set<String> keySet = paramMap.keySet();
+		List<Map<String, Object>> searchList = new ArrayList<>();
+		
+		for(String key : keySet) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("key", key);
+			map.put("value", paramMap.get(key));
+			searchList.add(map);
+		}
+		
+		
+		List<AllContractInfo> contractList = mentorMenteeService.getMMContractListByKeyValue(searchList);
 
-		List<AllContractInfo> contractList = mentorMenteeService.getMMContractListByKeyValue(keyValue);
 		model.addAttribute("contractList",contractList);
 		log.info("{}",contractList);
 		return "farm/my_mm_contract_approve_list";

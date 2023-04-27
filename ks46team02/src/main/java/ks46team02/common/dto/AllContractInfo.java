@@ -18,6 +18,23 @@ public class AllContractInfo {
 	private	String totalAmount;
 	private	String contracteeCompanyCode;
 	private	String contractorCompanyCode;
+	private int contractDays;
+	private int daysLeft;
+	
+	
+	
+	public int getContractDays() {
+		return contractDays;
+	}
+	public void setContractDays(int contractDays) {
+		this.contractDays = contractDays;
+	}
+	public int getDaysLeft() {
+		return daysLeft;
+	}
+	public void setDaysLeft(int daysLeft) {
+		this.daysLeft = daysLeft;
+	}
 	public String getContractCode() {
 		return contractCode;
 	}
@@ -130,7 +147,8 @@ public class AllContractInfo {
 				+ ", contractApprovalDate=" + contractApprovalDate + ", contractApproval=" + contractApproval
 				+ ", deposit=" + deposit + ", deliveryCycle=" + deliveryCycle + ", contractAmount=" + contractAmount
 				+ ", totalAmount=" + totalAmount + ", contracteeCompanyCode=" + contracteeCompanyCode
-				+ ", contractorCompanyCode=" + contractorCompanyCode + "]";
+				+ ", contractorCompanyCode=" + contractorCompanyCode + ", contractDays=" + contractDays + ", daysLeft="
+				+ daysLeft + "]";
 	}
 	
 	

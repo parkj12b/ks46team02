@@ -94,14 +94,15 @@
 			<li><a><i class="fa fa-users"></i> 멘토멘티 관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="/farm/myMentorMenteeContract">!멘토멘티 공고 조회</a></li>
-					<li><a href="/farm/registerMentorMenteeContract">!멘토멘티 공고 등록</a></li>
-					<li><a href="/farm/mentorMenteeContractApprove">#신청한 멘토멘티 계약조회</a></li>
+					<li><a href="/farm/mentorMenteeContract">!박민서 멘토멘티 공고 조회</a></li>
+					<li><a href="/farm/myMentorMenteeContractMentor">!박민서 나의 멘토멘티 공고 조회</a></li>
+					<li><a href="/farm/registerMentorMenteeContract">!박민서 멘토멘티 공고 등록</a></li>
+					<li><a href="/farm/mentorMenteeContractApprove">!박민서 승인대기 멘토멘티 계약조회</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-clipboard"></i> 멘티 관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="#">#멘티 조회</a></li>
+					<li><a href="#">#박민서 멘티 조회</a></li>
 				</ul></li>
 		</ul>
 	</div>
@@ -111,15 +112,15 @@
 			<li><a><i class="fa fa-user-plus"></i> 멘토멘티 신청 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="#">#멘토멘티 신청</a></li>
-					<li><a href="#">#승인 여부조회</a></li>
+					<li><a th:href="@{/farm/mentorMentee}">!박민서 멘토멘티 신청</a></li>
+					<li><a href="/farm/mentorMenteeRegisterStatus">!박민서 승인 여부조회</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-users"></i> 멘토멘티 관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="/farm/mentorMenteeContract">!멘토멘티 공고 조회</a></li>
-					<li><a href="#">#나의 멘토 계약 조회</a></li>
-					<li><a href="#">#방문평가 조회</a></li>
+					<li><a href="/farm/mentorMenteeContract">!박민서 멘토멘티 공고 조회</a></li>
+					<li><a href="/farm/myMentorMenteeContractMentee">#박민서 나의 멘토 계약 조회</a></li>
+					<li><a href="#">#박민서 방문평가 조회</a></li>
 				</ul></li>
 		</ul>
 	</div>

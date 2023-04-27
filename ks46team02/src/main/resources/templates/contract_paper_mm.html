@@ -74,38 +74,42 @@
 		<script>
 		</script>
 	</th:block>
-	<th:block layout:fragment="customContent" th:object="${contarctInfo}">
+	<th:block layout:fragment="customContent" th:object="${contractInfo}">
 		<div id="info-container">
 			<div class="x_panel">
-				<h2 id="company-name" th:text="*{companyName}"></h2>
+			<div style="margin-bottom: 30px;">
+				<h2 id="company-name" th:text="${contractorInfo.companyName}" style="display: inline-block;"></h2><span style="font-size: 18px;">&lt;----------&gt;</span>
+				<h2 th:text="${contracteeInfo.companyName}" style="display: inline-block;"></h2>
+			</div>
+				
 				<div class="clearfix"></div>
-				<h1 th:text=*{mentorContractTitle} id="contract-title"></h1>	
+				<h1 id="contract-title">멘토멘티 계약 <small th:text="*{contractCode}"></small></h1>	
 				<div class="x_content" style="display: block;">
 					<div class="mentor-head-info">
 						<table  id="mentor-head-info">
 							<tr>
-								<th>경력:</th>
-								<td th:text='|${mmContractInfo.careerYear +"년 "+ mmContractInfo.careerMonth +"개월"}|'></td>
+								<th>멘토멘티 계약 종류: </th>
+								<td><a th:href="@{/farm/mentorMenteeContractDetail(mentorContractRegCode=*{contractRegistrationCode})}" th:text="*{contractRegistrationCode}"></a></td>
 							</tr>
 							<tr>
-								<th>계약 개월수: </th>
-								<td th:text='|${mmContractInfo.contractPeriod + "개월"}|'></td>
+								<th>회원아이디: </th>
+								<td th:text='|*{memberId + "개월"}|'></td>
 							</tr>
 							<tr>
-								<th>주소: </th>
-								<td th:text='|${mmContractInfo.companyAddr}|'></td>
+								<th>계약 신청 날짜: </th>
+								<td th:text='|*{contractApplyDate}|'></td>
 							</tr>
 							<tr>
-								<th>전화번호: </th>
-								<td th:text='|${mmContractInfo.companyTel}|'></td>
+								<th>계약 일자: </th>
+								<td th:text='|*{contractStartDate + " 부터 " + contractEndDate + " 까지"}|'></td>
 							</tr>
 							<tr>
-								<th>총 방문 횟수: </th>
-								<td th:text='|${mmContractInfo.totalVisitation}번|'></td>
+								<th>관리자 아이디: </th>
+								<td th:text='|*{adminId}|'></td>
 							</tr>
 							<tr>
-								<th>월 방문 횟수: </th>
-								<td th:text='|${mmContractInfo.monthVisitation}번|'></td>
+								<th>계약 승인 날짜: </th>
+								<td th:text='|*{contractApprovalDate}|'></td>
 							</tr>
 							
 							
@@ -114,36 +118,24 @@
 					<div class="mentor-head-info mentor-head-info-right">
 						<table id="mentor-head-info">
 							<tr>
-								<th>경력:</th>
-								<td th:text='|${mmContractInfo.careerYear +"년 "+ mmContractInfo.careerMonth +"개월"}|'></td>
+								<th>계약 승인 상태:</th>
+								<td th:text='|*{contractApproval}|'></td>
 							</tr>
 							<tr>
-								<th>계약 개월수: </th>
-								<td th:text='|${mmContractInfo.contractPeriod + "개월"}|'></td>
+								<th>계약금:(만원) </th>
+								<td th:text='|*{deposit}|'></td>
 							</tr>
-							<tr>
-								<th>주소: </th>
-								<td th:text='|${mmContractInfo.companyAddr}|'></td>
-							</tr>
-						</table>
-						<table>
 							<tr>
 								<th>총 계약 비용(만원): </th>
-								<td th:text='|${mmContractInfo.contractCost}|'></td>
-							</tr>
-							<tr>
-								<th>계약금(만원): </th>
-								<td th:text='|${mmContractInfo.deposit}|'></td>
+								<td th:text="*{totalAmount}"></td>
 							</tr>
 						</table>
-							
-						
 					</div>
 					<div id="contract-body">
 						<div id="round-bar"></div>
 						<div id="contract-body-html">
 							<h2>계약 내용</h2>
-							<p th:text="${mmContractInfo.contractContent}"></p>	
+							
 						</div>
 						
 					</div>
