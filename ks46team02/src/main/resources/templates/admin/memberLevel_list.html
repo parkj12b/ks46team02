@@ -45,31 +45,37 @@ $(document).ready(function() {
 	    });
 	    modifyButton.text('저장');
 	    deleteButton.text('취소');
-	    deleteButton.attr('class', 'btn btn-dark cancel');
-	    deleteButton.attr('prev-values', prevValues); // 이전 값 저장한 배열을 attribute에 저장
+	    deleteButton.removeClass('delete').addClass('cancel'); // delete 클래스 제거하고 cancel 클래스 추가
+	    // 이전 값 대신 현재 값을 attribute에 저장
+	    deleteButton.attr('prev-values', prevValues);
 	  });
 
 	  $('table tbody').on('click', '.cancel', function(){
 	    var tr = $(this).closest('tr');
-	    var prevValues = $(this).attr('prev-values').split(","); // 이전 값 배열 가져오기
+	    var currentValues = $(this).attr('prev-values').split(","); // 현재 값 배열 가져오기
+	    console.log(currentValues);
 	    tr.find('td:nth-child(n+2):nth-child(-n+7)').each(function(index) {
-	      var value = $(this).find(':input').val();
+	      var value = currentValues[index];
 	      if(value==1){
 	        value = "O";
 	      }
 	      else if(value==0){
 	        value ="X";
 	      }
-	      $(this).text(prevValues[index]); // 이전 값으로 변경
+	      // select 요소 삭제
+	      if ($(this).find('select').length > 0) {
+	        $(this).html(value);
+	      } else {
+	        $(this).text(value);
+	      }
 	    });
 	    var modifyButton = tr.find('.modify');
-	    var deleteButton = tr.find('.delete');
+	    var deleteButton = tr.find('.cancel'); // 클래스 변경
 	    modifyButton.text('수정');
 	    deleteButton.text('삭제');
-	    deleteButton.attr('class', 'btn btn-dark delete');
+	    deleteButton.removeClass('cancel').addClass('delete'); // cancel 클래스 제거하고 delete 클래스 추가
 	  });
 	});
-
 
 </script>
 </th:block>
