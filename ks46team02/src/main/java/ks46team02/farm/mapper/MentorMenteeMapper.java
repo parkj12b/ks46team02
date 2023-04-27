@@ -10,6 +10,7 @@ import ks46team02.common.dto.AllContractInfo;
 import ks46team02.farm.dto.MMContractInfo;
 import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
+import ks46team02.farm.dto.VisitHistory;
 
 @Mapper
 public interface MentorMenteeMapper {
@@ -19,6 +20,7 @@ public interface MentorMenteeMapper {
 
 	public int getMMRegType(String companyCode);
 	public List<MMContractInfo> getMMContractInfo(String searchKey, String searchValue);
+	public List<VisitHistory> getVisitHistoryListByContractCode(String contractCode);
 
 	
 }

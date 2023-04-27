@@ -45,6 +45,19 @@
 			property="mentorContractTitle"></result>
 		<result column="mcr.member_id" property="memberId"></result>
 	</resultMap>
+		<resultMap type="VisitHistory" id="visitHistoryMap">
+		<id column="visit_code"
+			property="visitCode"></id>
+		<result column="contract_code" property="contractCode"></result>
+		<result column="period_count" property="periodCount"></result>
+		<result column="period_state_date" property="periodStateDate"></result>
+		<result column="period_end_date" property="periodEndDate"></result>
+		<result column="visit_complete" property="visitComplete"></result>
+		<result column="visit_complete_final" property="visitCompleteFinal"></result>
+		<result column="total_score_visit" property="totalScoreVisit"></result>
+		<result column="total_detail_item_num" property="totalDetailItemNum"></result>
+	</resultMap>
+	
 	<select id="getMMRegStatMentee" resultType="MMRegInfoMentee">
 		select
 		mentee_app_code as menteeAppCode,
@@ -108,5 +121,13 @@
 			<if test="searchValue != ''">${searchKey} = #{searchValue}</if>
 		</where>
 	</select>
-	
+	<select id="getVisitHistoryListByContractCode" resultMap="visitHistoryMap">
+	select
+		*
+	from
+		visit_history
+	<where>
+		contract_code = #{contractCode}
+	</where>
+	</select>
 </mapper>
