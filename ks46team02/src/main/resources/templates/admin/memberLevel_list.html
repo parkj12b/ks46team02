@@ -9,18 +9,12 @@ input {
   width: 50px; /* 원하는 크기로 조정 가능 */
   height: 20px;
 }
-#modifybutton,
-#deletebutton,
-#cancelbutton {
+.modify,
+.delete,
+.cancel {
   font-size: smaller; /* 원하는 크기로 변경 가능 */
   padding: 5px 10px; /* 내용과 버튼의 크기 조정 */
   
-}
-select option[value="1"] {
-  content: "O";
-}
-select option[value="0"] {
-  content: "X";
 }
 </style>
 </head>
@@ -31,36 +25,16 @@ $(document).ready(function() {
     window.location.href = '/admin/addMemberLevel';
   });
 });
-function deleteBoard(seq){
-	Swal.fire({
-	  title: '글을 삭제하시겠습니까???',
-	  text: "삭제하시면 다시 복구시킬 수 없습니다.",
-	  icon: 'warning',
-	  showCancelButton: true,
-	  confirmButtonColor: '#3085d6',
-	  cancelButtonColor: '#d33',
-	  confirmButtonText: '삭제',
-	  cancelButtonText: '취소'
-	}).then((result) => {
-	  if (result.value) {
-          //"삭제" 버튼을 눌렀을 때 작업할 내용을 이곳에 넣어주면 된다. 
-	  }
-	})
-} 
 $(document).ready(function() {
-	  $('#deletebutton').on('click', function(e) {
-	    e.preventDefault();
-	    var seq = $(this).data('seq'); // data-seq 속성을 사용하여 seq 값을 가져옵니다.
-	    deleteBoard(seq); // deleteBoard 함수를 호출합니다.
-	  });
-	});
-$(document).ready(function() {
-	  $('table tbody').on('click', '#modifybutton', function() {
+	  $('table tbody').on('click', '.modify', function() {
 	    var tr = $(this).closest('tr');
 	    var modifyButton = $(this);
-	    var deleteButton = tr.find('#deletebutton');
+	    var deleteButton = tr.find('.delete');
+	    var prevValues = []; // 이전 값 저장할 배열
 	    tr.find('td:nth-child(n+2):nth-child(-n+7)').each(function() {
 	      var value = $(this).text();
+	      prevValues.push(value); // 이전 값 저장
+	      console.log(prevValues);
 	      var input;
 	      if ($(this).index() === 2 || $(this).index() === 3 || $(this).index() === 4 || $(this).index() === 5 || $(this).index() === 6) {
 	        input = $('<select>').append($('<option>').text('O').val(1)).append($('<option>').text('X').val(0));
@@ -71,26 +45,38 @@ $(document).ready(function() {
 	    });
 	    modifyButton.text('저장');
 	    deleteButton.text('취소');
-	    deleteButton.attr('id', 'cancelbutton');
+	    deleteButton.removeClass('delete').addClass('cancel'); // delete 클래스 제거하고 cancel 클래스 추가
+	    // 이전 값 대신 현재 값을 attribute에 저장
+	    deleteButton.attr('prev-values', prevValues);
 	  });
 
-	  $('table tbody').on('click', '#cancelbutton', function() {
+	  $('table tbody').on('click', '.cancel', function(){
 	    var tr = $(this).closest('tr');
-	    var modifyButton = tr.find('#modifybutton');
-	    var deleteButton = $(this);
-	    tr.find('td:nth-child(n+2):nth-child(-n+7)').each(function() {
-	      var value = $(this).find('select').val() || $(this).find('input').val();
-	      $(this).html(value);
+	    var currentValues = $(this).attr('prev-values').split(","); // 현재 값 배열 가져오기
+	    console.log(currentValues);
+	    tr.find('td:nth-child(n+2):nth-child(-n+7)').each(function(index) {
+	      var value = currentValues[index];
+	      if(value==1){
+	        value = "O";
+	      }
+	      else if(value==0){
+	        value ="X";
+	      }
+	      // select 요소 삭제
+	      if ($(this).find('select').length > 0) {
+	        $(this).html(value);
+	      } else {
+	        $(this).text(value);
+	      }
 	    });
+	    var modifyButton = tr.find('.modify');
+	    var deleteButton = tr.find('.cancel'); // 클래스 변경
 	    modifyButton.text('수정');
 	    deleteButton.text('삭제');
-	    deleteButton.attr('id', 'deletebutton');
-	  });
-
-	  $('table tbody').on('click', '#deletebutton', function() {
-	    // 삭제 버튼의 동작
+	    deleteButton.removeClass('cancel').addClass('delete'); // cancel 클래스 제거하고 delete 클래스 추가
 	  });
 	});
+
 </script>
 </th:block>
 <th:block layout:fragment="customContent">
@@ -190,10 +176,10 @@ $(document).ready(function() {
 												<td th:text="${l.adminId}"></td>
 												<td th:text="${l.compayRegDate}"></td>
 												<td>                                            
-                                            		<button class="btn btn-dark" type="button" id="modifybutton" >수정</button>
+                                            		<button class="btn btn-dark modify" type="button">수정</button>
                                             	</td>
                                             	<td>
-                                            		<button class="btn btn-dark" type="button" id="deletebutton" >삭제</button>
+                                            		<button class="btn btn-dark delete" type="button" >삭제</button>
                                                </td>
                                             </tr>
 		
