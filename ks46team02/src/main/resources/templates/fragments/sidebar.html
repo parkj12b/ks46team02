@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <div class="menu_section" th:fragment="memberInfo">
-		<h3>회원</h3>
-		<ul class="nav side-menu">
-			<li><a><i class="fa fa-edit"></i> 내 정보 수정 <span
-						class="fa fa-chevron-down"></span></a>
-					<ul class="nav child_menu">
-						<li><a href="#">#회원정보 수정</a></li>
-					</ul></li>
-		</ul>
-	</div>
+	<h3>회원</h3>
+	<ul class="nav side-menu">
+		<li><a><i class="fa fa-edit"></i> 내 정보 수정 <span
+				class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+				<li><a href="#">#회원정보 수정</a></li>
+			</ul></li>
+	</ul>
+</div>
 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu"
-	th:fragment="myPageSidebarFragmentDry">
+	 th:fragment="myPageSidebarFragmentDry">
 	<!-- 회원 -->
 	<div th:replace="~{fragments/sidebar :: memberInfo}"></div>
 	<div class="menu_section">
@@ -21,7 +21,7 @@
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
 					<li><a th:href="@{/company/companyInfoUser}">!최학준 내 업체 정보</a></li>
-					<li><a href="#">#최학준 업체 사원 조회</a></li>
+					<li><a th:href="@{/company/companyEmployeeList}">!최학준 사원 조회</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-file-text-o"></i> 계약 관리 <span
 					class="fa fa-chevron-down"></span></a>
@@ -37,7 +37,7 @@
 </div>
 <!-- ------------------------------------------------------------------------------ -->
 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu"
-	th:fragment="myPageSidebarFragmentFarm">
+	 th:fragment="myPageSidebarFragmentFarm">
 	<!-- 회원 -->
 	<div th:replace="~{fragments/sidebar :: memberInfo}"></div>
 	<div class="menu_section">
@@ -46,8 +46,8 @@
 			<li><a><i class="fa fa-building-o"></i> 업체관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a th:href="@{/company/companyInfoUser}">!최학준 업체 정보수정</a></li>
-					<li><a href="#">#최학준 업체 사원 조회</a></li>
+					<li><a th:href="@{/company/companyInfoUser}">!최학준 내 업체 정보</a></li>
+					<li><a th:href="@{/company/companyEmployeeList}">!최학준 사원 조회</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-file-text-o"></i> 계약 관리 <span
 					class="fa fa-chevron-down"></span></a>
@@ -72,15 +72,12 @@
 			<li><a><i class="fa fa-bug"></i> !김유진 김사육장 관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
+					<li><a th:href="@{/farm/test}">! 그래프</a></li>
 					<li><a th:href="@{/farm/farmList}">!김유진 사육장 조회</a></li>
-					<li><a th:href="@{/farm/farmStatusList}">!김유진 사육장 상태 조회</a></li>
+					<li><a th:href="@{/farm/productionList}">!김유진 생산량 조회</a></li>
 					<li><a th:href="@{/farm/cageList}">!김유진 케이지 조회</a></li>
 					<li><a th:href="@{/farm/cycleList}">!김유진 싸이클 조회</a></li>
-					<li><a th:href="@{/farm/productionList}">!김유진 생산량 조회</a></li>
 					<li><a th:href="@{/farm/feedList}">!김유진급여량 조회</a></li>
-					<li><a th:href="@{/farm/addFarm}">#김유진 사육장 등록</a></li>
-					<li><a th:href="@{/farm/addCage}">#김유진 케이지 등록</a></li>
-					<li><a th:href="@{/farm/addCycle}">#김유진 싸이클 등록</a></li>
 				</ul></li>
 		</ul>
 	</div>
@@ -130,7 +127,7 @@
 </div>
 <!-- --------------------------------------------------------------------------------- -->
 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu"
-	th:fragment="myPageSidebarFragmentBuyer">
+	 th:fragment="myPageSidebarFragmentBuyer">
 	<!-- 회원 -->
 	<div th:replace="~{fragments/sidebar :: memberInfo}"></div>
 	<div class="menu_section">
@@ -139,8 +136,8 @@
 			<li><a><i class="fa fa-building-o"></i> 업체관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a th:href="@{/company/companyInfoUser}">!최학준 업체 정보수정</a></li>
-					<li><a href="#">#최학준 업체 사원 조회</a></li>
+					<li><a th:href="@{/company/companyInfoUser}">!최학준 내 업체 정보</a></li>
+					<li><a th:href="@{/company/companyEmployeeList}">!최학준 사원 조회</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-file-text-o"></i> 계약 관리 <span
 					class="fa fa-chevron-down"></span></a>
@@ -152,7 +149,7 @@
 </div>
 <!-- --------------------------------------------------------------------------- -->
 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu"
-	th:fragment="myPageSidebarFragmentNewMember">
+	 th:fragment="myPageSidebarFragmentNewMember">
 	<!-- 회원 -->
 	<div th:replace="~{fragments/sidebar :: memberInfo}"></div>
 	<div class="menu_section">
@@ -166,11 +163,11 @@
 				</ul></li>
 		</ul>
 	</div>
-	
+
 </div>
 <!-- ----------------------------------------------------------------------------------- -->
 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu"
-	th:fragment="myPageSidebarFragmentAdmin">
+	 th:fragment="myPageSidebarFragmentAdmin">
 	<!-- 회원 -->
 	<div th:replace="~{fragments/sidebar :: memberInfo}"></div>
 	<div class="menu_section">
@@ -186,6 +183,7 @@
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
 					<li><a th:href="@{/admin/memberList}">! 최봉준 등록 된 회원관리</a></li>
+					<li><a th:href="@{/admin/dormantMemberList}">! 최봉준 휴면 회원 관리</a></li>
 					<li><a th:href="@{/admin/memberLevelList}">! 직원별 권한 관리</a></li>
 					<li><a th:href="@{/admin/addrList}">!최봉준 배송지 관리</a></li>
 					<li><a th:href="@{/admin/loginHistoryList}">! 최봉준 로그인 기록 관리</a></li>

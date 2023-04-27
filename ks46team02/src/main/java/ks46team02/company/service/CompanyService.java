@@ -18,6 +18,16 @@ public class CompanyService {
         this.companyMapper = companyMapper;
     }
 
+
+    public int modifyCompanyAdmin(Company company){
+        int result = companyMapper.modifyCompany(company);
+        return result;
+    }
+
+    public int modifyCompanyUser(Company company){
+        int result = companyMapper.modifyCompany(company);
+        return result;
+    }
     public int insertCompanyProduct(FarmProductCategory farmProductCategory){
         int result = companyMapper.insertCompanyProduct(farmProductCategory);
         return result;

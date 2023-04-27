@@ -71,6 +71,13 @@
 		    <artifactId>spring-boot-starter-mail</artifactId>
 		    <version>3.0.5</version>
 		</dependency>
+		<!-- json 으로 편하게 만드는 gson-->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+
+		</dependency>
+
 	</dependencies>
 
 	<build>
