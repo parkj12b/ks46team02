@@ -28,7 +28,10 @@
                                     <th>이름</th>
                                     <th>전화번호</th>
                                     <th>이메일</th>
-                                    <th></th>
+                                    <div th:if="${sessionIsOwner == true}">
+                                        <th></th>
+                                    </div>
+
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -37,8 +40,8 @@
                                     <td th:text="${l.memberName}"></td>
                                     <td th:text="${l.memberPhone}"></td>
                                     <td th:text="${l.memberEmail}"></td>
-                                    <td>
-                                        <a th:href="@{/company/modifyEmployeeLevel(memberId=${l.memberId})}">직원정보수정</a>
+                                    <td th:if="${sessionIsOwner == true}">
+                                        <a th:href="@{/company/modifyEmployeeLevel(memberId=${l.memberId} ,memberName=${l.memberName})}">직원정보수정</a>
                                     </td>
                                 </tr>
                                 <tr th:if="${employeeList == null}">
