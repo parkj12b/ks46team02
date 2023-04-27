@@ -9,19 +9,26 @@
 <th:block layout:fragment="customJs">
 <script>
 $(document).ready(function() {
-    $('.release-btn').click(function() {
-        var memberId = $(this).closest('tr').find('td:first').text();
-        console.log(memberId);
+    // 전환 버튼 클릭 이벤트
+    $('#convertBtn').click(function() {
+        // memberId를 파라미터로 전달
+        var memberId = $('#memberId').val();
         $.ajax({
+            url: '/admin/updateDormancyStatus',
             type: 'POST',
-            url: '/modifyDormantMember',
-            data: { memberId: memberId },
-            success: function(data) {
-                alert('휴면 해제가 완료되었습니다.');
-                window.location.href = '/admin/MemberList';
+            data: {
+                memberId: memberId
+            },
+            success: function(result) {
+                // 서버에서 전환 결과를 받아서 처리
+                if (result == 'success') {
+                    alert('휴면회원에서 일반회원으로 전환되었습니다.');
+                } else {
+                    alert('전환 실패');
+                }
             },
             error: function() {
-                alert('서버와 통신 중 오류가 발생했습니다.');
+                alert('서버와의 통신 오류');
             }
         });
     });
@@ -152,7 +159,7 @@ $(document).ready(function() {
 												<td th:text="${l.memberRegDate}"></td>
 												<td th:text="${l.dormantMemberRegDate}"></td>
 												<td> 
-												<button class="btn btn-primary dark release-btn" type="button">휴면해제</button> 
+												<button class="btn btn-primary dark " id="convertBtn" type="button">휴면해제</button> 
 												</td>
 												<td>
 												   <a href="#" class="delete" ><i class="fa fa-close"></i> 삭제</a>

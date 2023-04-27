@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ks46team02.admin.mapper.MemberMapper;
-import ks46team02.common.dto.AdminMember;
 import ks46team02.common.dto.Member;
 @Service
 @Transactional
@@ -44,9 +43,10 @@ private final MemberMapper memberMapper;
 		Member memberInfo =memberMapper.getMemberInfoById(memberId);
 		return memberInfo;
 	}
-	/* 특정 휴면 회원 조회 */
-	public void modifyDormantMember(String memberId) {
-	    memberMapper.updateDormantMember(memberId);
+	/* 휴면 회원 되돌리기 */
+	 
+	public void updateDormancyStatus(String memberId) {
+		Member member = memberMapper.selectMember(memberId);
+		memberMapper.updateMember(member);
 	}
-	
 }
