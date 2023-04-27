@@ -8,6 +8,25 @@
 </head>
 <th:block layout:fragment="customJs">
 <script>
+$(document).ready(function() {
+    $('.release-btn').click(function() {
+        var memberId = $(this).closest('tr').find('td:first').text();
+        console.log(memberId);
+        $.ajax({
+            type: 'POST',
+            url: '/modifyDormantMember',
+            data: { memberId: memberId },
+            success: function(data) {
+                alert('휴면 해제가 완료되었습니다.');
+                window.location.href = '/admin/MemberList';
+            },
+            error: function() {
+                alert('서버와 통신 중 오류가 발생했습니다.');
+            }
+        });
+    });
+});
+
 function deleteBoard(seq){
 	Swal.fire({
 	  title: '글을 삭제하시겠습니까???',
@@ -132,7 +151,8 @@ $(document).ready(function() {
 												<td th:text="${l.companyCode}"></td>
 												<td th:text="${l.memberRegDate}"></td>
 												<td th:text="${l.dormantMemberRegDate}"></td>
-												<td><a href="#"><i class="fa fa-reply"></i> 휴면해제 </a> 
+												<td> 
+												<button class="btn btn-primary dark release-btn" type="button">휴면해제</button> 
 												</td>
 												<td>
 												   <a href="#" class="delete" ><i class="fa fa-close"></i> 삭제</a>

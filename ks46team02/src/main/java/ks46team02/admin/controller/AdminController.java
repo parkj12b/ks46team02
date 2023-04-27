@@ -293,7 +293,12 @@ public class AdminController {
 		model.addAttribute("dormantMemberList", dormantMemberList);
 		return "admin/dormantMember_list";
 		}
-	
+	/* 휴면회원 되돌리기 */
+	@PostMapping("/modifyDormantMember")
+	public String modifyDormantMember(@RequestParam(name="memberId")String memberId) {
+	    memberservice.modifyDormantMember(memberId);
+	    return "redirect:/admin/MemberList";
+	}
 	/* 승인 기준 등록 */
 	@GetMapping("/addContractStandard")
 	public String addContractStandard(Model model){

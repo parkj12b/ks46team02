@@ -22,7 +22,7 @@ public interface MemberMapper {
 	public Member getMemberInfoById(String memberId);
 	/* 휴면 회원을 일반회원으로 */
 	public int modifyDormantMember(Member member);
-	/* 특정 휴면 회원 아이디 조회 */	
-	public Member getDormantMemberInfoById(String memberId);
+	/* 휴면 회원 아이디 조회 */	
+	public Member updateDormantMember(String memberId);
 	
 }
