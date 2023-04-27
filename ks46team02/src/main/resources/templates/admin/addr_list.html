@@ -10,7 +10,7 @@
 <script>
 $(document).ready(function() {
   $('button.btn-primary').click(function() {
-    window.location.href = '/admin/addr_add';
+    window.location.href = '/admin/addAddr';
   });
 });
 function deleteBoard(seq){
@@ -75,6 +75,10 @@ $(document).ready(function() {
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
                                                 rowspan="1" colspan="1" style="width: 200px;"
+                                                aria-label="Position: activate to sort column ascending">우편번호
+                                            </th>
+                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+                                                rowspan="1" colspan="1" style="width: 200px;"
                                                 aria-label="Position: activate to sort column ascending">주소(도로명)
                                             </th>
                                             <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
@@ -126,9 +130,10 @@ $(document).ready(function() {
                                         </thead>
                                         <tbody>
                                         <tr th:unless="${addrList == null}" th:each="l : ${addrList}">
-                                            <td th:text="${l.addrcode}"></td>
-                                            <td th:text="${l.addrRoad}"></td>
-                                            <td th:text="${l.addrLoca}"></td>
+                                            <td th:text="${l.addrCode}"></td>
+                                            <td th:text="${l.addrPostal}"></td>
+                                            <td th:text="${l.addrRoad+l.addrDetail}"></td>
+                                            <td th:text="${l.addrLoca+l.addrDetail}"></td>
                                             <td th:text="${l.addrName}"></td>
                                             <td th:text="${l.addrRecipient}"></td>
                                             <td th:text="${l.addrTel}"></td>
@@ -136,7 +141,7 @@ $(document).ready(function() {
                                             <td th:text="${l.addrSeq}"></td>
                                             <td th:text="${l.memberId}"></td>
                                             <td>                                            
-                                            <a th:href="@{/admin/addr_add.html(addrCode=*{addrCode})}"><i class="fa fa-edit"></i> 수정 </a>
+                                            <a th:href="@{/admin/modifyAddr(addrCode=*{l.addrCode})}">수정</a>
                                             </td>
                                             <td>
                                             <a href="#" class="delete"><i class="fa fa-close"></i> 삭제</a>
