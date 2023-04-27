@@ -72,7 +72,11 @@ public class CommonController {
 				session.setAttribute("sessionLevel", memberInfo.getPositionLevelCode());
 				session.setAttribute("sessionCompanyCode", memberInfo.getCompanyCode());
 				session.setAttribute("memberEmail", memberInfo.getMemberEmail());
-				session.setAttribute("isOwner", memberInfo.isOwner());
+				if(memberInfo.getPositionLevelCode().equals("level_code_1")) {
+					session.setAttribute("isOwner", true);
+				} else {
+					session.setAttribute("isOwner", false);
+				};
 				session.setAttribute("companyTypeNum", memberInfo.getCompanyTypeNum());
 				session.setAttribute("mmRegType", mmRegType);
 			}

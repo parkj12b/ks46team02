@@ -1,6 +1,7 @@
 package ks46team02.company.controller;
 
 
+import jakarta.servlet.annotation.HttpConstraint;
 import jakarta.servlet.http.HttpSession;
 import ks46team02.admin.mapper.MemberMapper;
 import ks46team02.admin.service.MemberService;
@@ -43,36 +44,32 @@ public class CompanyController {
 
     @PostMapping("/modifyEmployeeLevel")
     public String modifyEmployeeLevel(Member member){
-        String nameValue = member.getMemberLevelName();
-        log.info(nameValue);
-        if(nameValue == "매니저"){
-            member.setPositionLevelCode("level_code_2");
-        } else if (nameValue == "사원") {
-            member.setPositionLevelCode("level_code_3");
-        } else {
-            member.setPositionLevelCode("level_code_1");
-        }
         memberService.modifyEmployeeLevel(member);
         return "redirect:/company/companyEmployeeList";
     }
 
     @GetMapping("/modifyEmployeeLevel")
     public String modifyEmployeeLevel(Model model
-                                    ,@RequestParam(name="memberId") String memberId){
+                                     ,@RequestParam(name="memberId") String memberId
+                                     ,@RequestParam(name="memberName") String memberName
+                                     ){
         List<CompanyPositionLevel> companyPositionLevelList = companyService.getCompanyPositionList();
         model.addAttribute("title","직원권한수정");
         model.addAttribute("companyPositionLevelList",companyPositionLevelList);
         model.addAttribute("memberId",memberId);
+        model.addAttribute("memberName",memberName);
         return "company/modify_employee_level";
     }
 
     @GetMapping("/companyEmployeeList")
     public String getCompanyEmployeeList(Model model,
                                          HttpSession session){
+        boolean sessionIsOwner = (boolean)session.getAttribute("isOwner");
         String sessionCompanyCode = (String)session.getAttribute("sessionCompanyCode");
         List<Member> employeeList = memberService.getEmployeeList(sessionCompanyCode);
         model.addAttribute("title","직원목록");
         model.addAttribute("employeeList",employeeList);
+        model.addAttribute("sessionIsOwner",sessionIsOwner);
         return "company/company_employee_list";
     }
 
