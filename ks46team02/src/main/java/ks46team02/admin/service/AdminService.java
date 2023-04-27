@@ -17,14 +17,20 @@ private final AdminMapper adminMapper;
 		this.adminMapper = adminMapper;
 
 	}
-	
+	/* 전체 관리자 조회*/
 	public List<AdminMember> getAdminList(){
 		List<AdminMember> AdminList = adminMapper.getAdminList();
 		return AdminList;
 	}
+	/* 특정 관리자 아이디 조회 */
 	public AdminMember getAdminInfoById(String adminId) {
 		AdminMember adminInfo =adminMapper.getAdminInfoById(adminId);
 		return adminInfo;
+	}
+	/* 탈퇴한 관리자 조회  */
+	public List<AdminMember> getWithdrawalAdminList(){
+		List<AdminMember> withdrawalAdminList = adminMapper.getWithdrawalAdminList();
+		return withdrawalAdminList;
 	}
 	
 }
