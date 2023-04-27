@@ -46,9 +46,8 @@ input[type='checkbox'] {
 							$('.check-self').each(
 									function(idx, item) {
 										if ($(item).prop('checked')) {
-											$(item).parents('tr').find(
-													'a.contract_new_tab')[0]
-													.click();
+											console.log($(item).parents('tr').find('a.contract_new_tab')[0].href);
+											window.open($(item).parents('tr').find('a.contract_new_tab')[0].href, '_blank');
 
 										}
 

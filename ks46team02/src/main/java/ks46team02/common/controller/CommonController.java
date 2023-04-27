@@ -1,7 +1,10 @@
 package ks46team02.common.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +22,8 @@ import ks46team02.common.dto.MemberLoginInfo;
 import ks46team02.common.emailTest.EmailService;
 import ks46team02.common.emailTest.EmailServiceImpl;
 import ks46team02.common.service.MainService;
+import ks46team02.company.dto.Company;
+import ks46team02.company.service.CompanyService;
 import ks46team02.farm.service.MentorMenteeService;
 
 @Controller
@@ -29,11 +34,13 @@ public class CommonController {
 	
 	EmailService emailService;
 	MentorMenteeService mentorMenteeService;
+	CompanyService companyService;
 	
-	public CommonController(MainService mainService, EmailServiceImpl emailService, MentorMenteeService mentorMenteeService){
+	public CommonController(MainService mainService, EmailServiceImpl emailService, MentorMenteeService mentorMenteeService, CompanyService companyService){
 		this.mainService = mainService;
 		this.emailService = emailService;
 		this.mentorMenteeService = mentorMenteeService;
+		this.companyService = companyService;
 	}
 	
 	
@@ -65,7 +72,11 @@ public class CommonController {
 				session.setAttribute("sessionLevel", memberInfo.getPositionLevelCode());
 				session.setAttribute("sessionCompanyCode", memberInfo.getCompanyCode());
 				session.setAttribute("memberEmail", memberInfo.getMemberEmail());
-				session.setAttribute("isOwner", memberInfo.isOwner());
+				if(memberInfo.getPositionLevelCode().equals("level_code_1")) {
+					session.setAttribute("isOwner", true);
+				} else {
+					session.setAttribute("isOwner", false);
+				};
 				session.setAttribute("companyTypeNum", memberInfo.getCompanyTypeNum());
 				session.setAttribute("mmRegType", mmRegType);
 			}
@@ -126,22 +137,39 @@ public class CommonController {
 		if(companyCode == null) {
 			return "redirect:/";
 		}
-		
-		keyValue.put("key1", "contract_code");
-		keyValue.put("value1", contractCode);
-		keyValue.put("key2", "contractor_company_code");
-		keyValue.put("value2", companyCode);
+		List<Map<String, Object>> searchList = new ArrayList<>();
 		
 		
-		AllContractInfo contractInfo = mentorMenteeService.getMMContractByKeyValue(keyValue);
 		
+		keyValue.put("contract_code", contractCode);
+		keyValue.put("contractor_company_code", companyCode);
+
+		Set<String> keySet = keyValue.keySet();
+		
+		for(String key : keySet) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("key", key);
+			map.put("value", keyValue.get(key));
+			searchList.add(map);
+		}
+		
+		AllContractInfo contractInfo = mentorMenteeService.getMMContractDetail(searchList);
 		if(contractInfo == null) {
 			return "redirect:/";
 		}
 		
-		log.info("{}",contractInfo);
-		model.addAttribute("contractInfo",contractInfo);
+		String mentorCompanyCode = contractInfo.getContractorCompanyCode();
+		String menteeCompanyCode = contractInfo.getContracteeCompanyCode();
 		
-		return "contractPaper";
+		Company contractorCompany = companyService.getCompanyInfoByCode(mentorCompanyCode);
+		Company contracteeCompany = companyService.getCompanyInfoByCode(menteeCompanyCode);
+		
+		log.info("here{}",contractInfo);
+		model.addAttribute("contractInfo", contractInfo);
+		model.addAttribute("contractorInfo", contractorCompany);
+		model.addAttribute("contracteeInfo", contracteeCompany);
+		
+		
+		return "contract_paper_mm";
 	}
 }
