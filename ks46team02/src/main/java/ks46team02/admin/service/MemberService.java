@@ -18,6 +18,11 @@ private final MemberMapper memberMapper;
 		this.memberMapper = memberMapper;
 
 	}
+	/* 업체직원직위수정 */
+	public int modifyEmployeeLevel(Member member){
+		int result = memberMapper.modifyEmployeeLevel(member);
+		return result;
+	}
 	/* 업체별 직원 조회 */
 	public List<Member> getEmployeeList(String companyCode){
 		List<Member> employeeList = memberMapper.getEmployeeList(companyCode);

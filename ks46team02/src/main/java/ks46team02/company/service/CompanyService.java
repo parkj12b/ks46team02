@@ -18,6 +18,7 @@ public class CompanyService {
         this.companyMapper = companyMapper;
     }
 
+
     public int modifyCompanyAdmin(Company company){
         int result = companyMapper.modifyCompany(company);
         return result;
