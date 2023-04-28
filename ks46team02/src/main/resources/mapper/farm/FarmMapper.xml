@@ -33,7 +33,7 @@
         FROM
         	cage
         WHERE
-        	farmCode = #{farmCode}
+        	farm_code = #{farmCode}
         	
 	</select>
 
