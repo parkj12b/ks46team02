@@ -17,6 +17,15 @@
 		<result column="dormant_member_reg_date"  				property="dormantMemberRegDate"/>
 		<result column="member_level_name"						property="memberLevelName"/>
 </resultMap>
+<update id="updateCompanyCode" parameterType="Member">
+	/* 업체직위수정 */
+	UPDATE
+	member_info
+	SET
+	company_code = #{companyCode}
+	WHERE
+	member_id = #{memberId};
+</update>
 <select id="getMemberInfoById" parameterType="String" resultMap="MemberResultMap">
 		/* 특정 회원 조회 */
 			select
@@ -108,6 +117,7 @@
 		WHERE
 			member_id = #{memberId};
 	</update>
+
 	<select id="getEmployeeList" parameterType="String" resultMap="MemberResultMap">
 		/* 업체별 직원 조회 */
 		SELECT

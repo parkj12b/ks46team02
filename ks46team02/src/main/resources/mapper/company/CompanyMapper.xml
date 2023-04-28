@@ -10,6 +10,7 @@
         <result column="member_id"                  property="memberId"/>
         <result column="company_tel"                property="companyTel"/>
         <result column="company_addr"               property="companyAddr"/>
+        <result column="company_addr_detail"        property="companyAddrDetail"/>
         <result column="company_name"               property="companyName"/>
         <result column="apply_date"                 property="applyDate"/>
         <result column="approval_status"            property="approvalStatus"/>
@@ -84,34 +85,33 @@
     </update>
 
 
-<!--    <insert id="addCompany" parameterType="Company">-->
-<!--        /* 업체등록 */-->
-<!--        <selectKey keyProperty="companyCode" resultType="java.lang.String" order="BEFORE">-->
-<!--            SELECT CONCAT('comp_', LAST_INSERT_ID()) AS company_code-->
-<!--        </selectKey>-->
-<!--        INSERT into company_info-->
-<!--        (company_code-->
-<!--        ,company_type_num-->
-<!--        ,Company_reg_num-->
-<!--        ,member_id-->
-<!--        ,Company_tel-->
-<!--        ,Company_addr-->
-<!--        ,Company_name-->
-<!--        ,apply_date-->
-<!--        ,reg_password-->
-<!--        )-->
-<!--        values-->
-<!--        (#{companyCode}-->
-<!--        ,#{companyTypeNum}-->
-<!--        ,#{companyRegNum}-->
-<!--        ,#{memberId}-->
-<!--        ,#{companyTel}-->
-<!--        ,#{companyAddr}-->
-<!--        ,#{companyName}-->
-<!--        ,curdate()-->
-<!--        ,#{regPassword}-->
-<!--        );-->
-<!--    </insert>-->
+    <insert id="addCompany" parameterType="Company">
+        /* 업체등록 */
+        INSERT into company_info
+        (company_code
+        ,company_type_num
+        ,company_reg_num
+        ,member_id
+        ,company_tel
+        ,company_addr
+        ,company_addr_detail
+        ,company_name
+        ,apply_date
+        ,reg_password
+        )
+        values
+        (#{companyCode}
+        ,#{companyTypeNum}
+        ,#{companyRegNum}
+        ,#{memberId}
+        ,#{companyTel}
+        ,#{companyAddr}
+        ,#{companyAddrDetail}
+        ,#{companyName}
+        ,curdate()
+        ,#{regPassword}
+        );
+    </insert>
 
     <select id="getCompanyInfoByCode" parameterType="String" resultMap="companyResultMap">
         /* 업체상세 정보조회 */
@@ -119,11 +119,11 @@
         ci.company_code
         ,ct.company_type
         ,ci.company_type_num
-        ,ci.Company_reg_num
+        ,ci.company_reg_num
         ,ci.member_id
-        ,ci.Company_tel
-        ,ci.Company_addr
-        ,ci.Company_name
+        ,ci.company_tel
+        ,ci.company_addr
+        ,ci.company_name
         ,ci.apply_date
         ,ci.approval_status
         ,ci.approval_denied_content
@@ -181,6 +181,6 @@
             inner join
             company_type as ct
             on
-            ci.company_type_num = ct.company_type_num;
+            ci.company_type_num = ct.company_type_num ;
     </select>
 </mapper>

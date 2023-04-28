@@ -24,7 +24,6 @@ import ks46team02.admin.service.AddrService;
 import ks46team02.admin.service.AdminLevelService;
 import ks46team02.admin.service.AdminMMservice;
 import ks46team02.admin.service.AdminService;
-import ks46team02.admin.service.CompanyApprovalService;
 import ks46team02.admin.service.ContractStandardService;
 import ks46team02.admin.service.LoginHistoryService;
 import ks46team02.admin.service.MemberLevelService;
@@ -52,7 +51,6 @@ public class AdminController {
 	private final LoginHistoryService loginHistoryService;
 	private final ContractStandardService contractStandardService;
 	private final MemberLevelService memberLevelService; 
-	private final CompanyApprovalService companyApprovalService;
 	private final AdminMapper adminMapper;
 	private final MemberMapper memberMapper;
 	private final AddrMapper addrMapper;
@@ -70,7 +68,6 @@ public class AdminController {
     					  ,LoginHistoryService loginHistoryService
     					  ,ContractStandardService contractStandardService
     					  ,MemberLevelService memberLevelService
-    					  ,CompanyApprovalService companyApprovalService
     					  ,AdminMapper adminMapper
     					  ,MemberMapper memberMapper
     					  ,AddrMapper addrMapper) {
@@ -83,7 +80,6 @@ public class AdminController {
 	    this.loginHistoryService = loginHistoryService;
 	    this.contractStandardService = contractStandardService;
 	    this.memberLevelService = memberLevelService;
-	    this.companyApprovalService = companyApprovalService;
 	    this.adminMapper = adminMapper;
 	    this.memberMapper = memberMapper;
 	    this.addrMapper = addrMapper;
@@ -99,13 +95,14 @@ public class AdminController {
 		return "admin/withdrawaladmin_list";
 	}
     /* 승인 대기 업체 조회 */
-	@GetMapping("/companyApprovalList")
-	public String getCompanyApprovalList(Model model) {
-		List<Company> companyApprovalList = companyApprovalService.getCompanyApprovalList();
-		model.addAttribute("title", "승인 대기 업체 조회");
-		model.addAttribute("companyApprovalList", companyApprovalList);
+	@GetMapping("/applyCompanyRegList")
+	public String applyCompanyRegList(Model model) {
 
-		return "admin/companyApproval_list";
+//		List<Company> applyCompanyRegList = null;
+
+		model.addAttribute("title", "승인 대기 업체 조회");
+
+		return "admin/apply_company_reg_list";
 	}
     /* 전체 관리자 목록 조회 */
 	@GetMapping("/adminList")
