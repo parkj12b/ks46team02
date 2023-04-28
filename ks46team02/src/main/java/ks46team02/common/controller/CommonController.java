@@ -24,6 +24,7 @@ import ks46team02.common.emailTest.EmailServiceImpl;
 import ks46team02.common.service.MainService;
 import ks46team02.company.dto.Company;
 import ks46team02.company.service.CompanyService;
+import ks46team02.farm.dto.VisitHistory;
 import ks46team02.farm.service.MentorMenteeService;
 
 @Controller
@@ -163,6 +164,7 @@ public class CommonController {
 		
 		Company contractorCompany = companyService.getCompanyInfoByCode(mentorCompanyCode);
 		Company contracteeCompany = companyService.getCompanyInfoByCode(menteeCompanyCode);
+		
 		
 		log.info("here{}",contractInfo);
 		model.addAttribute("contractInfo", contractInfo);
