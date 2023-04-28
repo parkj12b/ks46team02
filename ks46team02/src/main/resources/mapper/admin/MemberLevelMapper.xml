@@ -5,15 +5,46 @@
 <mapper namespace="ks46team02.admin.mapper.MemberLevelMapper">
 <resultMap type="MemberLevel" id="memberLevelResultMap">
 		<id 	column="position_level_code"  							property="positionLevelCode" />
-		<result	column="member_level_name"  						property="memberLevelName" />
-		<result	column="company_reg_date"  						property="compayRegDate" />
-		<result	column="admin_id"  						property="adminId" />
+		<result	column="member_level_name"  							property="memberLevelName" />
+		<result	column="company_reg_date"  								property="companyRegDate" />
 		<result	column="member_management"  							property="memberManagement" />
-		<result	column="contract_management"  						property="contractManagement" />
-		<result	column="payment_management"  						property="paymentManagement" />
+		<result	column="admin_id"  										property="adminId" />
+		<result	column="contract_management"  							property="contractManagement" />
+		<result	column="payment_management"  							property="paymentManagement" />
 		<result	column="company_info_management"  						property="companyInfoManagement" />
 		<result	column="mento_mentee_management"  						property="mentoMenteeManagement" />
 </resultMap>
+
+	<update id="modifyMemberLevel" parameterType="String">
+    <!-- 업체내 직원별 권한 수정 -->
+    UPDATE company_position_level
+    <trim prefix="SET" suffixOverrides=",">
+        <if test="memberLevelName != null and memberLevelName != ''">
+            member_level_name = #{memberLevelName},
+        </if>
+        <if test="memberManagement != null and memberManagement != ''">
+            member_management = #{memberManagement},
+        </if>
+        <if test="contractManagement != null and contractManagement != ''">
+            contract_management = #{contractManagement},
+        </if>
+        <if test="paymentManagement != null and paymentManagement != ''">
+            payment_management = #{paymentManagement},
+        </if>
+        <if test="companyInfoManagement != null and companyInfoManagement != ''">
+            company_info_management = #{companyInfoManagement},
+        </if>
+        <if test="mentoMenteeManagement != null and mentoMenteeManagement != ''">
+            mento_mentee_management = #{mentoMenteeManagement},
+        </if>
+        <if test="adminId != null and adminId != ''">
+            admin_id = #{adminId},
+        </if>
+            company_reg_date = CURDATE()
+    </trim>
+    	WHERE position_level_code = #{positionLevelCode};
+	</update>
+
 		
 	<select id="getMemberLevelList" parameterType="String" resultMap="memberLevelResultMap">
 				/* 회원 등급 조회 */

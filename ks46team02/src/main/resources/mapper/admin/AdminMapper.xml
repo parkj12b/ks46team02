@@ -44,8 +44,7 @@
 			from 
 				 admin_list 
 			where 
-				 admin_status='nomal'
-				,admin_id = #{adminId};
+				admin_id = #{adminId};
 	</select>
 
 	<update id="modifyAdmin" parameterType="String" >

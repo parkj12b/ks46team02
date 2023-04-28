@@ -23,8 +23,6 @@ public interface MemberMapper {
 	/* 특정 회원 아이디 조회 */	
 	public Member getMemberInfoById(String memberId);
 	/* 휴면 회원을 일반회원으로 */
-	public int modifyDormantMember(Member member);
-	/* 휴면 회원 아이디 조회 */	
-	public Member updateDormantMember(String memberId);
-	
+	public int modifyDormantMember(String memberId);
+
 }

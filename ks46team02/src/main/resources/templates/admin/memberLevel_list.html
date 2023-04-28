@@ -11,6 +11,7 @@ input {
 }
 .modify,
 .delete,
+.save,
 .cancel {
   font-size: smaller; /* 원하는 크기로 변경 가능 */
   padding: 5px 10px; /* 내용과 버튼의 크기 조정 */
@@ -44,6 +45,7 @@ $(document).ready(function() {
 	      $(this).html(input);
 	    });
 	    modifyButton.text('저장');
+	    modifyButton.removeClass('modify').addClass('save');
 	    deleteButton.text('취소');
 	    deleteButton.removeClass('delete').addClass('cancel'); // delete 클래스 제거하고 cancel 클래스 추가
 	    // 이전 값 대신 현재 값을 attribute에 저장
@@ -69,13 +71,89 @@ $(document).ready(function() {
 	        $(this).text(value);
 	      }
 	    });
-	    var modifyButton = tr.find('.modify');
-	    var deleteButton = tr.find('.cancel'); // 클래스 변경
-	    modifyButton.text('수정');
-	    deleteButton.text('삭제');
-	    deleteButton.removeClass('cancel').addClass('delete'); // cancel 클래스 제거하고 delete 클래스 추가
+	    var saveButton = tr.find('.save');
+	    var cancelButton = tr.find('.cancel'); // 클래스 변경
+	    saveButton.text('수정');
+	    saveButton.removeClass('save').addClass('modify');
+	    console.log(saveButton);
+	    cancelButton.text('삭제');
+	    cancelButton.removeClass('cancel').addClass('delete'); // cancel 클래스 제거하고 delete 클래스 추가
+	  	console.log(cancelButton);
 	  });
+	  $('table tbody').on('click', '.save', function(){
+		  var tr = $(this).closest('tr');
+		  var positionLevelCode = 		tr.find('td:eq(1)').text();
+		  console.log("positionLevelCode    "+positionLevelCode);
+		  var memberLevelName = 		tr.find('td:eq(2) select').val();
+		  console.log("memberLevelName    "+memberLevelName);
+		  var memberManagement = 		tr.find('td:eq(3) select').val();
+		  console.log("memberManagement    "+memberManagement);
+		  var contractManagement = 		tr.find('td:eq(4) select').val();
+		  console.log("contractManagement    "+contractManagement);
+		  var paymentManagement = 		tr.find('td:eq(5) select').val();
+		  console.log("paymentManagement    "+paymentManagement);
+		  var companyInfoManagement =	tr.find('td:eq(6) select').val();
+		  console.log("companyInfoManagement    "+companyInfoManagement);
+		  var mentoMenteeManagement = 	tr.find('td:eq(7) select').val();
+		  console.log("mentoMenteeManagement    "+mentoMenteeManagement);
+		  var adminId = 				tr.find('td:eq(8) select').val();
+		  console.log("adminId    "+adminId);
+		  // 필드별로 값을 가져옵니다.
+		 var deleteButton = tr.find('.cancel'); // deleteButton 변수 정의
+ 		 var currentValues = deleteButton.attr('prev-values').split(","); // 수정된 값 배열 가져오기
+		  $.ajax({
+		    type: 'POST',
+		    url: '/admin/modifyMemberLevel',
+		    data: {
+		      positionLevelCode: positionLevelCode,
+		      memberLevelName: memberLevelName,
+		      memberManagement: memberManagement,
+		      contractManagement: contractManagement,
+		      paymentManagement: paymentManagement,
+		      companyInfoManagement: companyInfoManagement,
+		      mentoMenteeManagement: mentoMenteeManagement,
+		      adminId: adminId
+		    },
+		    success: function() {
+		      alert('성공했습니다.');
+			    tr.find('td:nth-child(n+2):nth-child(-n+7)').each(function(index) {
+			      var value = currentValues[index];
+			      console.log(value);
+			      if(value==1){
+			        value = "O";
+			      }
+			      else if(value==0){
+			        value ="X";
+			      }
+			      // select 요소 삭제
+			      if ($(this).find('select').length > 0) {
+			        $(this).html(value);
+			      } else {
+			        $(this).text(value);
+			      }
+			    });
+			    var saveButton = tr.find('.save');
+			    var cancelButton = tr.find('.cancel'); // 클래스 변경
+			    saveButton.text('수정');
+			    saveButton.removeClass('save').addClass('modify');
+			    console.log(saveButton);
+			    cancelButton.text('삭제');
+			    cancelButton.removeClass('cancel').addClass('delete'); // cancel 클래스 제거하고 delete 클래스 추가
+			  	console.log(cancelButton);
+			  
+		    },
+		    error: function() {
+		      alert('서버와 통신 중 오류가 발생했습니다.');
+		      
+		    }
+		  });
+		});
+
+		
 	});
+
+
+
 
 </script>
 </th:block>
@@ -174,7 +252,7 @@ $(document).ready(function() {
 												<td th:text="${l.companyInfoManagement}"></td>
 												<td th:text="${l.mentoMenteeManagement}"></td>
 												<td th:text="${l.adminId}"></td>
-												<td th:text="${l.compayRegDate}"></td>
+												<td th:text="${l.companyRegDate}"></td>
 												<td>                                            
                                             		<button class="btn btn-dark modify" type="button">수정</button>
                                             	</td>
