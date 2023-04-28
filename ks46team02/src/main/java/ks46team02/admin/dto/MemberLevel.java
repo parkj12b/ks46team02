@@ -3,7 +3,7 @@ package ks46team02.admin.dto;
 public class MemberLevel {
 	private String positionLevelCode;
 	private String memberLevelName;
-	private String compayRegDate;
+	private String companyRegDate;
 	private String adminId;
 	private String memberManagement;
 	private String contractManagement;
@@ -22,11 +22,11 @@ public class MemberLevel {
 	public void setMemberLevelName(String memberLevelName) {
 		this.memberLevelName = memberLevelName;
 	}
-	public String getCompayRegDate() {
-		return compayRegDate;
+	public String getCompanyRegDate() {
+		return companyRegDate;
 	}
-	public void setCompayRegDate(String compayRegDate) {
-		this.compayRegDate = compayRegDate;
+	public void setCompanyRegDate(String companyRegDate) {
+		this.companyRegDate = companyRegDate;
 	}
 	public String getAdminId() {
 		return adminId;
@@ -67,11 +67,12 @@ public class MemberLevel {
 	@Override
 	public String toString() {
 		return "MemberLevel [positionLevelCode=" + positionLevelCode + ", memberLevelName=" + memberLevelName
-				+ ", compayRegDate=" + compayRegDate + ", adminId=" + adminId + ", memberManagement=" + memberManagement
-				+ ", contractManagement=" + contractManagement + ", paymentManagement=" + paymentManagement
-				+ ", companyInfoManagement=" + companyInfoManagement + ", mentoMenteeManagement="
+				+ ", companyRegDate=" + companyRegDate + ", adminId=" + adminId + ", memberManagement="
+				+ memberManagement + ", contractManagement=" + contractManagement + ", paymentManagement="
+				+ paymentManagement + ", companyInfoManagement=" + companyInfoManagement + ", mentoMenteeManagement="
 				+ mentoMenteeManagement + "]";
 	}
+
 	
 	
 }

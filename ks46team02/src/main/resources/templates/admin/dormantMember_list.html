@@ -4,7 +4,15 @@
 	layout:decorate="~{layout/mypageLayout}">
 
 <head>
-
+<style >
+.delete,
+.modify,
+.release-btn,
+.cancel {
+  font-size: smaller; /* 원하는 크기로 변경 가능 */
+  padding: 5px 10px; /* 내용과 버튼의 크기 조정 */  
+}
+</style>
 </head>
 <th:block layout:fragment="customJs">
 <script>
@@ -14,11 +22,10 @@ $(document).ready(function() {
         console.log(memberId);
         $.ajax({
             type: 'POST',
-            url: '/modifyDormantMember',
+            url: '/admin/modifyDormantMember',
             data: { memberId: memberId },
-            success: function(data) {
+            success: function() {
                 alert('휴면 해제가 완료되었습니다.');
-                window.location.href = '/admin/MemberList';
             },
             error: function() {
                 alert('서버와 통신 중 오류가 발생했습니다.');
@@ -152,10 +159,10 @@ $(document).ready(function() {
 												<td th:text="${l.memberRegDate}"></td>
 												<td th:text="${l.dormantMemberRegDate}"></td>
 												<td> 
-												<button class="btn btn-primary dark release-btn" type="button">휴면해제</button> 
+													<button class="btn btn-dark release-btn" type="button">휴면해제</button> 
 												</td>
 												<td>
-												   <a href="#" class="delete" ><i class="fa fa-close"></i> 삭제</a>
+												   <button class="btn btn-dark delete" type="button">삭제</button> 
 												</td>
 											</tr>
 

@@ -76,37 +76,16 @@
 			member_id = #{memberId};
 
 	</update>
-	<select id="getDormantMemberInfoById" parameterType="String" resultMap="MemberResultMap">
-		/* 특정 휴면 회원 조회 */
-			select
-				 member_id
-				,member_pw
-				,member_name
-				,member_phone
-				,member_email
-				,position_level_code
-				,company_code
-				,member_reg_date
-				,member_ci
-				,member_status
-				,dormant_member_reg_date
-			from
-				 member_info
-			where
-				 member_status='dormant'
-			    ,member_id = #{memberId};
-	</select>
 
-	<update id="modifyDormantMember" parameterType="String" >
-		/* 휴면회원 일반회원으로*/
-		UPDATE member_info
-		<trim prefix="SET" suffixOverrides=",">
-			member_status = 'normal'
-		</trim>
-		WHERE
-			member_id = #{memberId};
-
-	</update>
+	<update id="modifyDormantMember" parameterType="String">
+		   /* 휴면회원 일반회원으로 */
+		    UPDATE member_info
+		    SET
+		        member_status = 'normal',
+		        dormant_member_reg_date = null
+		    WHERE
+		        member_id = #{memberId};
+</update>
 
 	<update id="modifyEmployeeLevel" parameterType="Member">
 		/* 업체직위수정 */
