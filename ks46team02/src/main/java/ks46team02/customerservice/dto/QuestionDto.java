@@ -1,5 +1,7 @@
 package ks46team02.customerservice.dto;
 
+
+
 import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 
 public class QuestionDto {
@@ -12,11 +14,10 @@ public class QuestionDto {
 	@NotNull
 	private String questionContent;
 
-//	private MultipartFile upload_file;
-
 	private String questionFile;
+
 	private String memberId;
-	private String questionTypeCode;
+	private int questionTypeCode;
 	private String questionStatus;
 	private String questionRegDate;
 	private String questionModityDate;
@@ -47,13 +48,17 @@ public class QuestionDto {
 		this.questionContent = questionContent;
 	}
 
+
+
 	public String getQuestionFile() {
 		return questionFile;
 	}
 
+
 	public void setQuestionFile(String questionFile) {
 		this.questionFile = questionFile;
 	}
+
 
 	public String getMemberId() {
 		return memberId;
@@ -63,11 +68,11 @@ public class QuestionDto {
 		this.memberId = memberId;
 	}
 
-	public String getQuestionTypeCode() {
+	public int getQuestionTypeCode() {
 		return questionTypeCode;
 	}
 
-	public void setQuestionTypeCode(String questionTypeCode) {
+	public void setQuestionTypeCode(int questionTypeCode) {
 		this.questionTypeCode = questionTypeCode;
 	}
 
@@ -115,9 +120,10 @@ public class QuestionDto {
 	public String toString() {
 		return "QuestionDto [questionCode=" + questionCode + ", questionTitle=" + questionTitle + ", questionContent="
 				+ questionContent + ", questionFile=" + questionFile + ", memberId=" + memberId + ", questionTypeCode="
-				+ questionTypeCode + ", questionStarus=" + questionStatus + ", qustionRegDate=" + questionRegDate
-				+ ", uestionModityDate=" + questionModityDate + ", questionDelDate=" + questionDelDate
+				+ questionTypeCode + ", questionStatus=" + questionStatus + ", questionRegDate=" + questionRegDate
+				+ ", questionModityDate=" + questionModityDate + ", questionDelDate=" + questionDelDate
 				+ ", questionDelYN=" + questionDelYN + "]";
 	}
+
 
 }
