@@ -21,6 +21,7 @@ import jakarta.servlet.http.HttpSession;
 import ks46team02.common.dto.AllContractInfo;
 import ks46team02.farm.dto.Cage;
 import ks46team02.farm.dto.Cycle;
+import ks46team02.farm.dto.EvaluationStandard;
 import ks46team02.farm.dto.FarmInfo;
 import ks46team02.farm.dto.FarmStatus;
 import ks46team02.farm.dto.Feed;
@@ -28,6 +29,7 @@ import ks46team02.farm.dto.MMContractInfo;
 import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
 import ks46team02.farm.dto.Production;
+import ks46team02.farm.dto.ResultHistory;
 import ks46team02.farm.dto.VisitHistory;
 import ks46team02.farm.service.FarmService;
 import ks46team02.farm.service.MentorMenteeService;
@@ -379,6 +381,16 @@ public class FarmController {
 		model.addAttribute("visitHistoryList",visitHistoryList);
 		
 		return "farm/mm_feedback_mentee";
+	}
+	
+	@GetMapping("/mm_feedback_mentee_detail")
+	public String mentorMenteeFeedbackDetail(Model model, @RequestParam(name="visitCode") String visitCode) {
+		
+		List<ResultHistory> resultHistoryList = mentorMenteeService.getResultHistoryList(visitCode);
+		List<EvaluationStandard> evaluationStandardList = mentorMenteeService.getEvaluationStandardList();
+		model.addAttribute("resultHistoryList",resultHistoryList);
+		model.addAttribute("evaluationStandardList", evaluationStandardList);
+		return "farm/mm_feedback_mentee_detail";
 	}
 
 }

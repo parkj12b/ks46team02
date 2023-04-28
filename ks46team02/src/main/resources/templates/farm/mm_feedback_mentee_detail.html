@@ -5,22 +5,39 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+#contract-info {
+	margin-bottom: 35px;
+	padding-bottom: 40px;
+}
+
+.table-striped tbody tr:nth-of-type(odd):hover {
+	background-color: rgba(0, 0, 0, .1);
+}
+
+.like-h2 {
+	font-size: 18px;
+}
+</style>
 </head>
 <th:block layout:fragment="customJs">
 	<script>
-	$('table td').each(function(idx,item){
-		$(item).css('cursor', 'pointer');
-		
-		$(item).click(function(e) {
-			let link = $(item).parents('tr').attr('href');
-			if(e.ctrlKey){
-				window.open(link,'_blank');
-			} else {
-				location.href = link;
-			}
-			return false;
-		});
-	})
+		$('table .visit > td').each(
+				function(idx, item) {
+					$(item).css('cursor', 'pointer');
+
+					$(item).click(
+							function(e) {
+								$(this).parents('tr').next().css(
+										"display",
+										function(idx, item) {
+											return item == 'none' ? 'table-row'
+													: 'none';
+										})
+							});
+				})
+
+		$('#datatable-custom').dataTable({});
 	</script>
 </th:block>
 <th:block layout:fragment="customContent">
@@ -28,68 +45,89 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>
-					멘토멘티 방문평가 조회 <small>멘티</small>
+					멘토멘티 방문평가 조회<small> - 상세정보</small>
 				</h2>
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
 				<div class="row">
+
 					<div class="col-sm-12">
+
 						<div class="card-box table-responsive">
 							<div id="datatable_wrapper"
 								class="dataTables_wrapper container-fluid dt-bootstrap no-footer">
 								<div class="row">
+									<h2>방문평가 상세정보</h2>
 									<div class="col-sm-12">
-										<table id="datatable"
+										<div class="col-sm-12 col-md-12" id="contract-info">
+											<div class="info-container-content">
+												<div>
+													<div>
+														<span class="like-h2"> 계약코드: </span>
+													</div>
+													<div>
+														<span th:text="${resultHistoryList.get(0).contractCode}"></span>
+													</div>
+												</div>
+												<div>
+													<div>
+														<span class="like-h2"> 방문코드: </span>
+													</div>
+													<div>
+														<span th:text="${resultHistoryList.get(0).visitCode}"></span>
+													</div>
+												</div>
+
+
+
+											</div>
+
+										</div>
+										<table id="datatable-custom"
 											class="table table-striped table-bordered dataTable no-footer"
 											style="width: 100%;" role="grid"
 											aria-describedby="datatable_info">
 											<thead>
 												<tr role="row">
-													<th class="sorting_asc" tabindex="0"
-														aria-controls="datatable" rowspan="1" colspan="1"
-														aria-sort="ascending"
-														>방문코드</th>
 													<th class="sorting" tabindex="0" aria-controls="datatable"
-														rowspan="1" colspan="1"
-														>계약코드</th>
+														rowspan="1" colspan="1">단원 코드</th>
 													<th class="sorting" tabindex="0" aria-controls="datatable"
-														rowspan="1" colspan="1"
-														>방문회차</th>
+														rowspan="1" colspan="1">등록회원 아이디</th>
 													<th class="sorting" tabindex="0" aria-controls="datatable"
-														rowspan="1" colspan="1"
-														>방문 유무</th>
+														rowspan="1" colspan="1">등록시간</th>
 													<th class="sorting" tabindex="0" aria-controls="datatable"
-														rowspan="1" colspan="1"
-														>최종 방문 완료 구분</th>
-													<th class="sorting" tabindex="0" aria-controls="datatable"
-														rowspan="1" colspan="1"
-														>방문회차 종합점수</th>
-													<th class="sorting" tabindex="0" aria-controls="datatable"
-														rowspan="1" colspan="1"
-														>최대 점수</th>
-													<th class="sorting" tabindex="0" aria-controls="datatable"
-														rowspan="1" colspan="1"
-														>사용한 세부항목수</th>
+														rowspan="1" colspan="1">평가점수</th>
 												</tr>
 											</thead>
 											<tbody>
-												<th:block th:unless="${visitHistoryList.isEmpty()}">
-													<tr role="row" class="odd" th:each="l: ${visitHistoryList}" th:href="${/farm/}">
-														<td th:text="${l.visitCode}"></td>
-														<td th:text="${l.contractCode}"></td>
-														<td th:text="${l.periodCount}"></td>
-														<td th:if="${l.visitComplete.equals('complete')}" th:text="방문완료"></td>
-														<td th:if="${l.visitComplete.equals('in_progress')}" th:text="방문대기"></td>
-														<td th:if="${l.visitCompleteFinal.equals('intermediate')}" th:text="진행중"></td>
-														<td th:if="${l.visitCompleteFinal.equals('final')}" th:text="최종방문"></td>
-														<td th:text="${l.totalScoreVisit}"></td>
-														<td th:text="${l.totalDetailItemNum*3}"></td>
-														<td th:text="${l.totalDetailItemNum}"></td>
-													</tr>
+												<th:block th:unless="${resultHistoryList.isEmpty()}">
+													<th:block th:each="l: ${resultHistoryList}">
+														<tr role="row" class="odd visit">
+															<td th:text="${l.evaluationUnitCode}"></td>
+															<td th:text="${l.memberId}"></td>
+															<td th:text="${l.resultRegDate}"></td>
+															<td th:text="${l.resultEvaluationPoint}"></td>
+														</tr>
+														<tr class="result-feedback">
+															<td colspan="5">
+																<div>
+																	<h6>피드백 내용:</h6>
+																	<div style="margin-left: 20px;">
+																		<p style="">
+																			<span th:text="${l.resultFeedback}"></span>
+																		</p>
+																	</div>
+
+																</div>
+															</td>
+														</tr>
+													</th:block>
+
 												</th:block>
-												<tr role="row" class="odd" th:if="${visitHistoryList.isEmpty()}">
-													<td colspan="6">멘토멘티 신청여부가 존재하지 않습니다.</td>
+												<tr role="row" class="odd"
+													th:if="${resultHistoryList.isEmpty()}">
+													<td colspan="5">멘토멘티 신청여부가 존재하지 않습니다.</td>
 												</tr>
 											</tbody>
 										</table>

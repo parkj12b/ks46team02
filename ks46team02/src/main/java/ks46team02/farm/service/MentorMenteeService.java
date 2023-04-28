@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import ks46team02.common.dto.AllContractInfo;
 import ks46team02.common.mapper.MainMapper;
+import ks46team02.farm.dto.EvaluationStandard;
 import ks46team02.farm.dto.MMContractInfo;
+import ks46team02.farm.dto.ResultHistory;
 import ks46team02.farm.dto.VisitHistory;
 import ks46team02.farm.mapper.MentorMenteeMapper;
 
@@ -96,6 +98,20 @@ public class MentorMenteeService {
 		
 		
 		return visitHistoryInfo;
+	}
+
+	public List<ResultHistory> getResultHistoryList(String visitCode) {
+		// TODO Auto-generated method stub
+		
+		List<ResultHistory> resultHistoryList = mentorMenteeMapper.getResultHistoryListByVisitCode(visitCode);
+		return resultHistoryList;
+	}
+
+	public List<EvaluationStandard> getEvaluationStandardList() {
+		// TODO Auto-generated method stub
+		List<EvaluationStandard> evaluationStandardList = mentorMenteeMapper.getEvaluationStandardList();
+		
+		return evaluationStandardList;
 	}
 
 	

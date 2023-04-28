@@ -172,7 +172,7 @@
 															th:style="${'width:' + #numbers.formatDecimal(contractPercentDone,0,1)+'%'}">
 															<span
 																th:text="${#numbers.formatDecimal(contractPercentDone,0,1)+'%'}"
-																style="text-align: right;"></span>
+																style="text-align: center;"></span>
 														</div>
 													</div>
 
@@ -282,7 +282,7 @@
 												</table>
 											</div>
 											<div>
-												<button id="feedback-open" type="button" class="btn btn-info">방문 평가조회</button>
+												<button th:if="${mmContractInfo != null}" id="feedback-open" type="button" class="btn btn-info">방문 평가조회</button>
 											</div>
 										</div>
 									</div>
