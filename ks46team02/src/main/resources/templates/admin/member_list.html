@@ -4,6 +4,14 @@
       layout:decorate="~{layout/mypageLayout}">
 
 <head>
+<style >
+.delete,
+.modify,
+.cancel {
+  font-size: smaller; /* 원하는 크기로 변경 가능 */
+  padding: 5px 10px; /* 내용과 버튼의 크기 조정 */  
+}
+</style>
 </head>
 <th:block layout:fragment="customJs">
 <script>
@@ -19,6 +27,7 @@
 		    window.location.href = '/admin/addMember';
 		  });
 		});
+
 	function deleteBoard(seq){
 		Swal.fire({
 		  title: '글을 삭제하시겠습니까???',
@@ -134,10 +143,10 @@
 										        <td th:text="${l.companyCode}"></td>
 										        <td th:text="${l.memberRegDate}"></td>
 											    <td>                                            
-										       <a th:href="@{/admin/modifyMember(memberId=*{l.memberId})}">수정</a>
+										       <button type="reset" class="btn btn-dark modify">수정</button>
 										        </td>
 										        <td>
-												<a href="#" class="delete"><i class="fa fa-close"></i> 삭제</a>
+										        <button type="reset" class="btn btn-dark cancel">삭제</button>
 										        </td>
 										     </tr>
 										</tbody>

@@ -10,6 +10,7 @@ public class AdminLevel {
 	private String adminSetting;
 	private String adminPayment;
 	private String adminRegDate;
+	
 	public String getAdminLevel() {
 		return adminLevel;
 	}

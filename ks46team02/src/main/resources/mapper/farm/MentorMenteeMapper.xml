@@ -45,6 +45,39 @@
 			property="mentorContractTitle"></result>
 		<result column="mcr.member_id" property="memberId"></result>
 	</resultMap>
+	<resultMap type="VisitHistory" id="visitHistoryMap">
+		<id column="visit_code" property="visitCode"></id>
+		<result column="contract_code" property="contractCode"></result>
+		<result column="period_count" property="periodCount"></result>
+		<result column="period_state_date" property="periodStateDate"></result>
+		<result column="period_end_date" property="periodEndDate"></result>
+		<result column="visit_complete" property="visitComplete"></result>
+		<result column="visit_complete_final"
+			property="visitCompleteFinal"></result>
+		<result column="total_score_visit" property="totalScoreVisit"></result>
+		<result column="total_detail_item_num"
+			property="totalDetailItemNum"></result>
+	</resultMap>
+	<resultMap type="ResultHistory" id="resultHistoryMap">
+		<id column="result_code" property="resultCode"></id>
+		<result column="evaluation_unit_code" property="evaluationUnitCode"></result>
+		<result column="visit_code" property="visitCode"></result>
+		<result column="contract_code" property="contractCode"></result>
+		<result column="result_feedback" property="resultFeedback"></result>
+		<result column="member_id" property="memberId"></result>
+		<result column="result_reg_date"
+			property="resultRegDate"></result>
+		<result column="result_evaluation_point" property="resultEvaluationPoint"></result>
+	</resultMap>
+	<resultMap type="EvaluationStandard" id="evaluationStandardMap">
+		<id column="evaluation_standard_code" property="evaluationStandardCode"></id>
+		<result column="evaluation_standard_exp" property="evaluationStandardExp"></result>
+		<result column="evaluation_level" property="evaluationLevel"></result>
+		<result column="evaluation_grade_score" property="evaluationGradeScore"></result>
+		<result column="admin_id" property="adminId"></result>
+		<result column="evaluation_reg_date" property="evaluationRegDate"></result>
+	</resultMap>
+
 	<select id="getMMRegStatMentee" resultType="MMRegInfoMentee">
 		select
 		mentee_app_code as menteeAppCode,
@@ -52,11 +85,13 @@
 		member_id as memberId,
 		mentee_apply_date as menteeApplyDate,
 		mentee_approval_date as menteeApprovalDate,
-		mentee_approval as menteeApproval,
+		mentee_approval as
+		menteeApproval,
 		admin_id as adminId,
 		previous_year as previousYear,
 		previous_year_sales as previousYearSales,
-		sales_suitability as salesSuitability,
+		sales_suitability as
+		salesSuitability,
 		documentary_evidence as documentaryEvidence
 		from
 		mentee_apply
@@ -70,13 +105,16 @@
 		member_id as memberId,
 		mentor_apply_date as mentorApplyDate,
 		mentor_approval_date as mentorApprovalDate,
-		mentor_approval as mentorApproval,
+		mentor_approval as
+		mentorApproval,
 		admin_id as adminId,
 		previous_year as previousYear,
 		previous_year_sales as previousYearSales,
-		sales_suitability as salesSuitability,
+		sales_suitability as
+		salesSuitability,
 		career_year as careerYear,
-		career_month as careerMonth,
+		career_month as
+		careerMonth,
 		career_suitability as careerSuitability,
 		documentary_evidence as documentaryEvidence
 		from
@@ -103,10 +141,37 @@
 		using (company_code)
 		left join
 		company_info ci
-		using (company_code)
+		using
+		(company_code)
 		<where>
 			<if test="searchValue != ''">${searchKey} = #{searchValue}</if>
 		</where>
 	</select>
-	
+	<select id="getResultHistoryListByVisitCode"
+		resultMap="resultHistoryMap">
+		select
+		*
+		from
+		result_history
+		<where>
+			visit_code = #{visitCode}
+		</where>
+	</select>
+	<select id="getVisitHistoryListByContractCode"
+		resultMap="visitHistoryMap">
+		select
+		*
+		from
+		visit_history
+		<where>
+			contract_code = #{contractCode}
+		</where>
+	</select>
+	<select id="getEvaluationStandardList" resultMap="evaluationStandardMap">
+		select
+			*
+		from
+			evaluation_standard
+	</select>
+
 </mapper>

@@ -21,6 +21,7 @@ import jakarta.servlet.http.HttpSession;
 import ks46team02.common.dto.AllContractInfo;
 import ks46team02.farm.dto.Cage;
 import ks46team02.farm.dto.Cycle;
+import ks46team02.farm.dto.EvaluationStandard;
 import ks46team02.farm.dto.FarmInfo;
 import ks46team02.farm.dto.FarmStatus;
 import ks46team02.farm.dto.Feed;
@@ -28,6 +29,8 @@ import ks46team02.farm.dto.MMContractInfo;
 import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
 import ks46team02.farm.dto.Production;
+import ks46team02.farm.dto.ResultHistory;
+import ks46team02.farm.dto.VisitHistory;
 import ks46team02.farm.service.FarmService;
 import ks46team02.farm.service.MentorMenteeService;
 
@@ -47,18 +50,36 @@ public class FarmController {
 		this.farmService = farmService;
 	}
 	
+
+	/**
+	 * 하나의 사육장 싸이클 등록
+	 */
+	@GetMapping("/addCycle")
+	public String addCycle(Model model
+							,@RequestParam(name="farmCode") String farmCode) {
+		List<Cage> cageList = farmService.getCageListByCode(farmCode);
+		model.addAttribute("title", "싸이클 등록");
+		model.addAttribute("cageList", cageList);
+		return "farm/add_cycle";
+	}
+			
+	
+	
 	/**
 	 * 그래프 테스트
 	 */
 	@GetMapping("/test")
 	public String test(Model model) {
-		String farmCode = "farm_1";
-		List<Production> productionList = farmService.test(farmCode);
-		Gson gson = new Gson();
-    	String json = gson.toJson(productionList);
-    	model.addAttribute("json", json);
-		model.addAttribute("title", "그래프");
-		return "farm/test";
+	    String farmCode = "farm_1";
+	    List<Production> productionList = farmService.test(farmCode);
+	
+	    Gson gson = new Gson();
+	    String json = gson.toJson(productionList);
+	  
+	    model.addAttribute("json", json);
+	    
+	    model.addAttribute("title", "그래프");
+	    return "farm/test";
 	}
 
 	/**
@@ -88,7 +109,7 @@ public class FarmController {
 	@GetMapping("/addFarm")
 	public String addFarm(Model model){
 		model.addAttribute("title", "사육장 등록");
-
+		
 		return "farm/add_farm";
 	}
 
@@ -171,7 +192,6 @@ public class FarmController {
 		model.addAttribute("productionList",productionList);
 		model.addAttribute("farmCode", farmCode);
 		model.addAttribute("tapName", tapName);
-		log.info(farmCode);
 		return "farm/farm_detail";
 	}
 
@@ -283,6 +303,15 @@ public class FarmController {
 		
 		AllContractInfo mmContractInfo = mentorMenteeService.getMMContractByKeyValue(searchList);
 		
+		
+		if(mmContractInfo == null) {
+			return "farm/my_mm_contract_mentee";
+		}
+		Map<String,Object> visitHistoryInfo = mentorMenteeService.getVisitHistoryInfo(mmContractInfo.getContractCode());
+		List<VisitHistory> visitHistoryList = (List<VisitHistory>) visitHistoryInfo.get("visitHistoryList");
+		int numComplete = (int)visitHistoryInfo.get("numComplete");
+		int totalVisit = (int)visitHistoryList.size();
+		
 		int contractDays = mmContractInfo.getContractDays();
 		int daysLeft = mmContractInfo.getDaysLeft();
 		
@@ -291,13 +320,20 @@ public class FarmController {
 		}
 		
 		double contractPercentDone = ((double) (contractDays-daysLeft)*100)/contractDays;
-		
+		double widthVisitBar = (double) 1/totalVisit*100;
 		
 		log.info("num={}",contractPercentDone);
 		log.info("num={}",contractDays);
 		log.info("num={}",daysLeft);
+		log.info("numComplete={}",numComplete);
+		log.info("totalVisit={}",totalVisit);
+		log.info("widthVisitBar={}",widthVisitBar);
 		model.addAttribute("mmContractInfo",mmContractInfo);
 		model.addAttribute("contractPercentDone", contractPercentDone);
+		model.addAttribute("visitHistoryList", visitHistoryList);
+		model.addAttribute("numComplete", numComplete);
+		model.addAttribute("totalVisit", totalVisit);
+		model.addAttribute("widthVisitBar", widthVisitBar);
 		return "farm/my_mm_contract_mentee";
 	}
 
@@ -353,5 +389,25 @@ public class FarmController {
 		return "farm/my_mm_contract_approve_list";
 	}
 
+	@GetMapping("/mentorMenteeFeedbackMentee")
+	public String mentorMenteeFeedbackMentee(Model model, @RequestParam(name="contractCode") String contractCode) {
+		
+		Map<String,Object> visitHistoryInfo = mentorMenteeService.getVisitHistoryInfo(contractCode);
+		List<VisitHistory> visitHistoryList = (List<VisitHistory>) visitHistoryInfo.get("visitHistoryList");
+		
+		model.addAttribute("visitHistoryList",visitHistoryList);
+		
+		return "farm/mm_feedback_mentee";
+	}
+	
+	@GetMapping("/mm_feedback_mentee_detail")
+	public String mentorMenteeFeedbackDetail(Model model, @RequestParam(name="visitCode") String visitCode) {
+		
+		List<ResultHistory> resultHistoryList = mentorMenteeService.getResultHistoryList(visitCode);
+		List<EvaluationStandard> evaluationStandardList = mentorMenteeService.getEvaluationStandardList();
+		model.addAttribute("resultHistoryList",resultHistoryList);
+		model.addAttribute("evaluationStandardList", evaluationStandardList);
+		return "farm/mm_feedback_mentee_detail";
+	}
 
 }
