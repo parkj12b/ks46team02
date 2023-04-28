@@ -18,6 +18,8 @@ public interface FarmMapper {
 	
 	// 그래프 테스트 //
 	public List<Production> test(String farmCode);
+	// cage //
+	public Cage getCageByCode(String cageCode);
 	// 한 사육장 케이지 조회 //
 	public List<Cage> getCageListByCode(String farmCode);
     // 전체 사육장 케이지 조회 및 검색 //
