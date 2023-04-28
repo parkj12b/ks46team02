@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/mypage}">
+<head>
+    <meta charset="UTF-8">
+    <title>BSFP</title>
+</head>
+<th:block layout:fragment="customJs">
+    <script>
+        $(function () {
+            function validationCheck(ele) {
+                let data = $(ele).val();
+                let isValid = true;
+                if (typeof data == 'undefined' || data == null || data == '' || data.trim() == '') { // 값이 공백인 경우 추가
+                    isValid = false;
+                }
+                return isValid;
+            }
+
+            $('#submitBtn').click(function () {
+                const modifyEmployeeLevelForm = $('#modifyEmployeeLevelForm');
+                const inputGroup = $('#modifyEmployeeLevelForm input, #modifyEmployeeLevelForm select'); // select 태그도 추가
+                let isSubmit = true;
+                inputGroup.each(function (idx, item) {
+                    isSubmit = validationCheck(item);
+                    if (!isSubmit) {
+                        let msg = $(item).parents('div.form-group').find('label').text(); // label 태그를 감싸고 있는 div 태그로 변경
+                        alert(msg.trim() + ' 입력해주세요.'); // label 텍스트 앞뒤로 공백 제거
+                        $(item).focus();
+                        return false;
+                    }
+                });
+                if (isSubmit) modifyEmployeeLevelForm.submit();
+            })
+
+        });
+    </script>
+
+</th:block>
+<body>
+<th:block layout:fragment="customContent">
+    <div class="x_panel">
+        <div class="x_title">
+            <h1>직위수정</h1>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br/>
+            <form id="modifyEmployeeLevelForm" class="form-horizontal form-label-left"
+                  th:action="@{/company/modifyEmployeeLevel}" method="post">
+                    <div class="form-group row ">
+                        <label class="control-label col-md-3 col-sm-3 " for="memberName">이름</label>
+                        <div class="col-md-9 col-sm-9 ">
+                            <input type="text" id="memberName" name="memberName" class="form-control"
+                                   readonly="readonly" th:value="${memberName}">
+                            <input type="hidden" id="memberId" name="memberId" th:value="${memberId}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3 col-sm-3 " for="memberLevelName">직위</label>
+                        <div class="col-md-9 col-sm-9 ">
+                            <select id="memberLevelName" name="positionLevelCode" class="form-control">
+                                <option value="">직위선택</option>
+                                <th:block th:unless="${companyPositionLevelList == null}"
+                                          th:each="l : ${companyPositionLevelList}">
+                                    <option th:value="${l.positionLevelCode}">[[${l.memberLevelName}]]</option>
+                                </th:block>
+                                <th:block th:if="${companyPositionLevelList == null}">
+                                    <option>등록된 직위가 없습니다</option>
+                                </th:block>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-9 col-sm-9  offset-md-3">
+                            <button type="button" class="btn btn-dark">취소</button>
+                            <button type="submit" id="submitBtn" class="btn btn-dark">수정</button>
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+</th:block>
+
+</body>
+</html>

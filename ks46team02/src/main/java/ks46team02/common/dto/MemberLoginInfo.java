@@ -5,6 +5,7 @@ public class MemberLoginInfo {
 	private String memberId;
 	private String memberPw;
 	private String loginLevel; //admin or normal
+
 	public String getMemberId() {
 		return memberId;
 	}

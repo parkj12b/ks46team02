@@ -1,19 +1,30 @@
 package ks46team02.common.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
 import ks46team02.common.dto.AdminMember;
+import ks46team02.common.dto.AllContractInfo;
 import ks46team02.common.dto.Member;
 import ks46team02.common.dto.MemberLoginInfo;
 import ks46team02.common.emailTest.EmailService;
 import ks46team02.common.emailTest.EmailServiceImpl;
 import ks46team02.common.service.MainService;
+import ks46team02.company.dto.Company;
+import ks46team02.company.service.CompanyService;
+import ks46team02.farm.dto.VisitHistory;
 import ks46team02.farm.service.MentorMenteeService;
 
 @Controller
@@ -24,11 +35,13 @@ public class CommonController {
 	
 	EmailService emailService;
 	MentorMenteeService mentorMenteeService;
+	CompanyService companyService;
 	
-	public CommonController(MainService mainService, EmailServiceImpl emailService, MentorMenteeService mentorMenteeService){
+	public CommonController(MainService mainService, EmailServiceImpl emailService, MentorMenteeService mentorMenteeService, CompanyService companyService){
 		this.mainService = mainService;
 		this.emailService = emailService;
 		this.mentorMenteeService = mentorMenteeService;
+		this.companyService = companyService;
 	}
 	
 	
@@ -60,7 +73,11 @@ public class CommonController {
 				session.setAttribute("sessionLevel", memberInfo.getPositionLevelCode());
 				session.setAttribute("sessionCompanyCode", memberInfo.getCompanyCode());
 				session.setAttribute("memberEmail", memberInfo.getMemberEmail());
-				session.setAttribute("isOwner", memberInfo.isOwner());
+				if(memberInfo.getPositionLevelCode().equals("level_code_1")) {
+					session.setAttribute("isOwner", true);
+				} else {
+					session.setAttribute("isOwner", false);
+				};
 				session.setAttribute("companyTypeNum", memberInfo.getCompanyTypeNum());
 				session.setAttribute("mmRegType", mmRegType);
 			}
@@ -94,6 +111,7 @@ public class CommonController {
 	
 	@GetMapping("/mypage")
 	public String mypage() {
+
 		return "mypage";
 	}
 	
@@ -112,4 +130,48 @@ public class CommonController {
     public String testing() {
     	return "dataTableTest";
     }
+	
+	@GetMapping("/contractPaper")
+	public String getContractPaperDetail(Model model, HttpSession session, @RequestParam(name="contractCode") String contractCode) {
+		Map<String,String> keyValue = new HashMap<String,String>();
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		if(companyCode == null) {
+			return "redirect:/";
+		}
+		List<Map<String, Object>> searchList = new ArrayList<>();
+		
+		
+		
+		keyValue.put("contract_code", contractCode);
+		keyValue.put("contractor_company_code", companyCode);
+
+		Set<String> keySet = keyValue.keySet();
+		
+		for(String key : keySet) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("key", key);
+			map.put("value", keyValue.get(key));
+			searchList.add(map);
+		}
+		
+		AllContractInfo contractInfo = mentorMenteeService.getMMContractDetail(searchList);
+		if(contractInfo == null) {
+			return "redirect:/";
+		}
+		
+		String mentorCompanyCode = contractInfo.getContractorCompanyCode();
+		String menteeCompanyCode = contractInfo.getContracteeCompanyCode();
+		
+		Company contractorCompany = companyService.getCompanyInfoByCode(mentorCompanyCode);
+		Company contracteeCompany = companyService.getCompanyInfoByCode(menteeCompanyCode);
+		
+		
+		log.info("here{}",contractInfo);
+		model.addAttribute("contractInfo", contractInfo);
+		model.addAttribute("contractorInfo", contractorCompany);
+		model.addAttribute("contracteeInfo", contracteeCompany);
+		
+		
+		return "contract_paper_mm";
+	}
 }

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mypageLayout}">
+
+<head>
+
+</head>
+<th:block layout:fragment="customJs">
+<script>
+$(document).ready(function() {
+    $('.release-btn').click(function() {
+        var memberId = $(this).closest('tr').find('td:first').text();
+        console.log(memberId);
+        $.ajax({
+            type: 'POST',
+            url: '/modifyDormantMember',
+            data: { memberId: memberId },
+            success: function(data) {
+                alert('휴면 해제가 완료되었습니다.');
+                window.location.href = '/admin/MemberList';
+            },
+            error: function() {
+                alert('서버와 통신 중 오류가 발생했습니다.');
+            }
+        });
+    });
+});
+
+function deleteBoard(seq){
+	Swal.fire({
+	  title: '글을 삭제하시겠습니까???',
+	  text: "삭제하시면 다시 복구시킬 수 없습니다.",
+	  icon: 'warning',
+	  showCancelButton: true,
+	  confirmButtonColor: '#3085d6',
+	  cancelButtonColor: '#d33',
+	  confirmButtonText: '삭제',
+	  cancelButtonText: '취소'
+	}).then((result) => {
+	  if (result.value) {
+          //"삭제" 버튼을 눌렀을 때 작업할 내용을 이곳에 넣어주면 된다. 
+	  }
+	})
+} 
+
+$(document).ready(function() {
+	  $('.delete').on('click', function(e) {
+	    e.preventDefault();
+	    var seq = $(this).data('seq'); // data-seq 속성을 사용하여 seq 값을 가져옵니다.
+	    deleteBoard(seq); // deleteBoard 함수를 호출합니다.
+	  });
+	});
+</script>
+</th:block>
+<th:block layout:fragment="customContent">
+	<div class="page-title">
+		<div class="title">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>휴면 회원 조회</h2>
+
+					<ul class="nav navbar-right panel_toolbox"
+						style="flex-direction: row-reverse">
+						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+						<li class="dropdown">
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							</div>
+						</li>
+					</ul>
+
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-box table-responsive">
+								<div class="col-sm-12">
+
+
+									<table id="datatable"
+										class="table table-striped table-bordered"
+										style="width: 100%;" role="grid"
+										aria-describedby="datatable-buttons_info">
+										<thead>
+											<tr role="row">
+												<th class="sorting" tabindex="0"
+													aria-controls="datatable-buttons" rowspan="1" colspan="1"
+													style="width: 180px;"
+													aria-label="Name: activate to sort column ascending">회원아이디
+												</th>
+												<th class="sorting" tabindex="0"
+													aria-controls="datatable-buttons" rowspan="1" colspan="1"
+													style="width: 200px;"
+													aria-label="Position: activate to sort column ascending">회원비밀번호
+												</th>
+												<th class="sorting" tabindex="0"
+													aria-controls="datatable-buttons" rowspan="1" colspan="1"
+													style="width: 200px;"
+													aria-label="Office: activate to sort column ascending">회원이름
+												</th>
+												<th class="sorting" tabindex="0"
+													aria-controls="datatable-buttons" rowspan="1" colspan="1"
+													style="width: 150px;"
+													aria-label="Age: activate to sort column ascending">회원이메일
+												</th>
+												<th class="sorting" tabindex="0"
+													aria-controls="datatable-buttons" rowspan="1" colspan="1"
+													style="width: 120px;"
+													aria-label="Age: activate to sort column ascending">전화번호
+												</th>
+												<th class="sorting_desc" tabindex="0"
+													aria-controls="datatable-buttons" rowspan="1" colspan="1"
+													style="width: 187px;"
+													aria-label="Start date: activate to sort column ascending"
+													aria-sort="descending">업체 코드</th>
+												<th class="sorting_desc" tabindex="0"
+													aria-controls="datatable-buttons" rowspan="1" colspan="1"
+													style="width: 190px;"
+													aria-label="Start date: activate to sort column ascending"
+													aria-sort="descending">회원가입날짜</th>
+												<th class="sorting_desc" tabindex="0"
+													aria-controls="datatable-buttons" rowspan="1" colspan="1"
+													style="width: 200px;"
+													aria-label="Start date: activate to sort column ascending"
+													aria-sort="descending">휴면 회원 등록일</th>
+												<th class="sorting_desc" tabindex="0"
+													aria-controls="datatable-buttons" rowspan="1" colspan="1"
+													style="width: 150px;"
+													aria-label="Start date: activate to sort column ascending"
+													aria-sort="descending"></th>
+												<th class="sorting_desc" tabindex="0"
+													aria-controls="datatable-buttons" rowspan="1" colspan="1"
+													style="width: 150px;"
+													aria-label="Start date: activate to sort column ascending"
+													aria-sort="descending"></th>
+
+
+
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:unless="${dormantMemberList == null}"
+												th:each="l : ${dormantMemberList}">
+												<td th:text="${l.memberId}"></td>
+												<td th:text="${l.memberPw}"></td>
+												<td th:text="${l.memberName}"></td>
+												<td th:text="${l.memberEmail}"></td>
+												<td th:text="${l.memberPhone}"></td>
+												<td th:text="${l.companyCode}"></td>
+												<td th:text="${l.memberRegDate}"></td>
+												<td th:text="${l.dormantMemberRegDate}"></td>
+												<td> 
+												<button class="btn btn-primary dark release-btn" type="button">휴면해제</button> 
+												</td>
+												<td>
+												   <a href="#" class="delete" ><i class="fa fa-close"></i> 삭제</a>
+												</td>
+											</tr>
+
+										</tbody>
+									</table>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</th:block>
+</html>
