@@ -63,7 +63,7 @@
         select
         *, count(1) as isExist
         from
-        member_info mi
+        member_info as mi
         left join
         company_info ci
         on

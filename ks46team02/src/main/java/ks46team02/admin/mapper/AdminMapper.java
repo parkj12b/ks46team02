@@ -16,4 +16,6 @@ public interface AdminMapper {
 	public AdminMember getAdminInfoById(String adminId);
 	/* 관리자 아이디 삭제 */
 	public int removeAdminById(String adminId);
+	
+	public List<AdminMember> getWithdrawalAdminList();
 }

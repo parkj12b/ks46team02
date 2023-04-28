@@ -88,6 +88,16 @@ public class AdminController {
 	    this.memberMapper = memberMapper;
 	    this.addrMapper = addrMapper;
 	}
+	/* 탈퇴한 관리자 조회  */
+	@GetMapping("/withdrawalAdminList")
+	public String getWithdrawalAdminList(Model model) {
+		List<AdminMember> withdrawalAdminList = adminService.getWithdrawalAdminList();
+
+		model.addAttribute("title", "탈퇴한 관리자목록 조회");
+		model.addAttribute("withdrawalAdminList", withdrawalAdminList);
+
+		return "admin/withdrawaladmin_list";
+	}
     /* 승인 대기 업체 조회 */
 	@GetMapping("/companyApprovalList")
 	public String getCompanyApprovalList(Model model) {
@@ -137,7 +147,7 @@ public class AdminController {
 		List<AdminLevel>adminLevelList1 =adminLevelService.getAdminLevelList();
 		model.addAttribute("title", "관리자 등록");
 		model.addAttribute("adminLevelList1", adminLevelList1);
-		return "admin/admin_add";
+		return "admin/add_admin";
 	}
 	/* 관리자 등급 등록 */
 	@GetMapping("/addAdminLevel")
@@ -283,7 +293,12 @@ public class AdminController {
 		model.addAttribute("dormantMemberList", dormantMemberList);
 		return "admin/dormantMember_list";
 		}
-	
+	/* 휴면회원 되돌리기 */
+	@PostMapping("/modifyDormantMember")
+	public String modifyDormantMember(@RequestParam(name="memberId")String memberId) {
+	    memberservice.modifyDormantMember(memberId);
+	    return "redirect:/admin/MemberList";
+	}
 	/* 승인 기준 등록 */
 	@GetMapping("/addContractStandard")
 	public String addContractStandard(Model model){
