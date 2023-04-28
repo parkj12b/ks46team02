@@ -5,6 +5,7 @@ public class CompanyType {
     private int companyTypeNum;
     private String companyType;
     private String regDate;
+    private String adminId;
 
     public int getCompanyTypeNum() {
         return companyTypeNum;
@@ -30,12 +31,21 @@ public class CompanyType {
         this.regDate = regDate;
     }
 
+    public String getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
+    }
+
     @Override
     public String toString() {
         return "CompanyType{" +
                 "companyTypeNum=" + companyTypeNum +
                 ", companyType='" + companyType + '\'' +
                 ", regDate='" + regDate + '\'' +
+                ", adminId='" + adminId + '\'' +
                 '}';
     }
 }

@@ -8,7 +8,21 @@ public class AdminMember {
 	private String adminLevel;
 	private String adminPhone;
 	private String adminRegDate;
+	private String adminStatus;
+	private String adminWithdrawalDate;
 	private boolean isExist;
+	public String getAdminStatus() {
+		return adminStatus;
+	}
+	public void setAdminStatus(String adminStatus) {
+		this.adminStatus = adminStatus;
+	}
+	public String getAdminWithdrawalDate() {
+		return adminWithdrawalDate;
+	}
+	public void setAdminWithdrawalDate(String adminWithdrawalDate) {
+		this.adminWithdrawalDate = adminWithdrawalDate;
+	}
 	public boolean isExist() {
 		return isExist;
 	}
@@ -61,7 +75,8 @@ public class AdminMember {
 	public String toString() {
 		return "AdminMember [adminId=" + adminId + ", adminPw=" + adminPw + ", adminName=" + adminName + ", adminEmail="
 				+ adminEmail + ", adminLevel=" + adminLevel + ", adminPhone=" + adminPhone + ", adminRegDate="
-				+ adminRegDate + "]";
+				+ adminRegDate + ", adminStatus=" + adminStatus + ", adminWithdrawalDate=" + adminWithdrawalDate
+				+ ", isExist=" + isExist + "]";
 	}
 	
 }

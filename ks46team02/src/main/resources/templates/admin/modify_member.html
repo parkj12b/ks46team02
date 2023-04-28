@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/mypage}">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 정보 수정</title>
+</head>
+<th:block layout:fragment="customJs">
+    <script>
+    /* 뒤로가는 버튼 */
+        $('#resetBtn').click(function(){
+			history.go(-1);
+		});
+        /* 휴대폰 전화 자동 하이픈 */
+        $(document).ready(function () {
+           $(function () {
+                    
+                    $('#memberPhone').keydown(function (event) {
+                     var key = event.charCode || event.keyCode || 0;
+                     $text = $(this); 
+                     if (key !== 8 && key !== 9) {
+                         if ($text.val().length === 3) {
+                             $text.val($text.val() + '-');
+                         }
+                         if ($text.val().length === 8) {
+                             $text.val($text.val() + '-');
+                         }
+                     }
+
+                     return (key == 8 || key == 9 || key == 46 || (key >= 48 && key <= 57) || (key >= 96 && key <= 105));
+        			 // Key 8번 백스페이스, Key 9번 탭, Key 46번 Delete 부터 0 ~ 9까지, Key 96 ~ 105까지 넘버패트
+        			 // 한마디로 JQuery 0 ~~~ 9 숫자 백스페이스, 탭, Delete 키 넘버패드외에는 입력못함
+                 })
+           });
+
+        });
+    </script>
+</th:block>
+
+<th:block layout:fragment="customContent">
+    <div class="page-title">
+        <div class="title">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>회원 정보 수정</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <form id="memberModifyForm" th:action="@{/admin/modifyMember}" method="post">
+                        <div th:object="${memberInfo}">
+                        <span class="section"></span>
+                            <div class="field item form-group">
+							    <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyCode">아이디</label>
+							    <div class="col-md-3 col-sm-3 input-group">
+							        <input id="memberId" class="form-control" name="memberId" type="text" th:value="*{memberId}" readonly/>
+							        <span class="input-group-btn">
+							            <input type="button" class="btn btn-dark" onclick="sample4_execDaumPostcode()" value="아이디 중복체크">
+							        </span>
+							    </div>
+							</div>
+
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyRegNum">비밀번호</label>
+                            <div class="col-md-3 col-sm-3">
+                                <input id="memberPw" class="form-control" name="memberPw"
+                                       type="password" th:value="*{memberPw}"/>
+                            </div>
+                        </div>
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyName">이름</label>
+                            <div class="col-md-3 col-sm-3">
+                                <input id="memberName" class="form-control" name="memberName"
+                                       th:value="*{memberName}"/>
+                            </div>
+                        </div>
+						<div class="form-group row">
+						  <label class="control-label col-md-3 col-sm-3 label-align" for="companyAddr">전화번호</label>
+						  <div class="col-md-3 col-sm-3">
+						   <input id="memberPhone" class="form-control" name="memberPhone"
+                                       th:value="*{memberPhone}"/>
+						  </div>
+						</div>
+						<div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyAddr">이메일</label>
+                            <div class="col-md-3 col-sm-3">
+                                <input id="memberEmail" class="form-control" name="memberEmail"
+                                       th:value="*{memberEmail}"/>
+                            </div>
+                        </div>
+
+
+                       <div class="form-group row">
+						  <label class="control-label col-md-3 col-sm-3 label-align" for="companyAddr">직원별 권한</label>
+						  <div class="col-md-3 col-sm-3">
+						    <select class="form-control" name="adminLevel">
+						      <option value="">---선택--</option>
+						      <th:block th:each="l : ${memberLevelList}">
+						        <option th:value="${l.positionLevelCode}" th:text="${l.memberLevelName}"></option>
+						      </th:block>
+						    </select>
+						  </div>
+						</div>
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="regPassword">업체 코드</label>
+                            <div class="col-md-3 col-sm-3">
+                                <input id="companyCode" class="form-control" name="companyCode"
+                                       th:value="*{companyCode}"/>
+                            </div>
+                        </div>
+                        <div class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="regPassword">본인 인증 코드</label>
+                            <div class="col-md-3 col-sm-3">
+                                <input id="memberCi" class="form-control" name="memberCi"
+                                       th:value="*{memberCi}"/>
+                            </div>
+                        </div>
+                         <div class="form-group row">
+						  <label class="control-label col-md-3 col-sm-3 label-align" for="companyAddr">회원 상태</label>
+						  <div class="col-md-3 col-sm-3">
+						    <select class="form-control" name="adminLevel">
+						      <option value="">---선택--</option>
+						        <option th:value="nomal" th:text="일반회원"></option>
+						        <option th:value="dormant" th:text="휴면회원"></option>
+						    </select>
+						  </div>
+						</div>
+                        <div class="item form-group">
+                            <div class="col-md-6 col-sm-6 offset-md-3">
+                   
+                                <button id="submitBtn" class="btn btn-dark" type="submit">수정완료</button>
+                                <button id="resetBtn" class="btn btn-dark" type="button">수정취소</button>
+                            </div>
+                        </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

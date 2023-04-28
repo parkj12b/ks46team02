@@ -11,7 +11,70 @@
 		<result column="admin_level"  					property="adminLevel"/>
 		<result column="admin_phone"  					property="adminPhone"/>
 		<result column="admin_reg_date"  				property="adminRegDate"/>
+		<result column="admin_status"  					property="adminStatus"/>
+		<result column="admin_withdrawal_date"  		property="adminWithdrawalDate"/>
 </resultMap>
+	<select id="getWithdrawalAdminList" parameterType="String" resultMap="adminMemberResultMap">
+				/* 탈퇴 관리자 조회 */
+				SELECT 
+					 admin_id 
+					,admin_pw 
+					,admin_name 
+					,admin_email 
+					,admin_level 
+					,admin_phone 
+					,admin_reg_date 
+					,admin_withdrawal_date 
+				FROM 
+					admin_list
+				WHERE 
+					admin_status ='withdrawal' 
+	</select>
+	
+	<select id="getAdminInfoById" parameterType="String" resultMap="adminMemberResultMap">
+		/* 특정 관리자 조회 */
+			select 
+				 admin_id
+				,admin_pw
+				,admin_name
+				,admin_email
+				,admin_level
+				,admin_phone
+				,admin_reg_date
+			from 
+				 admin_list 
+			where 
+				 admin_status='nomal'
+				,admin_id = #{adminId};
+	</select>
+
+	<update id="modifyAdmin" parameterType="String" >
+		/* 관리자 정보 수정 */	
+		UPDATE admin_list
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="adminPw != null and adminPw != ''">
+				admin_pw = #{adminPw},
+			</if>
+			<if test="adminName != null and adminName != ''">
+				admin_name = #{adminName},
+			</if>
+			<if test="adminEmail != null and adminEmail != ''">
+				admin_email = #{adminEmail},
+			</if>
+			<if test="adminLevel != null and adminLevel != ''">
+				admin_level = #{adminLevel},
+			</if>
+			<if test="adminPhone != null and adminPhone != ''">
+				admin_phone = #{adminPhone},
+			</if>
+			<if test="adminRegDate != null and adminRegDate != ''">
+				admin_reg_date = #{adminRegDate},
+			</if>
+		</trim>
+		WHERE 
+			admin_id = #{adminId};
+
+	</update>
 		
 	<select id="getAdminList" parameterType="String" resultMap="adminMemberResultMap">
 				/* 관리자 회원 조회 */
@@ -24,7 +87,9 @@
 					,admin_phone 
 					,admin_reg_date 
 				FROM 
-				admin_list;
+					admin_list
+				where
+					admin_status='nomal';
  
 	</select>
 	
