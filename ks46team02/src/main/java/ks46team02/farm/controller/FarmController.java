@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
@@ -49,6 +50,18 @@ public class FarmController {
 		this.mentorMenteeService = mentorMenteeService;
 		this.farmService = farmService;
 	}
+	
+	
+	
+	@GetMapping("/cages")
+	@ResponseBody
+	public Cage getCageByCode(@RequestParam(name = "cageCode") String cageCode) {
+	    log.info("getCageByCode() method called with cageCode: {}", cageCode);
+	    Cage cage = farmService.getCageByCode(cageCode);
+	    log.info("cage found: {}", cage);
+	    return cage;
+	}
+
 	
 
 	/**
