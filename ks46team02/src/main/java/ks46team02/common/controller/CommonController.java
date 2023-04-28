@@ -1,5 +1,7 @@
 package ks46team02.common.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -14,7 +16,9 @@ import ks46team02.common.dto.MemberLoginInfo;
 import ks46team02.common.emailTest.EmailService;
 import ks46team02.common.emailTest.EmailServiceImpl;
 import ks46team02.common.service.MainService;
+import ks46team02.customerservice.dto.QuestionTypeDto;
 import ks46team02.farm.service.MentorMenteeService;
+import ks46team02.topmenu.service.TopMenuService;
 
 @Controller
 public class CommonController {
@@ -24,11 +28,13 @@ public class CommonController {
 	
 	EmailService emailService;
 	MentorMenteeService mentorMenteeService;
+	TopMenuService topMenuService;
 	
-	public CommonController(MainService mainService, EmailServiceImpl emailService, MentorMenteeService mentorMenteeService){
+	public CommonController(MainService mainService, TopMenuService topMenuService, EmailServiceImpl emailService, MentorMenteeService mentorMenteeService){
 		this.mainService = mainService;
 		this.emailService = emailService;
 		this.mentorMenteeService = mentorMenteeService;
+		this.topMenuService = topMenuService;
 	}
 	
 	
@@ -88,7 +94,10 @@ public class CommonController {
 	}
 	
 	@GetMapping("/")
-	public String mainPage() {
+	public String mainPage(Model model) {
+		List<QuestionTypeDto> topMenuList = topMenuService.getTopMenuCustomerServiceList();
+		log.info("{}",topMenuList);
+		model.addAttribute("topMenuList",topMenuList);
 		return "mainPage";
 	}
 	

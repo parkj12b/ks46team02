@@ -78,7 +78,7 @@
 			,question_type_name
 			,admin_id
 			,question_type_reg_date
-			,question_type_modify_reg_date
+			,question_type_modify_date
 			,question_type_del_date
 		FROM
 			question_type;
