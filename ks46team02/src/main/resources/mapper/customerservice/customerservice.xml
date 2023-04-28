@@ -3,30 +3,26 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-	namespace="ks46team02.customerservice.mapper.customerserviceMapper">
-	<resultMap type="QuestionDto" id="questionResultMap">
+	namespace="ks46team02.customerservice.mapper.MainQuestionMapper">
+	<resultMap type="QuestionDto" id="customerserviceResultMap">
 		<id column="question_code" property="questionCode" />
-		<id column="question_title" property="questionTitle" />
-		<id column="question_content" property="questionContent" />
-		<id column="question_file" property="questionFile" />
-		<id column="member_id" property="memberId" />
-		<id column="question_type_code" property="questionTypeCode" />
-		<id column="question_status" property="questionStarus" />
-		<id column="question_reg_date" property="qustionRegDate" />
-		<id column="question_modify_date" property="questionModityDate" />
-		<id column="question_del_date" property="questionDelDate" />
-		<id column="question_del_yn" property="qustionDelYN" />
+		<result column="question_title" property="questionTitle" />
+		<result column="question_content" property="questionContent" />
+		<result column="question_file" property="questionFile" />
+		<result column="member_id" property="memberId" />
+		<result column="question_type_code" property="questionTypeCode" />
+		<result column="question_status" property="questionStatus" />
+		<result column="question_reg_date" property="questionRegDate" />
+		<result column="question_modify_date" property="questionModityDate" />
+		<result column="question_del_date" property="questionDelDate" />
+		<result column="question_del_yn" property="questionDelYN" />
 	</resultMap>
 
 	<insert id="writeQuestion" parameterType="questionDto">
-		<selectKey keyProperty="questionCode" resultType="Int">
-			select
-			CONCAT('QU', LPAD(
-			ifnull(substring(max(question_code), 3), 0) + 1,
-			6,
-			'0')) as newId from question;
+		<selectKey keyProperty="questionCode" order="BEFORE"
+			resultType="Integer">
+			select sf_new_question_code() as questionCode
 		</selectKey>
-
 		insert into question (question_code, question_title, question_content,
 		question_file, member_id, question_type_code, question_status,
 		question_reg_date, question_modify_date, question_del_date,
@@ -39,43 +35,62 @@
 		CURDATE(), null, null, 'N')
 	</insert>
 
-	<select id="getquestionTypeName" parameterType="String"
-		resultType="String">
-		SELECT question_type_name FROM question_type WHERE
+	<select id="getQuestionTypeName" parameterType="int"
+		resultType="String" >
+		SELECT question_type_name as questionTypeName 
+		FROM question_type WHERE
 		question_type_code =
-		#{question_type_code}
+		#{questionTypeCode}
 	</select>
 
-	<select id="selectQuestionsList" resultMap="questionResultMap">
+	<select id="selectQuestionList" parameterType="Integer" resultMap="customerserviceResultMap">
 		SELECT
-		q.question_code, q.question_title, m.member_name,
-		q.question_reg_date
+		*
 		FROM
 		question q
-		LEFT JOIN member_info m ON q.member_id = m.member_id
+		LEFT JOIN member_info m ON
+		q.member_id = m.member_id
 		WHERE
-		q.question_type_code = #{question_type_code} AND
+		q.question_type_code =
+		#{questionType} AND
 		q.question_del_yn =
 		'N'
-		ORDER BY q.question_code DESC;
+		ORDER BY
+		q.question_code DESC;
 	</select>
 
-	<select id="selectQuestionInfo" resultType="QuestionDto">
-		SELECT m.member_name,
-		to_char(q.question_reg_date, 'YYYY-MM-DD'), q.question_title,
-		q.question_content, q.question_file, q.member_id
-		FROM question q
-		INNER
-		JOIN member_info m ON q.member_id = m.member_id
-		WHERE q.question_code =
-		#{code} AND q.question_del_yn = 'N';
+	<select id="selectQuestionInfo" parameterType="Integer" resultType="questionDto"> 
+		select m.member_name, q.question_reg_date'YYYY-MM-DD',
+		q.question_title, q.question_content, q.question_file, q.member_id
+		from question q, member_info m
+		where q.member_id = m.member_id and q.question_code = #{question_code} and
+		q.question_del_yn = 'N';
 	</select>
 
-	<select id="getTotalCount" resultType="Int">
+	<update id="updateQuestion"
+		parameterType="QuestionDto">
+		UPDATE question
+		SET question_title = #{question_title},
+		question_content = #{question_content},
+		question_file = #{question_file, jdbcType=VARCHAR},
+		question_modify_date = CURRENT_TIMESTAMP()
+		WHERE question_code = #{code} AND question_del_yn ='N';
+	</update>
+
+	<update id="deleteQuestion" parameterType="Integer">
+		update question
+		set question_del_yn = 'Y',
+		j_delete_date = CURRENT_TIMESTAMP()
+		where question_code = #{code};
+	</update>
+
+	<select id="getTotalCount" parameterType="Integer"
+		resultType="Integer">
 		SELECT COUNT(*)
 		FROM
 		question
-		WHERE question_type_code = #{code}
+		WHERE question_type_code =
+		#{code}
 		AND question_del_yn = 'N'
 	</select>
 

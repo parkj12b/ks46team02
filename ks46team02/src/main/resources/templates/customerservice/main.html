@@ -1,50 +1,81 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/mypageLayout}">
-
+	layout:decorate="~{layout/default}">
 <head>
+
+<title _msttexthash="44396482" _msthash="0">젠텔렐라 알렐라!</title>
 
 </head>
 
-<div class="page-title" th:fragment="customContent">
-	<div class="title">
-		<h2 th:text="${questiontypename}"></h2>
-		<ul class="nav navbar-right panel_toolbox"
-			style="flex-direction: row-reverse">
-			<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-			<li class="dropdown">
-				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton"></div>
-			</li>
-		</ul>
-		<div class="clearfix"></div>
-	</div>
-	<div class="x_content">
-		<table class="table table-striped jambo_table bulk_action">
-			<thead>
-				<tr class="headings">
-					<th>No.</th>
-					<th>제목</th>
-					<th>작성자</th>
-					<th>작성날짜</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="item : ${questionlist}">
-					<td class="text-center w-10" th:text="${item.question_code}"></td>
-					<td class="w-25"><a
-						th:href="@{${root} + 'customerservice/read(question_type_code=' + ${question_type_code} + '&question_code=' + ${item.question_code} + '&page=' + ${page} + ')'}"
-						class="text-decoration-none" th:text="${item.question_title}"></a></td>
-					<td class="text-center w-10" th:text="${item.member_name}"></td>
-					<td class="text-center w-10" th:text="${item.question_reg_date}"></td>
-				</tr>
-			</tbody>
-		</table>
-		<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-			<a
-				th:href="@{${root} + 'customerservice/write(quesion_type_code=' + ${question_type_code} + '&page=' + ${page} + ')'}"
-				class="btn btn-outline-dark">글쓰기</a>
+<th:block layout:fragment="customContent">
+	<div class="page-title" th:fragment="customContent">
+		<div class="title">
+			<h2 th:text="${questionTypeName}"></h2>
+			<ul class="nav navbar-right panel_toolbox"
+				style="flex-direction: row-reverse">
+				<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+				<li class="dropdown">
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton"></div>
+				</li>
+			</ul>
+			<div class="clearfix"></div>
+			<div class="x_content">
+				<ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist">
+					<li class="nav-item"><a class="nav-link active" id="home-tab"
+						data-toggle="tab" href="" role="tab" aria-controls="home"
+						aria-selected="true" _msttexthash="4701515" _msthash="92">계정문의</a></li>
+					<li class="nav-item"><a class="nav-link" id="profile-tab"
+						data-toggle="tab" href="" role="tab" aria-controls="profile"
+						aria-selected="false" _msttexthash="9244820" _msthash="93">계약문의</a></li>
+					<li class="nav-item"><a class="nav-link" id="contact-tab"
+						data-toggle="tab" href="" role="tab" aria-controls="contact"
+						aria-selected="false" _msttexthash="10119603" _msthash="94">기타문의</a></li>
+				</ul>
+				<table class="table table-striped jambo_table bulk_action"
+					id="questionlist">
+					<thead>
+						<tr class="headings">
+							<th class="sorting" tabindex="0"
+								aria-controls="datatable-buttons" rowspan="1" colspan="1"
+								style="width: 200px;"
+								aria-label="Name: activate to sort column ascending">No.</th>
+							<th class="sorting" tabindex="0"
+								aria-controls="datatable-buttons" rowspan="1" colspan="1"
+								style="width: 200px;"
+								aria-label="Position: activate to sort column ascending">제목
+							</th>
+							<th class="sorting" tabindex="0"
+								aria-controls="datatable-buttons" rowspan="1" colspan="1"
+								style="width: 200px;"
+								aria-label="Office: activate to sort column ascending">작성자</th>
+							<th class="sorting" tabindex="0"
+								aria-controls="datatable-buttons" rowspan="1" colspan="1"
+								style="width: 200px;"
+								aria-label="Age: activate to sort column ascending">작성일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:each="m: ${questionList}">
+							<tr>
+								<td th:text="${m.questionCode}"></td>
+								<td class="w-25"><a
+									th:href="@{${root}} + '/customerservice/read?questionTypeCode=' + ${questionTypeCode} + '&questionCode=' + ${m.questionCode} + '&page=' + ${page}"
+									class="text-decoration-none" th:text="${m.questionTitle}">
+								</a></td>
+								<td th:text="${m.memberId}"></td>
+								<td th:text="${m.questionRegDate}"></td>
+							</tr>
+						</th:block>
+					</tbody>
+				</table>
+				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+					<a
+						th:href="@{${root} + '/customerservice/write' + '?questionTypeCode=' + ${questionTypeCode} + '&page=' + ${page}}"
+						class="btn btn-primary">글쓰기</a>
+				</div>
+			</div>
 		</div>
 	</div>
-</div>
+</th:block>
 </html>
