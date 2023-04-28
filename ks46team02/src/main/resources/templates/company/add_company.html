@@ -66,7 +66,6 @@
 // 우편번호와 주소 정보를 해당 필드에 넣는다.
 
                     document.getElementById("companyAddrRoad").value = roadAddr;
-                    document.getElementById("companyAddrJibun").value = data.jibunAddress;
 
                 }
 
@@ -95,6 +94,7 @@
                     <label class="control-label col-md-3 col-sm-3 " for="companyType">업체종류</label>
                     <div class="col-md-9 col-sm-9 ">
                         <select id="companyType" name="companyTypeNum" class="form-control">
+                            <option value="">업체종류선택</option>
                             <th:block th:unless="${companyTypeList == null}" th:each="l : ${companyTypeList}">
                                 <option th:value="${l.companyTypeNum}">[[${l.companyType}]]</option>
                             </th:block>
@@ -102,6 +102,13 @@
                                 <option>등록된 업체종류가 없습니다</option>
                             </th:block>
                         </select>
+                    </div>
+                </div>
+                <div class="form-group row ">
+                    <label class="control-label col-md-3 col-sm-3 " for="companyCode">업체코드(자동증가완성시 삭제예정)</label>
+                    <div class="col-md-9 col-sm-9 ">
+                        <input type="text" id="companyCode" name="companyCode" class="form-control"
+                               placeholder="업체코드를 입력해주세요">
                     </div>
                 </div>
                 <div class="form-group row ">
@@ -136,10 +143,10 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="control-label col-md-3 col-sm-3 ">업체주소(지번)</label>
+                    <label class="control-label col-md-3 col-sm-3 " for="companyAddrDetail">상세주소</label>
                     <div class="col-md-9 col-sm-3 input-group">
-                        <input type="text" id="companyAddrJibun" name="companyAddrJibun" class="form-control"
-                               readonly="readonly">
+                        <input type="text" id="companyAddrDetail" name="companyAddrDetail" class="form-control"
+                               >
                     </div>
                 </div>
                 <div class="form-group row">

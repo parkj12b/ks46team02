@@ -10,6 +10,8 @@ import ks46team02.common.dto.Member;
 
 @Mapper
 public interface MemberMapper {
+	/* 업체등록시 회원정보-업체코드 업데이트 */
+	public int updateCompanyCode(Member member);
 	/* 업체직원직위수정 */
 	public int modifyEmployeeLevel(Member member);
 	/* 업체별 직원 조회 */

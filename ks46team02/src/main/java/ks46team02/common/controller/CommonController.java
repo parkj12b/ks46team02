@@ -51,10 +51,12 @@ public class CommonController {
 	}
 
 	@PostMapping("/login")
-	public String login(MemberLoginInfo memberLoginInfo, HttpSession session) {
+	public String login(MemberLoginInfo memberLoginInfo
+			           ,HttpSession session
+					   ) {
 		String memberLevel = memberLoginInfo.getLoginLevel();
-		
-		
+
+
 		Object loginInfo = mainService.getLoginInfo(memberLoginInfo);
 		
 		if(memberLevel.equals("normal")) {	
@@ -79,6 +81,7 @@ public class CommonController {
 				};
 				session.setAttribute("companyTypeNum", memberInfo.getCompanyTypeNum());
 				session.setAttribute("mmRegType", mmRegType);
+				String sessionId = (String)session.getAttribute("sessionId");
 			}
 		} else if(memberLevel.equals("admin")) {
 			AdminMember memberInfo = (AdminMember) loginInfo;
@@ -91,6 +94,7 @@ public class CommonController {
 				session.setAttribute("sessionEmail", memberInfo.getAdminEmail());
 			}
 		}
+
 
 		return "redirect:/";
 	}
