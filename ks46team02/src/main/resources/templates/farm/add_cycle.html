@@ -3,7 +3,20 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/mypageLayout}">
 <head>
+	<script>
+	$(document).ready(function() {
+		  // 케이지 조회 버튼 클릭 시 모달창 띄우기
+		  $('button[data-target="#myModal"]').click(function() {
+		    $('#myModal').modal('show');
+		  });
 
+		  // 모달창에서 취소 버튼 클릭 시 모달창 닫기
+		  $('#myModal button[data-dismiss="modal"]').click(function() {
+		    $('#myModal').modal('hide');
+		  });
+		});
+
+    </script>
 </head>
 
 <th:block layout:fragment="customContent">
@@ -25,6 +38,8 @@
 								<div class="col-md-9 col-sm-9 ">
 									<input type="text" class="form-control"
 										placeholder="Default Input" readonly="readonly">
+								<button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">케이지 조회</button>
+										
 								</div>
 							</div>
 
@@ -92,5 +107,31 @@
 			</div>
 		</div>
 	</div>
+		<!-- 모달 창 -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-right modal-lg" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h4 class="modal-title" id="myModalLabel">모달 타이틀</h4>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	        <!-- 모달 내용 -->
+	        <form class="form-horizontal form-label-left">
+	        	<select th:each="c : ${cageList}">
+	        		<option th:text="{c.cageCode}"></option>
+	        	</select>
+		        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+	        <button type="submit" class="btn btn-primary">확인</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
 </th:block>
 </html>

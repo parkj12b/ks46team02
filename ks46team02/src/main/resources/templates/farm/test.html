@@ -3,12 +3,45 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/mypageLayout}">
 	<head>
-	
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	</head>
 	<body>
 		<th:block layout:fragment="customContent">
+			<div id="chart_div" style="width: 100%; height: 500px;"></div>
 			
 		</th:block>	
 	</body>
+<th:block layout:fragment="customJs">
+	<script>	
+	google.charts.load('current', {'packages':['corechart']});
+	  google.charts.setOnLoadCallback(drawChart);
+
+	  function drawChart() {
+		//var jsonData = JSON.parse([[${json}]]); // 서버에서 전달된 JSON 데이터를 파싱
+	    var data = new google.visualization.DataTable();
+	    
+	    data.addColumn('date', 'Date');
+	    data.addColumn('number', 'Real Production');
+
+	    for (var i = 0; i < jsonData.length; i++) {
+	      var dateParts = jsonData[i].real_harvest_day.split(/[- :]/);
+	      var date = new Date(dateParts[0], dateParts[1] - 1, dateParts[2], dateParts[3], dateParts[4], dateParts[5]);
+	      data.addRow([date, jsonData[i].real_production]);
+	    }
+
+	    var options = {
+	      title: 'Real Production',
+	      hAxis: {title: 'Date'},
+	      vAxis: {title: 'Real Production'},
+	      legend: {position: 'top'},
+	      pointSize: 5
+	    };
+
+	    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+	    chart.draw(data, options);
+	  }
+
+	</script>
+</th:block>
 	
 </html>
