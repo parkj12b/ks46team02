@@ -31,10 +31,17 @@ public class FarmService {
 	private static final Logger log = LoggerFactory.getLogger(FarmService.class);
 	
 	
+	/*
+	 * 
+	 */
+	public Cage getCageByCode(String cageCode) {
+		Cage cage = farmMapper.getCageByCode(cageCode);
+		return cage;
+	}
+	
 	/**
 	 * 하나의 사육장 케이지 조회
 	 */
-	
 	public List<Cage> getCageListByCode(String farmCode) {
 		List<Cage> cageList = farmMapper.getCageListByCode(farmCode);
 		return cageList;
