@@ -19,7 +19,7 @@ public interface CompanyMapper {
     public  List<CompanyPositionLevel> getCompanyPositionList();
     // 업체정보 수정
     public int modifyCompany(Company company);
-    // 업체 상세정보 조회
+    // 업체 상세정보 조회(companyCode)
     public Company getCompanyInfoByCode(String companyCode);
     // 업체등록
     public int addCompany(Company company);

@@ -28,7 +28,7 @@ public class CustomerServiceListController {
 		model.addAttribute("title", "문의목록 조회");
 
 		model.addAttribute("questionList", questionList);
-
+		
 		return "customerservice/questionlist";
 	}
 	

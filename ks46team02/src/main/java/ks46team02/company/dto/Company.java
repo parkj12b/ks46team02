@@ -8,6 +8,7 @@ public class Company {
     private String memberId;
     private String companyTel;
     private String companyAddr;
+    private String companyAddrDetail;
     private String companyName;
     private String applyDate;
     private String approvalStatus;
@@ -19,6 +20,14 @@ public class Company {
     private int farmCnt;
     private String companyType;
     private String breederLevelName;
+
+    public String getCompanyAddrDetail() {
+        return companyAddrDetail;
+    }
+
+    public void setCompanyAddrDetail(String companyAddrDetail) {
+        this.companyAddrDetail = companyAddrDetail;
+    }
 
     public String getCompanyCode() {
         return companyCode;
@@ -165,6 +174,7 @@ public class Company {
                 ", memberId='" + memberId + '\'' +
                 ", companyTel='" + companyTel + '\'' +
                 ", companyAddr='" + companyAddr + '\'' +
+                ", companyAddrDetail='" + companyAddrDetail + '\'' +
                 ", companyName='" + companyName + '\'' +
                 ", applyDate='" + applyDate + '\'' +
                 ", approvalStatus='" + approvalStatus + '\'' +
