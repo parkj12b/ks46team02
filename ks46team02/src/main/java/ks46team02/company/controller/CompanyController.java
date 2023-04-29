@@ -137,10 +137,13 @@ public class CompanyController {
         return "company/company_type_list";
     }
     @PostMapping("/addCompany")
-    public String addCompany(Company company){
+    public String addCompany(Company company
+                            ,HttpSession session){
+        String sessionId = (String)session.getAttribute("sessionId");
+        company.setMemberId(sessionId);
         log.info("화면에서 전달받은 데이터 : {}", company);
         companyService.addCompany(company);
-        return "redirect:/company/addCompany";
+        return "redirect:/admin/applyCompanyRegList";
     }
 
     @GetMapping("/addCompany")

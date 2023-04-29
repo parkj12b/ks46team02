@@ -1,36 +1,34 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <th:block th:fragment="navRightAfterLogin">
-				<ul class=" navbar-right">
-					<li class="nav-item dropdown open" style="padding-left: 15px;">
-						<a href="javascript:;" class="user-profile dropdown-toggle"
-						aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown"
-						aria-expanded="false"> <img th:src="@{/images/img.jpg}" alt="">
-							<span th:text='|${session.sessionName+"님"}|'></span>
-					</a>
-						<div class="dropdown-menu dropdown-usermenu pull-right"
-							aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" th:href="@{/mypage}">!박민서 마이페이지</a>
-							 <a
-								class="dropdown-item" th:href="@{/logout}"> <i
-								class="fa fa-sign-out pull-right"></i>!박민서 로그아웃
-							</a>
-						</div>
-					</li>
+	<ul class=" navbar-right">
+		<li class="nav-item dropdown open" style="padding-left: 15px;"><a
+			href="javascript:;" class="user-profile dropdown-toggle"
+			aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown"
+			aria-expanded="false"> <img th:src="@{/images/img.jpg}" alt="">
+				<span th:text='|${session.sessionName+"님"}|'></span>
+		</a>
+			<div class="dropdown-menu dropdown-usermenu pull-right"
+				aria-labelledby="navbarDropdown">
+				<a class="dropdown-item" th:href="@{/mypage}">!박민서 마이페이지</a> <a
+					class="dropdown-item" th:href="@{/logout}"> <i
+					class="fa fa-sign-out pull-right"></i>!박민서 로그아웃
+				</a>
+			</div></li>
 
 
-				</ul>
-			</th:block>
+	</ul>
+</th:block>
 <th:block th:fragment="navRightBeforeLogin">
 	<div class="navigation-right"
-				style="display: flex; align-items: center; margin-right: 80px;">
-				<div style="margin-right: 30px;">
-					<a th:href="@{/login}">박민서 로그인</a>
-				</div>
-				<div>
-					<a th:href="@{/signUp}">!박민서 회원가입</a>
-				</div>
-			</div>
+		style="display: flex; align-items: center; margin-right: 80px;">
+		<div style="margin-right: 30px;">
+			<a th:href="@{/login}">박민서 로그인</a>
+		</div>
+		<div>
+			<a th:href="@{/signUp}">!박민서 회원가입</a>
+		</div>
+	</div>
 </th:block>
 <div class="top_nav" th:fragment="topNaviFragment">
 	<div class="nav_menu">
@@ -45,7 +43,21 @@
 					<ul class="main-menu"
 						style="display: flex; flex-direction: row; list-style: none; align-content: center; margin: 0px; justify-content: space-between;">
 						<li><a href="#">#플랫폼 소개</a></li>
-						<li><a href="#">#고객센터</a></li>
+						<li role="presentation" class="dropdown"><a id="drop4"
+							href="#" class="dropdown-toggle" data-toggle="dropdown"
+							aria-haspopup="true" role="button" aria-expanded="false">
+								#고객센터 <span class="caret"></span>
+						</a> <th:block th:each="item: ${topMenuList}">
+								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+									x-placement="top-start"
+									style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -129px, 0px);">
+									<a class="dropdown-item"
+										th:href="@{/customerservice/main(questionTypeCode=${item.questionTypeCode})}"
+										th:text="${item.questionTypeName}"></a>
+									<!-- 				<a class="dropdown-item" href="">#공지사항</a> <a
+									class="dropdown-item" href="#">#Q & A</a> -->
+								</div>
+							</th:block></li>
 						<li role="presentation" class="dropdown"><a id="drop4"
 							href="#" class="dropdown-toggle" data-toggle="dropdown"
 							aria-haspopup="true" role="button" aria-expanded="false"> #계약
@@ -64,12 +76,12 @@
 
 			</div>
 			<th:block th:if="${session.sessionId == null}">
-				<div th:replace="~{fragments/topNavi :: navRightBeforeLogin}"></div>		
+				<div th:replace="~{fragments/topNavi :: navRightBeforeLogin}"></div>
 			</th:block>
 			<th:block th:unless="${session.sessionId == null}">
-				<div th:replace="~{fragments/topNavi :: navRightAfterLogin}"></div>		
+				<div th:replace="~{fragments/topNavi :: navRightAfterLogin}"></div>
 			</th:block>
-	
+
 		</nav>
 	</div>
 </div>
@@ -81,7 +93,7 @@
 		<nav class="nav navbar-nav" style="flex-direction: row;">
 			<div class="navbar nav_title" style="border: 0; background: #ECF0F1">
 				<a href="/" class="site_title" style="color: #2A3F54 !important"><i
-					class="fa fa-paw"></i> <span>v1_04142023_1653</span></a>
+					class="fa fa-paw"></i> <span>v2_04272023_0948</span></a>
 			</div>
 			<div class="navigation-main"
 				style="display: flex; align-items: center; margin-right: auto">
@@ -89,8 +101,26 @@
 					style="display: flex; align-items: center; margin-right: auto">
 					<ul class="main-menu"
 						style="display: flex; flex-direction: row; list-style: none; align-content: center; margin: 0px; justify-content: space-between;">
-						<li><a href="#">#플랫폼 소개</a></li>
-						<li><a href="#">#고객센터</a></li>
+
+
+
+						<th:block th:fragment="top-menu-community">
+							<li><a href="#">#플랫폼 소개</a></li>
+
+							<li role="presentation" class="dropdown"><a id="drop4"
+								href="#" class="dropdown-toggle" data-toggle="dropdown"
+								aria-haspopup="true" role="button" aria-expanded="false">
+									#고객센터 <span class="caret"></span>
+							</a>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+									x-placement="top-start"
+									style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -129px, 0px);">
+									<a th:each="item: ${topMenuList}" class="dropdown-item"
+										th:href="@{/customerservice/main(questionTypeCode=${item.questionTypeCode})}"
+										th:text="${item.questionTypeName}"></a>
+										</div></li>
+						</th:block>
+
 						<li role="presentation" class="dropdown"><a id="drop4"
 							href="#" class="dropdown-toggle" data-toggle="dropdown"
 							aria-haspopup="true" role="button" aria-expanded="false"> #계약
@@ -109,10 +139,10 @@
 
 			</div>
 			<th:block th:if="${session.sessionId == null}">
-				<div th:replace="~{fragments/topNavi :: navRightBeforeLogin}"></div>		
+				<div th:replace="~{fragments/topNavi :: navRightBeforeLogin}"></div>
 			</th:block>
 			<th:block th:unless="${session.sessionId == null}">
-				<div th:replace="~{fragments/topNavi :: navRightAfterLogin}"></div>		
+				<div th:replace="~{fragments/topNavi :: navRightAfterLogin}"></div>
 			</th:block>
 
 

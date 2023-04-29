@@ -17,7 +17,7 @@ private final MemberMapper memberMapper;
 		this.memberMapper = memberMapper;
 
 	}
-	/* 업체직원직위수정 */
+	/* 업체 직원 직위 수정 */
 	public int modifyEmployeeLevel(Member member){
 		int result = memberMapper.modifyEmployeeLevel(member);
 		return result;
@@ -43,10 +43,8 @@ private final MemberMapper memberMapper;
 		Member memberInfo =memberMapper.getMemberInfoById(memberId);
 		return memberInfo;
 	}
-	/* 휴면 회원 되돌리기 */
-	 
-	public void updateDormancyStatus(String memberId) {
-		Member member = memberMapper.selectMember(memberId);
-		memberMapper.updateMember(member);
+	/* 휴면 회원 돌리기 */
+	public void modifyDormantMember(String memberId) {
+	    memberMapper.modifyDormantMember(memberId);
 	}
 }

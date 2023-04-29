@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import groovy.util.logging.Slf4j;
 import ks46team02.admin.dto.AdminLevel;
@@ -22,12 +23,12 @@ import ks46team02.admin.dto.MemberLevel;
 import ks46team02.admin.dto.WithdrawalMember;
 import ks46team02.admin.mapper.AddrMapper;
 import ks46team02.admin.mapper.AdminMapper;
+import ks46team02.admin.mapper.MemberLevelMapper;
 import ks46team02.admin.mapper.MemberMapper;
 import ks46team02.admin.service.AddrService;
 import ks46team02.admin.service.AdminLevelService;
 import ks46team02.admin.service.AdminMMservice;
 import ks46team02.admin.service.AdminService;
-import ks46team02.admin.service.CompanyApprovalService;
 import ks46team02.admin.service.ContractStandardService;
 import ks46team02.admin.service.LoginHistoryService;
 import ks46team02.admin.service.MemberLevelService;
@@ -55,9 +56,9 @@ public class AdminController {
 	private final LoginHistoryService loginHistoryService;
 	private final ContractStandardService contractStandardService;
 	private final MemberLevelService memberLevelService; 
-	private final CompanyApprovalService companyApprovalService;
 	private final AdminMapper adminMapper;
 	private final MemberMapper memberMapper;
+	private final MemberLevelMapper memberLevelMapper;
 	private final AddrMapper addrMapper;
 	
 	
@@ -73,10 +74,10 @@ public class AdminController {
     					  ,LoginHistoryService loginHistoryService
     					  ,ContractStandardService contractStandardService
     					  ,MemberLevelService memberLevelService
-    					  ,CompanyApprovalService companyApprovalService
     					  ,AdminMapper adminMapper
     					  ,MemberMapper memberMapper
-    					  ,AddrMapper addrMapper) {
+    					  ,AddrMapper addrMapper
+    					  ,MemberLevelMapper memberLevelMapper) {
 		this.addrService = addrService;
 		this.adminService = adminService;
 		this.withdrawalMemberService = withdrawalMemberService;
@@ -86,10 +87,10 @@ public class AdminController {
 	    this.loginHistoryService = loginHistoryService;
 	    this.contractStandardService = contractStandardService;
 	    this.memberLevelService = memberLevelService;
-	    this.companyApprovalService = companyApprovalService;
 	    this.adminMapper = adminMapper;
 	    this.memberMapper = memberMapper;
 	    this.addrMapper = addrMapper;
+	    this.memberLevelMapper = memberLevelMapper;
 	}
 	/* 탈퇴한 관리자 조회  */
 	@GetMapping("/withdrawalAdminList")
@@ -102,13 +103,14 @@ public class AdminController {
 		return "admin/withdrawaladmin_list";
 	}
     /* 승인 대기 업체 조회 */
-	@GetMapping("/companyApprovalList")
-	public String getCompanyApprovalList(Model model) {
-		List<Company> companyApprovalList = companyApprovalService.getCompanyApprovalList();
-		model.addAttribute("title", "승인 대기 업체 조회");
-		model.addAttribute("companyApprovalList", companyApprovalList);
+	@GetMapping("/applyCompanyRegList")
+	public String applyCompanyRegList(Model model) {
 
-		return "admin/companyApproval_list";
+//		List<Company> applyCompanyRegList = null;
+
+		model.addAttribute("title", "승인 대기 업체 조회");
+
+		return "admin/apply_company_reg_list";
 	}
     /* 전체 관리자 목록 조회 */
 	@GetMapping("/adminList")
@@ -163,6 +165,14 @@ public class AdminController {
 	public String addMemberLevel(Model model){
 		model.addAttribute("title", "회원 등급 등록");
 		return "admin/add_memberLevel";
+	}
+	/* 회원등급 수정 */
+	@PostMapping("/modifyMemberLevel")
+	@ResponseBody
+	public void modifyMemberLevel(MemberLevel memberLevel) {
+		 System.out.println("positionLevelCode: " + memberLevel.getPositionLevelCode());
+		memberLevelService.modifyMemberLevel(memberLevel);
+		
 	}
 	/* 회원 등급 조회 */
 	@GetMapping("/memberLevelList")
@@ -234,6 +244,7 @@ public class AdminController {
 		model.addAttribute("menteeRegList",menteeRegList);
 		return "admin/menteeReg_list";
 	}
+	
 	/* 관리자 레벨 목록 조회 */
 	@GetMapping("/adminLevelList")
 	public String getAdminLevelList(Model model) {
@@ -296,11 +307,13 @@ public class AdminController {
 		model.addAttribute("dormantMemberList", dormantMemberList);
 		return "admin/dormantMember_list";
 		}
-	/* 휴면회원 전환 */
-	@PutMapping("/{memberId}/dormancy")
-	public ResponseEntity<String> updateDormancyStatus(@PathVariable String memberId) {
-	    memberservice.updateDormancyStatus(memberId);
-	    return ResponseEntity.ok("Success");
+
+	/* 휴면회원 되돌리기 */
+	@PostMapping("/modifyDormantMember")
+	@ResponseBody
+	public void modifyDormantMember(@RequestParam(name="memberId")String memberId) {
+	    memberservice.modifyDormantMember(memberId);
+	    
 	}
 
 	/* 승인 기준 등록 */
@@ -317,4 +330,6 @@ public class AdminController {
 		model.addAttribute("contractStandardList", contractStandardList);
 		return "admin/contractStandard_list";
 		}
+	
+	
 }

@@ -4,31 +4,36 @@
 	layout:decorate="~{layout/mypageLayout}">
 
 <head>
-
+<style >
+.delete,
+.modify,
+.release-btn,
+.cancel {
+  font-size: smaller; /* 원하는 크기로 변경 가능 */
+  padding: 5px 10px; /* 내용과 버튼의 크기 조정 */  
+}
+</style>
 </head>
 <th:block layout:fragment="customJs">
 <script>
 $(document).ready(function() {
     // 전환 버튼 클릭 이벤트
-    $('#convertBtn').click(function() {
+    $('.release-btn').click(function() {
         // memberId를 파라미터로 전달
-        var memberId = $('#memberId').val();
+ 		  var memberId = $(this).closest('tr').find('td:first').text();
+ 		  var row = $(this).closest('tr');
         $.ajax({
-            url: '/admin/updateDormancyStatus',
             type: 'POST',
-            data: {
-                memberId: memberId
-            },
-            success: function(result) {
+            url: '/admin/modifyDormantMember',
+            data: {memberId: memberId},
+            success: function() {
                 // 서버에서 전환 결과를 받아서 처리
-                if (result == 'success') {
+             
                     alert('휴면회원에서 일반회원으로 전환되었습니다.');
-                } else {
-                    alert('전환 실패');
-                }
+                    row.remove();
             },
             error: function() {
-                alert('서버와의 통신 오류');
+                alert('서버와의 통신 오류가 발생했습니다');
             }
         });
     });
@@ -159,10 +164,11 @@ $(document).ready(function() {
 												<td th:text="${l.memberRegDate}"></td>
 												<td th:text="${l.dormantMemberRegDate}"></td>
 												<td> 
-												<button class="btn btn-primary dark " id="convertBtn" type="button">휴면해제</button> 
+
+												<button class="btn btn-dark release-btn " type="button">휴면해제</button> 
 												</td>
 												<td>
-												   <a href="#" class="delete" ><i class="fa fa-close"></i> 삭제</a>
+												   <button class="btn btn-dark delete" type="button">삭제</button> 
 												</td>
 											</tr>
 

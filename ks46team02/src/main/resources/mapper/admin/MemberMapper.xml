@@ -17,6 +17,15 @@
 		<result column="dormant_member_reg_date"  				property="dormantMemberRegDate"/>
 		<result column="member_level_name"						property="memberLevelName"/>
 </resultMap>
+<update id="updateCompanyCode" parameterType="Member">
+	/* 업체직위수정 */
+	UPDATE
+	member_info
+	SET
+	company_code = #{companyCode}
+	WHERE
+	member_id = #{memberId};
+</update>
 <select id="getMemberInfoById" parameterType="String" resultMap="MemberResultMap">
 		/* 특정 회원 조회 */
 			select
@@ -86,16 +95,15 @@
 				,member_id = #{memberId};
 	</select>
 
-	<update id="updateMember" parameterType="String" >
-		/* 휴면회원 일반회원으로*/
-		UPDATE member_info
-		<trim prefix="SET" suffixOverrides=",">
-			member_status = 'normal'
-		</trim>
-		WHERE
-			member_id = #{memberId};
-
-	</update>
+	<update id="modifyDormantMember" parameterType="String">
+		   /* 휴면회원 일반회원으로 */
+		    UPDATE member_info
+		    SET
+		        member_status = 'normal',
+		        dormant_member_reg_date = null
+		    WHERE
+		        member_id = #{memberId};
+</update>
 
 	<update id="modifyEmployeeLevel" parameterType="Member">
 		/* 업체직위수정 */
@@ -106,6 +114,7 @@
 		WHERE
 			member_id = #{memberId};
 	</update>
+
 	<select id="getEmployeeList" parameterType="String" resultMap="MemberResultMap">
 		/* 업체별 직원 조회 */
 		SELECT

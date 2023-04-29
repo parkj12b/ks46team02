@@ -1,6 +1,12 @@
 package ks46team02.farm.service;
 
+
+
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import org.springframework.stereotype.Service;
 
@@ -22,12 +28,31 @@ public class FarmService {
     }
     
     
+	private static final Logger log = LoggerFactory.getLogger(FarmService.class);
+	
+	
+	/*
+	 * 
+	 */
+	public Cage getCageByCode(String cageCode) {
+		Cage cage = farmMapper.getCageByCode(cageCode);
+		return cage;
+	}
+	
+	/**
+	 * 하나의 사육장 케이지 조회
+	 */
+	public List<Cage> getCageListByCode(String farmCode) {
+		List<Cage> cageList = farmMapper.getCageListByCode(farmCode);
+		return cageList;
+	}
+
     /**
      * 그래프 테스트
      */
     public List<Production> test(String farmCode){
     	List<Production> productionList = farmMapper.test(farmCode);
-    	
+        log.info("Production list: {}", productionList);
     	return productionList;
     }
 
