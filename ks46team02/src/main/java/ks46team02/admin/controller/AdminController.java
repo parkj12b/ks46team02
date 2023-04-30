@@ -58,7 +58,6 @@ public class AdminController {
 	private final MemberLevelService memberLevelService; 
 	private final AdminMapper adminMapper;
 	private final MemberMapper memberMapper;
-	private final MemberLevelMapper memberLevelMapper;
 	private final AddrMapper addrMapper;
 	
 	
@@ -90,8 +89,19 @@ public class AdminController {
 	    this.adminMapper = adminMapper;
 	    this.memberMapper = memberMapper;
 	    this.addrMapper = addrMapper;
-	    this.memberLevelMapper = memberLevelMapper;
 	}
+	/* 관리자 아이디 중복 체크 */
+	@PostMapping("/idCheckAdmin")
+	@ResponseBody
+	public boolean idCheckAdmin(@RequestParam(name="adminId") String adminId) {
+	    boolean isDuplicate = adminMapper.idCheckAdmin(adminId); // 아이디 중복 여부를 boolean 타입으로 반환합니다.
+	    log.info("log"+isDuplicate );
+	    return isDuplicate;
+	}
+
+	
+	
+	
 	/* 탈퇴한 관리자 조회  */
 	@GetMapping("/withdrawalAdminList")
 	public String getWithdrawalAdminList(Model model) {
