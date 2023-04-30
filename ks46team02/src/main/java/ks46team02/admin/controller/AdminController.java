@@ -170,6 +170,13 @@ public class AdminController {
 		model.addAttribute("title", "관리자 등급 등록");
 		return "admin/add_adminLevel";
 	}
+	/* 관리자등급 수정 */
+	@PostMapping("/modifyAdminLevel")
+	@ResponseBody
+	public void modifyAdminLevel(AdminLevel adminLevel) {
+		adminLevelService.modifyAdminLevel(adminLevel);
+		
+	}
 	/* 회원 등급 등록 */
 	@GetMapping("/addMemberLevel")
 	public String addMemberLevel(Model model){
@@ -180,7 +187,6 @@ public class AdminController {
 	@PostMapping("/modifyMemberLevel")
 	@ResponseBody
 	public void modifyMemberLevel(MemberLevel memberLevel) {
-		 System.out.println("positionLevelCode: " + memberLevel.getPositionLevelCode());
 		memberLevelService.modifyMemberLevel(memberLevel);
 		
 	}
