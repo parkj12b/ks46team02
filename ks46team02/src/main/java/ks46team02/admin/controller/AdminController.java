@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -55,7 +58,6 @@ public class AdminController {
 	private final MemberLevelService memberLevelService; 
 	private final AdminMapper adminMapper;
 	private final MemberMapper memberMapper;
-	private final MemberLevelMapper memberLevelMapper;
 	private final AddrMapper addrMapper;
 	
 	
@@ -87,8 +89,19 @@ public class AdminController {
 	    this.adminMapper = adminMapper;
 	    this.memberMapper = memberMapper;
 	    this.addrMapper = addrMapper;
-	    this.memberLevelMapper = memberLevelMapper;
 	}
+	/* 관리자 아이디 중복 체크 */
+	@PostMapping("/idCheckAdmin")
+	@ResponseBody
+	public boolean idCheckAdmin(@RequestParam(name="adminId") String adminId) {
+	    boolean isDuplicate = adminMapper.idCheckAdmin(adminId); // 아이디 중복 여부를 boolean 타입으로 반환합니다.
+	    log.info("log"+isDuplicate );
+	    return isDuplicate;
+	}
+
+	
+	
+	
 	/* 탈퇴한 관리자 조회  */
 	@GetMapping("/withdrawalAdminList")
 	public String getWithdrawalAdminList(Model model) {
@@ -157,6 +170,13 @@ public class AdminController {
 		model.addAttribute("title", "관리자 등급 등록");
 		return "admin/add_adminLevel";
 	}
+	/* 관리자등급 수정 */
+	@PostMapping("/modifyAdminLevel")
+	@ResponseBody
+	public void modifyAdminLevel(AdminLevel adminLevel) {
+		adminLevelService.modifyAdminLevel(adminLevel);
+		
+	}
 	/* 회원 등급 등록 */
 	@GetMapping("/addMemberLevel")
 	public String addMemberLevel(Model model){
@@ -167,7 +187,6 @@ public class AdminController {
 	@PostMapping("/modifyMemberLevel")
 	@ResponseBody
 	public void modifyMemberLevel(MemberLevel memberLevel) {
-		 System.out.println("positionLevelCode: " + memberLevel.getPositionLevelCode());
 		memberLevelService.modifyMemberLevel(memberLevel);
 		
 	}
@@ -304,6 +323,7 @@ public class AdminController {
 		model.addAttribute("dormantMemberList", dormantMemberList);
 		return "admin/dormantMember_list";
 		}
+
 	/* 휴면회원 되돌리기 */
 	@PostMapping("/modifyDormantMember")
 	@ResponseBody
@@ -311,6 +331,7 @@ public class AdminController {
 	    memberservice.modifyDormantMember(memberId);
 	    
 	}
+
 	/* 승인 기준 등록 */
 	@GetMapping("/addContractStandard")
 	public String addContractStandard(Model model){

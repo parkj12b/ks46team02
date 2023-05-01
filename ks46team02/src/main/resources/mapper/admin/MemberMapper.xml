@@ -76,6 +76,24 @@
 			member_id = #{memberId};
 
 	</update>
+	<select id="selectMember" parameterType="String" resultMap="MemberResultMap">
+				/* 특정 휴면 회원 조회 */
+			select 
+				 member_id
+				,member_pw
+				,member_name
+				,member_email
+				,member_phone
+				,company_code
+				,member_reg_date
+				,dormant_member_reg_date
+			
+			from 
+				member_info
+			where
+				member_status='dormant'
+				,member_id = #{memberId};
+	</select>
 
 	<update id="modifyDormantMember" parameterType="String">
 		   /* 휴면회원 일반회원으로 */

@@ -49,15 +49,15 @@
 	<select id="getMemberLevelList" parameterType="String" resultMap="memberLevelResultMap">
 				/* 회원 등급 조회 */
 				SELECT 
-					position_level_code, 
-					member_level_name, 
-					company_reg_date, 
-					admin_id, 
-					CASE WHEN member_management = 1 THEN 'O' ELSE 'X' END AS member_management,
-					CASE WHEN contract_management = 1 THEN 'O' ELSE 'X' END AS contract_management,
-					CASE WHEN payment_management = 1 THEN 'O' ELSE 'X' END AS payment_management,
-					CASE WHEN company_info_management = 1 THEN 'O' ELSE 'X' END AS company_info_management,
-					CASE WHEN mento_mentee_management = 1 THEN 'O' ELSE 'X' END AS mento_mentee_management
+					 position_level_code 
+					,member_level_name
+					,member_management
+					,contract_management
+					,payment_management
+					,company_info_management
+					,mento_mentee_management
+					,admin_id
+					,company_reg_date 
 				FROM 
 					company_position_level;
 

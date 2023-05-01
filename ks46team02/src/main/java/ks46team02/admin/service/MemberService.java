@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ks46team02.admin.mapper.MemberMapper;
-import ks46team02.common.dto.AdminMember;
 import ks46team02.common.dto.Member;
 @Service
 @Transactional
@@ -48,5 +47,4 @@ private final MemberMapper memberMapper;
 	public void modifyDormantMember(String memberId) {
 	    memberMapper.modifyDormantMember(memberId);
 	}
-	
 }

@@ -17,18 +17,23 @@
 <th:block layout:fragment="customJs">
 <script>
 $(document).ready(function() {
+    // 전환 버튼 클릭 이벤트
     $('.release-btn').click(function() {
-        var memberId = $(this).closest('tr').find('td:first').text();
-        console.log(memberId);
+        // memberId를 파라미터로 전달
+ 		  var memberId = $(this).closest('tr').find('td:first').text();
+ 		  var row = $(this).closest('tr');
         $.ajax({
             type: 'POST',
             url: '/admin/modifyDormantMember',
-            data: { memberId: memberId },
+            data: {memberId: memberId},
             success: function() {
-                alert('휴면 해제가 완료되었습니다.');
+                // 서버에서 전환 결과를 받아서 처리
+             
+                    alert('휴면회원에서 일반회원으로 전환되었습니다.');
+                    row.remove();
             },
             error: function() {
-                alert('서버와 통신 중 오류가 발생했습니다.');
+                alert('서버와의 통신 오류가 발생했습니다');
             }
         });
     });
@@ -159,7 +164,8 @@ $(document).ready(function() {
 												<td th:text="${l.memberRegDate}"></td>
 												<td th:text="${l.dormantMemberRegDate}"></td>
 												<td> 
-													<button class="btn btn-dark release-btn" type="button">휴면해제</button> 
+
+												<button class="btn btn-dark release-btn " type="button">휴면해제</button> 
 												</td>
 												<td>
 												   <button class="btn btn-dark delete" type="button">삭제</button> 
