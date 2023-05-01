@@ -88,7 +88,7 @@
 								<label class="control-label col-md-3 col-sm-3 ">관리자 등급</label>
 								<div class="col-md-9 col-sm-9 ">
 									<select class="form-control">
-										<option></option>
+										<option>---선택----</option>
 										<th:block th:if="${adminLevelList1 != null}">
   										<option th:each="l : ${adminLevelList1}" th:value="${l.adminLevel}" th:text="${l.adminPosition}"></option>
 										</th:block>
