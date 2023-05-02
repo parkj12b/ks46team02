@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import ks46team02.common.dto.AdminMember;
 import ks46team02.common.dto.Member;
 
 
@@ -24,9 +23,8 @@ public interface MemberMapper {
 	public int modifyMember(Member member);
 	/* 특정 회원 아이디 조회 */	
 	public Member getMemberInfoById(String memberId);
-	/* 휴면 회원을 일반회원으로 */
-	public int modifyDormantMember(Member member);
-	/* 휴면 회원 아이디 조회 */	
-	public Member updateDormantMember(String memberId);
 	
+	/* 휴면 회원을 일반회원으로 */
+	public int modifyDormantMember(String memberId);
+
 }

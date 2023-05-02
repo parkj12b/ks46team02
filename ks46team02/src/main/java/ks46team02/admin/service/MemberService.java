@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ks46team02.admin.mapper.MemberMapper;
-import ks46team02.common.dto.AdminMember;
 import ks46team02.common.dto.Member;
 @Service
 @Transactional
@@ -18,7 +17,7 @@ private final MemberMapper memberMapper;
 		this.memberMapper = memberMapper;
 
 	}
-	/* 업체직원직위수정 */
+	/* 업체 직원 직위 수정 */
 	public int modifyEmployeeLevel(Member member){
 		int result = memberMapper.modifyEmployeeLevel(member);
 		return result;
@@ -44,9 +43,8 @@ private final MemberMapper memberMapper;
 		Member memberInfo =memberMapper.getMemberInfoById(memberId);
 		return memberInfo;
 	}
-	/* 특정 휴면 회원 조회 */
+	/* 휴면 회원 돌리기 */
 	public void modifyDormantMember(String memberId) {
-	    memberMapper.updateDormantMember(memberId);
+	    memberMapper.modifyDormantMember(memberId);
 	}
-	
 }

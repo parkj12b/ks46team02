@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import groovy.util.logging.Log;
 import ks46team02.admin.dto.AdminLevel;
+import ks46team02.admin.dto.MemberLevel;
 import ks46team02.admin.mapper.AdminLevelMapper;
 @Service
 @Transactional
@@ -28,6 +29,10 @@ private final AdminLevelMapper adminLevelMapper;
 		List<AdminLevel> AdminLevelList = adminLevelMapper.getAdminLevelList(); 
 		log.info("{}",AdminLevelList);
 		return AdminLevelList;
+	}
+	
+	public void modifyAdminLevel(AdminLevel adminLevel) {
+		adminLevelMapper.modifyAdminLevel(adminLevel);
 	}
 	
 }

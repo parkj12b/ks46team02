@@ -4,37 +4,163 @@
       layout:decorate="~{layout/mypageLayout}">
 
 <head>
+<style >
+input {
+	  width: 80px; /* 원하는 크기로 조정 가능 */
+	  height: 20px;
+	}
+	.modify,
+	.delete,
+	.save,
+	.cancel {
+	  font-size: smaller; /* 원하는 크기로 변경 가능 */
+	  padding: 5px 10px; /* 내용과 버튼의 크기 조정 */
+	  
+	}
+</style>
 </head>
 <th:block layout:fragment="customJs">
 <script>
+/* 관리자 등급 추가 */
 $(document).ready(function() {
   $('button.btn-primary').click(function() {
     window.location.href = '/admin/addAdminLevel';
   });
 });
-function deleteBoard(seq){
-	Swal.fire({
-	  title: '글을 삭제하시겠습니까???',
-	  text: "삭제하시면 다시 복구시킬 수 없습니다.",
-	  icon: 'warning',
-	  showCancelButton: true,
-	  confirmButtonColor: '#3085d6',
-	  cancelButtonColor: '#d33',
-	  confirmButtonText: '삭제',
-	  cancelButtonText: '취소'
-	}).then((result) => {
-	  if (result.value) {
-          //"삭제" 버튼을 눌렀을 때 작업할 내용을 이곳에 넣어주면 된다. 
-	  }
-	})
-} 
+/* 관리자 등급 수정  */
 $(document).ready(function() {
-	  $('.delete').on('click', function(e) {
-	    e.preventDefault();
-	    var seq = $(this).data('seq'); // data-seq 속성을 사용하여 seq 값을 가져옵니다.
-	    deleteBoard(seq); // deleteBoard 함수를 호출합니다.
+	  $('table tbody').on('click', '.modify', function() {
+	    var tr = $(this).closest('tr');
+	    var modifyButton = $(this);
+	    var deleteButton = tr.find('.delete');
+	    var prevValues = []; // 이전 값 저장할 배열
+	    tr.find('td:nth-child(n+2):nth-child(-n+8)').each(function() {
+	      var value = $(this).text();
+	      prevValues.push(value); // 이전 값 저장
+	      console.log(prevValues);
+	      var input;
+	      if ($(this).index() === 2 || $(this).index() === 3 || $(this).index() === 4 || $(this).index() === 5 || $(this).index() === 6 || $(this).index() === 7) {
+	        input = $('<select>').append($('<option>').text('O').val(1)).append($('<option>').text('X').val(0));
+	      } else {
+	        input = $('<input>').val(value);
+	      }
+	      $(this).html(input);
+	    });
+	    modifyButton.text('저장');
+	    modifyButton.removeClass('modify').addClass('save');
+	    deleteButton.text('취소');
+	    deleteButton.removeClass('delete').addClass('cancel'); // delete 클래스 제거하고 cancel 클래스 추가
+	    // 이전 값 대신 현재 값을 attribute에 저장
+	    deleteButton.attr('prev-values', prevValues);
 	  });
+
+	  $('table tbody').on('click', '.cancel', function(){
+	    var tr = $(this).closest('tr');
+	    var currentValues = $(this).attr('prev-values').split(","); // 현재 값 배열 가져오기
+	    console.log(currentValues);
+	    tr.find('td:nth-child(n+2):nth-child(-n+8)').each(function(index) {
+	      var value = currentValues[index];
+	      if(value==1){
+	        value = "O";
+	      }
+	      else if(value==0){
+	        value ="X";
+	      }
+	      // select 요소 삭제
+	      if ($(this).find('select').length > 0) {
+	        $(this).html(value);
+	      } else {
+	        $(this).text(value);
+	      }
+	    });
+	    var saveButton = tr.find('.save');
+	    var cancelButton = tr.find('.cancel'); // 클래스 변경
+	    saveButton.text('수정');
+	    saveButton.removeClass('save').addClass('modify');
+	    console.log(saveButton);
+	    cancelButton.text('삭제');
+	    cancelButton.removeClass('cancel').addClass('delete'); // cancel 클래스 제거하고 delete 클래스 추가
+	  	console.log(cancelButton);
+	  });
+	  $('table tbody').on('click', '.save', function(){
+		  var tr = $(this).closest('tr');
+		  var adminLevel = tr.find('td:eq(0)').text(); 
+		  	console.log("adminLevel " + adminLevel);
+		  var adminPosition = 		tr.find('td:eq(1) input').val();
+		  	console.log("adminPosition    "+adminPosition);
+		  var adminMember = 		tr.find('td:eq(2) select').val();
+		  	console.log("adminMember    "+adminMember);
+		  var adminContract = 		tr.find('td:eq(3) select').val();
+		  	console.log("adminContract    "+adminContract);
+		  var adminFarm = 		tr.find('td:eq(4) select').val();
+		  	console.log("adminFarm    "+adminFarm);
+		  var adminQuestion = 		tr.find('td:eq(5) select').val();
+		  	console.log("adminQuestion    "+adminQuestion);
+		  var adminSetting =	tr.find('td:eq(6) select').val();
+		  	console.log("adminSetting    "+adminSetting);
+		  var adminPayment =	tr.find('td:eq(7) select').val();
+		  	console.log("adminPayment    "+adminPayment);
+		
+		  // 필드별로 값을 가져옵니다.
+		 var deleteButton = tr.find('.cancel'); // deleteButton 변수 정의
+		 var currentValues = deleteButton.attr('prev-values').split(","); // 수정된 값 배열 가져오기
+		  $.ajax({
+		    type: 'POST',
+		    url: '/admin/modifyAdminLevel',
+		    data: {
+		    	  adminLevel: 		adminLevel,
+		    	  adminPosition: 	adminPosition,
+		    	  adminMember: 		adminMember,
+		    	  adminContract:	adminContract,
+		    	  adminFarm: 		adminFarm,
+		    	  adminQuestion: 	adminQuestion,
+		    	  adminSetting: 	adminSetting,
+		    	  adminPayment: 	adminPayment
+		    	},
+		    success: function() {
+		      alert('성공했습니다.');
+		      currentValues[0] = adminPosition; 
+		      currentValues[1] = adminMember;
+		      currentValues[2] = adminContract;
+		      currentValues[3] = adminFarm;
+		      currentValues[4] = adminQuestion;
+		      currentValues[5] = adminSetting;
+		      currentValues[6] = adminPayment;
+
+		      tr.find('td:nth-child(n+2):nth-child(-n+8)').each(function(index) {
+		        var value = currentValues[index];
+		        console.log(value);
+		        if (index >= 1 && index <= 6) {
+		          value = value == 1 ? "O" : "X";
+		        }
+		        
+		        // select 요소 삭제
+		        if ($(this).find('select').length > 0) {
+		          $(this).html(value);
+		        } else if ($(this).find('input').length > 0) {
+		          $(this).text(value);
+		        }
+		      });
+			    var saveButton = tr.find('.save');
+			    var cancelButton = tr.find('.cancel'); // 클래스 변경
+			    saveButton.text('수정');
+			    saveButton.removeClass('save').addClass('modify');
+			    console.log(saveButton);
+			    cancelButton.text('삭제');
+			    cancelButton.removeClass('cancel').addClass('delete'); // cancel 클래스 제거하고 delete 클래스 추가
+			  	console.log(cancelButton);
+			  
+		    },
+		    error: function() {
+		      alert('서버와 통신 중 오류가 발생했습니다.');
+		      
+		    }
+		  });
+		});
+
+		
 	});
+
 </script>
 </th:block>
 <th:block layout:fragment="customContent">
@@ -126,19 +252,37 @@ $(document).ready(function() {
 											<tr th:unless="${adminLevelList == null}" th:each="l : ${adminLevelList}">
 												<td th:text="${l.adminLevel}"></td>
 												<td th:text="${l.adminPosition}"></td>
-												<td th:text="${l.adminMember}"></td>
-												<td th:text="${l.adminContract}"></td>
-												<td th:text="${l.adminFarm}"></td>
-												<td th:text="${l.adminQuestion}"></td>
-												<td th:text="${l.adminSetting}"></td>
-												<td th:text="${l.adminPayment}"></td>
+												<td>
+												 <span th:if="${l.adminMember == '1'}">O</span>
+												  <span th:if="${l.adminMember == '0'}">X</span>
+												</td>
+												<td>
+												 <span th:if="${l.adminContract == '1'}">O</span>
+												  <span th:if="${l.adminContract == '0'}">X</span>
+												</td>
+												<td>
+												 <span th:if="${l.adminFarm == '1'}">O</span>
+												  <span th:if="${l.adminFarm == '0'}">X</span>
+												</td>
+												<td>
+												 <span th:if="${l.adminQuestion == '1'}">O</span>
+												  <span th:if="${l.adminQuestion == '0'}">X</span>
+												</td>
+												<td>
+												 <span th:if="${l.adminSetting == '1'}">O</span>
+												  <span th:if="${l.adminSetting == '0'}">X</span>
+												</td>
+												<td>
+												 <span th:if="${l.adminPayment == '1'}">O</span>
+												  <span th:if="${l.adminPayment == '0'}">X</span>
+												</td>
 												<td th:text="${l.adminRegDate}"></td>
-												<td th:if="${l.adminLevel != '0'}">                                                
-                                            		<a href="#"><i class="fa fa-edit"></i> 수정</a>
+                                                <td th:if="${l.adminLevel != '0'}">                                            
+                                            		<button class="btn btn-dark modify" type="button">수정</button>
                                             	</td>
                                             	<td th:if="${l.adminLevel != '0'}">
-                                            		<a href="#" class="delete"><i class="fa fa-close"></i> 삭제</a>
-                                               </td>
+                                            		<button class="btn btn-dark delete" type="button" >삭제</button>
+                                                </td>
                                                  <td th:if="${l.adminLevel == '0'}"></td>
                                                  <td th:if="${l.adminLevel == '0'}"></td>
 											</tr>
@@ -146,7 +290,7 @@ $(document).ready(function() {
                                     </table>
                                 </div>
                                 	<div class="col-md-12 text-right">
-							      		<button class="btn btn-primary float-right" type="button">관리자 등급 등록</button>
+							      		<button class="btn btn-primary float-right" type="button" id="addbutton">관리자 등급 등록</button>
 							    	</div>
                             </div>
                         </div>
