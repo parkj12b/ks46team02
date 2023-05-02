@@ -8,19 +8,22 @@
 #info-container {
 	width: 960px;
 	margin: 0 auto;
-	
 }
-#contract-title{
+
+#contract-title {
 	font-size: 26px;
 }
-.x_panel{
-	border:1px solid #e5e6eb;
+
+.x_panel {
+	border: 1px solid #e5e6eb;
 	padding: 40px 40px;
 }
-.mentor-head-info th{
+
+.mentor-head-info th {
 	width: 150px;
 }
-.mentor-head-info{
+
+.mentor-head-info {
 	border-top: 1px solid #e5e6eb;
 	padding: 25px 0px;
 	box-sizing: border-box;
@@ -28,20 +31,23 @@
 	float: left;
 	height: 180px;
 }
-.mentor-head-info-right{
+
+.mentor-head-info-right {
 	margin-left: 30px;
 	display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+	flex-direction: column;
+	justify-content: space-between;
 }
-#contract-body{
+
+#contract-body {
 	clear: both;
-    position: relative;
-    padding-top: 12px;
-    border-top: 1px solid #e5e6eb;
-    line-height: 18px;
+	position: relative;
+	padding-top: 12px;
+	border-top: 1px solid #e5e6eb;
+	line-height: 18px;
 }
-#contract-body:before{
+
+#contract-body:before {
 	width: 30px;
 	left: 420px;
 	position: absolute;
@@ -49,19 +55,22 @@
 	height: 1px;
 	background: #fff;
 	content: "";
-	display:block;
+	display: block;
 }
-#round-bar{
+
+#round-bar {
 	margin-top: 30px;
 	border: 3px dashed #e5e6eb;
 	border-radius: 5px;
 }
-#reg-contract{
+
+#reg-contract {
 	display: block;
 	margin-left: auto;
-	margin-top:25px;
+	margin-top: 25px;
 }
-#contract-body-html{
+
+#contract-body-html {
 	margin: 40px 20px;
 	width: 830px;
 }
@@ -72,9 +81,42 @@
 <body>
 	<th:block layout:fragment="customJs">
 		<script>
-			$('#contract-reg').click(function(){
-				window.open()
-			});
+			$('#reg-contract').click(function(){
+				console.log('fired');
+				Swal.fire({
+					  icon: 'question',
+					  title: `[[${mmContractInfo.mentorContractTitle}]]`,
+					  text: '위계약을 접수하시겠습니까?',
+					  showCancelButton: true,
+					  confirmButtonText: '접수',
+					  cancelButtonText: '취소',
+					  closeOnCancel: true
+					}).then((result) => {
+						if(result.isConfirmed){
+							$.ajax({
+								url: "/farm/mmRegisterAction",
+								method: "post",
+								dataType: 'json'							
+							}).done(data => {
+								console.log(data);
+								if(data.isValid){
+									Swal.fire({
+										title: `계약이 접수되었습니다!`,
+										confirmButtonText: '확인',
+										icon: 'success'
+									})
+								} else {
+									Swal.fire({
+										title: `${data.msg}`,
+										confirmButtonText: '확인',
+										icon: 'error'
+									})
+								}
+							})
+						}
+					})
+			})
+		
 		</script>
 	</th:block>
 	<th:block layout:fragment="customContent" th:object="${mmContractInfo}">
@@ -82,84 +124,86 @@
 			<div class="x_panel">
 				<h2 id="company-name" th:text="*{companyName}"></h2>
 				<div class="clearfix"></div>
-				<h1 th:text=*{mentorContractTitle} id="contract-title"></h1>	
+				<h1 th:text=*{mentorContractTitle} id="contract-title"></h1>
 				<div class="x_content" style="display: block;">
 					<div class="mentor-head-info">
-						<table  id="mentor-head-info">
+						<table id="mentor-head-info">
 							<tr>
 								<th>경력:</th>
-								<td th:text='|${mmContractInfo.careerYear +"년 "+ mmContractInfo.careerMonth +"개월"}|'></td>
+								<td
+									th:text='|${mmContractInfo.careerYear +"년 "+ mmContractInfo.careerMonth +"개월"}|'></td>
 							</tr>
 							<tr>
-								<th>계약 개월수: </th>
+								<th>계약 개월수:</th>
 								<td th:text='|${mmContractInfo.contractPeriod + "개월"}|'></td>
 							</tr>
 							<tr>
-								<th>주소: </th>
+								<th>주소:</th>
 								<td th:text='|${mmContractInfo.companyAddr}|'></td>
 							</tr>
 							<tr>
-								<th>전화번호: </th>
+								<th>전화번호:</th>
 								<td th:text='|${mmContractInfo.companyTel}|'></td>
 							</tr>
 							<tr>
-								<th>총 방문 횟수: </th>
+								<th>총 방문 횟수:</th>
 								<td th:text='|${mmContractInfo.totalVisitation}번|'></td>
 							</tr>
 							<tr>
-								<th>월 방문 횟수: </th>
+								<th>월 방문 횟수:</th>
 								<td th:text='|${mmContractInfo.monthVisitation}번|'></td>
 							</tr>
-							
-							
+
+
 						</table>
 					</div>
 					<div class="mentor-head-info mentor-head-info-right">
 						<table id="mentor-head-info">
 							<tr>
 								<th>경력:</th>
-								<td th:text='|${mmContractInfo.careerYear +"년 "+ mmContractInfo.careerMonth +"개월"}|'></td>
+								<td
+									th:text='|${mmContractInfo.careerYear +"년 "+ mmContractInfo.careerMonth +"개월"}|'></td>
 							</tr>
 							<tr>
-								<th>계약 개월수: </th>
+								<th>계약 개월수:</th>
 								<td th:text='|${mmContractInfo.contractPeriod + "개월"}|'></td>
 							</tr>
 							<tr>
-								<th>주소: </th>
+								<th>주소:</th>
 								<td th:text='|${mmContractInfo.companyAddr}|'></td>
 							</tr>
 						</table>
 						<table>
 							<tr>
-								<th>총 계약 비용(만원): </th>
+								<th>총 계약 비용(만원):</th>
 								<td th:text='|${mmContractInfo.contractCost}|'></td>
 							</tr>
 							<tr>
-								<th>계약금(만원): </th>
+								<th>계약금(만원):</th>
 								<td th:text='|${mmContractInfo.deposit}|'></td>
 							</tr>
 						</table>
-							
-						
+
+
 					</div>
 					<div id="contract-body">
 						<div>
-							<button id="reg-contract" type="button" class="btn btn-round btn-primary">접수 <i class="fa fa-paper-plane-o"></i></button>
+							<button id="reg-contract" type="button"
+								class="btn btn-round btn-primary">
+								접수 <i class="fa fa-paper-plane-o"></i>
+							</button>
 						</div>
 						<div id="round-bar"></div>
 						<div id="contract-body-html">
 							<h2>계약 내용</h2>
-							<p th:text="${mmContractInfo.contractContent}"></p>	
+							<p th:text="${mmContractInfo.contractContent}"></p>
 						</div>
-						
+
 					</div>
 				</div>
-				
+
 			</div>
 		</div>
-	</th:block>
-	<th:block layout:fragment="customJs">
-		
 	</th:block>
 </body>
 </html>
