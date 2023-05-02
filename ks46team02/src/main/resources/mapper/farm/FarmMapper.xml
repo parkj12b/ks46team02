@@ -71,7 +71,7 @@
         farm_code AS farmCode,
         optimal_input_egg AS optimalInputEgg,
         member_id AS memberId,
-        cage_reg_date AS cageRegDate,
+        DATE_FORMAT(cage_reg_date, '%Y-%m-%d') AS cageRegDate,
         cage_num AS cageNum,
         cage_volum AS cageVolume,
         cage_volum_unit AS cageVolumeUnit,
@@ -180,6 +180,7 @@
         farm_info
         WHERE
         company_code = #{companyCode}
+        order by farm_name asc
     </select>
 
     <!-- 한 사육장의 정보 -->
