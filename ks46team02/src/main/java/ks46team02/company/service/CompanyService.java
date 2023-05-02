@@ -43,6 +43,11 @@ public class CompanyService {
         return companyPositionLevelList;
     }
 
+    public Company getCompanyInfoById(String memberId){
+
+        Company companyInfo = companyMapper.getCompanyInfoById(memberId);
+        return companyInfo;
+    }
     public Company getCompanyInfoByCode(String companyCode){
 
         Company companyInfo = companyMapper.getCompanyInfoByCode(companyCode);
