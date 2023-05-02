@@ -11,6 +11,15 @@
 		<result column="withdrawal_member_phone"  						property="WithdrawalMemberPhone"/>
 		<result column="withdrawal_member_date"  						property="WithdrawalMemberDate"/>
 </resultMap>
+		<delete id="removewithdrawalMember" parameterType="String" >
+			/* 탈퇴한 회원 삭제 */
+			DELETE
+			FROM
+			 	withdrawal_member
+			WHERE
+	
+				withdrawal_member_code = #{WithdrawalMemberCode};
+		</delete>
 		<select id="getWithdrawalMember" parameterType="String" resultMap="withdrawalMemberResultMap">
 			select 
 				*

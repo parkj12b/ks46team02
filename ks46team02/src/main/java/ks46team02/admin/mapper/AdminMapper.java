@@ -15,9 +15,12 @@ public interface AdminMapper {
 	/* 특정 관리자 아이디 조회 */	
 	public AdminMember getAdminInfoById(String adminId);
 	/* 관리자 아이디 삭제 */
-	public int removeAdminById(String adminId);
-	/* 탈퇴한 관리자 아아디 조회 */
+	public int removeAdmin(String adminId);
+	/* 탈퇴한 관리자 아이디 조회 */
 	public List<AdminMember> getWithdrawalAdminList();
+	/* 탈퇴한 관리자 아이디 삭제 */
+	public int removewithdrawalAdmin(String adminId);
 	/* 관리자 아이디 중복 체크 */
 	public boolean idCheckAdmin(String adminId);
+	
 }

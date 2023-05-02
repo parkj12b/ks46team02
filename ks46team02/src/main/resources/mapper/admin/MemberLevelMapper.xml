@@ -15,6 +15,16 @@
 		<result	column="mento_mentee_management"  						property="mentoMenteeManagement" />
 </resultMap>
 
+		<delete id="removeMemberLevel" parameterType="String" >
+		/* 회원 등급 삭제 */
+		DELETE
+		FROM
+		 	company_position_level 
+		WHERE
+
+			position_level_code = #{positionLevelCode};
+		</delete>
+
 	<update id="modifyMemberLevel" parameterType="String">
     <!-- 업체내 직원별 권한 수정 -->
     UPDATE company_position_level

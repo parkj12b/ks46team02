@@ -14,4 +14,6 @@ public interface AdminLevelMapper {
 	
 	/* 관리자 등급 수정 */
 	public int modifyAdminLevel(AdminLevel adminLevel);
+	/* 관리자 등급 삭제 */
+	public int removeAdminLevel(String adminLevel);
 }

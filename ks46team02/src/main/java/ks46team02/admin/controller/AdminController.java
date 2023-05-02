@@ -4,13 +4,10 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,9 +19,12 @@ import ks46team02.admin.dto.LoginHistory;
 import ks46team02.admin.dto.MemberLevel;
 import ks46team02.admin.dto.WithdrawalMember;
 import ks46team02.admin.mapper.AddrMapper;
+import ks46team02.admin.mapper.AdminLevelMapper;
 import ks46team02.admin.mapper.AdminMapper;
+import ks46team02.admin.mapper.LoginHistoryMapper;
 import ks46team02.admin.mapper.MemberLevelMapper;
 import ks46team02.admin.mapper.MemberMapper;
+import ks46team02.admin.mapper.WithdrawalMemberMapper;
 import ks46team02.admin.service.AddrService;
 import ks46team02.admin.service.AdminLevelService;
 import ks46team02.admin.service.AdminMMservice;
@@ -37,7 +37,6 @@ import ks46team02.admin.service.WithdrawalMemberService;
 import ks46team02.common.dto.Addr;
 import ks46team02.common.dto.AdminMember;
 import ks46team02.common.dto.Member;
-import ks46team02.company.dto.Company;
 import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
 
@@ -59,6 +58,9 @@ public class AdminController {
 	private final AdminMapper adminMapper;
 	private final MemberMapper memberMapper;
 	private final AddrMapper addrMapper;
+	private final AdminLevelMapper adminLevelMapper;
+	private final LoginHistoryMapper loginHistoryMapper;
+	private final WithdrawalMemberMapper withdrawalMemberMapper;
 	
 	
 	private static final Logger log = LoggerFactory.getLogger(AdminController.class);
@@ -76,7 +78,10 @@ public class AdminController {
     					  ,AdminMapper adminMapper
     					  ,MemberMapper memberMapper
     					  ,AddrMapper addrMapper
-    					  ,MemberLevelMapper memberLevelMapper) {
+    					  ,MemberLevelMapper memberLevelMapper
+    					  ,AdminLevelMapper adminLevelMapper
+    					  ,LoginHistoryMapper loginHistoryMapper
+    					  ,WithdrawalMemberMapper withdrawalMemberMapper) {
 		this.addrService = addrService;
 		this.adminService = adminService;
 		this.withdrawalMemberService = withdrawalMemberService;
@@ -89,6 +94,9 @@ public class AdminController {
 	    this.adminMapper = adminMapper;
 	    this.memberMapper = memberMapper;
 	    this.addrMapper = addrMapper;
+	    this.adminLevelMapper =  adminLevelMapper;
+	    this.loginHistoryMapper = loginHistoryMapper;
+	    this.withdrawalMemberMapper = withdrawalMemberMapper;
 	}
 	/* 관리자 아이디 중복 체크 */
 	@PostMapping("/idCheckAdmin")
@@ -112,11 +120,18 @@ public class AdminController {
 
 		return "admin/withdrawaladmin_list";
 	}
+	/* 탈퇴한 관리자 삭제 */
+	@PostMapping("/removewithdrawalAdmin")
+	@ResponseBody
+	public void removewithdrawalAdmin(String adminId ){
+					 
+			 adminMapper.removewithdrawalAdmin(adminId);
+		 }
+	
     /* 승인 대기 업체 조회 */
 	@GetMapping("/applyCompanyRegList")
 	public String applyCompanyRegList(Model model) {
 
-//		List<Company> applyCompanyRegList = null;
 
 		model.addAttribute("title", "승인 대기 업체 조회");
 
@@ -155,6 +170,29 @@ public class AdminController {
 		model.addAttribute("adminLevelList", adminLevelList);
 		return "admin/modify_admin";
 	}
+	/* 관리자 비밀번호 확인 */
+	@PostMapping("/pwCheckAdmin")
+	@ResponseBody
+	public String pwCheckAdmin( @RequestParam(name="adminId") String adminId
+							    ) {
+		AdminMember adminInfo = adminService.getAdminInfoById(adminId);
+		String adminPw = adminInfo.getAdminPw();
+		 log.info("adminInfo     "+adminInfo );
+		  return adminPw; 
+		
+	}
+	/* 관리자 삭제 */
+	@PostMapping("/removeAdmin")
+	@ResponseBody
+	public void removeAdmin(String adminId ){
+					 
+			 adminMapper.removeAdmin(adminId);
+		 }
+
+		
+		
+	  
+	
 
 	/* 관리자 등록 */
 	@GetMapping("/addAdmin")
@@ -177,6 +215,14 @@ public class AdminController {
 		adminLevelService.modifyAdminLevel(adminLevel);
 		
 	}
+	
+	/* 관리자 등급 삭제  */
+	@PostMapping("/removeAdminLevel")
+	@ResponseBody
+	public void removeAdminLevel(String adminLevel) {
+		adminLevelMapper.removeAdminLevel(adminLevel);
+		
+	}
 	/* 회원 등급 등록 */
 	@GetMapping("/addMemberLevel")
 	public String addMemberLevel(Model model){
@@ -188,6 +234,12 @@ public class AdminController {
 	@ResponseBody
 	public void modifyMemberLevel(MemberLevel memberLevel) {
 		memberLevelService.modifyMemberLevel(memberLevel);
+	}
+	/* 회원 등급 삭제  */
+	@PostMapping("/removeMemberLevel")
+	@ResponseBody
+	public void removeMemberLevel(String positionLevelCode) {
+		memberMapper.removeMember(positionLevelCode);
 		
 	}
 	/* 회원 등급 조회 */
@@ -231,6 +283,12 @@ public class AdminController {
 		return "admin/modify_addr";
 	}
 	/* 배송지 삭제 */
+	@PostMapping("/removeAddr")
+	@ResponseBody
+	public void removeAddr(String addrCode) {
+		addrMapper.removeAddr(addrCode);
+	}
+	
 	/* 배송지 등록 */
 	@GetMapping("/addAddr")
 	public String addAddr(Model model){
@@ -246,6 +304,14 @@ public class AdminController {
 		return "admin/withdrawalMember_list";
 
 	}
+	/* 탈퇴한 회원 영구 삭제   */
+	@PostMapping("/removewithdrawalMember")
+	@ResponseBody
+	public void removewithdrawalMember(String WithdrawalMemberCode ){
+		loginHistoryMapper.removeLogin(WithdrawalMemberCode);
+					 
+			
+		 }
 	
 	@GetMapping("/mentorRegList")
 	public String getMentorRegManageList(Model model) {
@@ -308,18 +374,37 @@ public class AdminController {
 		model.addAttribute("loginHistory", loginHistory);
 		return "admin/loginHistory_list";
 		}
+	/* 로그인 기록 삭제  */
+	@PostMapping("/removeLogin")
+	@ResponseBody
+	public void removeLogin(String loginCode){
+		loginHistoryMapper.removeLogin(loginCode);
+		
+		 }
 	/* 회원 등록 */
 	@GetMapping("/addMember")
 	public String addMember(Model model){
 		model.addAttribute("title", "회원 등록");
 		return "admin/add_member";
 	}
+	/* 회원 삭제 */
+	@PostMapping("/removeMember")
+	@ResponseBody
+	public void removeMember(String memberId ){
+		memberMapper.removeMember(memberId);
+	}
+	/* 휴면 회원 삭제 */
+	@PostMapping("/removeDormantMember")
+	@ResponseBody
+	public void removeDormantMember(String memberId ){
+		memberMapper.removeMember(memberId);
+	}
 	
 	/* 휴면 회원 조회 */
 	@GetMapping("/dormantMemberList")
 	public String getDormantMemberList(Model model) {
 		List<Member>dormantMemberList = memberservice.getDormantMemberList();
-		model.addAttribute("title", "로그인 기록 조회");
+		model.addAttribute("title", "휴면 회원 조회");
 		model.addAttribute("dormantMemberList", dormantMemberList);
 		return "admin/dormantMember_list";
 		}
