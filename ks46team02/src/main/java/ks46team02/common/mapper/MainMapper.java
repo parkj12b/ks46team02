@@ -12,6 +12,9 @@ import ks46team02.common.dto.MemberLoginInfo;
 
 @Mapper
 public interface MainMapper {
+
+	// 자동 증가 코드//
+	public String autoIncrement(String table, String column);
 	public Member getMemberLoginInfo(MemberLoginInfo memberLoginInfo);
 	public AdminMember getAdminLoginInfo(MemberLoginInfo memberLoginInfo);
 	public boolean isDuplicateId (String memberId);

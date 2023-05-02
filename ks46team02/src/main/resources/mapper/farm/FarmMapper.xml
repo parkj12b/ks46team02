@@ -5,10 +5,7 @@
 <mapper namespace="ks46team02.farm.mapper.FarmMapper">
     
     
-    <!--  자동증가 코드  -->
-    <select id="">
 
-    </select>
 
     <!-- 사육장 등록   -->
     <insert id="addFarm" parameterType="FarmInfo">
@@ -16,8 +13,8 @@
         farm_code, farm_name, company_code, farm_reg_date, cage_amount,
         member_id, total_capacity, farm_address, farm_detail
         ) VALUES (
-        #{farm_code}, #{farm_name}, #{company_code}, #{farm_reg_date}, #{cage_amount},
-        #{member_id}, #{total_capacity}, #{farm_address}, #{farm_detail}
+        #{farmCode}, #{farmName}, #{companyCode}, CURDATE(), #{cageAmount},
+        #{memberId}, #{totalCapacity}, #{farmAddr}, #{farmDetail}
         )
     </insert>
 

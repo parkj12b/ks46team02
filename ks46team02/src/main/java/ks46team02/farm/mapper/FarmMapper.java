@@ -15,7 +15,7 @@ import ks46team02.farm.dto.Production;
 @Mapper
 public interface FarmMapper {
 	
-	
+
 	// 사육장 등록 //
     public int addFarm(FarmInfo farmInfo);
 	// 케이지 코드로 케이지 정보 조회 //

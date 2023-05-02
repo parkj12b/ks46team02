@@ -100,8 +100,13 @@ public class FarmController {
 	 */
 
 	@PostMapping("/addFarm")
-	public String addFarm(FarmInfo farmInfo) {
-
+	public String addFarm(FarmInfo farmInfo
+						,HttpSession session) {
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		String memberId = (String) session.getAttribute("sessionId");
+		farmInfo.setMemberId(memberId);
+		farmInfo.setCompanyCode(companyCode);
+		farmService.addFarm(farmInfo);
 		log.info("화면에서 전달받은 데이터 : {}", farmInfo);
 		return "redirect:/farm/farmList";
 	}

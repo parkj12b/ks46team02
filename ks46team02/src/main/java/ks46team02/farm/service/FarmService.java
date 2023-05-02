@@ -4,6 +4,7 @@ package ks46team02.farm.service;
 
 import java.util.List;
 
+import ks46team02.common.mapper.MainMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,9 +23,12 @@ import ks46team02.farm.mapper.FarmMapper;
 @Service
 public class FarmService {
     private final FarmMapper farmMapper;
-    public FarmService(FarmMapper farmMapper){
+    private final MainMapper mainMapper;
+    public FarmService(FarmMapper farmMapper
+                        ,MainMapper mainMapper){
 
         this.farmMapper = farmMapper;
+        this.mainMapper = mainMapper;
     }
     
     
@@ -34,8 +38,13 @@ public class FarmService {
     /**
      * 사육장 등록
      */
-    public int addMember (FarmInfo farmInfo) {
-        int result = farmMapper.addFarm();
+    public int addFarm (FarmInfo farmInfo) {
+        String column = "farm_code";
+        String table = "farm_info";
+        String farmCode = mainMapper.autoIncrement(table, column);
+        log.info(farmCode);
+        farmInfo.setFarmCode(farmCode);
+        int result = farmMapper.addFarm(farmInfo);
         return result;
     }
 
