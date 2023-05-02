@@ -15,7 +15,18 @@
 		<result	column="manage_reg_date"  						property="adminRegDate" />
 </resultMap>
 
+			<delete id="removeAdminLevel" parameterType="String" >
+					/* 관리자 등급 삭제 */
+					DELETE
+					FROM
+					 	admin_level 
+					WHERE
+			
+						admin_level = #{adminLevel};
+				</delete>
+			
 			<update id="modifyAdminLevel" parameterType="String">
+			/* 관리자 등급 수정  */
 		    UPDATE admin_level
 		    <set>
 		        <if test="adminPosition != null and adminPosition != ''">
