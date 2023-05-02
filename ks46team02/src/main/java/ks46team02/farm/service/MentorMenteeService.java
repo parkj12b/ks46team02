@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import ks46team02.common.dto.AllContractInfo;
 import ks46team02.common.mapper.MainMapper;
+import ks46team02.farm.dto.EvaluationDetailCategory;
+import ks46team02.farm.dto.EvaluationLargeCategory;
 import ks46team02.farm.dto.EvaluationStandard;
 import ks46team02.farm.dto.MMContractInfo;
 import ks46team02.farm.dto.ResultHistory;
@@ -112,6 +114,45 @@ public class MentorMenteeService {
 		List<EvaluationStandard> evaluationStandardList = mentorMenteeMapper.getEvaluationStandardList();
 		
 		return evaluationStandardList;
+	}
+
+	public VisitHistory getVisitHistoryByVisitCode(String visitCode) {
+		// TODO Auto-generated method stub
+		
+		VisitHistory visitHistory = mentorMenteeMapper.getVisitHistoryByVisitCode(visitCode);
+		return visitHistory;
+	}
+
+	public boolean mentorMenteeIsApply(String companyCode) {
+		// TODO Auto-generated method stub
+		
+		boolean isApply = mentorMenteeMapper.mentorMenteeIsApply(companyCode);
+		
+		return isApply;
+	}
+
+	public boolean isRegisterValid(String companyCode) {
+		// TODO Auto-generated method stub
+		
+		boolean hasNoContract = mentorMenteeMapper.hasNoMentorMenteeContract(companyCode);
+		
+		return !hasNoContract;
+	}
+
+	public List<EvaluationDetailCategory> getEvalDetailCateList() {
+		// TODO Auto-generated method stub
+		
+		List<EvaluationDetailCategory> evalDetailCateList = mentorMenteeMapper.getEvalDetailCateList();
+		
+		return evalDetailCateList;
+	}
+
+	public List<EvaluationLargeCategory> getEvalLargeCateList() {
+		// TODO Auto-generated method stub
+		
+		List<EvaluationLargeCategory> evalLargeCateList = mentorMenteeMapper.getEvalLargeCateList();
+		
+		return evalLargeCateList;
 	}
 
 	
