@@ -1,118 +1,117 @@
-<!DOCTYPE html>
+`<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/mypageLayout}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/mypageLayout}">
 <head>
 
 </head>
 <th:block layout:fragment="customJs">
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script>
-		window.onload = function(){
-			document.getElementById("findAddr").addEventListener("click", function(){ //주소입력칸을 클릭하면
-				//카카오 지도 발생
-				new daum.Postcode({
-					oncomplete: function(data) { //선택시 입력값 세팅
-						document.getElementById("address_kakao").value = data.address; // 주소 넣기
-						document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        window.onload = function () {
+            document.getElementById("findAddr").addEventListener("click", function () { //주소입력칸을 클릭하면
+                //카카오 지도 발생
+                new daum.Postcode({
+                    oncomplete: function (data) { //선택시 입력값 세팅
+                        document.getElementById("address_kakao").value = data.address; // 주소 넣기
+                        document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
 
-					}
-				}).open();
-			});
-		}
-	</script>
+                    }
+                }).open();
+            });
+        }
+    </script>
 </th:block>
 
 <th:block layout:fragment="customContent">
-	<div class="page-title">
-		<div class="title">
-			<div class="col-md-6">
+    <div class="page-title">
+        <div class="title">
+            <div class="col-md-6">
 
-				<div class="x_panel">
-					<div class="x_title">
-						<h2>사육장 등록</h2>
-						<div class="clearfix"></div>
-					</div>
-					<div class="x_content">
-						<br>
-						<form class="form-horizontal form-label-left">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>사육장 등록</h2>
+                        <button type="reset" class="btn btn-white" style="float: right"> <i class="fa fa-repeat"></i></button>
+                        <div class="clearfix"></div>
+                    </div>
 
-							<div class="form-group row ">
-								<label class="control-label col-md-3 col-sm-3 "> 사육장 이름
-								</label>
-								<div class="col-md-9 col-sm-9 ">
-									<input type="text" class="form-control"
-										   placeholder="Default Input">
-								</div>
-							</div>
+                    <div class="x_content">
+                        <br>
+                        <form class="form-horizontal form-label-left">
 
-							<div class="form-group row ">
-								<label class="control-label col-md-3 col-sm-3" for="farmAddr">사육장 주소</label>
-								<div class="col-md-9 col-sm-9">
-									<div class="input-group">
-										<input type="text"  class="form-control"id="address_kakao" name="address" readonly />
-										<span class="input-group-btn">
+                            <div class="form-group row ">
+                                <label class="control-label col-md-3 col-sm-3 "> 사육장 이름
+                                </label>
+                                <div class="col-md-9 col-sm-9 ">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group row ">
+                                <label class="control-label col-md-3 col-sm-3" for="farmAddr">사육장 주소</label>
+                                <div class="col-md-9 col-sm-9">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="address_kakao" name="address"
+                                               readonly/>
+                                        <span class="input-group-btn">
 								                <input id="findAddr" type="button" class="btn btn-dark" value="주소 찾기">
 								            </span>
-									</div>
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-3 ">상세 주소</label>
-								<div class="col-md-9 col-sm-9 ">
-									<input type="text"  class="form-control"name="address_detail"/>
-								</div>
-							</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="control-label col-md-3 col-sm-3 ">상세 주소</label>
+                                <div class="col-md-9 col-sm-9 ">
+                                    <input type="text" class="form-control" name="address_detail"/>
+                                </div>
+                            </div>
 
-							<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-3 ">사육장 내
-									케이지 총 수 </label>
-								<div class="col-md-9 col-sm-9 ">
-									<input type="text" class="form-control"
-										   placeholder="Disabled Input">
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-3 ">사육장 총 용량
-								</label>
-								<div class="col-md-9 col-sm-9 ">
-									<input type="text" class="form-control"
-										   placeholder="Disabled Input">
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-3 ">사육장 상세
-									설명 <span class="required">*</span>
-								</label>
-								<div class="col-md-9 col-sm-9 ">
-									<textarea class="form-control" rows="3"
-											  placeholder="Date Of Birth"></textarea>
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-3 ">비밀번호</label>
-								<div class="col-md-9 col-sm-9 ">
-									<input type="password" class="form-control"
-										   value="passwordonetwo">
-								</div>
-							</div>
-							<span id="guide" style="color:#999;display:none"></span>
+                            <div class="form-group row">
+                                <label class="control-label col-md-3 col-sm-3 ">사육장 내
+                                    케이지 총 수 </label>
+                                <div class="col-md-9 col-sm-9 ">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="control-label col-md-3 col-sm-3 ">사육장 총 용량
+                                </label>
+                                <div class="col-md-9 col-sm-9 ">
+                                    <input type="text" class="form-control"
+                                    >
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="control-label col-md-3 col-sm-3 ">사육장 상세
+                                    설명 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-9 col-sm-9 ">
+									<textarea class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="control-label col-md-3 col-sm-3 ">비밀번호</label>
+                                <div class="col-md-9 col-sm-9 ">
+                                    <input type="password" class="form-control"
+                                           value="passwordonetwo">
+                                </div>
+                            </div>
+                            <span id="guide" style="color:#999;display:none"></span>
 
-							<div class="ln_solid"></div>
-							<div class="form-group">
-								<div class="col-md-9 col-sm-9  offset-md-3">
-									<button type="submit" class="btn btn-dark">제출</button>
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-9 col-sm-9  offset-md-3">
+                                    <button type="submit" class="btn btn-dark">등록</button>
 
-									<button type="reset" class="btn btn-dark">리셋</button>
-									<button type="button" class="btn btn-dark">취소</button>
-								</div>
-							</div>
+                                    <button type="button" class="btn btn-dark">취소</button>
+                                </div>
+                            </div>
 
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </th:block>
-</html>
+</html>`
