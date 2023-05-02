@@ -29,10 +29,19 @@ public class FarmService {
     
     
 	private static final Logger log = LoggerFactory.getLogger(FarmService.class);
-	
-	
+
+
+    /**
+     * 사육장 등록
+     */
+    public int addMember (FarmInfo farmInfo) {
+        int result = farmMapper.addFarm();
+        return result;
+    }
+
+
 	/*
-	 * 
+	 * 케이지 코드로 하나의 케이지 정보 조회
 	 */
 	public Cage getCageByCode(String cageCode) {
 		Cage cage = farmMapper.getCageByCode(cageCode);
@@ -47,14 +56,6 @@ public class FarmService {
 		return cageList;
 	}
 
-    /**
-     * 그래프 테스트
-     */
-    public List<Production> test(String farmCode){
-    	List<Production> productionList = farmMapper.test(farmCode);
-        log.info("Production list: {}", productionList);
-    	return productionList;
-    }
 
 
     /**

@@ -50,9 +50,11 @@ public class FarmController {
 		this.mentorMenteeService = mentorMenteeService;
 		this.farmService = farmService;
 	}
-	
-	
-	
+
+
+	/**
+	 * 모달 창 케이지 조회
+	 */
 	@GetMapping("/cages")
 	@ResponseBody
 	public Cage getCageByCode(@RequestParam(name = "cageCode") String cageCode) {
@@ -61,8 +63,6 @@ public class FarmController {
 	    log.info("cage found: {}", cage);
 	    return cage;
 	}
-
-	
 
 	/**
 	 * 하나의 사육장 싸이클 등록
@@ -74,25 +74,6 @@ public class FarmController {
 		model.addAttribute("title", "싸이클 등록");
 		model.addAttribute("cageList", cageList);
 		return "farm/add_cycle";
-	}
-			
-	
-	
-	/**
-	 * 그래프 테스트
-	 */
-	@GetMapping("/test")
-	public String test(Model model) {
-	    String farmCode = "farm_1";
-	    List<Production> productionList = farmService.test(farmCode);
-	
-	    Gson gson = new Gson();
-	    String json = gson.toJson(productionList);
-	  
-	    model.addAttribute("json", json);
-	    
-	    model.addAttribute("title", "그래프");
-	    return "farm/test";
 	}
 
 	/**
@@ -116,9 +97,15 @@ public class FarmController {
 
 	/**
 	 * 사육 장 등록
-	 * @param model
-	 * @return
 	 */
+
+	@PostMapping("/addFarm")
+	public String addFarm(FarmInfo farmInfo) {
+
+		log.info("화면에서 전달받은 데이터 : {}", farmInfo);
+		return "redirect:/farm/farmList";
+	}
+
 	@GetMapping("/addFarm")
 	public String addFarm(Model model){
 		model.addAttribute("title", "사육장 등록");
@@ -130,8 +117,6 @@ public class FarmController {
 
 	/**
 	 * 한 사육장 상태 조회
-	 * @param model
-	 * @return
 	 */
 	@GetMapping("/farmStatusList")
 	public String getFarmStatusList(Model model
@@ -146,9 +131,6 @@ public class FarmController {
 
 	/**
 	 * 하나의 싸이클 먹이 조회
-	 * @param model
-	 * @param cycleCode
-	 * @return
 	 */
 
 	@GetMapping("/feedList")
@@ -162,9 +144,6 @@ public class FarmController {
 
 	/**
 	 * 전체 사육장 생산량 조회
-	 * @param model
-	 * @param session
-	 * @return
 	 */
 	@GetMapping("/productionList")
 	public String getSearchProduction(Model model
