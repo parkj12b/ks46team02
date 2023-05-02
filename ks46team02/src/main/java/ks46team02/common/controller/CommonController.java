@@ -90,8 +90,10 @@ public class CommonController {
 				};
 				session.setAttribute("companyTypeNum", memberInfo.getCompanyTypeNum());
 				session.setAttribute("mmRegType", mmRegType);
-				String sessionId = (String)session.getAttribute("sessionId");
 			}
+			String sessionId = (String)session.getAttribute("sessionId");
+			Company companyInfo = companyService.getCompanyInfoById(sessionId);
+
 		} else if(memberLevel.equals("admin")) {
 			AdminMember memberInfo = (AdminMember) loginInfo;
 			System.out.println(memberInfo.isExist());
