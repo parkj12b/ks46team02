@@ -59,6 +59,16 @@
                 property="daysLeft"></result>
     </resultMap>
 
+    <!-- 비밀번호 체크    -->
+    <select id="getMemberInfoById" resultType="Member">
+        SELECT
+            *
+        FROM
+            member_info
+        WHERE
+            member_id = #{memberId}
+    </select>
+
     <!--  자동증가 코드  -->
     <select id="autoIncrement" resultType="String">
         SELECT

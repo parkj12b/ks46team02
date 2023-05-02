@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ks46team02.admin.service.MemberService;
+import ks46team02.common.dto.Member;
+import ks46team02.common.service.MainService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -41,14 +44,18 @@ public class FarmController {
 
 	MentorMenteeService mentorMenteeService;
 	private final FarmService farmService;
+	private final MemberService memberService;
 
 
 	private static final Logger log = LoggerFactory.getLogger(FarmController.class);
 
 
-	public FarmController(MentorMenteeService mentorMenteeService, FarmService farmService) {
+	public FarmController(MentorMenteeService mentorMenteeService
+						,FarmService farmService
+						,MemberService memberService ){
 		this.mentorMenteeService = mentorMenteeService;
 		this.farmService = farmService;
+		this.memberService = memberService;
 	}
 
 
@@ -93,22 +100,31 @@ public class FarmController {
 		return "farm/cage_list";
 	}
 
-
-
 	/**
 	 * 사육 장 등록
 	 */
 
 	@PostMapping("/addFarm")
 	public String addFarm(FarmInfo farmInfo
-						,HttpSession session) {
+						,Model model
+						,HttpSession session
+						,@RequestParam(name="password")String password) {
+
 		String companyCode = (String) session.getAttribute("sessionCompanyCode");
 		String memberId = (String) session.getAttribute("sessionId");
-		farmInfo.setMemberId(memberId);
-		farmInfo.setCompanyCode(companyCode);
-		farmService.addFarm(farmInfo);
-		log.info("화면에서 전달받은 데이터 : {}", farmInfo);
-		return "redirect:/farm/farmList";
+		Member memberInfo = memberService.getMemberInfoById(memberId);
+		String memberPw = memberInfo.getMemberPw();
+		if(password.equals(memberPw)){
+			farmInfo.setMemberId(memberId);
+			farmInfo.setCompanyCode(companyCode);
+			farmService.addFarm(farmInfo);
+			log.info("화면에서 전달받은 데이터 : {}", farmInfo);
+			return "redirect:/farm/farmList";
+		}else{
+			model.addAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
+			return "farm/add_farm";
+		}
+
 	}
 
 	@GetMapping("/addFarm")

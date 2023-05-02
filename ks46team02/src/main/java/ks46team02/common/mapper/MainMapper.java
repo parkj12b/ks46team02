@@ -13,6 +13,8 @@ import ks46team02.common.dto.MemberLoginInfo;
 @Mapper
 public interface MainMapper {
 
+	// 비밀번호 체크 //
+	public Member getMemberInfoById(String memberId);
 	// 자동 증가 코드//
 	public String autoIncrement(String table, String column);
 	public Member getMemberLoginInfo(MemberLoginInfo memberLoginInfo);

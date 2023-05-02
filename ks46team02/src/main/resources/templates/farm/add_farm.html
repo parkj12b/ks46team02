@@ -76,7 +76,7 @@
                                         <span class="input-group-btn">
 								                <input id="findAddr" type="button" class="btn btn-dark" value="주소 찾기">
 								            </span>
-                                    </div>a
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -113,9 +113,13 @@
                                 <label class="control-label col-md-3 col-sm-3 ">비밀번호</label>
                                 <div class="col-md-9 col-sm-9 ">
                                     <input type="password" class="form-control"
-                                           value="passwordonetwo">
+                                           value="password" name="password">
                                 </div>
                             </div>
+                            <div th:if="${errorMsg}" class="alert alert-danger" role="alert">
+                                <span th:text="${errorMsg}"></span>
+                            </div>
+
 
 
                             <div class="ln_solid"></div>
