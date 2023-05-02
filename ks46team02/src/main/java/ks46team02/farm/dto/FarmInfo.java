@@ -7,17 +7,9 @@ public class FarmInfo {
     private String companyCode;
     private String farmRegDate;
     private String memberId;
-    private int cageAmount;
-    private int totalCapacity;
+    private String cageAmount;
+    private String totalCapacity;
     private String farmAddr;
-
-    public String getFarmDetail() {
-        return farmDetail;
-    }
-
-    public void setFarmDetail(String farmDetail) {
-        this.farmDetail = farmDetail;
-    }
 
     public String getFarmCode() {
         return farmCode;
@@ -33,6 +25,14 @@ public class FarmInfo {
 
     public void setFarmName(String farmName) {
         this.farmName = farmName;
+    }
+
+    public String getFarmDetail() {
+        return farmDetail;
+    }
+
+    public void setFarmDetail(String farmDetail) {
+        this.farmDetail = farmDetail;
     }
 
     public String getCompanyCode() {
@@ -59,19 +59,19 @@ public class FarmInfo {
         this.memberId = memberId;
     }
 
-    public int getCageAmount() {
+    public String getCageAmount() {
         return cageAmount;
     }
 
-    public void setCageAmount(int cageAmount) {
+    public void setCageAmount(String cageAmount) {
         this.cageAmount = cageAmount;
     }
 
-    public int getTotalCapacity() {
+    public String getTotalCapacity() {
         return totalCapacity;
     }
 
-    public void setTotalCapacity(int totalCapacity) {
+    public void setTotalCapacity(String totalCapacity) {
         this.totalCapacity = totalCapacity;
     }
 
@@ -88,11 +88,12 @@ public class FarmInfo {
         return "FarmInfo{" +
                 "farmCode='" + farmCode + '\'' +
                 ", farmName='" + farmName + '\'' +
+                ", farmDetail='" + farmDetail + '\'' +
                 ", companyCode='" + companyCode + '\'' +
                 ", farmRegDate='" + farmRegDate + '\'' +
                 ", memberId='" + memberId + '\'' +
-                ", cageAmount=" + cageAmount +
-                ", totalCapacity=" + totalCapacity +
+                ", cageAmount='" + cageAmount + '\'' +
+                ", totalCapacity='" + totalCapacity + '\'' +
                 ", farmAddr='" + farmAddr + '\'' +
                 '}';
     }
