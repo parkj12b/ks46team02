@@ -20,6 +20,15 @@ public class Company {
     private int farmCnt;
     private String companyType;
     private String breederLevelName;
+    private boolean isExist;
+
+    public boolean isExist() {
+        return isExist;
+    }
+
+    public void setExist(boolean exist) {
+        isExist = exist;
+    }
 
     public String getCompanyAddrDetail() {
         return companyAddrDetail;
@@ -186,6 +195,7 @@ public class Company {
                 ", farmCnt=" + farmCnt +
                 ", companyType='" + companyType + '\'' +
                 ", breederLevelName='" + breederLevelName + '\'' +
+                ", isExist=" + isExist +
                 '}';
     }
 }
