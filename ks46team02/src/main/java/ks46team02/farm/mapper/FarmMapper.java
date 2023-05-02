@@ -1,7 +1,6 @@
 package ks46team02.farm.mapper;
 
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -16,11 +15,16 @@ import ks46team02.farm.dto.Production;
 @Mapper
 public interface FarmMapper {
 	
-	// 그래프 테스트 //
-	public List<Production> test(String farmCode);
+
+	// 사육장 등록 //
+    public int addFarm(FarmInfo farmInfo);
+	// 케이지 코드로 케이지 정보 조회 //
+	public Cage getCageByCode(String cageCode);
+	// 한 사육장 케이지 조회 //
+	public List<Cage> getCageListByCode(String farmCode);
     // 전체 사육장 케이지 조회 및 검색 //
     public List<Cage> getSearchCageList(String companyCode,String searchKey ,String searchValue);
-    // 한 사육장 생타 조회 //
+    // 한 사육장 상태 조회 //
     public List<FarmStatus> getFarmStatusList(String farmCode);
     // 전체 사육장 리스트 //
     public List<FarmInfo> getFarmList(String companyCode);
@@ -36,5 +40,6 @@ public interface FarmMapper {
     public List<Production> getSearchProduction(String companyCode, String searchKey, String searchValue, String fromDate, String toDate);
     // 하나의 사이클 급여먹이 조회 //
     public List<Feed> getFeedListByCycleCode(String cycleCode);
+	
 
 }

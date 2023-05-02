@@ -1,10 +1,13 @@
 package ks46team02.common.controller;
 
+
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +25,12 @@ import ks46team02.common.dto.MemberLoginInfo;
 import ks46team02.common.emailTest.EmailService;
 import ks46team02.common.emailTest.EmailServiceImpl;
 import ks46team02.common.service.MainService;
+import ks46team02.customerservice.dto.QuestionTypeDto;
 import ks46team02.company.dto.Company;
 import ks46team02.company.service.CompanyService;
 import ks46team02.farm.dto.VisitHistory;
 import ks46team02.farm.service.MentorMenteeService;
+import ks46team02.topmenu.service.TopMenuService;
 
 @Controller
 public class CommonController {
@@ -35,13 +40,16 @@ public class CommonController {
 	
 	EmailService emailService;
 	MentorMenteeService mentorMenteeService;
+	TopMenuService topMenuService;
 	CompanyService companyService;
-	
-	public CommonController(MainService mainService, EmailServiceImpl emailService, MentorMenteeService mentorMenteeService, CompanyService companyService){
+
+	public CommonController(MainService mainService,TopMenuService topMenuService, EmailServiceImpl emailService, MentorMenteeService mentorMenteeService, CompanyService companyService){
 		this.mainService = mainService;
 		this.emailService = emailService;
 		this.mentorMenteeService = mentorMenteeService;
+		this.topMenuService = topMenuService;
 		this.companyService = companyService;
+
 	}
 	
 	
@@ -52,10 +60,12 @@ public class CommonController {
 	}
 
 	@PostMapping("/login")
-	public String login(MemberLoginInfo memberLoginInfo, HttpSession session) {
+	public String login(MemberLoginInfo memberLoginInfo
+			           ,HttpSession session
+					   ) {
 		String memberLevel = memberLoginInfo.getLoginLevel();
-		
-		
+
+
 		Object loginInfo = mainService.getLoginInfo(memberLoginInfo);
 		
 		if(memberLevel.equals("normal")) {	
@@ -81,6 +91,9 @@ public class CommonController {
 				session.setAttribute("companyTypeNum", memberInfo.getCompanyTypeNum());
 				session.setAttribute("mmRegType", mmRegType);
 			}
+			String sessionId = (String)session.getAttribute("sessionId");
+			Company companyInfo = companyService.getCompanyInfoById(sessionId);
+
 		} else if(memberLevel.equals("admin")) {
 			AdminMember memberInfo = (AdminMember) loginInfo;
 			System.out.println(memberInfo.isExist());
@@ -92,6 +105,7 @@ public class CommonController {
 				session.setAttribute("sessionEmail", memberInfo.getAdminEmail());
 			}
 		}
+
 
 		return "redirect:/";
 	}
@@ -105,7 +119,10 @@ public class CommonController {
 	}
 	
 	@GetMapping("/")
-	public String mainPage() {
+	public String mainPage(Model model) {
+		List<QuestionTypeDto> topMenuList = topMenuService.getTopMenuCustomerServiceList();
+		log.info("{}",topMenuList);
+		model.addAttribute("topMenuList",topMenuList);
 		return "mainPage";
 	}
 	

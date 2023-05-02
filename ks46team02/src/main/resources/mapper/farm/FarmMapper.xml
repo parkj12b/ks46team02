@@ -3,15 +3,64 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.farm.mapper.FarmMapper">
+    
+    
 
-	<!-- 그래프 테스트 -->
-	<select id="test" resultType="Production">
-	real_production, real_harvest_day 
-	FROM production p 
-	WHERE farm_code = #{farmCode} 
-	ORDER BY production_reg_date ASC;
-	
+
+    <!-- 사육장 등록   -->
+    <insert id="addFarm" parameterType="FarmInfo">
+        INSERT INTO farm_info (
+        farm_code, farm_name, company_code, farm_reg_date, cage_amount,
+        member_id, total_capacity, farm_address, farm_detail
+        ) VALUES (
+        #{farmCode}, #{farmName}, #{companyCode}, CURDATE(), #{cageAmount},
+        #{memberId}, #{totalCapacity}, #{farmAddr}, #{farmDetail}
+        )
+    </insert>
+
+
+    <!-- 모달창 케이지 코드로 케이지 정보조회-->
+	<select id="getCageByCode" resultType="Cage">
+	  	SELECT
+	        cage_code AS cageCode,
+	        cage_name AS cageName,
+	        company_code AS companyCode,
+	        farm_code AS farmCode,
+	        optimal_input_egg AS optimalInputEgg,
+	        member_id AS memberId,
+	        cage_reg_date AS cageRegDate,
+	        cage_num AS cageNum,
+	        cage_volum AS cageVolume,
+	        cage_volum_unit AS cageVolumeUnit,
+	        cage_total AS cageTotal
+        FROM
+        	cage
+        WHERE
+        	cage_code = #{cageCode}
+        	
 	</select>
+	
+	<!-- 모달창 사육장 케이지 조회-->
+	<select id="getCageListByCode" resultType="Cage">
+	  	SELECT
+	        cage_code AS cageCode,
+	        cage_name AS cageName,
+	        company_code AS companyCode,
+	        farm_code AS farmCode,
+	        optimal_input_egg AS optimalInputEgg,
+	        member_id AS memberId,
+	        cage_reg_date AS cageRegDate,
+	        cage_num AS cageNum,
+	        cage_volum AS cageVolume,
+	        cage_volum_unit AS cageVolumeUnit,
+	        cage_total AS cageTotal
+        FROM
+        	cage
+        WHERE
+        	farm_code = #{farmCode}
+        	
+	</select>
+
 
     <!-- 전체 사육장 케이지 검색 조회 -->
     <select id="getSearchCageList" resultType="Cage">
@@ -22,7 +71,7 @@
         farm_code AS farmCode,
         optimal_input_egg AS optimalInputEgg,
         member_id AS memberId,
-        cage_reg_date AS cageRegDate,
+        DATE_FORMAT(cage_reg_date, '%Y-%m-%d') AS cageRegDate,
         cage_num AS cageNum,
         cage_volum AS cageVolume,
         cage_volum_unit AS cageVolumeUnit,
@@ -131,6 +180,7 @@
         farm_info
         WHERE
         company_code = #{companyCode}
+        order by farm_name asc
     </select>
 
     <!-- 한 사육장의 정보 -->

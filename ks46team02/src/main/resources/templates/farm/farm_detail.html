@@ -11,11 +11,7 @@
 
 	</style>
 </head>
-<th:block>
-	<script>
 
-	</script>
-</th:block>
 
 <th:block layout:fragment="customContent">
 	<div class="page-title">
@@ -264,7 +260,7 @@
 													</div>
 												</div>
 												<br>
-												<button style="margin-left: 25px;"type="button" class="btn btn-success" ><a th:href="@{/farm/addCycle}" style="color: white;">싸이클 등록</a></button>
+												<button style="margin-left: 25px;"type="button" class="btn btn-dark" ><a th:href="@{/farm/addCycle(farmCode=${farmCode})}" style="color: white;">싸이클 등록</a></button>
 											</div>
 										</div>
 									</div>

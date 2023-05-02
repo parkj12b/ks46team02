@@ -16,8 +16,17 @@
 		<result column="shipping_addr_seq"  				property="addrSeq"/>
 		<result column="member_id"  						property="memberId"/>
 </resultMap>
+		<delete id="removeAddr" parameterType="String" >
+		/* 배송지 삭제 */
+		DELETE
+		FROM
+		 	addr_manage
+		WHERE
 
-<select id="getAddrInfoById" parameterType="String" resultMap="adminAddrResultMap">
+			shipping_addr_code = #{addrCode};
+		</delete>
+
+	<select id="getAddrInfoById" parameterType="String" resultMap="adminAddrResultMap">
 		/* 특정 배송지 조회 */
 			select 
 				 shipping_addr_code
@@ -37,45 +46,39 @@
 				shipping_addr_code = #{addrCode};
 	</select>
 
-	<update id="modifyAddr" parameterType="String" >
-		/* 배송지 수정 */	
-		UPDATE addr_manage
-		<trim prefix="SET" suffixOverrides=",">
-			<if test="addrRoad != null and addrRoad != ''">
-				shipping_addr_road = #{addrRoad},
-			</if>
-			<if test="addrPostal != null and addrPostal != ''">
-				shipping_addr_postal = #{addrPostal},
-			</if>
-			<if test="addrLoca != null and addrLoca != ''">
-				shipping_addr_loca = #{addrLoca},
-			</if>
-			<if test="addrDetail != null and addrDetail != ''">
-				shipping_addr_detail = #{addrDetail},
-			</if>
-			<if test="addrName != null and addrName != ''">
-				shipping_addr_name = #{addrName},
-			</if>
-			<if test="addrRecipient != null and addrRecipient != ''">
-				shipping_addr_recipient = #{addrRecipient},
-			</if>
-			<if test="addrTel != null and addrTel != ''">
-				shipping_addr_tel = #{addrTel},
-			</if>
-			<if test="addrPhone != null and addrPhone != ''">
-				shipping_addr_phone = #{addrPhone},
-			</if>
-			<if test="addrSeq != null and addrSeq != ''">
-				shipping_addr_seq = #{memberStatus},
-			</if>
-			<if test="memberId != null and memberId != ''">
-				member_id = #{memberId},
-			</if>
-		</trim>
-		WHERE 
-			shipping_addr_code = #{addrCode};
+<update id="modifyMemberLevel" parameterType="String" >
+    <!-- 업체내 직원별 권한 수정 -->
+    UPDATE company_position_level
+    <trim prefix="SET" suffixOverrides=",">
+        <if test="memberLevelName != null and memberLevelName != ''">
+            member_level_name = #{memberLevelName},
+        </if>
+        <if test="memberManagement != null and memberManagement != ''">
+            member_management = #{memberManagement},
+        </if>
+        <if test="contractManagement != null and contractManagement != ''">
+            contract_management = #{contractManagement},
+        </if>
+        <if test="paymentManagement != null and paymentManagement != ''">
+            payment_management = #{paymentManagement},
+        </if>
+        <if test="companyInfoManagement != null and companyInfoManagement != ''">
+            company_info_management = #{companyInfoManagement},
+        </if>
+        <if test="mentoMenteeManagement != null and mentoMenteeManagement != ''">
+            mento_mentee_management = #{mentoMenteeManagement},
+        </if>
+        <if test="adminId != null and adminId != ''">
+            admin_id = #{adminId},
+        </if>
+        <if test="compayRegDate != null and compayRegDate != ''">
+            company_reg_date = CURDATE()
+        </if>
+    </trim>
+    WHERE
+        position_level_code = #{positionLevelCode};
+</update>
 
-	</update>
 	
 		
 	<select id="getAddrList" parameterType="String" resultMap="adminAddrResultMap">

@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ks46team02.admin.service.MemberService;
+import ks46team02.common.dto.Member;
+import ks46team02.common.service.MainService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -44,28 +47,43 @@ public class FarmController {
 
 	MentorMenteeService mentorMenteeService;
 	private final FarmService farmService;
+	private final MemberService memberService;
 
 
 	private static final Logger log = LoggerFactory.getLogger(FarmController.class);
 
 
-	public FarmController(MentorMenteeService mentorMenteeService, FarmService farmService) {
+	public FarmController(MentorMenteeService mentorMenteeService
+						,FarmService farmService
+						,MemberService memberService ){
 		this.mentorMenteeService = mentorMenteeService;
 		this.farmService = farmService;
+		this.memberService = memberService;
 	}
-	
+
+
 	/**
-	 * 그래프 테스트
+	 * 모달 창 케이지 조회
 	 */
-	@GetMapping("/test")
-	public String test(Model model) {
-		String farmCode = "farm_1";
-		List<Production> productionList = farmService.test(farmCode);
-		Gson gson = new Gson();
-    	String json = gson.toJson(productionList);
-    	model.addAttribute("json", json);
-		model.addAttribute("title", "그래프");
-		return "farm/test";
+	@GetMapping("/cages")
+	@ResponseBody
+	public Cage getCageByCode(@RequestParam(name = "cageCode") String cageCode) {
+	    log.info("getCageByCode() method called with cageCode: {}", cageCode);
+	    Cage cage = farmService.getCageByCode(cageCode);
+	    log.info("cage found: {}", cage);
+	    return cage;
+	}
+
+	/**
+	 * 하나의 사육장 싸이클 등록
+	 */
+	@GetMapping("/addCycle")
+	public String addCycle(Model model
+							,@RequestParam(name="farmCode") String farmCode) {
+		List<Cage> cageList = farmService.getCageListByCode(farmCode);
+		model.addAttribute("title", "싸이클 등록");
+		model.addAttribute("cageList", cageList);
+		return "farm/add_cycle";
 	}
 
 	/**
@@ -85,17 +103,37 @@ public class FarmController {
 		return "farm/cage_list";
 	}
 
-
-
 	/**
 	 * 사육 장 등록
-	 * @param model
-	 * @return
 	 */
+
+	@PostMapping("/addFarm")
+	public String addFarm(FarmInfo farmInfo
+						,Model model
+						,HttpSession session
+						,@RequestParam(name="password")String password) {
+
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		String memberId = (String) session.getAttribute("sessionId");
+		Member memberInfo = memberService.getMemberInfoById(memberId);
+		String memberPw = memberInfo.getMemberPw();
+		if(password.equals(memberPw)){
+			farmInfo.setMemberId(memberId);
+			farmInfo.setCompanyCode(companyCode);
+			farmService.addFarm(farmInfo);
+			log.info("화면에서 전달받은 데이터 : {}", farmInfo);
+			return "redirect:/farm/farmList";
+		}else{
+			model.addAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
+			return "farm/add_farm";
+		}
+
+	}
+
 	@GetMapping("/addFarm")
 	public String addFarm(Model model){
 		model.addAttribute("title", "사육장 등록");
-
+		
 		return "farm/add_farm";
 	}
 
@@ -103,8 +141,6 @@ public class FarmController {
 
 	/**
 	 * 한 사육장 상태 조회
-	 * @param model
-	 * @return
 	 */
 	@GetMapping("/farmStatusList")
 	public String getFarmStatusList(Model model
@@ -119,9 +155,6 @@ public class FarmController {
 
 	/**
 	 * 하나의 싸이클 먹이 조회
-	 * @param model
-	 * @param cycleCode
-	 * @return
 	 */
 
 	@GetMapping("/feedList")
@@ -135,9 +168,6 @@ public class FarmController {
 
 	/**
 	 * 전체 사육장 생산량 조회
-	 * @param model
-	 * @param session
-	 * @return
 	 */
 	@GetMapping("/productionList")
 	public String getSearchProduction(Model model
@@ -178,7 +208,6 @@ public class FarmController {
 		model.addAttribute("productionList",productionList);
 		model.addAttribute("farmCode", farmCode);
 		model.addAttribute("tapName", tapName);
-		log.info(farmCode);
 		return "farm/farm_detail";
 	}
 

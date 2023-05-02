@@ -1,6 +1,13 @@
 package ks46team02.farm.service;
 
+
+
 import java.util.List;
+
+import ks46team02.common.mapper.MainMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 import org.springframework.stereotype.Service;
 
@@ -16,20 +23,48 @@ import ks46team02.farm.mapper.FarmMapper;
 @Service
 public class FarmService {
     private final FarmMapper farmMapper;
-    public FarmService(FarmMapper farmMapper){
+    private final MainMapper mainMapper;
+    public FarmService(FarmMapper farmMapper
+                        ,MainMapper mainMapper){
 
         this.farmMapper = farmMapper;
+        this.mainMapper = mainMapper;
     }
     
     
+	private static final Logger log = LoggerFactory.getLogger(FarmService.class);
+
+
     /**
-     * 그래프 테스트
+     * 사육장 등록
      */
-    public List<Production> test(String farmCode){
-    	List<Production> productionList = farmMapper.test(farmCode);
-    	
-    	return productionList;
+    public int addFarm (FarmInfo farmInfo) {
+        String column = "farm_code";
+        String table = "farm_info";
+        String farmCode = mainMapper.autoIncrement(table, column);
+        log.info(farmCode);
+        farmInfo.setFarmCode(farmCode);
+        int result = farmMapper.addFarm(farmInfo);
+        return result;
     }
+
+
+	/*
+	 * 케이지 코드로 하나의 케이지 정보 조회
+	 */
+	public Cage getCageByCode(String cageCode) {
+		Cage cage = farmMapper.getCageByCode(cageCode);
+		return cage;
+	}
+	
+	/**
+	 * 하나의 사육장 케이지 조회
+	 */
+	public List<Cage> getCageListByCode(String farmCode) {
+		List<Cage> cageList = farmMapper.getCageListByCode(farmCode);
+		return cageList;
+	}
+
 
 
     /**
