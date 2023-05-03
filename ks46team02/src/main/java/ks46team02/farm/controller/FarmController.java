@@ -29,6 +29,7 @@ import ks46team02.farm.dto.FarmInfo;
 import ks46team02.farm.dto.FarmStatus;
 import ks46team02.farm.dto.Feed;
 import ks46team02.farm.dto.GoogleFormResponse;
+import ks46team02.farm.dto.GoogleFormResult;
 import ks46team02.farm.dto.MMContractInfo;
 import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
@@ -597,16 +598,20 @@ public class FarmController {
 	
 	@PostMapping("/receiveFormData")
 	@ResponseBody
-	public String receiveFormDataMentorMentee(@RequestBody List<GoogleFormResponse> googleFormResponseList) {
+	public String receiveFormDataMentorMentee(@RequestBody GoogleFormResponse googleFormResponse) {
 		Map<String, String> memberInfo = new HashMap<>();
-		List<GoogleFormResponse> feedbackList = new ArrayList<>();
-		List<GoogleFormResponse> feedbackScore = new ArrayList<>();
+		List<GoogleFormResult> feedbackList = new ArrayList<>();
+		List<GoogleFormResult> feedbackScore = new ArrayList<>();
 		
-		log.info("googleFormResponseList={}",googleFormResponseList);
-		for(GoogleFormResponse obj : googleFormResponseList) {
+		List<GoogleFormResult> googleFormResultList = googleFormResponse.getResults();
+		
+		log.info("googleFormResponseList={}",googleFormResultList);
+		for(GoogleFormResult obj : googleFormResultList) {
+
 			String type = obj.getType();
 			String title = obj.getType();
-			String response = obj.getResponse();
+			String response = obj.getType();
+			
 			if(type.equals("PARAGRAPH_TEXT")) {
 				feedbackList.add(obj);
 				continue;
