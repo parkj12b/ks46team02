@@ -190,10 +190,11 @@
 										        <td th:text="${l.positionLevelCode}"></td>
 										        <td th:text="${l.companyCode}"></td>
 										        <td th:text="${l.memberRegDate}"></td>
-											    <td>                                            
+											    <td> 
+											      <button type="button" class="btn btn-dark modify"><a th:href="@{/admin/modifyMember(memberId=*{l.memberId})}" style="color: white;">수정</a> </button>
 										        </td>
 										        <td>
-										        <button type="reset" class="btn btn-dark delete">삭제</button>
+										          <button type="reset" class="btn btn-dark delete">삭제</button>
 										        </td>
 										     </tr>
 										</tbody>
