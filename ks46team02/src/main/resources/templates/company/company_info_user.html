@@ -74,7 +74,7 @@
                     <h2>내 업체 정보</h2>
                     <div class="clearfix"></div>
                 </div>
-                <div class="x_content">
+                <div class="x_content" th:if="${companyInfo.isExist() == true}">
                     <form id="companyInfoForm" th:action="@{/company/companyInfoUser}" method="post" novalidate>
                         <div th:object="${companyInfo}">
                         <span class="section">Company Info</span>
@@ -136,8 +136,8 @@
                             </div>
                         </div>
 
-
-                        <div class="field item form-group">
+                        <th:block th:unless="${companyInfo.approvalStatus == null}">
+                        <div  class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">승인일</label>
                             <div class="col-md-6 col-sm-6">
                                 <input class="form-control optional" name="approvalDate"
@@ -146,7 +146,7 @@
                             </div>
                         </div>
 
-                        <div th:unless="${companyInfo.approvalStatus == null}" class="field item form-group">
+                        <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">승인,반려사유</label>
                             <div class="col-md-6 col-sm-6">
                                 <input class="form-control optional" name="approvalDeniedContent"
@@ -154,6 +154,7 @@
                                        type="text" readonly="readonly"/>
                             </div>
                         </div>
+                        </th:block>
 
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">사원등록비밀번호</label>
@@ -189,6 +190,9 @@
                         </div>
                         </div>
                     </form>
+                </div>
+                <div th:unless="${companyInfo.isExist() == true}">
+                    업체등록을 신청하지 않았습니다.
                 </div>
             </div>
         </div>

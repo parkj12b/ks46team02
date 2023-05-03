@@ -20,6 +20,10 @@ public class CompanyService {
     }
 
 
+    public int updateApprovalCompany(Company company){
+        int result = companyMapper.updateApprovalCompany(company);
+        return result;
+    }
     public int modifyCompanyAdmin(Company company){
         int result = companyMapper.modifyCompany(company);
         return result;

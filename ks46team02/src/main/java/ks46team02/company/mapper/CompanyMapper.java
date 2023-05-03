@@ -19,6 +19,8 @@ public interface CompanyMapper {
     public  List<CompanyPositionLevel> getCompanyPositionList();
     // 업체정보 수정
     public int modifyCompany(Company company);
+    // 업체승인
+    public int updateApprovalCompany(Company company);
     // 업체 상세정보 조회(memberId)
     public Company getCompanyInfoById(String memberId);
     // 업체 상세정보 조회(companyCode)

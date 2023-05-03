@@ -41,6 +41,28 @@ public class CompanyController {
 
     }
 
+    @PostMapping("/companyApproval")
+    @ResponseBody
+    public void companyApproval(Company company
+                                ,Member member
+                                 ,@RequestParam(name="approvalStatus") String approvalStatus
+                                 ,@RequestParam(name="approvalDeniedContent") String approvalDeniedContent
+                                 ,@RequestParam(name="companyCode") String companyCode
+                                 ,@RequestParam(name="memberId") String memberId
+                                 ,HttpSession session){
+        String sessionId = (String)session.getAttribute("sessionId");
+        company.setApprovalStatus(approvalStatus);
+        company.setApprovalDeniedContent(approvalDeniedContent);
+        company.setCompanyCode(companyCode);
+        company.setMemberId(memberId);
+        company.setAdminId(sessionId);
+        member.setMemberId(memberId);
+        member.setCompanyCode(companyCode);
+        log.info("ajax로 전달받은 데이터:{}",company);
+
+        companyService.updateApprovalCompany(company);
+        companyService.addCompanyCode(member);
+    }
     @PostMapping("/modifyEmployeeLevel")
     public String modifyEmployeeLevel(Member member){
         memberService.modifyEmployeeLevel(member);
