@@ -14,6 +14,16 @@
 		<result column="admin_status"  					property="adminStatus"/>
 		<result column="admin_withdrawal_date"  		property="adminWithdrawalDate"/>
 </resultMap>
+		
+		<insert id="addAdmin" parameterType="AdminMember">
+			/* 관리자 등록 */
+			insert into admin_list
+			(admin_id,admin_pw,admin_name,admin_email,admin_level,admin_phone,admin_reg_date,admin_status)
+			VALUES
+			(#{adminId},#{adminPw},#{adminName},#{adminEmail},#{adminLevel},#{adminPhone},CURDATE(),'nomal');
+
+		</insert>
+
 
 		<delete id="removewithdrawalAdmin" parameterType="String" >
 		/* 탈퇴한 관리자 삭제 */

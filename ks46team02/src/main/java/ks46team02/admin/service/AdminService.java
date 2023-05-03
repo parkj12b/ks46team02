@@ -32,5 +32,9 @@ private final AdminMapper adminMapper;
 		List<AdminMember> withdrawalAdminList = adminMapper.getWithdrawalAdminList();
 		return withdrawalAdminList;
 	}
-	
+	/* 관리자 등록 */
+	public int addAdmin(AdminMember adminMember) {
+		int result = adminMapper.addAdmin(adminMember);
+		return result;
+	}
 }
