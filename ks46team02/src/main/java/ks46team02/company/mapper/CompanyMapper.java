@@ -25,6 +25,8 @@ public interface CompanyMapper {
     public Company getCompanyInfoByCode(String companyCode);
     // 업체등록
     public int addCompany(Company company);
+    // 업체등록시 회원정보 업체코드 업데이트
+    public int addCompanyCode(Member member);
     // 업체종류 조회
     public List<CompanyType> getCompanyTypeList();
     // 업체목록조회

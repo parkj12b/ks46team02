@@ -140,14 +140,14 @@
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">승인일</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control optional" name="applyDate"
-                                       th:value="*{applyDate}"
+                                <input class="form-control optional" name="approvalDate"
+                                       th:value="*{approvalDate}"
                                        type="text" readonly="readonly"/>
                             </div>
                         </div>
 
-                        <div class="field item form-group">
-                            <label class="col-form-label col-md-3 col-sm-3  label-align">승인반려사유</label>
+                        <div th:unless="${companyInfo.approvalStatus == null}" class="field item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">승인,반려사유</label>
                             <div class="col-md-6 col-sm-6">
                                 <input class="form-control optional" name="approvalDeniedContent"
                                        th:value="*{approvalDeniedContent}"
@@ -181,7 +181,7 @@
                                 </div>
                             </div>
                         </th:block>
-                        <div class="item form-group">
+                        <div th:unless="${sessionLevel == 'level_code_4'}" class="item form-group">
                             <div class="col-md-6 col-sm-6 offset-md-3">
                                 <button id="deleteBtn" class="btn btn-dark" type="button" th:href="@{#}">삭제</button>
                                 <button class="btn btn-dark" type="reset" th:onclick="|location.href='@{/company/modifyCompany(companyCode=*{companyCode})}'|">수정</button>
