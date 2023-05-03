@@ -301,9 +301,17 @@ public class AdminController {
 	}
 	
 	/* 배송지 등록 */
+	@PostMapping("/addAddr")
+	public String addAddr(Addr addr) {
+		addrService.addAddr(addr);
+		return "redirect:/admin/addrList";
+	}
+	/* 배송지 등록 */
 	@GetMapping("/addAddr")
 	public String addAddr(Model model){
-		model.addAttribute("title", "배송지등록");
+		List<Member> memberInfo = memberservice.getMemberList();
+		model.addAttribute("title", "배송지 등록");
+		model.addAttribute("memberInfo", memberInfo);
 		return "admin/add_addr";
 	}
 	/* 탈퇴한 회원 목록 조회 */
