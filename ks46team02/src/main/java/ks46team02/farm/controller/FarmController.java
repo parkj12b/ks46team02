@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import ks46team02.admin.service.MemberService;
-import ks46team02.common.dto.Member;
-import ks46team02.common.service.MainService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,18 +17,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
-
 import jakarta.servlet.http.HttpSession;
+import ks46team02.admin.service.MemberService;
 import ks46team02.common.dto.AllContractInfo;
+import ks46team02.common.dto.Member;
 import ks46team02.farm.dto.Cage;
 import ks46team02.farm.dto.Cycle;
-import ks46team02.farm.dto.EvaluationDetailCategory;
 import ks46team02.farm.dto.EvaluationLargeCategory;
 import ks46team02.farm.dto.EvaluationStandard;
 import ks46team02.farm.dto.FarmInfo;
 import ks46team02.farm.dto.FarmStatus;
 import ks46team02.farm.dto.Feed;
+import ks46team02.farm.dto.GoogleFormResponse;
 import ks46team02.farm.dto.MMContractInfo;
 import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
@@ -600,10 +597,37 @@ public class FarmController {
 	
 	@PostMapping("/receiveFormData")
 	@ResponseBody
-	public String receiveFormDataMentorMentee(@RequestBody Object result) {
+	public String receiveFormDataMentorMentee(@RequestBody List<GoogleFormResponse> googleFormResponseList) {
+		Map<String, String> memberInfo = new HashMap<>();
+		List<GoogleFormResponse> feedbackList = new ArrayList<>();
+		List<GoogleFormResponse> feedbackScore = new ArrayList<>();
 		
-		log.info("visitCode={}",result);
-		
+		log.info("googleFormResponseList={}",googleFormResponseList);
+		for(GoogleFormResponse obj : googleFormResponseList) {
+			String type = obj.getType();
+			String title = obj.getType();
+			String response = obj.getResponse();
+			if(type.equals("PARAGRAPH_TEXT")) {
+				feedbackList.add(obj);
+				continue;
+			}
+			if(type.equals("SCALE")) {
+				feedbackScore.add(obj);
+				continue;
+			}
+			if(title.equals("Token ID")) {
+				memberInfo.put("token_id", response);
+			} else if(title.equals("visitCode")) {
+				memberInfo.put("visit_code", response);
+			} else if(title.equals("memberId")) {
+				memberInfo.put("member_id", response);
+			} else if(title.equals("contractCode")) {
+				memberInfo.put("contract_code", response);
+			}
+		}
+		log.info("memberInfo={}", memberInfo);
+		log.info("feedbackList={}", feedbackList);
+		log.info("feedbackScore={}", feedbackScore);
 		return "Success";
 	}
 }
