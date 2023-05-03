@@ -146,7 +146,7 @@
 			on
 			m.position_level_code = cp.position_level_code
 		WHERE
-			m.company_code = #{companyCode} and m.member_status != 'dormant';
+			m.company_code = #{companyCode} and m.member_status != 'dormant' and cp.position_level_code != 'level_code_1';
 	</select>
 
 	<select id="getDormantMemberList" parameterType="String" resultMap="MemberResultMap">

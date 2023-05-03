@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mypageLayout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.signUpBtn{
+	font-size: 16px;
+	color: white;
+	background-color: #007dea;
+	transition: 0.3s;
+}
+.signUpBtn:hover{
+	font-size: 16px;
+	color: white;
+	background-color: rgba(0, 125, 234, 0.85);
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="customContent">
+		<main style="margin: 100px 50px">
+			<h2>업체등록</h2>
+			<p>플랫폼 이용을 위한 업체등록페이지입니다.</p>
+
+			<h2>안내사항</h2>
+			<ul>
+				<li>사업자등록번호: 업체등록을 위해 사업자 등록번호가 필요합니다.</li>
+				<li>사원등록비밀번호: 등록한 업체에 사원을 등록시 확인을 위한 비밀번호입니다</li>
+				<li>업체승인: 필수사항 검토후 승인이 이루어집니다. </li>
+
+
+			<div th:if="${companyIsExist == false}" style="margin-top: 50px;">
+				<a class="btn btn-default signUpBtn" id="addCompanyBtn" th:href="@{/company/addCompany}" >업체 등록하기</a>
+			</div>
+
+			<div th:unless="${companyIsExist == false}" style="margin-top: 50px;">
+				<h2>이미 등록을 신청한 상태입니다.</h2>
+				<a class="btn btn-default signUpBtn" id="addCompanyApprovalStatusBtn" th:href="@{/company/companyInfoUser}" >업체등록 신청여부 확인하기</a>
+			</div>
+		</main>
+	</div>
+</body>
+</html>

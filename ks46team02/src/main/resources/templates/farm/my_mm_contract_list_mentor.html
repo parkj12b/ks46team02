@@ -39,17 +39,59 @@ input[type='checkbox'] {
 <body>
 	<th:block layout:fragment="customJs">
 		<script>
+			let deleteContract = function(ele){
+				//삭제 미구현
+				console.log($(ele).parents('tr'))
+				Swal.fire({
+					icon: 'question',
+					title: $(ele).parents('tr').find('#contract-title').text(),
+					text: `위계약을 삭제하시겠습니까?`,
+					confirmButtonText: '삭제',
+					showCancelButton: true,
+					cancelButtonText: '취소'
+				}).then(result => {
+					if(result.isConfirmed){
+						Swal.fire({
+							title: `&apos;${$(ele).parents('tr').find('#contract-title').text()}&apos;`,
+							text: `계약의 이름을 입력해주세요`,
+							html: `<input class="swal2-input" id="delete-contract"></input>`,
+							showCancelButton: true,
+							confirmButtonText: '확인',
+							cancelButtonText: '취소',
+							didOpen: () => {
+								$(Swal.getConfirmButton()).prop('disabled', true);
+								$(document).on('change', '#delete-contract', function(e){
+									let title = $(ele).parents('tr').find('#contract-title').text().trim();
+									if(title == $(this).val()){
+										$(this).css('border-color', 'green');
+										$(this).css('box-shadow', '0 0 0 0.2rem green');
+										$(Swal.getConfirmButton()).prop('disabled', false);
+										
+									} else {
+										$(this).css('border-color', 'red');
+										$(this).css('box-shadow', '0 0 0 0.2rem red');
+									}
+								})
+							}
+						}).then(result => {
+							//미구현 삭제 구현해야함
+							console.log(result);
+						})
+					}
+				})
+			};
 			$(function() {
-
+				
+				/* $('#delete-contract').click(function(){
+					deleteContract();
+				}) */
 				$('#open-checked').click(
 						function() {
 							$('.check-self').each(
 									function(idx, item) {
 										if ($(item).prop('checked')) {
-											$(item).parents('tr').find(
-													'a.contract_new_tab')[0]
-													.click();
-
+											console.log($(item).parents('tr').eq(0).attr('href'));
+											window.open($(item).parents('tr').eq(0).attr('href'), '_blank');
 										}
 
 									})
@@ -63,10 +105,10 @@ input[type='checkbox'] {
 										$('#check-all').prop('checked'));
 							});
 						});
-
+/* 체크박스 확인 전체 체크  */
 				$('.check-self').each(function(idx, item) {
 					$(item).click(function() {
-
+					
 						let checkboxes = $('.check-self');
 						let allchecked = true;
 						if (item.checked == false) {
@@ -84,20 +126,25 @@ input[type='checkbox'] {
 					})
 
 				})
+/* tr클릭시 해당계약으로 등록신청페이지로 */
+				
 				/* tr클릭시 해당계약으로 등록신청페이지로 */
-				/* $('table td').each(function(idx,item){
-					$(item).css('cursor', 'pointer');
+				$('table td').each(function(idx,item){
+					if(!$(this).hasClass('no-link')){
+						$(item).css('cursor', 'pointer');
+						
+						$(item).click(function(e) {
+							let link = $(item).parents('tr').attr('href');
+							if(e.ctrlKey){
+								window.open(link,'_blank');
+							} else {
+								location.href = link;
+							}
+							return false;
+						});
+					}
 					
-					$(item).click(function(e) {
-						let link = $(item).parents('tr').attr('href');
-						if(e.ctrlKey){
-							window.open(link,'_blank');
-						} else {
-							location.href = link;
-						}
-						return false;
-					});
-				}) */
+				})
 
 			});
 		</script>
@@ -131,7 +178,7 @@ input[type='checkbox'] {
 															colspan="1" aria-sort="descending"><label
 															class="checkbox"><input type="checkbox"
 																id="check-all"></label></th>
-														<th class="sorting" tabindex="0"
+														<th class="sorting" tabindex="0" 
 															aria-controls="datatable-checkbox" rowspan="1"
 															colspan="1">업체명</th>
 														<th class="sorting" tabindex="0"
@@ -156,13 +203,14 @@ input[type='checkbox'] {
 													<th:block th:each="m : ${mmContractInfo}"
 														th:if="${!mmContractInfo.isEmpty()}">
 
-														<tr role="row" class="odd">
+														<tr role="row" class="odd"
+														th:href="@{/farm/mentorMenteeContractDetail(mentorContractRegCode=${m.mentorContractRegCode})}">
 															<th class="sorting_1 "><label class="checkbox"><input
 																	class="check-self" type="checkbox"></label></th>
 															<td th:text=${m.companyName}></td>
 															<td colspan="1">
 																<div>
-																	<strong th:text=${m.mentorContractTitle}></strong>
+																	<strong id="contract-title" th:text=${m.mentorContractTitle}></strong>
 																	<p>
 																		<span
 																			th:text="${'계약 개월수: ' + m.contractPeriod + '개월'}"></span>
@@ -173,9 +221,9 @@ input[type='checkbox'] {
 															<td
 																th:text="${m.careerYear + '년 ' + m.careerMonth + '개월'}"></td>
 															<td th:text="${m.contractCost}"></td>
-															<td><a
+															<td class="no-link"><a
 																th:href="@{/farm/mentorMenteeContractModify(mentorContractRegCode=${m.mentorContractRegCode})}">수정</a></td>
-															<td><a th:href="@{/farm/mentorMenteeContractDelete}">삭제</a></td>
+															<td class="no-link"><a id="delete-contract" href="javascript: void(0);" onclick="deleteContract(this)">삭제</a></td>
 														</tr>
 
 

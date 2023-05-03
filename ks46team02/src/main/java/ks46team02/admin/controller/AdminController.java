@@ -2,6 +2,9 @@ package ks46team02.admin.controller;
 
 import java.util.List;
 
+import jakarta.servlet.http.HttpSession;
+import ks46team02.company.dto.Company;
+import ks46team02.company.service.CompanyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -56,14 +59,14 @@ public class AdminController {
 	private final MemberService memberservice;
 	private final LoginHistoryService loginHistoryService;
 	private final ContractStandardService contractStandardService;
-	private final MemberLevelService memberLevelService; 
+	private final MemberLevelService memberLevelService;
+	private final CompanyService companyService;
 	private final AdminMapper adminMapper;
 	private final MemberMapper memberMapper;
 	private final AddrMapper addrMapper;
 	private final AdminLevelMapper adminLevelMapper;
 	private final LoginHistoryMapper loginHistoryMapper;
 	private final WithdrawalMemberMapper withdrawalMemberMapper;
-	private final CompanyService companyService;
 	
 	
 	private static final Logger log = LoggerFactory.getLogger(AdminController.class);
@@ -85,7 +88,7 @@ public class AdminController {
     					  ,AdminLevelMapper adminLevelMapper
     					  ,LoginHistoryMapper loginHistoryMapper
     					  ,WithdrawalMemberMapper withdrawalMemberMapper
-    					  ,CompanyService companyService) {
+						  ,CompanyService companyService) {
 		this.addrService = addrService;
 		this.adminService = adminService;
 		this.withdrawalMemberService = withdrawalMemberService;
@@ -137,9 +140,9 @@ public class AdminController {
 	@GetMapping("/applyCompanyRegList")
 	public String applyCompanyRegList(Model model) {
 
-
+		List<Company> companyList = companyService.getCompanyList();
 		model.addAttribute("title", "승인 대기 업체 조회");
-
+		model.addAttribute("companyList",companyList);
 		return "admin/apply_company_reg_list";
 	}
     /* 전체 관리자 목록 조회 */

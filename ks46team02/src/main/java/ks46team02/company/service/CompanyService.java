@@ -1,5 +1,6 @@
 package ks46team02.company.service;
 
+import ks46team02.common.dto.Member;
 import ks46team02.company.dto.Company;
 import ks46team02.company.dto.CompanyPositionLevel;
 import ks46team02.company.dto.CompanyType;
@@ -19,6 +20,10 @@ public class CompanyService {
     }
 
 
+    public int updateApprovalCompany(Company company){
+        int result = companyMapper.updateApprovalCompany(company);
+        return result;
+    }
     public int modifyCompanyAdmin(Company company){
         int result = companyMapper.modifyCompany(company);
         return result;
@@ -58,6 +63,13 @@ public class CompanyService {
         int result = companyMapper.addCompany(company);
         return result;
     }
+
+    public int addCompanyCode(Member member){
+        int result = companyMapper.addCompanyCode(member);
+        return result;
+    }
+
+
 
     public List<CompanyType> getCompanyTypeList(){
         List<CompanyType> companyTypeList = companyMapper.getCompanyTypeList();
