@@ -16,8 +16,17 @@
 		<result column="shipping_addr_seq"  				property="addrSeq"/>
 		<result column="member_id"  						property="memberId"/>
 </resultMap>
+		<delete id="removeAddr" parameterType="String" >
+		/* 배송지 삭제 */
+		DELETE
+		FROM
+		 	addr_manage
+		WHERE
 
-<select id="getAddrInfoById" parameterType="String" resultMap="adminAddrResultMap">
+			shipping_addr_code = #{addrCode};
+		</delete>
+
+	<select id="getAddrInfoById" parameterType="String" resultMap="adminAddrResultMap">
 		/* 특정 배송지 조회 */
 			select 
 				 shipping_addr_code

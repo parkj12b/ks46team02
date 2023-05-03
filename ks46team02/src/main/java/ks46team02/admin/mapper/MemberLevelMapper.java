@@ -14,4 +14,6 @@ public interface MemberLevelMapper {
 	public List<MemberLevel> getMemberLevelList();
 	/* 회원 등급 수정 */
 	public int modifyMemberLevel(MemberLevel memberLevel);
+	/* 회원 등급 삭제 */
+	public int removeMemberLevel(String positionLevelCode);
 }

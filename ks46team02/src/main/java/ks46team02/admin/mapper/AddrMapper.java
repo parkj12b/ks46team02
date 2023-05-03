@@ -13,7 +13,7 @@ public interface AddrMapper {
 	/* 전체 회원 배송지 조회*/
 	public List<Addr> getAddrList();
 	/* 배송지 삭제 */
-	public int removeAddrByCode(String addrCode);
+	public int removeAddr(String addrCode);
 	/* 배송지 수정 */
 	public int modifyAddr(Addr addr);
 	/* 특정 배송지 조회 */	

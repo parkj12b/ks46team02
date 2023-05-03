@@ -6,12 +6,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ks46team02.admin.service.MemberService;
+import ks46team02.common.dto.Member;
+import ks46team02.common.service.MainService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +26,8 @@ import jakarta.servlet.http.HttpSession;
 import ks46team02.common.dto.AllContractInfo;
 import ks46team02.farm.dto.Cage;
 import ks46team02.farm.dto.Cycle;
+import ks46team02.farm.dto.EvaluationDetailCategory;
+import ks46team02.farm.dto.EvaluationLargeCategory;
 import ks46team02.farm.dto.EvaluationStandard;
 import ks46team02.farm.dto.FarmInfo;
 import ks46team02.farm.dto.FarmStatus;
@@ -41,18 +47,24 @@ public class FarmController {
 
 	MentorMenteeService mentorMenteeService;
 	private final FarmService farmService;
+	private final MemberService memberService;
 
 
 	private static final Logger log = LoggerFactory.getLogger(FarmController.class);
 
 
-	public FarmController(MentorMenteeService mentorMenteeService, FarmService farmService) {
+	public FarmController(MentorMenteeService mentorMenteeService
+						,FarmService farmService
+						,MemberService memberService ){
 		this.mentorMenteeService = mentorMenteeService;
 		this.farmService = farmService;
+		this.memberService = memberService;
 	}
-	
-	
-	
+
+
+	/**
+	 * 모달 창 케이지 조회
+	 */
 	@GetMapping("/cages")
 	@ResponseBody
 	public Cage getCageByCode(@RequestParam(name = "cageCode") String cageCode) {
@@ -61,8 +73,6 @@ public class FarmController {
 	    log.info("cage found: {}", cage);
 	    return cage;
 	}
-
-	
 
 	/**
 	 * 하나의 사육장 싸이클 등록
@@ -74,25 +84,6 @@ public class FarmController {
 		model.addAttribute("title", "싸이클 등록");
 		model.addAttribute("cageList", cageList);
 		return "farm/add_cycle";
-	}
-			
-	
-	
-	/**
-	 * 그래프 테스트
-	 */
-	@GetMapping("/test")
-	public String test(Model model) {
-	    String farmCode = "farm_1";
-	    List<Production> productionList = farmService.test(farmCode);
-	
-	    Gson gson = new Gson();
-	    String json = gson.toJson(productionList);
-	  
-	    model.addAttribute("json", json);
-	    
-	    model.addAttribute("title", "그래프");
-	    return "farm/test";
 	}
 
 	/**
@@ -112,13 +103,33 @@ public class FarmController {
 		return "farm/cage_list";
 	}
 
-
-
 	/**
 	 * 사육 장 등록
-	 * @param model
-	 * @return
 	 */
+
+	@PostMapping("/addFarm")
+	public String addFarm(FarmInfo farmInfo
+						,Model model
+						,HttpSession session
+						,@RequestParam(name="password")String password) {
+
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		String memberId = (String) session.getAttribute("sessionId");
+		Member memberInfo = memberService.getMemberInfoById(memberId);
+		String memberPw = memberInfo.getMemberPw();
+		if(password.equals(memberPw)){
+			farmInfo.setMemberId(memberId);
+			farmInfo.setCompanyCode(companyCode);
+			farmService.addFarm(farmInfo);
+			log.info("화면에서 전달받은 데이터 : {}", farmInfo);
+			return "redirect:/farm/farmList";
+		}else{
+			model.addAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
+			return "farm/add_farm";
+		}
+
+	}
+
 	@GetMapping("/addFarm")
 	public String addFarm(Model model){
 		model.addAttribute("title", "사육장 등록");
@@ -130,8 +141,6 @@ public class FarmController {
 
 	/**
 	 * 한 사육장 상태 조회
-	 * @param model
-	 * @return
 	 */
 	@GetMapping("/farmStatusList")
 	public String getFarmStatusList(Model model
@@ -146,9 +155,6 @@ public class FarmController {
 
 	/**
 	 * 하나의 싸이클 먹이 조회
-	 * @param model
-	 * @param cycleCode
-	 * @return
 	 */
 
 	@GetMapping("/feedList")
@@ -162,9 +168,6 @@ public class FarmController {
 
 	/**
 	 * 전체 사육장 생산량 조회
-	 * @param model
-	 * @param session
-	 * @return
 	 */
 	@GetMapping("/productionList")
 	public String getSearchProduction(Model model
@@ -234,7 +237,9 @@ public class FarmController {
 	public String getMentorMenteeView(HttpSession session, Model model){
 		String companyCode = (String) session.getAttribute("sessionCompanyCode");
 		int mmRegType = mentorMenteeService.getMMRegType(companyCode);
+		boolean isApply = mentorMenteeService.mentorMenteeIsApply(companyCode);
 		model.addAttribute("mmRegType",mmRegType);
+		model.addAttribute("isApply", isApply);
 		log.info("{}",mmRegType);
 		return "farm/mentor_mentee_intro";
 	}
@@ -282,7 +287,8 @@ public class FarmController {
 		MMContractInfo mmContractInfo = mentorMenteeService.getMMContractList(searchKey, mentorContractRegCode).get(0);
 		log.info("{}", mmContractInfo);
 		model.addAttribute("mmContractInfo",mmContractInfo);
-
+		
+		
 		return "farm/mm_contract_detail";
 	}
 	
@@ -403,24 +409,201 @@ public class FarmController {
 	}
 
 	@GetMapping("/mentorMenteeFeedbackMentee")
-	public String mentorMenteeFeedbackMentee(Model model, @RequestParam(name="contractCode") String contractCode) {
+	public String mentorMenteeFeedbackMentee(Model model, HttpSession session, @RequestParam(name="contractCode", required=false) String contractCode) {
+		
+		AllContractInfo contractInfo;
+		List<Map<String, Object>> searchList = new ArrayList<>();
+		
+		if(contractCode == null) {
+			String companyCode = (String) session.getAttribute("sessionCompanyCode");
+			Map<String, String> paramMap = new HashMap<String,String>();
+			paramMap.put("contractee_company_code", companyCode);
+			paramMap.put("contract_type", "mentormentee");
+			paramMap.put("contract_approval", "approve");
+			
+			Set<String> keySet = paramMap.keySet();
+			
+			
+			for(String key : keySet) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("key", key);
+				map.put("value", paramMap.get(key));
+				searchList.add(map);
+			}	
+		}
+		
+		contractInfo = mentorMenteeService.getMMContractByKeyValue(searchList);
+		contractCode = contractInfo.getContractCode();
+		List<EvaluationStandard> evaluationStandardList = mentorMenteeService.getEvaluationStandardList();
 		
 		Map<String,Object> visitHistoryInfo = mentorMenteeService.getVisitHistoryInfo(contractCode);
 		List<VisitHistory> visitHistoryList = (List<VisitHistory>) visitHistoryInfo.get("visitHistoryList");
 		
 		model.addAttribute("visitHistoryList",visitHistoryList);
+		model.addAttribute("evaluationStandard", evaluationStandardList);
 		
 		return "farm/mm_feedback_mentee";
 	}
 	
-	@GetMapping("/mm_feedback_mentee_detail")
+	@GetMapping("/mmFeedbackMenteeDetail")
 	public String mentorMenteeFeedbackDetail(Model model, @RequestParam(name="visitCode") String visitCode) {
 		
+		
 		List<ResultHistory> resultHistoryList = mentorMenteeService.getResultHistoryList(visitCode);
+		log.info("resultHistoryList={}",resultHistoryList);
+		ResultHistory resultHistory = null;
+		
+		
 		List<EvaluationStandard> evaluationStandardList = mentorMenteeService.getEvaluationStandardList();
+		VisitHistory visitHistory = mentorMenteeService.getVisitHistoryByVisitCode(visitCode);
+		
+		int maxScore = visitHistory.getTotalDetailItemNum()*3;
+		int visitScore = visitHistory.getTotalScoreVisit();
+		
+		double feedbackPercent = (double) visitScore/maxScore*100;
+		
+		
+		model.addAttribute("feedbackPercent",feedbackPercent);
+		model.addAttribute("visitHistory",visitHistory);
 		model.addAttribute("resultHistoryList",resultHistoryList);
-		model.addAttribute("evaluationStandardList", evaluationStandardList);
+		model.addAttribute("evaluationStandard", evaluationStandardList);
+		
+		
 		return "farm/mm_feedback_mentee_detail";
 	}
 
+	@PostMapping("/mmRegisterAction")
+	@ResponseBody
+	public Map<String,Object> mentorMenteeRegisterAction(HttpSession session) {
+		
+		boolean isValid = true;
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		boolean isRegisterValid = mentorMenteeService.isRegisterValid(companyCode);
+		Integer mmRegType = (Integer) session.getAttribute("mmRegType");
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		
+		if(mmRegType != 2) {
+			isValid = false;
+			map.put("msg", "멘토멘티 권한이 없습니다.");
+		} else if(!isRegisterValid) {
+			isValid = false;
+			map.put("msg", "신청하기전 기존계약이 있습니다.");
+		} else {
+			//여기는 나중에 select 먼저
+			//mentorMenteeService.setNewContract("")
+		}
+		map.put("isValid", isValid);
+		
+		return map;
+	}
+	
+	@GetMapping("/mmMyMenteeList")
+	public String mentorMenteeMyMenteeList(HttpSession session, Model model) {
+		
+		String companyCode = (String)session.getAttribute("sessionCompanyCode");
+		
+		Map<String, String> paramMap = new HashMap<String,String>();
+		paramMap.put("contractor_company_code", companyCode);
+		paramMap.put("contract_type", "mentormentee");
+		paramMap.put("contract_approval", "approve");
+		
+		Set<String> keySet = paramMap.keySet();
+		List<Map<String, Object>> searchList = new ArrayList<>();
+		
+		for(String key : keySet) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("key", key);
+			map.put("value", paramMap.get(key));
+			searchList.add(map);
+		}
+		
+		List<AllContractInfo> mmContractInfo = mentorMenteeService.getMMContractListByKeyValue(searchList);
+		
+		model.addAttribute("mmContractInfo", mmContractInfo);
+		
+		return "farm/my_mm_contract_mentor";
+	}
+	
+	@GetMapping("/myMenteeListDetail")
+	public String myMentorMenteeDetail(HttpSession session, Model model, @RequestParam(name="companyCode") String companyCode) {
+		
+		Map<String, String> paramMap = new HashMap<String,String>();
+		paramMap.put("contractee_company_code", companyCode);
+		paramMap.put("contract_type", "mentormentee");
+		paramMap.put("contract_approval", "approve");
+		
+		Set<String> keySet = paramMap.keySet();
+		List<Map<String, Object>> searchList = new ArrayList<>();
+		
+		for(String key : keySet) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("key", key);
+			map.put("value", paramMap.get(key));
+			searchList.add(map);
+		}
+		
+		AllContractInfo mmContractInfo = mentorMenteeService.getMMContractByKeyValue(searchList);
+		
+		Map<String,Object> visitHistoryInfo = mentorMenteeService.getVisitHistoryInfo(mmContractInfo.getContractCode());
+		List<VisitHistory> visitHistoryList = (List<VisitHistory>) visitHistoryInfo.get("visitHistoryList");
+		int numComplete = (int)visitHistoryInfo.get("numComplete");
+		int totalVisit = (int)visitHistoryList.size();
+		
+		int contractDays = mmContractInfo.getContractDays();
+		int daysLeft = mmContractInfo.getDaysLeft();
+		
+		if(daysLeft <= 0) {
+			daysLeft = 0;
+		}
+		
+		double contractPercentDone = ((double) (contractDays-daysLeft)*100)/contractDays;
+		double widthVisitBar = (double) 1/totalVisit*100;
+		
+		log.info("num={}",contractPercentDone);
+		log.info("num={}",contractDays);
+		log.info("num={}",daysLeft);
+		log.info("numComplete={}",numComplete);
+		log.info("totalVisit={}",totalVisit);
+		log.info("widthVisitBar={}",widthVisitBar);
+		model.addAttribute("mmContractInfo",mmContractInfo);
+		model.addAttribute("contractPercentDone", contractPercentDone);
+		model.addAttribute("visitHistoryList", visitHistoryList);
+		model.addAttribute("numComplete", numComplete);
+		model.addAttribute("totalVisit", totalVisit);
+		model.addAttribute("widthVisitBar", widthVisitBar);
+		
+		return "farm/my_mm_contract_mentor_detail";
+	}
+	
+	@GetMapping("/myMenteeFeedbackModify")
+	public String myMenteeFeedbackModify(Model model, @RequestParam(name="visitCode", required=false) String visitCode) {
+		
+		
+		List<EvaluationLargeCategory> evaluationLargeCategoryList = mentorMenteeService.getEvalLargeCateList();
+		VisitHistory visitHistory = mentorMenteeService.getVisitHistoryByVisitCode(visitCode);
+		
+		model.addAttribute("evalLargeCateList",evaluationLargeCategoryList);
+		model.addAttribute("visitHistory", visitHistory);
+		
+		if(visitCode == null) {
+			return "farm/my_mentee_feedback_modify";
+		}
+		
+		List<ResultHistory> resultHistoryList = mentorMenteeService.getResultHistoryList(visitCode);
+		
+		model.addAttribute("resultHistoryList", resultHistoryList);
+		
+		
+		return "farm/my_mentee_feedback_modify";
+	}
+	
+	@PostMapping("/receiveFormData")
+	@ResponseBody
+	public String receiveFormDataMentorMentee(@RequestBody Object result) {
+		
+		log.info("visitCode={}",result);
+		
+		return "Success";
+	}
 }

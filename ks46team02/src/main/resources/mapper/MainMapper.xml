@@ -58,6 +58,25 @@
         <result column="days_left"
                 property="daysLeft"></result>
     </resultMap>
+
+    <!-- 비밀번호 체크    -->
+    <select id="getMemberInfoById" resultType="Member">
+        SELECT
+            *
+        FROM
+            member_info
+        WHERE
+            member_id = #{memberId}
+    </select>
+
+    <!--  자동증가 코드  -->
+    <select id="autoIncrement" resultType="String">
+        SELECT
+        CONCAT(REGEXP_REPLACE(${column},'[0-9]', ''),  max(CAST(SUBSTRING_INDEX(${column},'_',-1) AS unsigned))+1)
+        FROM
+        ${table};
+    </select>
+
     <select id="getMemberLoginInfo" parameterType="MemberLoginInfo"
             resultMap="memberResultMap">
         select

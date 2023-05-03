@@ -93,14 +93,4 @@
 		#{code}
 		AND question_del_yn = 'N'
 	</select>
-
-
-
-
-
-
-
-
-
-
 </mapper>
