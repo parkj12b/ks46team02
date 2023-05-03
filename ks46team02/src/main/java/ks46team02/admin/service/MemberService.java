@@ -38,6 +38,11 @@ private final MemberMapper memberMapper;
 		List<Member> DormantMemberList = memberMapper.getDormantMemberList();
 		return DormantMemberList;
 	}
+	/* 회원 등록 */
+	public int addMember(Member member) {
+		int result = memberMapper.addMember(member);
+		return result;
+	}
 	/* 특정 회원 조회 */
 	public Member getMemberInfoById(String memberId) {
 		Member memberInfo =memberMapper.getMemberInfoById(memberId);

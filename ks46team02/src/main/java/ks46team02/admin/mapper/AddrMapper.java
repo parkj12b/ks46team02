@@ -18,4 +18,6 @@ public interface AddrMapper {
 	public int modifyAddr(Addr addr);
 	/* 특정 배송지 조회 */	
 	public Addr getAddrInfoById(String addrCode);
+	/* 배송지 등록 */
+	public int addAddr(Addr addr);
 }

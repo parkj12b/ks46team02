@@ -18,6 +18,16 @@
 		<result column="member_level_name"						property="memberLevelName"/>
 </resultMap>
 
+		<insert id="addMember" parameterType="Member">
+			/* 회원 등록 */
+			insert into member_info
+			(member_id,member_pw,member_name,member_phone,member_email,position_level_code,company_code,member_reg_date,member_status)
+			VALUES
+			(#{memberId},#{memberPw},#{memberName},#{memberPhone},#{memberEmail},#{positionLevelCode},#{companyCode},CURDATE(),'normal');
+
+		</insert>
+		
+
 		<delete id="removeMember" parameterType="String" >
 		/* 회원 삭제 */
 		DELETE
