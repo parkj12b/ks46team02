@@ -18,6 +18,11 @@ private final AddrMapper addrMapper;
 		this.addrMapper = addrMapper;
 
 	}
+	/* 배송지 등록 */
+	public int addAddr(Addr addr) {
+		int result = addrMapper.addAddr(addr);
+		return result;
+	}
 	/* 배송지 조회 */
 	public List<Addr> getAddrList(){
 		List<Addr> AddrList = addrMapper.getAddrList();

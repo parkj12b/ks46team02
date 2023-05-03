@@ -85,6 +85,26 @@
             company_code = #{companyCode};
     </update>
 
+    <update id="updateApprovalCompany" parameterType="Company">
+        /* 업체승인시 업체정보 업데이트 */
+        UPDATE company_info as ci
+        set
+        ci.approval_status = #{approvalStatus}
+        ,ci.approval_denied_content = #{approvalDeniedContent}
+        ,ci.approval_date = NOW()
+        ,ci.admin_id = #{adminId}
+        WHERE
+        ci.company_code  = #{companyCode};
+    </update>
+
+    <update id="addCompanyCode" parameterType="Member">
+        /* 업체등록시 회원정보 업데이트 */
+        UPDATE member_info as mi
+        set
+        mi.company_code = #{companyCode}
+        WHERE
+        mi.member_id = #{memberId};
+    </update>
 
     <insert id="addCompany" parameterType="Company">
         /* 업체등록 */
@@ -168,6 +188,7 @@
         ,fl.breeder_level_name
         ,ci.reg_password
         ,ci.farm_cnt
+        ,count(1) as isExist
         FROM
             company_info as ci
             inner join

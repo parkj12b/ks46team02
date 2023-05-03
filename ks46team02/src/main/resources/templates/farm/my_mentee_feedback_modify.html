@@ -36,7 +36,14 @@
 .check-info{
 	 display: flex;
 	 align-items: center;
-	 width: 30%;
+	 width: 10%;
+	 justify-content: space-around;
+}
+.check-icon-container{
+
+}
+.check-icon-container i {
+	
 }
 </style>
 </head>
@@ -46,7 +53,7 @@
 		$('.dot-line').each(function(idx, item){
 			$(window).on('load resize', function(){
 				let width = $(item).prev().width();
-				let setWidth = ($(item).parents('.unit-container').eq(0).width()-30)*0.7-width-40;
+				let setWidth = ($(item).parents('.unit-container').eq(0).width()-30)*0.9-width-40;
 				let left = width+setWidth*0.5+30;
 				$(item).css("left", left);
 				$(item).css("width", setWidth);
@@ -85,9 +92,7 @@
 										</h2>
 
 									</div>
-									<form id="demo-form2" method="post"
-										class="form-horizontal form-label-left"
-										action="/farm/mmFeedbackModifyAction">
+									<h2 style="margin-bottom: 30px;">멘토멘티 평가항목</h2>
 										<th:block th:each="l : ${evalLargeCateList}">
 											<div class="unit-container">
 												<h2 th:text="${'단원. '+l.largeCategoryNum+' '+ l.evaluationItem}"></h2>
@@ -95,17 +100,14 @@
 													<h2><span th:text="${d.evaluationUnitCode}"></span>: <span th:text=${d.questionContentSmall}></span></h2>
 													<div class="dot-line"></div>
 													<div class="check-info">
-														<div>
-															hello
+														<div class="check-icon-container">
+															<i class="fa fa-check fa-lg"></i>
 														</div>
 													</div>
 												</div>
 												
 											</div>
 										</th:block>
-
-									</form>
-
 								</div>
 							</div>
 

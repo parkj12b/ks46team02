@@ -82,6 +82,9 @@ public class CommonController {
 				session.setAttribute("sessionName", memberInfo.getMemberName());
 				session.setAttribute("sessionLevel", memberInfo.getPositionLevelCode());
 				session.setAttribute("sessionCompanyCode", memberInfo.getCompanyCode());
+				String sessionId = (String) session.getAttribute("sessionId");
+				Company companyInfo = companyService.getCompanyInfoById(sessionId);
+				session.setAttribute("sessionCompanyIsExist",companyInfo.isExist());
 				session.setAttribute("memberEmail", memberInfo.getMemberEmail());
 				if(memberInfo.getPositionLevelCode().equals("level_code_1")) {
 					session.setAttribute("isOwner", true);
@@ -91,8 +94,6 @@ public class CommonController {
 				session.setAttribute("companyTypeNum", memberInfo.getCompanyTypeNum());
 				session.setAttribute("mmRegType", mmRegType);
 			}
-			String sessionId = (String)session.getAttribute("sessionId");
-			Company companyInfo = companyService.getCompanyInfoById(sessionId);
 
 		} else if(memberLevel.equals("admin")) {
 			AdminMember memberInfo = (AdminMember) loginInfo;

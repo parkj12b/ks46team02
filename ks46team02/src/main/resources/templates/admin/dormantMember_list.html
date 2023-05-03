@@ -15,7 +15,59 @@
 </style>
 </head>
 <th:block layout:fragment="customJs">
-<script>
+<script>	
+	/* 휴면회원 일반회원으로 전환 처리 */
+$(document).ready(function() {
+    // 전환 버튼 클릭 이벤트
+    $('.release').click(function() {
+        Swal.fire({
+            title: "정말로 휴면회원을 일반회원으로 되돌리겠습니까??",
+            text: "이후에 다시 되돌릴수없습니다.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "전환",
+            cancelButtonText: "취소",
+            reverseButtons: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // memberId를 파라미터로 전달
+                var memberId = $(this).closest('tr').find('td:first').text();
+                var row = $(this).closest('tr');
+                $.ajax({
+                    type: 'POST',
+                    url: '/admin/modifyDormantMember',
+                    data: {memberId: memberId},
+                    success: function() {
+                    	const Toast = Swal.mixin({
+                    	    toast: true,
+                    	    position: 'center-center',
+                    	    showConfirmButton: false,
+                    	    timer: 3000,
+                    	    timerProgressBar: true,
+                    	    didOpen: (toast) => {
+                    	        toast.addEventListener('mouseenter', Swal.stopTimer)
+                    	        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    	    }
+                    	})
+                    	Toast.fire({
+                    	    icon: 'success',
+                    	    title: '휴면회원에서 일반회원으로 전환되었습니다.'
+                    	})
+                        row.remove();
+                    },
+                    error: function() {
+                        alert('서버와의 통신 오류가 발생했습니다');
+                    }
+                });
+            }
+        });
+    });
+});
+
+
+/* 삭제처리 */
 $(".delete").click(function () {
 	  (async () => {
 	    const { value: adminPw } = await Swal.fire({

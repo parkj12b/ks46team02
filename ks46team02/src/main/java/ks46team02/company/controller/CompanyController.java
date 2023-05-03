@@ -1,7 +1,6 @@
 package ks46team02.company.controller;
 
 
-import jakarta.servlet.annotation.HttpConstraint;
 import jakarta.servlet.http.HttpSession;
 import ks46team02.admin.mapper.MemberMapper;
 import ks46team02.admin.service.MemberService;
@@ -42,6 +41,28 @@ public class CompanyController {
 
     }
 
+    @PostMapping("/companyApproval")
+    @ResponseBody
+    public void companyApproval(Company company
+                                ,Member member
+                                 ,@RequestParam(name="approvalStatus") String approvalStatus
+                                 ,@RequestParam(name="approvalDeniedContent") String approvalDeniedContent
+                                 ,@RequestParam(name="companyCode") String companyCode
+                                 ,@RequestParam(name="memberId") String memberId
+                                 ,HttpSession session){
+        String sessionId = (String)session.getAttribute("sessionId");
+        company.setApprovalStatus(approvalStatus);
+        company.setApprovalDeniedContent(approvalDeniedContent);
+        company.setCompanyCode(companyCode);
+        company.setMemberId(memberId);
+        company.setAdminId(sessionId);
+        member.setMemberId(memberId);
+        member.setCompanyCode(companyCode);
+        log.info("ajax로 전달받은 데이터:{}",company);
+
+        companyService.updateApprovalCompany(company);
+        companyService.addCompanyCode(member);
+    }
     @PostMapping("/modifyEmployeeLevel")
     public String modifyEmployeeLevel(Member member){
         memberService.modifyEmployeeLevel(member);
@@ -138,16 +159,19 @@ public class CompanyController {
     }
     @PostMapping("/addCompany")
     public String addCompany(Company company
-                            ,HttpSession session){
+                            ,HttpSession session
+                            ,Member member){
         String sessionId = (String)session.getAttribute("sessionId");
         company.setMemberId(sessionId);
+        member.setMemberId(sessionId);
         log.info("화면에서 전달받은 데이터 : {}", company);
         companyService.addCompany(company);
+//        companyService.addCompanyCode(member);
         return "redirect:/admin/applyCompanyRegList";
     }
 
     @GetMapping("/addCompany")
-    public String companyAdd(Model model){
+    public String addCompany(Model model){
 
         List<CompanyType> companyTypeList = companyService.getCompanyTypeList();
 
@@ -156,6 +180,14 @@ public class CompanyController {
         return "company/add_company";
     }
 
+    @GetMapping("/addCompanyIntro")
+    public String addCompanyIntro(Model model
+                                 ,HttpSession session){
+        String sessionId = (String)session.getAttribute("sessionId");
+        Company companyInfo = companyService.getCompanyInfoById(sessionId);
+        model.addAttribute("companyIsExist",companyInfo.isExist());
+        return "company/add_company_intro";
+    }
     @PostMapping("/modifyCompany")
     public String modifyCompany(Company company
                                ,HttpSession session){
@@ -187,10 +219,12 @@ public class CompanyController {
     @GetMapping("/companyInfoUser")
     public String getCompanyInfoUser(Model model
                                     ,HttpSession session){
-        String companyCode = (String)session.getAttribute("sessionCompanyCode");
-        Company companyInfo = companyService.getCompanyInfoByCode(companyCode);
+        String sessionId = (String)session.getAttribute("sessionId");
+        String sessionLevel = (String)session.getAttribute("sessionLevel");
+        Company companyInfo = companyService.getCompanyInfoById(sessionId);
         model.addAttribute("title", "업체상세정보");
         model.addAttribute("companyInfo", companyInfo);
+        model.addAttribute("sessionLevel",sessionLevel);
 
         return "company/company_info_user";
     }
