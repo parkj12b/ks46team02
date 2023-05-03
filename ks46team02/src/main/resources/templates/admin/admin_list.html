@@ -171,15 +171,13 @@ $(".delete").click(function () {
 												<td th:text="${l.adminPhone}"></td>
 												<td th:text="${l.adminRegDate}"></td>
 												<td th:if="${l.adminId != 'master'}">                                            
-                                            		<a th:href="@{/admin/modifyAdmin(adminId=*{l.adminId})}">수정</a>
-                                            		
+                                            		<button type="button" class="btn btn-dark modify"><a th:href="@{/admin/modifyAdmin(adminId=*{l.adminId})}" style="color: white;">수정</a> </button>
                                             	</td>
                                             	<td th:if="${l.adminId != 'master'}">
                                             		<button class="btn btn-dark delete" type="button">삭제</button>
-                                            		
                                                </td>
-                                                 <td th:if="${l.adminId == 'master'}"></td>
-                                                 <td th:if="${l.adminId == 'master'}"></td>
+                                                <td th:if="${l.adminId == 'master'}"></td>
+                                                <td th:if="${l.adminId == 'master'}"></td>
 											</tr>
 										</tbody>
                                     </table>
