@@ -74,7 +74,7 @@
                     <h2>내 업체 정보</h2>
                     <div class="clearfix"></div>
                 </div>
-                <div class="x_content">
+                <div class="x_content" th:if="${companyInfo.isExist() == true}">
                     <form id="companyInfoForm" th:action="@{/company/companyInfoUser}" method="post" novalidate>
                         <div th:object="${companyInfo}">
                         <span class="section">Company Info</span>
@@ -136,24 +136,25 @@
                             </div>
                         </div>
 
-
-                        <div class="field item form-group">
+                        <th:block th:unless="${companyInfo.approvalStatus == null}">
+                        <div  class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">승인일</label>
                             <div class="col-md-6 col-sm-6">
-                                <input class="form-control optional" name="applyDate"
-                                       th:value="*{applyDate}"
+                                <input class="form-control optional" name="approvalDate"
+                                       th:value="*{approvalDate}"
                                        type="text" readonly="readonly"/>
                             </div>
                         </div>
 
                         <div class="field item form-group">
-                            <label class="col-form-label col-md-3 col-sm-3  label-align">승인반려사유</label>
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">승인,반려사유</label>
                             <div class="col-md-6 col-sm-6">
                                 <input class="form-control optional" name="approvalDeniedContent"
                                        th:value="*{approvalDeniedContent}"
                                        type="text" readonly="readonly"/>
                             </div>
                         </div>
+                        </th:block>
 
                         <div class="field item form-group">
                             <label class="col-form-label col-md-3 col-sm-3  label-align">사원등록비밀번호</label>
@@ -181,7 +182,7 @@
                                 </div>
                             </div>
                         </th:block>
-                        <div class="item form-group">
+                        <div th:unless="${sessionLevel == 'level_code_4'}" class="item form-group">
                             <div class="col-md-6 col-sm-6 offset-md-3">
                                 <button id="deleteBtn" class="btn btn-dark" type="button" th:href="@{#}">삭제</button>
                                 <button class="btn btn-dark" type="reset" th:onclick="|location.href='@{/company/modifyCompany(companyCode=*{companyCode})}'|">수정</button>
@@ -189,6 +190,9 @@
                         </div>
                         </div>
                     </form>
+                </div>
+                <div th:unless="${companyInfo.isExist() == true}">
+                    업체등록을 신청하지 않았습니다.
                 </div>
             </div>
         </div>

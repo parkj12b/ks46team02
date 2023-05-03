@@ -15,6 +15,8 @@
 </head>
 <th:block layout:fragment="customJs">
 <script>
+
+
 // 서치바 사라지게하는거
 	$(document).ready(function(){
 		$('#datatable1').DataTable({
@@ -27,7 +29,7 @@
 		    window.location.href = '/admin/addMember';
 		  });
 		});
-		
+		// 삭제 처리 
 	 $(".delete").click(function () {
 		  (async () => {
 		    const { value: adminPw } = await Swal.fire({
@@ -123,6 +125,7 @@
                         <div class="col-sm-12">
                             <div class="card-box table-responsive">
                                 <div class="col-sm-12">
+                                 <!-- <div th:include="~{admin/search/search :: memberSearch}"></div> -->
 
 
                                     <table id="datatable1"
@@ -188,7 +191,6 @@
 										        <td th:text="${l.companyCode}"></td>
 										        <td th:text="${l.memberRegDate}"></td>
 											    <td>                                            
-										       <button type="button" class="btn btn-dark modify">수정</button>
 										        </td>
 										        <td>
 										        <button type="reset" class="btn btn-dark delete">삭제</button>

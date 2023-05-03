@@ -22,5 +22,6 @@ public interface AdminMapper {
 	public int removewithdrawalAdmin(String adminId);
 	/* 관리자 아이디 중복 체크 */
 	public boolean idCheckAdmin(String adminId);
-	
+	/* 관리자 등록 */
+	public int addAdmin(AdminMember adminMember);
 }
