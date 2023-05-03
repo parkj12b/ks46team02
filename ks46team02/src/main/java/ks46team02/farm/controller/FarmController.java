@@ -630,7 +630,8 @@ public class FarmController {
 				memberInfo.put("contract_code", response);
 			}
 		}
-		log.info("memberInfo={}", memberInfo);
+		memberInfo.forEach((key,value)-> {log.info(key+ " : " + value);});
+		
 		log.info("feedbackList={}", feedbackList);
 		log.info("feedbackScore={}", feedbackScore);
 		return "Success";
