@@ -1,185 +1,131 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/mypageLayout}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/mypageLayout}">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style>
-#open-checked {
-	margin-top: 20px;
-}
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <style>
+        #open-checked {
+            margin-top: 20px;
+        }
 
-.checkbox {
-	font-size: 20px;
-	display: grid;
-	border: 1px solid #17a2b8;
-	width: 20px;
-	height: 20px;
-	border-radius: 3px;
-}
+        .checkbox {
+            font-size: 20px;
+            display: grid;
+            border: 1px solid #17a2b8;
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+        }
 
-.checkbox:hover {
-	box-shadow: 0 0 0 0.1rem #17a2b8;
-}
+        .checkbox:hover {
+            box-shadow: 0 0 0 0.1rem #17a2b8;
+        }
 
-input[type='checkbox'] {
-	accent-color: #17a2b8;
-}
+        input[type='checkbox'] {
+            accent-color: #17a2b8;
+        }
 
-.table-striped tbody tr:nth-of-type(odd):hover{
-    background-color: rgba(0,0,0,.1);
-}
+        .table-striped tbody tr:nth-of-type(odd):hover {
+            background-color: rgba(0, 0, 0, .1);
+        }
 
-.table-striped tbody tr:nth-of-type(even):hover{
-    background-color: rgba(0,0,0,0.05);
-}
-</style>
+        .table-striped tbody tr:nth-of-type(even):hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+    </style>
 </head>
 <body>
-	<th:block layout:fragment="customJs">
-		<script>
-			$(function() {
+<th:block layout:fragment="customJs">
+    <script>
+            /* tr클릭시 해당계약으로 등록신청페이지로 */
+            $('table td').each(function (idx, item) {
+                $(item).css('cursor', 'pointer');
 
-				$('#open-checked').click(
-						function() {
-							$('.check-self').each(
-									function(idx, item) {
-										if ($(item).prop('checked')) {
-											console.log($(item).parents('tr').find('a.contract_new_tab')[0].href);
-											window.open($(item).parents('tr').find('a.contract_new_tab')[0].href, '_blank');
-
-										}
-
-									})
-						})
-
-				$('#check-all').click(
-						function() {
-							let checkAllEle = $('.check-self');
-							checkAllEle.each(function(idx, item) {
-								$(item).prop('checked',
-										$('#check-all').prop('checked'));
-							});
-						});
-/* 체크박스 확인 전체 체크  */
-				$('.check-self').each(function(idx, item) {
-					$(item).click(function() {
-					
-						let checkboxes = $('.check-self');
-						let allchecked = true;
-						if (item.checked == false) {
-							$('#check-all').prop('checked', false);
-						}
-						$(checkboxes).each(function(idx, item) {
-							if (item.checked == false) {
-								allchecked = false;
-							}
-						})
-						if (allchecked) {
-							$('#check-all').prop('checked', true);
-						}
-
-					})
-
-				})
-/* tr클릭시 해당계약으로 등록신청페이지로 */
-				$('table td').each(function(idx,item){
-					$(item).css('cursor', 'pointer');
-					
-					$(item).click(function(e) {
-						let link = $(item).parents('tr').attr('href');
-						if(e.ctrlKey){
-							window.open(link,'_blank');
-						} else {
-							location.href = link;
-						}
-						return false;
-					});
-				})
-
-			});
-		</script>
-
-	</th:block>
-	<th:block layout:fragment="customContent">
-		<div class="col-md-12 col-sm-12 ">
-			<div class="x_panel">
-				<div class="x_title">
-					<h2>업체등록신청목록</h2>
-
-					<div class="clearfix"></div>
-				</div>
-				<div class="x_content">
-					<div class="row">
-						<div class="col-sm-12">
-							<div class="card-box table-responsive">
-								<div id="datatable-checkbox_wrapper"
-									class="dataTables_wrapper container-fluid dt-bootstrap no-footer">
-									<div class="row">
-										<div class="col-sm-12">
-											<span style="float: right;">(Ctrl + Click로 새탭에서 열기)</span>
-											<table id="datatable-checkbox"
-												class="table table-striped table-bordered bulk_action dataTable no-footer"
-												style="width: 100%" role="grid"
-												aria-describedby="datatable-checkbox_info">
-												<thead>
-													<tr role="row">
-														<th class="sorting" tabindex="0"
-															aria-controls="datatable-checkbox" rowspan="1"
-															colspan="1">업체명</th>
-														<th class="sorting" tabindex="0"
-															aria-controls="datatable-checkbox" rowspan="1"
-															colspan="1">업체종류</th>
-														<th class="sorting" tabindex="0"
-															aria-controls="datatable-checkbox" rowspan="1"
-															colspan="1">사업자등록번호</th>
-														<th class="sorting" tabindex="0"
-															aria-controls="datatable-checkbox" rowspan="1"
-															colspan="1">신청일</th>
-
-													</tr>
-												</thead>
-												<tbody>
-													<th:block th:each="l : ${companyList}" th:unless="${companyList == null || l.approvalStatus != null}">
-														<tr role="row" class="odd"
-															th:href="@{/company/companyInfo(companyCode=${l.companyCode})}">
-															<td th:text="${l.companyName}"></td>
-															<td th:text="${l.companyType}"></td>
-															<td th:text="${l.companyRegNum}"></td>
-															<td th:text="${l.applyDate}"></td>
-														</tr>
+                $(item).click(function (e) {
+                    let link = $(item).parents('tr').attr('href');
+                    if (e.ctrlKey) {
+                        window.open(link, '_blank');
+                    } else {
+                        location.href = link;
+                    }
+                    return false;
+                });
+            });
 
 
-														<!-- <tr role="row" class="even">
+    </script>
 
-															<td th:text="${m.contractPeriod}"></td>
-															<td th:text="${m.totalVisitation}"></td>
-															<td th:text="${m.monthVisitation}"></td>
-															<td th:text="${m.contractCost}"></td>
-															<td th:text="${m.careerYear + '년' + m.careerMonth + '월'}"></td>
-															<td th:text="${m.companyAddr}"></td>
-															<td th:text="${m.previousYearSales}"></td>
-														</tr> -->
-													</th:block>
+</th:block>
+<th:block layout:fragment="customContent">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>업체등록신청목록</h2>
 
-													<tr role="row" class="odd"
-														th:if="${companyList == null}">
-														<td colspan="8">업체등록신청이 없습니다</td>
-													</tr>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box table-responsive">
+                            <div id="datatable-checkbox_wrapper"
+                                 class="dataTables_wrapper container-fluid dt-bootstrap no-footer">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <table id="datatable-buttons"
+                                                class="table table-striped table-bordered bulk_action dataTable no-footer"
+                                                style="width: 100%" role="grid"
+                                                aria-describedby="datatable-checkbox_info" >
+                                            <thead>
+                                            <tr role="row">
+                                                <th class="sorting"
+                                                    rowspan="1"
+                                                    colspan="1">업체명
+                                                </th>
+                                                <th class="sorting"
+                                                    rowspan="1"
+                                                    colspan="1">업체종류
+                                                </th>
+                                                <th class="sorting"
+                                                    rowspan="1"
+                                                    colspan="1">사업자등록번호
+                                                </th>
+                                                <th class="sorting"
+                                                    rowspan="1"
+                                                    colspan="1">신청일
+                                                </th>
 
-												</tbody>
-											</table>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
 
-	</th:block>
+											<tr role="row" class="odd" th:each="l : ${companyList}"
+												th:unless="${companyList == null||l.approvalStatus != null}"
+                                                    th:href="@{/company/companyInfo(companyCode=${l.companyCode})}">
+                                                    <td th:text="${l.companyName}"></td>
+                                                    <td th:text="${l.companyType}"></td>
+                                                    <td th:text="${l.companyRegNum}"></td>
+                                                    <td th:text="${l.applyDate}"></td>
+											</tr>
+                                            <tr role="row" class="odd" th:if="${companyList == null}">
+                                                <td colspan="4">업체등록신청이 없습니다</td>
+                                            </tr>
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</th:block>
 </body>
 </html>

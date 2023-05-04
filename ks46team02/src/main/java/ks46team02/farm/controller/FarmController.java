@@ -59,6 +59,31 @@ public class FarmController {
 		this.memberService = memberService;
 	}
 
+	/**
+	 * 케이지 등록
+	 */
+	@PostMapping("/addCage")
+	public String addCage(Cage cage
+						,HttpSession session){
+		log.info("화면에서 전달받은 데이터 : {}", cage);
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		String memberId = (String) session.getAttribute("sessionId");
+		cage.setCompanyCode(companyCode);
+		cage.setMemberId(memberId);
+		farmService.addCage(cage);
+		return "redirect:/farm/cageList";
+	}
+	@GetMapping("/addCage")
+	public String addCage(Model model
+						,HttpSession session){
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		List<FarmInfo> farmList = farmService.getFarmList(companyCode);
+		model.addAttribute("title","케이지 등록");
+		model.addAttribute("farmList", farmList);
+
+		return "farm/add_cage";
+	}
+
 
 	/**
 	 * 모달 창 케이지 조회
@@ -103,6 +128,7 @@ public class FarmController {
 
 	/**
 	 * 사육 장 등록
+	 * 등록 화면 이랑 등록
 	 */
 
 	@PostMapping("/addFarm")
@@ -131,7 +157,6 @@ public class FarmController {
 	@GetMapping("/addFarm")
 	public String addFarm(Model model){
 		model.addAttribute("title", "사육장 등록");
-		
 		return "farm/add_farm";
 	}
 
@@ -598,7 +623,7 @@ public class FarmController {
 	
 	@PostMapping("/receiveFormData")
 	@ResponseBody
-	public String receiveFormDataMentorMentee(@RequestBody GoogleFormResponse googleFormResponse) {
+	public String receiveFormDataMentorMentee(@RequestBody GoogleFormResponse googleFormResponse) throws Exception {
 		Map<String, String> memberInfo = new HashMap<>();
 		List<GoogleFormResult> feedbackList = new ArrayList<>();
 		List<GoogleFormResult> feedbackScore = new ArrayList<>();
@@ -634,6 +659,13 @@ public class FarmController {
 		
 		log.info("feedbackList={}", feedbackList);
 		log.info("feedbackScore={}", feedbackScore);
+		Map<String,Object> paramMap = new HashMap<>();
+		paramMap.put("memberInfo", memberInfo);
+		paramMap.put("feedbackList", feedbackList);
+		paramMap.put("feedbackScore", feedbackScore);
+		mentorMenteeService.addFeedback(paramMap);
+		
+		
 		return "Success";
 	}
 }

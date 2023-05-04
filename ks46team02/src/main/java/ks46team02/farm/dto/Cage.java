@@ -100,4 +100,21 @@ public class Cage {
     public void setCageTotal(double cageTotal) {
         this.cageTotal = cageTotal;
     }
+
+    @Override
+    public String toString() {
+        return "Cage{" +
+                "cageCode='" + cageCode + '\'' +
+                ", cageName='" + cageName + '\'' +
+                ", companyCode='" + companyCode + '\'' +
+                ", farmCode='" + farmCode + '\'' +
+                ", optimalInputEgg=" + optimalInputEgg +
+                ", memberId='" + memberId + '\'' +
+                ", cageRegDate='" + cageRegDate + '\'' +
+                ", cageNum=" + cageNum +
+                ", cageVolume=" + cageVolume +
+                ", cageVolumeUnit='" + cageVolumeUnit + '\'' +
+                ", cageTotal=" + cageTotal +
+                '}';
+    }
 }
