@@ -623,7 +623,7 @@ public class FarmController {
 	
 	@PostMapping("/receiveFormData")
 	@ResponseBody
-	public String receiveFormDataMentorMentee(@RequestBody GoogleFormResponse googleFormResponse) {
+	public String receiveFormDataMentorMentee(@RequestBody GoogleFormResponse googleFormResponse) throws Exception {
 		Map<String, String> memberInfo = new HashMap<>();
 		List<GoogleFormResult> feedbackList = new ArrayList<>();
 		List<GoogleFormResult> feedbackScore = new ArrayList<>();
@@ -659,6 +659,13 @@ public class FarmController {
 		
 		log.info("feedbackList={}", feedbackList);
 		log.info("feedbackScore={}", feedbackScore);
+		Map<String,Object> paramMap = new HashMap<>();
+		paramMap.put("memberInfo", memberInfo);
+		paramMap.put("feedbackList", feedbackList);
+		paramMap.put("feedbackScore", feedbackScore);
+		mentorMenteeService.addFeedback(paramMap);
+		
+		
 		return "Success";
 	}
 }
