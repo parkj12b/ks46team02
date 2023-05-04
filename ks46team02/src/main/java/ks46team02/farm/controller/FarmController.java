@@ -62,9 +62,20 @@ public class FarmController {
 	/**
 	 * 케이지 등록
 	 */
+	@PostMapping("/addCage")
+	public String addCage(Cage cage
+						,HttpSession session){
+		log.info("화면에서 전달받은 데이터 : {}", cage);
+		return "redirect:/farm/cageList";
+	}
 	@GetMapping("/addCage")
-	public String addCage(Model model){
+	public String addCage(Model model
+						,HttpSession session){
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		List<FarmInfo> farmList = farmService.getFarmList(companyCode);
 		model.addAttribute("title","케이지 등록");
+		model.addAttribute("farmList", farmList);
+
 		return "farm/add_cage";
 	}
 
