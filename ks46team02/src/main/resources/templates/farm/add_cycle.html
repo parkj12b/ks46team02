@@ -71,14 +71,15 @@ $('#confirmButton').on('click', function() {
 					</div>
 					<div class="x_content">
 						<br>
-						<form class="form-horizontal form-label-left" >
+						<form class="form-horizontal form-label-left" th:action="@{/farm/addCycle}" method="post">
+							<input type="hidden" name="farmCode" th:value="${farmCode}"/>
 							<div class="form-group row ">
 								<label class="control-label col-md-3 col-sm-3"> 케이지 코드
 								</label>
 								<div class="col-md-9 col-sm-9">
 								  <div class="form-group row">
 								    <div class="input-group">
-								      <input type="text" name="cageCode" class="form-control" placeholder="Default Input" readonly="readonly">
+								      <input type="text" name="cageCode" class="form-control" readonly="readonly">
 								      <span class="input-group-btn">
 								        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#myModal">케이지 조회</button>
 								      </span>
@@ -92,7 +93,7 @@ $('#confirmButton').on('click', function() {
 								 <span class="required">*</span>
 								</label>
 								<div class="col-md-9 col-sm-9 ">
-									<input id="birthday" class="date-picker form-control"
+									<input name="harvestStartDate" class="date-picker form-control"
 										placeholder="dd-mm-yyyy" type="date" required="required"
 										onfocus="this.type='date'" onmouseover="this.type='date'"
 										onclick="this.type='date'" onblur="this.type='text'"
@@ -110,8 +111,7 @@ $('#confirmButton').on('click', function() {
 							<div class="form-group row">
 								<label class="control-label col-md-3 col-sm-3 "> 투입 알 용량[g] </label>
 								<div class="col-md-9 col-sm-9 ">
-									<input type="text" class="form-control"
-										placeholder="Disabled Input">
+									<input type="text" class="form-control" name="inputEgg">
 								</div>
 							</div>
 							<div class="form-group row">
@@ -119,29 +119,21 @@ $('#confirmButton').on('click', function() {
                             <div class="col-md-6 col-sm-6 ">
                               <div id="gender" class="btn-group" data-toggle="buttons">
                                 <label class="btn btn-danger" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-                                  <input type="radio" name="gender" value="male" class="join-btn"> &nbsp; Lava &nbsp;
+                                  <input type="radio" name="calculationStandardCode" value="Lava" class="join-btn"> 애벌레
                                 </label>
                                 <label class="btn btn-primary active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-                                  <input type="radio" name="gender" value="female" class="join-btn"> Puppa
+                                  <input type="radio" name="calculationStandardCode" value="Puppa" class="join-btn"> 번데기
                                 </label>
                               </div>
                             </div>
                           </div>
 
-							<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-3 ">비밀번호</label>
-								<div class="col-md-9 col-sm-9 ">
-									<input type="password" class="form-control"
-										value="passwordonetwo">
-								</div>
-							</div>
-
 							<div class="ln_solid"></div>
 							<div class="form-group">
 								<div class="col-md-9 col-sm-9  offset-md-3">
-									<button type="button" class="btn btn-primary">Cancel</button>
-									<button type="reset" class="btn btn-primary">Reset</button>
-									<button type="submit" class="btn btn-success">Submit</button>
+									<button type="submit" class="btn btn-dark">등록</button>
+									<button type="button" class="btn btn-dark">취소</button>
+
 								</div>
 							</div>
 
@@ -183,7 +175,7 @@ $('#confirmButton').on('click', function() {
 		      <div class="form-group row">
 		        <label class="control-label col-md-4 col-sm-4">케이지 개수</label>
 		        <div class="col-md-8 col-sm-8">
-		          <input type="text" class="form-control" id="cageNumInput" readonly>
+		          <input type="text" class="form-control" id="cageNumInput" name="cageNum" readonly>
 		        </div>
 		      </div>
 		
@@ -215,8 +207,10 @@ $('#confirmButton').on('click', function() {
 			
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-	      	<button type="button" class="btn btn-primary" id="confirmButton">확인</button>
+			  <a class="btn btn-default" th:href="@{/farm/addCage}" style="float: left;">케이지 추가</a>
+			  <button type="button" class="btn btn-primary" id="confirmButton">확인</button>
+			  <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+
 	      </div>
 	    </div>
 	  </div>
