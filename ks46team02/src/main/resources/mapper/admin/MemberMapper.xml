@@ -15,7 +15,6 @@
 		<result column="member_ci"  							property="memberCi"/>
 		<result column="member_status"  						property="memberStatus"/>
 		<result column="dormant_member_reg_date"  				property="dormantMemberRegDate"/>
-		<result column="member_level_name"						property="memberLevelName"/>
 </resultMap>
 
 		<insert id="addMember" parameterType="Member">
@@ -74,7 +73,7 @@
 				member_pw = #{memberPw},
 			</if>
 			<if test="memberName != null and memberName != ''">
-				member_name = #{adminName},
+				member_name = #{memberName},
 			</if>
 			<if test="memberPhone != null and memberPhone != ''">
 				member_phone = #{memberPhone},
