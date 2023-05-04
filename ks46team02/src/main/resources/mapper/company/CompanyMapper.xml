@@ -102,6 +102,7 @@
         UPDATE member_info as mi
         set
         mi.company_code = #{companyCode}
+        ,mi.position_level_code = 'level_code_1'
         WHERE
         mi.member_id = #{memberId};
     </update>

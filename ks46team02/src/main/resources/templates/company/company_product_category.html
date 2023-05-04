@@ -40,10 +40,10 @@
                                     <td th:text="${l.adminId}"></td>
                                     <td th:text="${l.productCategoryRegDate}"></td>
                                     <td>
-                                        <a th:href="@{/company/modifyCompanyProductCategory}">수정</a>
+                                        <a class="btn btn-secondary btn-sm" th:href="@{/company/modifyCompanyProductCategory}">수정</a>
                                     </td>
                                     <td>
-                                        <a href="#">삭제</a>
+                                        <a class="btn btn-secondary btn-sm" href="#">삭제</a>
                                     </td>
                                 </tr>
                                 <tr th:if="${farmProductCategoryList == null}">

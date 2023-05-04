@@ -67,8 +67,8 @@
                                                 <td th:text="${l.companyType}"></td>
                                                 <td th:text="${l.regDate}"></td>
                                                 <td th:text="${l.adminId}"></td>
-                                                <td><a th:href="@{#}">수정</a></td>
-                                                <td><a th:href="@{#}">삭제</a></td>
+                                                <td><a class="btn btn-secondary btn-sm" th:href="@{#}">수정</a></td>
+                                                <td><a class="btn btn-secondary btn-sm" th:href="@{#}">삭제</a></td>
                                             </tr>
                                             <tr th:if="${companyTypeList == null}">
                                                 <td>등록된 업체가 없습니다.</td>
