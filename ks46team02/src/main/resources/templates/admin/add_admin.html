@@ -101,6 +101,63 @@
 							</div>
 						</div>
 					</div>
+<<<<<<< HEAD
+					<div class="x_content">
+						<br>
+						<div class="form-group row ">
+								<label class="control-label col-md-3 col-sm-3" for="sample4_postcode">관리자 아이디</label>
+								    <div class="col-md-9 col-sm-9">
+								        <div class="input-group">
+								            <input type="text" class="form-control" id="sample4_postcode" placeholder="아이디">
+								            <span class="input-group-btn">
+								                <input type="button" class="btn btn-dark" onclick="sample4_execDaumPostcode()" value="아이디 중복체크">
+								            </span>
+								        </div>
+								    </div>
+								</div>
+							<div class="form-group row ">
+								<label class="control-label col-md-3 col-sm-3 "> 관리자 비밀번호 </label>
+								<div class="col-md-9 col-sm-9 ">
+									<input type="password" class="form-control" id="sample4_jibunAddress" placeholder="">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="control-label col-md-3 col-sm-3 "> 관리자 이름 </label>
+								<div class="col-md-9 col-sm-9 ">
+								<input type="text" class="form-control" id="sample4_detailAddress" placeholder="">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="control-label col-md-3 col-sm-3 "> 이메일</label>
+								<div class="col-md-9 col-sm-9 ">
+									<input type="text" class="form-control" value="이메일">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="control-label col-md-3 col-sm-3 ">관리자 등급</label>
+								<div class="col-md-9 col-sm-9 ">
+									<select class="form-control">
+										<option></option>
+										<th:block th:if="${adminLevelList1 != null}">
+  										<option th:each="l : ${adminLevelList1}" th:value="${l.adminLevel}" th:text="${l.adminPosition}"></option>
+										</th:block>
+									</select>								</div>
+							</div>
+							<div class="form-group row">
+								<label class="control-label col-md-3 col-sm-3 "> 전화 번호</label>
+								<div class="col-md-9 col-sm-9 ">
+									<input type="text" class="form-control" value="">
+								</div>
+							</div>
+							<div class="ln_solid"></div>
+							<div class="form-group">
+								<div class="col-md-9 col-sm-9  offset-md-5">
+									<button type="button" class="btn btn-dark">등록</button>
+									<button type="reset" class="btn btn-dark cancel">취소</button>
+								</div>
+							</div>
+						</form>
+=======
 					<div class="form-group row ">
 						<label class="control-label col-md-3 col-sm-3 "> 관리자 비밀번호
 						</label>
@@ -108,6 +165,7 @@
 							<input type="password" class="form-control"
 								id="adminPw" name="adminPw" placeholder="">
 						</div>
+>>>>>>> refs/heads/develop
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3 col-sm-3  "> 관리자 이름 </label>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans
+	xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc
+		 						 https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		 						 http://www.springframework.org/schema/beans
+		 						 https://www.springframework.org/schema/beans/spring-beans.xsd
+		 						 http://www.springframework.org/schema/context
+		 						 
+		 						 https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- properties 파일의 내용을 사용할 수 있도록  bean을 정의 -->
+	<beans:bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<beans:property name="locations">
+			<beans:list>
+				<beans:value>/properties/option.properties</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+	<interceptors>
+		<interceptor>
+			<mapping path="/**" />
+			<beans:bean
+				class="ks46team02.topmenu.interceptor.TopMenuInterceptor" />
+		</interceptor>
+<!-- 		<interceptor>
+			<mapping path="/customerservice/*" />
+			<exclude-mapping path="/customerservic/main" />
+			<beans:bean
+				class="ks46team02.interceptor.CheckLoginInterceptor" />
+		</interceptor> -->
+		<interceptor>
+			<mapping path="/question/modify" />
+			<mapping path="/question/delete" />
+			<beans:bean
+				class="ks46team02.customerservice.interceptor.CheckWriterInterceptor" />
+		</interceptor>
+		</interceptors>
+
+		<beans:bean
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+		id="messageSource">
+		<beans:property name="basenames">
+			<beans:list>
+				<beans:value>/properties/error_message</beans:value>
+			</beans:list>
+		</beans:property>
+		<beans:property name="defaultEncoding" value="UTF-8" />
+	</beans:bean>
+
+		<beans:bean
+			class="org.springframework.context.support.MessageSourceAccessor">
+			<beans:constructor-arg ref="messageSource" />
+		</beans:bean>
+
+		<beans:bean
+			class="org.springframework.web.multipart.support.StandardServletMultipartResolver"
+			id="multipartResolver" />
+</beans:beans>
