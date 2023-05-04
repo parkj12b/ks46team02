@@ -1,4 +1,4 @@
-package ks46team02.topmenu.service;
+package ks46team02.topmenu.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script layout:fragment="customJs">
+	alert("수정 되었습니다");
+	location.href = "/customerservice/read?questionTypeCode=[[${modifyQuestionDto.questionTypeCode}]]&questionCode=[[${modifyQuestionDto.questionCode}]]&page=[[${page}]]";
+</script>
+</head>
+<body>
+
+</body>
+</html>

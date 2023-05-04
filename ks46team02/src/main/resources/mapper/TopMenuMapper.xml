@@ -10,6 +10,7 @@
 </resultMap>
 	<select id="getTopMenuCustomerServiceList"
 		resultMap="questionTypeDtoMap">
+		/* 탑 메뉴의 customerservice의 정보리스트 조회 */
 		SELECT 
 			question_type_code, 
 			question_type_name
@@ -18,4 +19,5 @@
 		WHERE question_type_code IN (4, 5)
 		ORDER BY question_type_code;
 	</select>
-</mapper>		
+</mapper>	 	
+

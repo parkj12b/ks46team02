@@ -1,6 +1,6 @@
 package ks46team02.customerservice.dto;
 
-
+import org.springframework.web.multipart.MultipartFile;
 
 import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 
@@ -13,6 +13,8 @@ public class QuestionDto {
 
 	@NotNull
 	private String questionContent;
+	
+	private MultipartFile uploadFile;
 
 	private String questionFile;
 
@@ -47,18 +49,22 @@ public class QuestionDto {
 	public void setQuestionContent(String questionContent) {
 		this.questionContent = questionContent;
 	}
+	
+	public MultipartFile getUploadFile() {
+		return uploadFile;
+	}
 
-
+	public void setUploadFile(MultipartFile uploadFile) {
+		this.uploadFile = uploadFile;
+	}
 
 	public String getQuestionFile() {
 		return questionFile;
 	}
 
-
 	public void setQuestionFile(String questionFile) {
 		this.questionFile = questionFile;
 	}
-
 
 	public String getMemberId() {
 		return memberId;
@@ -119,10 +125,10 @@ public class QuestionDto {
 	@Override
 	public String toString() {
 		return "QuestionDto [questionCode=" + questionCode + ", questionTitle=" + questionTitle + ", questionContent="
-				+ questionContent + ", questionFile=" + questionFile + ", memberId=" + memberId + ", questionTypeCode="
-				+ questionTypeCode + ", questionStatus=" + questionStatus + ", questionRegDate=" + questionRegDate
-				+ ", questionModityDate=" + questionModityDate + ", questionDelDate=" + questionDelDate
-				+ ", questionDelYN=" + questionDelYN + "]";
+				+ questionContent + ", uploadFile=" + uploadFile + ", questionFile=" + questionFile + ", memberId="
+				+ memberId + ", questionTypeCode=" + questionTypeCode + ", questionStatus=" + questionStatus
+				+ ", questionRegDate=" + questionRegDate + ", questionModityDate=" + questionModityDate
+				+ ", questionDelDate=" + questionDelDate + ", questionDelYN=" + questionDelYN + "]";
 	}
 
 

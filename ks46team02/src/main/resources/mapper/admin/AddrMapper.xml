@@ -18,6 +18,37 @@
 		<result column="shipping_addr_reg_date"  			property="addrRegDate"/>
 </resultMap>
 
+		<select id="getAddrMemberList" parameterType="String" resultMap="adminAddrResultMap">
+		/* 특정 회원 배송지 조회 */
+			select 
+				 shipping_addr_code
+				,shipping_addr_postal
+				,shipping_addr_road
+				,shipping_addr_loca
+				,shipping_addr_detail
+				,shipping_addr_name
+				,shipping_addr_recipient
+				,shipping_addr_tel
+				,shipping_addr_phone
+				,shipping_addr_seq
+				,member_id
+			from 
+				addr_manage 
+			where 
+				member_id = #{memberId};
+	</select>
+	
+
+	<select id="getAddrAmountList" parameterType="String" resultMap="adminAddrResultMap">
+					/* 회원별 배송지 숫자 조회 */
+					SELECT 
+						count(*)
+					from
+						addr_manage
+					where 
+						member_id = #{memberId};
+	</select>
+
 <update id="modifyAddr" parameterType="String" >
 		/* 배송지 수정  */
 		UPDATE addr_manage
