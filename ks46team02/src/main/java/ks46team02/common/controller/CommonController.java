@@ -115,11 +115,13 @@ public class CommonController {
 	}
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
-	public String mainPage(@RequestParam(name = "questionTypeCode", defaultValue = "0") int questionTypeCode, Model model) {
+	public String mainPage(@RequestParam(name = "questionTypeCode", defaultValue = "0") int questionTypeCode
+						   , Model model
+						   ,HttpSession session) {
 	
 	    List<QuestionTypeDto> topMenuList = topMenuService.getTopMenuCustomerServiceList();
 	    log.info("{}", topMenuList);
-	    model.addAttribute("topMenuList", topMenuList);
+	    session.setAttribute("topMenuList", topMenuList);
 
 	 
 	    return "mainPage";

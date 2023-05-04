@@ -71,7 +71,7 @@
 		FROM question q
 		JOIN member_info m ON q.member_id = m.member_id
 		WHERE
-		q.question_code = 'question16'
+		q.question_code = #{questionCode}
 		AND q.question_del_yn = 'N';
 	</select>
 
@@ -79,12 +79,11 @@
 		UPDATE question
 		SET
 		question_title = #{questionTitle},
-		question_content =
-		#{questionContent},
+		question_content = #{questionContent},
 		question_file = #{questionFile},
 		question_modify_date = CURRENT_TIMESTAMP()
-		WHERE question_code =
-		#{questionCode} AND question_del_yn ='N';
+		WHERE question_code = #{questionCode} 
+		AND question_del_yn ='N';
 	</update>
 
 	<update id="deleteQuestion" parameterType="String">
