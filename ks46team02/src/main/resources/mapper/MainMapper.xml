@@ -60,7 +60,7 @@
     </resultMap>
 
     <!-- 비밀번호 체크    -->
-    <select id="getMemberInfoById" resultType="Member">
+    <select id="getMemberInfoById" resultMap="memberResultMap">
         SELECT
             *
         FROM

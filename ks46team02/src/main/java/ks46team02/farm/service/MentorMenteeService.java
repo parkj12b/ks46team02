@@ -10,6 +10,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import ks46team02.common.dto.AllContractInfo;
@@ -31,6 +33,10 @@ public class MentorMenteeService {
 	private final MentorMenteeMapper mentorMenteeMapper;
 	private final MainMapper mainMapper;
 
+	
+	private static final Logger log = LoggerFactory.getLogger(MentorMenteeService.class);
+
+	
 	public MentorMenteeService(MentorMenteeMapper mentorMenteeMapper, MainMapper mainMapper) {
 		this.mentorMenteeMapper = mentorMenteeMapper;
 		this.mainMapper = mainMapper;
@@ -214,7 +220,8 @@ public class MentorMenteeService {
 		VisitHistory visitHistory = mentorMenteeMapper.getVisitHistoryByVisitCode(visitCode);
 		String DBContractCode = visitHistory.getContractCode();
 		
-		if(!visitCode.equals(DBContractCode)) {
+		if(!contractCode.equals(DBContractCode)) {
+			log.info(visitCode + " : " + DBContractCode);
 			return;
 		}
 		
@@ -231,12 +238,13 @@ public class MentorMenteeService {
 		for(String key: keyset) {
 			Map<String, Object> map = new HashMap<>();
 			map.put("key", key);
-			map.put("value", paramMap.get(key));
+			map.put("value", contractParam.get(key));
 			searchList.add(map);
 		}
 		List<AllContractInfo> contractInfo = mainMapper.getContractInfoByKeyValueAnd(searchList);
 		// if 가져온 계약 정보가 한개보다 많거나 적으면 return void
 		if(contractInfo.size() != 1) {
+			log.info("contractInfo size={}",contractInfo.size());
 			 return;
 		}
 		/**
@@ -256,6 +264,7 @@ public class MentorMenteeService {
 		 * 오늘 날짜가 기간 안에 있지 않으면 return void
 		 */
 		if(!isbetween) {
+			log.info(startDateString + " : " + endDateString);
 			return;
 		}
 		
@@ -264,7 +273,8 @@ public class MentorMenteeService {
 		int totalScore = 0;
 		
 		for (GoogleFormResult score : feedbackScore) {
-			String[] titleSplit = score.getTitle().split(".");
+			log.info(score.getTitle());
+			String[] titleSplit = score.getTitle().split("\\.");
 			
 			String title = titleSplit[0];
 			int numScore = Integer.parseInt(score.getResponse());
@@ -284,7 +294,14 @@ public class MentorMenteeService {
 			resultHistory.setResultEvaluationPoint(numScore);
 						
 			totalScore += numScore;  
-			int result = mentorMenteeMapper.addResultHistory(resultHistory);
+			List<ResultHistory> resultHistoryDB = mentorMenteeMapper.getResultHistoryListByVisitCode(visitCode);
+			int resultHistoryDBSize = resultHistoryDB.size();
+			if(resultHistoryDBSize == 0) {
+				int result = mentorMenteeMapper.addResultHistory(resultHistory);				
+			} else if(resultHistoryDBSize == 1) {
+				int result = mentorMenteeMapper.modifyResultHistory(resultHistory);
+			}
+			
 			
 		}
 		

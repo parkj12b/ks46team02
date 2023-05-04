@@ -1,7 +1,13 @@
 package ks46team02.farm.dto;
 
 public class GoogleFormResult {
-
+	
+	public GoogleFormResult(String type, String title, String response) {
+        this.type = type;
+        this.title = title;
+        this.response = response;
+    }
+	
 	private String type;
 	private String title;
 	private String response;
