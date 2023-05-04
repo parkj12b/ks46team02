@@ -61,7 +61,7 @@
                                                 <td th:text="${l.companyName}"></td>
                                                 <td th:text="${l.companyType}"></td>
                                                 <td th:text="${l.approvalStatus}"></td>
-                                                <td><a th:href="@{/company/companyInfo(companyCode=${l.companyCode})}">상세정보</a></td>
+                                                <td><a class="btn btn-secondary btn-sm" th:href="@{/company/companyInfo(companyCode=${l.companyCode})}">상세정보</a></td>
                                             </tr>
                                             <tr th:if="${companyList == null}">
                                                 <td>등록된 업체가 없습니다.</td>
