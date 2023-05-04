@@ -84,13 +84,13 @@
 		<result column="question_content_reg_date" property="questionContentRegDate"></result>
 		<result column="admin_id" property="adminId"></result>
 	</resultMap>
-	<resultMap type="MentorFeedbackToken" id="MentorFeedbackTokenByCompanyCodeMap">
+	<resultMap type="MentorFeedbackToken" id="mentorFeedbackTokenMap">
 		<id column="mentor_feedback_token_code" property="mentorFeedbackTokenCode"></id>
 		<result column="company_code" property="companyCode"></result>
 		<result column="mentor_feedback_token" property="mentorFeedbackToken"></result>
 		<result column="member_id" property="memberId"></result>
 		<result column="register_date" property="registerDate"></result>
-		<result column="expiry_date" property="expirtyDate"></result>
+		<result column="expiry_date" property="expiryDate"></result>
 	</resultMap>
 	<resultMap type="EvaluationLargeCategory" id="evaluationLargeCategoryMap">
 		<id column="large_category_code" property="largeCategoryCode"></id>
@@ -247,7 +247,7 @@
 			evaluation_detail_category edc
 			using (large_category_code)
 	</select>
-	<select id="getMentorFeedbackTokenByCompanyCode" parameterType="String" resultMap="MentorFeedbackTokenByCompanyCodeMap">
+	<select id="getMentorFeedbackTokenByCompanyCode" parameterType="String" resultMap="mentorFeedbackTokenMap">
 		select
 			*
 		from
