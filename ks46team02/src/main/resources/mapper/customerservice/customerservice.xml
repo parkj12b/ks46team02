@@ -104,17 +104,5 @@
 		#{questionTypecode}
 		AND question_del_yn = 'N'
 	</select>
-<<<<<<< HEAD
 </mapper>
 
-
-
-
-
-
-
-
-
-=======
-</mapper>
->>>>>>> refs/heads/develop
