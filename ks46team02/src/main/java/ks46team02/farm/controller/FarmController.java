@@ -609,8 +609,8 @@ public class FarmController {
 		for(GoogleFormResult obj : googleFormResultList) {
 
 			String type = obj.getType();
-			String title = obj.getType();
-			String response = obj.getType();
+			String title = obj.getTitle();
+			String response = obj.getResponse();
 			
 			if(type.equals("PARAGRAPH_TEXT")) {
 				feedbackList.add(obj);
