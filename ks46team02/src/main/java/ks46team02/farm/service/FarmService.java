@@ -2,6 +2,7 @@ package ks46team02.farm.service;
 
 
 
+import java.util.HashMap;
 import java.util.List;
 
 import ks46team02.common.mapper.MainMapper;
@@ -33,7 +34,29 @@ public class FarmService {
     
     
 	private static final Logger log = LoggerFactory.getLogger(FarmService.class);
+    final double standardEggWeight = 0.089;
 
+    /**
+     * 케이지 등록
+     */
+    public int addCage(Cage cage){
+        log.info("화면에서 전달받은 데이터 : {}", cage);
+        String column = "cage_code";
+        String table = "cage";
+        String cageCode = mainMapper.autoIncrement(table, column);
+
+        int cageNum = cage.getCageNum();
+        double CageVolume = cage.getCageVolume();
+        double cageTotal = cageNum*CageVolume;
+        double optimalInputEgg = cageTotal*standardEggWeight;
+
+        cage.setCageCode(cageCode);
+        cage.setCageTotal(cageTotal);
+        cage.setOptimalInputEgg(optimalInputEgg);
+        log.info("입력값 : {}", cage);
+        int result = farmMapper.addCage(cage);
+        return result;
+    }
 
     /**
      * 사육장 등록

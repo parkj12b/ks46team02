@@ -10,12 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpSession;
 import ks46team02.admin.service.MemberService;
@@ -38,6 +33,7 @@ import ks46team02.farm.dto.ResultHistory;
 import ks46team02.farm.dto.VisitHistory;
 import ks46team02.farm.service.FarmService;
 import ks46team02.farm.service.MentorMenteeService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/farm")
@@ -59,6 +55,31 @@ public class FarmController {
 		this.memberService = memberService;
 	}
 
+	/**
+	 * 케이지 등록
+	 */
+	@PostMapping("/addCage")
+	public String addCage(Cage cage
+						,HttpSession session){
+		log.info("화면에서 전달받은 데이터 : {}", cage);
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		String memberId = (String) session.getAttribute("sessionId");
+		cage.setCompanyCode(companyCode);
+		cage.setMemberId(memberId);
+		farmService.addCage(cage);
+		return "redirect:/farm/cageList";
+	}
+	@GetMapping("/addCage")
+	public String addCage(Model model
+						,HttpSession session){
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		List<FarmInfo> farmList = farmService.getFarmList(companyCode);
+		model.addAttribute("title","케이지 등록");
+		model.addAttribute("farmList", farmList);
+
+		return "farm/add_cage";
+	}
+
 
 	/**
 	 * 모달 창 케이지 조회
@@ -75,12 +96,22 @@ public class FarmController {
 	/**
 	 * 하나의 사육장 싸이클 등록
 	 */
+	@PostMapping("/addCycle")
+	public String addCycle(Cycle cycle, RedirectAttributes reattr){
+		String farmCode = cycle.getFarmCode();
+		log.info("화면에서 전달받은 데이터 : {}", cycle);
+		String tapName = "cycle";
+		reattr.addAttribute("farmCode", farmCode);
+		reattr.addAttribute("tapName", tapName);
+		return "redirect:/farm/farmDetail";
+	}
 	@GetMapping("/addCycle")
 	public String addCycle(Model model
 							,@RequestParam(name="farmCode") String farmCode) {
 		List<Cage> cageList = farmService.getCageListByCode(farmCode);
 		model.addAttribute("title", "싸이클 등록");
 		model.addAttribute("cageList", cageList);
+		model.addAttribute("farmCode",farmCode);
 		return "farm/add_cycle";
 	}
 
@@ -103,8 +134,8 @@ public class FarmController {
 
 	/**
 	 * 사육 장 등록
+	 * 등록 화면 이랑 등록
 	 */
-
 	@PostMapping("/addFarm")
 	public String addFarm(FarmInfo farmInfo
 						,Model model
@@ -131,7 +162,6 @@ public class FarmController {
 	@GetMapping("/addFarm")
 	public String addFarm(Model model){
 		model.addAttribute("title", "사육장 등록");
-		
 		return "farm/add_farm";
 	}
 
@@ -598,7 +628,7 @@ public class FarmController {
 	
 	@PostMapping("/receiveFormData")
 	@ResponseBody
-	public String receiveFormDataMentorMentee(@RequestBody GoogleFormResponse googleFormResponse) {
+	public String receiveFormDataMentorMentee(@RequestBody GoogleFormResponse googleFormResponse) throws Exception {
 		Map<String, String> memberInfo = new HashMap<>();
 		List<GoogleFormResult> feedbackList = new ArrayList<>();
 		List<GoogleFormResult> feedbackScore = new ArrayList<>();
@@ -609,8 +639,8 @@ public class FarmController {
 		for(GoogleFormResult obj : googleFormResultList) {
 
 			String type = obj.getType();
-			String title = obj.getType();
-			String response = obj.getType();
+			String title = obj.getTitle();
+			String response = obj.getResponse();
 			
 			if(type.equals("PARAGRAPH_TEXT")) {
 				feedbackList.add(obj);
@@ -634,6 +664,13 @@ public class FarmController {
 		
 		log.info("feedbackList={}", feedbackList);
 		log.info("feedbackScore={}", feedbackScore);
+		Map<String,Object> paramMap = new HashMap<>();
+		paramMap.put("memberInfo", memberInfo);
+		paramMap.put("feedbackList", feedbackList);
+		paramMap.put("feedbackScore", feedbackScore);
+		mentorMenteeService.addFeedback(paramMap);
+		
+		
 		return "Success";
 	}
 }
