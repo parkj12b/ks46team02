@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default}">
 <head>
 <meta charset="UTF-8">
-<title></title>
+<title>Insert title here</title>
+<script layout:fragment="customJs">
+	alert("삭제되었습니다");
+	location.href="/customerservice/main?questionTypeCode=[[${questionTypeCode}]]&page=[[${page}]]";
+</script>
 </head>
 <body>
-
 </body>
 </html>

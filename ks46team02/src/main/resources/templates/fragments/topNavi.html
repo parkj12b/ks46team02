@@ -42,34 +42,41 @@
 					style="display: flex; align-items: center; margin-right: auto">
 					<ul class="main-menu"
 						style="display: flex; flex-direction: row; list-style: none; align-content: center; margin: 0px; justify-content: space-between;">
-						<li><a href="#">#플랫폼 소개</a></li>
-						<li role="presentation" class="dropdown"><a id="drop4"
-							href="#" class="dropdown-toggle" data-toggle="dropdown"
-							aria-haspopup="true" role="button" aria-expanded="false">
-								#고객센터 <span class="caret"></span>
-						</a> <th:block th:each="item: ${topMenuList}">
+						<th:block th:fragment="top-menu-community">
+							<th:block th:each="item: ${session.topMenuList}">
+								<li><a href="#">#플랫폼 소개</a></li>
+
+								<li role="presentation" class="dropdown"><a id="drop4"
+									href="#" class="dropdown-toggle" data-toggle="dropdown"
+									aria-haspopup="true" role="button" aria-expanded="false">
+										#고객센터 <span class="caret"></span>
+								</a>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+										x-placement="top-start"
+										style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -129px, 0px);">
+										<th:block th:fragment="menu" th:each="item: ${topMenuList}">
+											<a class="dropdown-item"
+												th:href="@{/customerservice/main(questionTypeCode=${item.questionTypeCode})}"
+												th:text="${item.questionTypeName}"></a>
+										</th:block>
+
+									</div></li>
+							</th:block>
+
+							<li role="presentation" class="dropdown"><a id="drop4"
+								href="#" class="dropdown-toggle" data-toggle="dropdown"
+								aria-haspopup="true" role="button" aria-expanded="false">
+									#계약 찾기 <span class="caret"></span>
+							</a>
 								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
 									x-placement="top-start"
 									style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -129px, 0px);">
-									<a class="dropdown-item"
-										th:href="@{/customerservice/main(questionTypeCode=${item.questionTypeCode})}"
-										th:text="${item.questionTypeName}"></a>
-									<!-- 				<a class="dropdown-item" href="">#공지사항</a> <a
-									class="dropdown-item" href="#">#Q & A</a> -->
-								</div>
-							</th:block></li>
-						<li role="presentation" class="dropdown"><a id="drop4"
-							href="#" class="dropdown-toggle" data-toggle="dropdown"
-							aria-haspopup="true" role="button" aria-expanded="false"> #계약
-								찾기 <span class="caret"></span>
-						</a>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
-								x-placement="top-start"
-								style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -129px, 0px);">
-								<a class="dropdown-item" href="#">#멘토멘티 계약찾기</a> <a
-									class="dropdown-item" href="#">#건조업체 계약찾기</a> <a
-									class="dropdown-item" href="#">#동애등에 계약찾기</a>
-							</div></li>
+									<a class="dropdown-item" href="#">#멘토멘티 계약찾기</a> <a
+										class="dropdown-item" href="#">#건조업체 계약찾기</a> <a
+										class="dropdown-item" href="#">#동애등에 계약찾기</a>
+								</div></li>
+
+						</th:block>
 					</ul>
 
 				</div>
@@ -115,24 +122,27 @@
 								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
 									x-placement="top-start"
 									style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -129px, 0px);">
-									<a th:each="item: ${topMenuList}" class="dropdown-item"
-										th:href="@{/customerservice/main(questionTypeCode=${item.questionTypeCode})}"
-										th:text="${item.questionTypeName}"></a>
-										</div></li>
-						</th:block>
+									<th:block th:fragment="menu" th:each="item: ${session.topMenuList}">
+										<a class="dropdown-item"
+											th:href="@{/customerservice/main(questionTypeCode=${item.questionTypeCode})}"
+											th:text="${item.questionTypeName}"></a>
+									</th:block>
+								</div></li>
 
-						<li role="presentation" class="dropdown"><a id="drop4"
-							href="#" class="dropdown-toggle" data-toggle="dropdown"
-							aria-haspopup="true" role="button" aria-expanded="false"> #계약
-								찾기 <span class="caret"></span>
-						</a>
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
-								x-placement="top-start"
-								style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -129px, 0px);">
-								<a class="dropdown-item" href="#">#멘토멘티 계약찾기</a> <a
-									class="dropdown-item" href="#">#건조업체 계약찾기</a> <a
-									class="dropdown-item" href="#">#동애등에 계약찾기</a>
-							</div></li>
+
+							<li role="presentation" class="dropdown"><a id="drop4"
+								href="#" class="dropdown-toggle" data-toggle="dropdown"
+								aria-haspopup="true" role="button" aria-expanded="false">
+									#계약 찾기 <span class="caret"></span>
+							</a>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
+									x-placement="top-start"
+									style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -129px, 0px);">
+									<a class="dropdown-item" href="#">#멘토멘티 계약찾기</a> <a
+										class="dropdown-item" href="#">#건조업체 계약찾기</a> <a
+										class="dropdown-item" href="#">#동애등에 계약찾기</a>
+								</div></li>
+						</th:block>
 					</ul>
 
 				</div>

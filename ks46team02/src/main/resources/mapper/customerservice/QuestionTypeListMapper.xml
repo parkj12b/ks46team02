@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="ks46team02.customerservice.mapper.MainQuestionMapper">
+<resultMap type="QuestionTypeDto" id="questionTypeDtoMap">
+	<id column="question_type_code" property="questionTypeCode"></id>
+	<result column="question_type_name" property="questionTypeName"></result>
+	<result column="question_type_eng_name" property="questionTypeEngName"></result>
+</resultMap>
+	<select id="getQuestionTypeList" resultMap="questionTypeDtoMap">
+		/*  customerservice의 문의리스트 조회 */
+		SELECT 
+			question_type_code, 
+			question_type_name,
+			question_type_eng_name
+		FROM 
+			question_type
+		WHERE question_type_code IN (1, 2, 3)
+		ORDER BY question_type_code;
+		
+</select>
+</mapper>

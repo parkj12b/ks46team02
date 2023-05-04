@@ -301,7 +301,7 @@
     <!-- 한 사육장 싸이클 검색 -->
     <select id="getSearchCycle" resultType = "Cycle">
         SELECT
-        c.cage_volum as cageVolum,
+        c.cage_volume as cageVolume,
         c.cage_num as cageNum,
         c.cage_total cageTotal,
         cy.expected_cage_production_code AS cycleCode,

@@ -7,6 +7,7 @@
 				class="fa fa-chevron-down"></span></a>
 			<ul class="nav child_menu">
 				<li><a href="#">#회원정보 수정</a></li>
+				<li><a th:href="@{/admin/addrMemberList}">배송지 조회</a></li>
 			</ul></li>
 	</ul>
 </div>
@@ -60,8 +61,8 @@
 			<li><a><i class="fa fa-bar-chart-o"></i> 매출조회 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="#">#일별 매출 조회</a></li>
-					<li><a href="#">#년/월별 매출 조회</a></li>
+					<li><a href="#">#황병준 일별 매출 조회</a></li>
+					<li><a href="#">#황병준 년/월별 매출 조회</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-line-chart"></i> 시각적 통계 <span
 					class="fa fa-chevron-down"></span></a>
@@ -69,15 +70,14 @@
 					<li><a href="#">#일별 매출 조회</a></li>
 					<li><a href="#">#년/월별 매출 조회</a></li>
 				</ul></li>
-			<li><a><i class="fa fa-bug"></i> !김유진 김사육장 관리 <span
+			<li><a><i class="fa fa-bug"></i> !김유진 사육장 관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
 					<li><a th:href="@{/farm/test}">! 그래프</a></li>
 					<li><a th:href="@{/farm/farmList}">!김유진 사육장 조회</a></li>
 					<li><a th:href="@{/farm/productionList}">!김유진 생산량 조회</a></li>
 					<li><a th:href="@{/farm/cageList}">!김유진 케이지 조회</a></li>
-					<li><a th:href="@{/farm/cycleList}">!김유진 싸이클 조회</a></li>
-					<li><a th:href="@{/farm/feedList}">!김유진급여량 조회</a></li>
+					<li><a th:href="@{/farm/feedList}">!김유진 급여량 조회</a></li>
 				</ul></li>
 		</ul>
 	</div>
@@ -218,10 +218,17 @@
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
 					<li><a href="#">#계약 승인 기준관리</a></li>
+<<<<<<< HEAD
+					<li><a th:href="@{/contract/contractList}">!최학준 계약 공고 관리</a></li>
+					<li><a th:href="@{/contract/terminate_reason}">#황병준 계약 파기사유 관리</a></li>
+					<li><a href="#"># 계약 결제 관리</a></li>
+					<li><a href="#">#황병준 계약 환불 관리</a></li>
+=======
 					<li><a th:href="@{/company/contractList}">!최학준 계약 공고 관리</a></li>
 					<li><a href="#">#계약 파기사유 관리</a></li>
 					<li><a href="#">#계약 결제 관리</a></li>
 					<li><a href="#">#계약 환불 관리</a></li>
+>>>>>>> refs/heads/develop
 					<li><a href="#">#계약 수단 관리</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-users"></i> 멘토멘티 관리 <span
@@ -248,7 +255,7 @@
 			<li><a><i class="fa fa-globe"></i> 환경개선량 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="#">#환경개선량 관리</a></li>
+					<li><a th:href="@{/eco/eco_improvement}"> #황병준 환경개선량 관리</a></li>
 				</ul></li>
 		</ul>
 	</div>

@@ -106,6 +106,17 @@ public class AdminController {
 	    this.withdrawalMemberMapper = withdrawalMemberMapper;
 	    this.companyService = companyService;
 	}
+	/* 회원별 배송지 조회 */
+	@GetMapping("/addrMemberList")
+	public String addrMemberList( Model model
+							     ,@RequestParam(name="memberId") String memberId){
+		List<Addr> addrMemberInfo = addrService.getAddrList();		
+		 log.info("addrMemberInfo >>>>>>>>>>>>>>>>>"+addrMemberInfo );
+		model.addAttribute("title", "회원별 배송지 조회");
+		model.addAttribute("addrMemberInfo", addrMemberInfo);
+
+		return "admin/addr_member_list";
+	}
 	/* 관리자 아이디 중복 체크 */
 	@PostMapping("/idCheckAdmin")
 	@ResponseBody
@@ -202,12 +213,6 @@ public class AdminController {
 		adminService.addAdmin(adminMeber);
 		return "redirect:/admin/adminList";
 	}
-
-		
-		
-	  
-	
-
 	/* 관리자 등록 */
 	@GetMapping("/addAdmin")
 	public String addAdmin(Model model){
@@ -268,14 +273,16 @@ public class AdminController {
 	}
 	/* 전체 회원 배송지 목록 조회 */
 	@GetMapping("/addrList")
-	public String getAddrList(Model model) {
+	public String getAddrList(Model model
+							 ) {
 		List<Addr> addrList = addrService.getAddrList();
+
 
 		model.addAttribute("title", "배송지조회");
 		model.addAttribute("addrList", addrList);
-
 		return "admin/addr_list";
 	}
+	
 	/* 배송지 수정 */
 	@PostMapping("/modifyAddr")
 	public String modifyAddr(Addr addr) {
@@ -330,7 +337,7 @@ public class AdminController {
 	@PostMapping("/removewithdrawalMember")
 	@ResponseBody
 	public void removewithdrawalMember(String WithdrawalMemberCode ){
-		loginHistoryMapper.removeLogin(WithdrawalMemberCode);
+		withdrawalMemberMapper.removewithdrawalMember(WithdrawalMemberCode);
 					 
 			
 		 }

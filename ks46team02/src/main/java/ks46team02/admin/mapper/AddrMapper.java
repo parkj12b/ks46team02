@@ -20,4 +20,8 @@ public interface AddrMapper {
 	public Addr getAddrInfoById(String addrCode);
 	/* 배송지 등록 */
 	public int addAddr(Addr addr);
+	/* 회원별 배송지 숫자 조회 */
+	public int getAddrAmountList(String memberId);
+	/* 특정회원 배송지 조회 */
+	public List<Addr> getAddrMemberList(String memberId);
 }
