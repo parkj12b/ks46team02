@@ -49,7 +49,7 @@
 		<id column="visit_code" property="visitCode"></id>
 		<result column="contract_code" property="contractCode"></result>
 		<result column="period_count" property="periodCount"></result>
-		<result column="period_state_date" property="periodStateDate"></result>
+		<result column="period_start_date" property="periodStartDate"></result>
 		<result column="period_end_date" property="periodEndDate"></result>
 		<result column="visit_complete" property="visitComplete"></result>
 		<result column="visit_complete_final"
@@ -259,7 +259,7 @@
 		insert into result_history(
 			result_code,  evaluation_unit_code, visit_code, contract_code, result_feedback, member_id, result_reg_date, result_evaluation_point
 		) values (
-			#{resultCode},#{evaluationCode},#{visitCode},#{resultFeedback},#{contractCode},#{memberId},#{resultEvaluationPoint}
+			#{resultCode},#{evaluationUnitCode},#{visitCode},#{contractCode},#{resultFeedback},#{memberId},now(),#{resultEvaluationPoint}
 		)
 	</insert>
 	<update id="modifyVisitHistory" parameterType="VisitHistory">
@@ -271,5 +271,19 @@
 			total_detail_item_num = #{totalDetailItemNum}
 		where
 			visit_code = #{visitCode}
+	</update>
+	<update id="modifyResultHistory" parameterType="ResultHistory">
+		update 
+			result_history 
+		set
+			result_feedback = #{resultFeedback}, 
+			member_id = #{memberId}, 
+			result_reg_date = now(), 
+			result_evaluation_point = #{resultEvaluationPoint}
+		<where>
+			evaluation_unit_code = #{evaluationUnitCode} and 
+			visit_code = #{visitCode} and
+			contract_code = #{contractCode} 		
+		</where>
 	</update>
 </mapper>
