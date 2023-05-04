@@ -10,6 +10,7 @@
         <result column="member_id"                  property="memberId"/>
         <result column="company_tel"                property="companyTel"/>
         <result column="company_addr"               property="companyAddr"/>
+        <result column="company_addr_detail"        property="companyAddrDetail"/>
         <result column="company_name"               property="companyName"/>
         <result column="apply_date"                 property="applyDate"/>
         <result column="approval_status"            property="approvalStatus"/>
@@ -22,6 +23,7 @@
         <result column="farm_cnt"                   property="farmCnt"/>
         <result column="company_type"               property="companyType"/>
         <result column="breeder_level_name"         property="breederLevelName"/>
+        <result column="isExist"                    property="isExist"/>
     </resultMap>
 
     <insert id="insertCompanyProduct" parameterType="FarmProductCategory">
@@ -83,47 +85,67 @@
             company_code = #{companyCode};
     </update>
 
+    <update id="updateApprovalCompany" parameterType="Company">
+        /* 업체승인시 업체정보 업데이트 */
+        UPDATE company_info as ci
+        set
+        ci.approval_status = #{approvalStatus}
+        ,ci.approval_denied_content = #{approvalDeniedContent}
+        ,ci.approval_date = NOW()
+        ,ci.admin_id = #{adminId}
+        WHERE
+        ci.company_code  = #{companyCode};
+    </update>
 
-<!--    <insert id="addCompany" parameterType="Company">-->
-<!--        /* 업체등록 */-->
-<!--        <selectKey keyProperty="companyCode" resultType="java.lang.String" order="BEFORE">-->
-<!--            SELECT CONCAT('comp_', LAST_INSERT_ID()) AS company_code-->
-<!--        </selectKey>-->
-<!--        INSERT into company_info-->
-<!--        (company_code-->
-<!--        ,company_type_num-->
-<!--        ,Company_reg_num-->
-<!--        ,member_id-->
-<!--        ,Company_tel-->
-<!--        ,Company_addr-->
-<!--        ,Company_name-->
-<!--        ,apply_date-->
-<!--        ,reg_password-->
-<!--        )-->
-<!--        values-->
-<!--        (#{companyCode}-->
-<!--        ,#{companyTypeNum}-->
-<!--        ,#{companyRegNum}-->
-<!--        ,#{memberId}-->
-<!--        ,#{companyTel}-->
-<!--        ,#{companyAddr}-->
-<!--        ,#{companyName}-->
-<!--        ,curdate()-->
-<!--        ,#{regPassword}-->
-<!--        );-->
-<!--    </insert>-->
+    <update id="addCompanyCode" parameterType="Member">
+        /* 업체등록시 회원정보 업데이트 */
+        UPDATE member_info as mi
+        set
+        mi.company_code = #{companyCode}
+        ,mi.position_level_code = 'level_code_1'
+        WHERE
+        mi.member_id = #{memberId};
+    </update>
 
-    <select id="getCompanyInfoByCode" parameterType="String" resultMap="companyResultMap">
+    <insert id="addCompany" parameterType="Company">
+        /* 업체등록 */
+        INSERT into company_info
+        (company_code
+        ,company_type_num
+        ,company_reg_num
+        ,member_id
+        ,company_tel
+        ,company_addr
+        ,company_addr_detail
+        ,company_name
+        ,apply_date
+        ,reg_password
+        )
+        values
+        (#{companyCode}
+        ,#{companyTypeNum}
+        ,#{companyRegNum}
+        ,#{memberId}
+        ,#{companyTel}
+        ,#{companyAddr}
+        ,#{companyAddrDetail}
+        ,#{companyName}
+        ,curdate()
+        ,#{regPassword}
+        );
+    </insert>
+
+    <select id="getCompanyInfoById" parameterType="String" resultMap="companyResultMap">
         /* 업체상세 정보조회 */
         SELECT
         ci.company_code
         ,ct.company_type
         ,ci.company_type_num
-        ,ci.Company_reg_num
+        ,ci.company_reg_num
         ,ci.member_id
-        ,ci.Company_tel
-        ,ci.Company_addr
-        ,ci.Company_name
+        ,ci.company_tel
+        ,ci.company_addr
+        ,ci.company_name
         ,ci.apply_date
         ,ci.approval_status
         ,ci.approval_denied_content
@@ -132,6 +154,42 @@
         ,fl.breeder_level_name
         ,ci.reg_password
         ,ci.farm_cnt
+        ,count(1) as isExist
+        FROM
+        company_info as ci
+        inner join
+        company_type as ct
+        on
+        ci.company_type_num = ct.company_type_num
+        inner join
+        farm_level as fl
+        on
+        ci.farm_level_num = fl.farm_level_num
+        WHERE
+        member_id = #{memberId};
+
+    </select>
+
+    <select id="getCompanyInfoByCode" parameterType="String" resultMap="companyResultMap">
+        /* 업체상세 정보조회 */
+        SELECT
+        ci.company_code
+        ,ct.company_type
+        ,ci.company_type_num
+        ,ci.company_reg_num
+        ,ci.member_id
+        ,ci.company_tel
+        ,ci.company_addr
+        ,ci.company_name
+        ,ci.apply_date
+        ,ci.approval_status
+        ,ci.approval_denied_content
+        ,ci.admin_id
+        ,ci.approval_date
+        ,fl.breeder_level_name
+        ,ci.reg_password
+        ,ci.farm_cnt
+        ,count(1) as isExist
         FROM
             company_info as ci
             inner join
@@ -181,6 +239,6 @@
             inner join
             company_type as ct
             on
-            ci.company_type_num = ct.company_type_num;
+            ci.company_type_num = ct.company_type_num ;
     </select>
 </mapper>

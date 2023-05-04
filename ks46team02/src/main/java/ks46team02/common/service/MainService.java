@@ -1,5 +1,6 @@
 package ks46team02.common.service;
 
+import ks46team02.common.dto.Member;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,11 @@ public class MainService {
 	
 	public MainService(MainMapper mainMapper) {
 		this.mainMapper = mainMapper;
+	}
+
+	public Member getMemberInfoById(String memberId){
+		Member memberInfo = mainMapper.getMemberInfoById(memberId);
+		return memberInfo;
 	}
 	
 	public boolean isDuplicateId(String memberId) {

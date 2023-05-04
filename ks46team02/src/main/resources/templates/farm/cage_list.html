@@ -42,39 +42,16 @@
                                            style="width: 100%;" role="grid" aria-describedby="datatable-buttons_info">
                                         <thead>
                                         <tr role="row">
-                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 150px;"
-                                                aria-label="Name: activate to sort column ascending">사육장 코드
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 150px;"
-                                                aria-label="Name: activate to sort column ascending">케이지 코드
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 150px;"
-                                                aria-label="Position: activate to sort column ascending">케이지 이름
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 150px;"
-                                                aria-label="Office: activate to sort column ascending">케이지 개수
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 150px;"
-                                                aria-label="Age: activate to sort column ascending">단위 케이지 용량[L]
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 150px;"
-                                                aria-label="Age: activate to sort column ascending">케이지 총 수용량[L]
-                                            </th>
-                                            <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 150px;"
-                                                aria-label="Age: activate to sort column ascending">최적 알투입 용량[g]
-                                            </th>
-                                            <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                rowspan="1" colspan="1" style="width: 187px;"
-                                                aria-label="Start date: activate to sort column ascending"
-                                                aria-sort="descending">등록날짜
-                                            </th>
+                                            <th>사육장 코드</th>
+                                            <th>케이지 코드</th>
+                                            <th>이름</th>
+                                            <th>개수</th>
+                                            <th>케이지 용량[L]</th>
+                                            <th>케이지 총 수용량[L]</th>
+                                            <th>최적 알투입 용량[g]</th>
+                                            <th>등록날짜</th>
+                                            <th>수정</th>
+                                            <th>삭제</th>
 
                                         </tr>
                                         </thead>
@@ -88,12 +65,17 @@
                                             <td th:text="${l.cageTotal}"></td>
                                             <td th:text="${l.optimalInputEgg}"></td>
                                             <td th:text="${l.cageRegDate}"></td>
+                                            <td><a href="#">수정</a></td>
+                                            <td><a href="#">삭제</a></td>
                                         </tr>
 
                                         </tbody>
                                     </table>
-
                                 </div>
+
+                            </div>
+                            <div class="row" style="margin: 2px; padding-left: 14px; padding-top: 4px">
+                                <a class="btn btn-dark" th:href="@{/farm/addCage}" style="color: white;">케이지 등록</a>
                             </div>
                         </div>
                     </div>

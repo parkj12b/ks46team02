@@ -39,12 +39,12 @@
 			<h2>어떻게 멘토가 될 수 있나요?</h2>
 			<p>동애등에 멘토 시스템에는 다양한 멘토링 프로그램이 제공됩니다. 프로그램마다 지원 자격 조건과 절차가 다르므로,
 				관심 있는 프로그램의 공지를 꼭 확인해보세요!</p>
-			<div th:if="${mmRegType == 0}" style="margin-top: 50px;">
+			<div th:if="${mmRegType == 0 or !isApply}" style="margin-top: 50px;">
 				<a class="btn btn-default signUpBtn" id="mentorSignUpBtn" th:href="@{/farm/mentorSignUp}" >멘토 신청하기</a>
 				<a class="btn btn-default signUpBtn" id="menteeSignUpBtn" th:href="@{/farm/menteeSignUp}" >멘티 신청하기</a>
 			</div>
 			참여중은 체크했으나 신청중도 체크해줘야 함
-			<div th:unless="${mmRegType == 0}" style="margin-top: 50px;">
+			<div th:unless="${mmRegType == 0 or !isApply}" style="margin-top: 50px;">
 				<h2>벌써 참여중인 프로그램입니다 !</h2>
 				<a class="btn btn-default signUpBtn" id="menteeSignUpBtn" th:href="@{/farm/mentorMenteeRegisterStatus}" >멘토멘티 신청여부 확인하기</a>
 			</div>

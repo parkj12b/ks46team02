@@ -1,103 +1,169 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/mypageLayout}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/mypage}">
 <head>
-
 </head>
 <th:block layout:fragment="customJs">
-<script>
+	<script>
+	
+	function validationCheck(ele){
+		let data = $(ele).val();
+		let isValid = true;
+		if(typeof data == 'undefined' || data == null || data == ''){
+			isValid = false;	
+		}
+		return isValid;
+	}
+
+	// 취소버튼
     $('.cancel').click(function(){
     	history.go(-1);
     });
-    </script>
+	// 등록버튼
+    $('.add').click(function(){
+		const addMemberForm = $('#addMemberForm');
+		const inputGroup = $('#addMemberForm input');
+		const selectGrop = $('#addMemberForm select');
+		console.log(inputGroup);
+		console.log(selectGrop);
+		
+		let isSubmit = true;
+		inputGroup.each(function(idx, item){
+			isSubmit = validationCheck(item);
+			isSubmit2 = validationCheck(item); 
+			if(!isSubmit) {
+				if(!isSubmit2){
+				let msg = $(item).parents('tr').find('label').text();
+				alert(msg + '입력해주세요.');
+				$(item).focus();
+				return false;
+				}
+			}
+		});
+		if(isSubmit) addMemberForm.submit();
+	});
+    /* 아이디 중복 체크 */
+    $('.checkId').click(function(){
+        const memberIdEle = $('#memberId'); // 아이디를 입력하는 input 요소를 찾아옵니다.
+        let memberId = memberIdEle.val(); // 입력된 아이디 값을 가져옵니다.
+        console.log(memberId);
+
+        if(typeof memberId === 'undefined' || memberId == null || memberId === ''){
+            alert('아이디를 입력해주세요');
+            memberIdEle.focus();
+            return false;
+        }
+
+        $.ajax({
+            type: 'POST', // POST 방식으로 요청을 보냅니다.
+            url: '/isDuplicateId', // 아이디 중복 체크를 위한 URL을 지정합니다.
+            data: { 'memberId' : memberId }, // 요청 데이터에 입력된 아이디 값을 포함시킵니다.
+            dataType: 'json', // 반환되는 데이터의 타입을 JSON으로 지정합니다.
+            success: function(isDuplicate) {
+                if(isDuplicate){
+                	  Swal.fire({
+                          icon: 'error',                         // Alert 타입
+                          title: '중복된 아이디가 존재합니다.',         // Alert 제목
+                          text: '다른 아이디로 다시 시도해주시길 바랍니다.',  // Alert 내용
+                      });
+                	  memberIdEle.val(''); // 입력된 아이디 값을 지웁니다.
+                	  memberIdEle.focus(); // 아이디를 입력하는 input 요소에 포커스를 줍니다.
+                }
+                else{
+                	  alert('사용가능한 아이디입니다.');
+                }
+            }
+        });
+    });
+</script>
 </th:block>
-<th:block layout:fragment="customContent">
-	<div class="page-title">
-		<div class="title">
-			<div class="col-md-6">
-
-				<div class="x_panel">
-					<div class="x_title">
-						<h2>회원 등록</h2>
-						<div class="clearfix"></div>
+<body>
+	<th:block layout:fragment="customContent">
+		<div class="x_panel">
+			<div class="x_title">
+				<h2>회원 등록</h2>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content">
+				<br />
+				<form id="addMemberForm" class="form-horizontal form-label-left"
+					th:action="@{/admin/addMember}" method="post">
+					<div class="form-group row ">
+						<label class="control-label col-md-3 col-sm-3"
+							for="sample4_postcode">아이디</label>
+						<div class="col-md-3 col-sm-4">
+							<div class="input-group">
+								<input type="text" class="form-control" id="memberId" name="memberId"
+									placeholder=""> <span
+									class="input-group-btn">
+									<button type="button" class="btn btn-dark checkId">아이디 중복체크</button>
+								</span>
+							</div>
+						</div>
 					</div>
-					<div class="x_content">
-						<br>
-						<form class="form-horizontal form-label-left">					
-							<div class="form-group row ">
-								<label class="control-label col-md-3 col-sm-3" for="sample4_postcode">아이디</label>
-								    <div class="col-md-9 col-sm-9">
-								        <div class="input-group">
-								            <input type="text" class="form-control" id="sample4_postcode" placeholder="아이디">
-								            <span class="input-group-btn">
-								                <input type="button" class="btn btn-dark" onclick="sample4_execDaumPostcode()" value="아이디 중복 조회">
-								            </span>
-								        </div>
-								    </div>
-								</div>
-							<div class="form-group row ">
-								<label class="control-label col-md-3 col-sm-3 "> 비밀번호 </label>
-								<div class="col-md-9 col-sm-9 ">
-									<input type="text" class="form-control" id="sample4_roadAddress" placeholder="비밀번호">
-								</div>
-							</div>
-							<div class="form-group row ">
-								<label class="control-label col-md-3 col-sm-3 "> 이름 </label>
-								<div class="col-md-9 col-sm-9 ">
-									<input type="text" class="form-control" id="sample4_jibunAddress" placeholder="이름">
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-3 "> 전화번호 </label>
-								<div class="col-md-9 col-sm-9 ">
-								<input type="text" class="form-control" id="sample4_detailAddress" placeholder="전화번호">
-								</div>
-							</div>
-								<input type="hidden" class="form-control" id="sample4_extraAddress" placeholder="">
-							<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-3 ">이메일</label>
-								<div class="col-md-9 col-sm-9 ">
-									<input type="text" class="form-control" value="이메일">
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-3 ">직원별 권한코드</label>
-								<div class="col-md-9 col-sm-9 ">
-									<input type="text" class="form-control" value="">
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-3 ">직원별 권한코드</label>
-								<div class="col-md-9 col-sm-9 ">
-									<input type="text" class="form-control" value="">
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-3 ">업체코드</label>
-								<div class="col-md-9 col-sm-9 ">
-									<input type="text" class="form-control" value="">
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-3 ">본인인증코드</label>
-								<div class="col-md-9 col-sm-9 ">
-									<input type="text" class="form-control" value="본인인증코드는 자동으로 아무런값이 ??">
-								</div>
-							</div>
-							<div class="ln_solid"></div>
-							<div class="form-group">
-								<div class="col-md-9 col-sm-9  offset-md-5">
-									<button type="button" class="btn btn-dark">등록</button>
-									<button type="reset" class="btn btn-dark cancel">취소</button>
-								</div>
-							</div>
-
-						</form>
+					<div class="form-group row ">
+						<label class="control-label col-md-3 col-sm-3 "> 비밀번호
+						</label>
+						<div class="col-md-3 col-sm-3 ">
+							<input type="password" class="form-control"
+								id="memberPw" name="memberPw" placeholder="">
+						</div>
 					</div>
-				</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3 col-sm-3  "> 이름 </label>
+						<div class="col-md-3 col-sm-3 ">
+							<input type="text" class="form-control"
+								id="MemberName" name="MemberName" placeholder="">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3 col-sm-3 "> 전화번호</label>
+						<div class="col-md-3 col-sm-3 ">
+							<input type="text" class="form-control" id="memberPhone" name="memberPhone" value="">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3 col-sm-3 ">이메일</label>
+						<div class="col-md-3 col-sm-3 ">
+								<input type="text" class="form-control" id="memberEmail" name="memberEmail" value="">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3 col-sm-3 "> 직원별 권한코드</label>
+						<div class="col-md-3 col-sm-3 ">
+							<select class="form-control" id="positionLevelCode" name="positionLevelCode">
+							<option></option>
+								<th:block th:if="${memberLevelList != null}">
+									<option th:each="l : ${memberLevelList}"
+										th:value="${l.positionLevelCode}" th:text="${l.memberLevelName}"></option>
+								</th:block>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3 col-sm-3 "> 업체코드</label>
+						<div class="col-md-3 col-sm-3 ">
+							<select class="form-control" id="companyCode" name="companyCode">
+							<option></option>
+								<th:block th:if="${companyList != null}">
+									<option th:each="l : ${companyList}"
+										th:value="${l.companyCode}" th:text="${l.companyCode}"></option>
+								</th:block>
+							</select>
+						</div>
+					</div>
+					<div class="ln_solid"></div>
+					<div class="form-group">
+						<div class="col-md-9 col-sm-9  offset-md-5">
+							<button type="button" class="btn btn-dark add">등록</button>
+							<button type="reset" class="btn btn-dark cancel">취소</button>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
-	</div>
-</th:block>
+	</th:block>
+
+</body>
 </html>

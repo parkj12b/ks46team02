@@ -4,60 +4,79 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.common.mapper.MainMapper">
     <resultMap type="Member" id="memberResultMap">
-        <id column="member_id"                      property="memberId"/>
-        <result column="member_pw"                  property="memberPw"/>
-        <result column="member_name"                property="memberName"/>
-        <result column="member_email"               property="memberEmail"/>
-        <result column="member_phone"               property="memberPhone"/>
-        <result column="position_level_code"        property="positionLevelCode"/>
-        <result column="company_code"               property="companyCode"/>
-        <result column="member_reg_date"            property="memberRegDate"/>
-        <result column="member_ci"                  property="memberCi"/>
-        <result column="member_status"              property="memberStatus"/>
-        <result column="dormant_member_reg_date"    property="dormantMemberRegDate"/>
-        <result column="isOwner"                    property="isOwner"/>
-        <result column="isExist"                    property="isExist"/>
-        <result column="company_type_num"           property="companyTypeNum"/>
+        <id column="member_id" property="memberId"/>
+        <result column="member_pw" property="memberPw"/>
+        <result column="member_name" property="memberName"/>
+        <result column="member_email" property="memberEmail"/>
+        <result column="member_phone" property="memberPhone"/>
+        <result column="position_level_code" property="positionLevelCode"/>
+        <result column="company_code" property="companyCode"/>
+        <result column="member_reg_date" property="memberRegDate"/>
+        <result column="member_ci" property="memberCi"/>
+        <result column="member_status" property="memberStatus"/>
+        <result column="dormant_member_reg_date" property="dormantMemberRegDate"/>
+        <result column="isOwner" property="isOwner"/>
+        <result column="isExist" property="isExist"/>
+        <result column="company_type_num" property="companyTypeNum"/>
     </resultMap>
     <resultMap type="AdminMember" id="adminMemberResultMap">
-        <id column="admin_id"               property="adminId"/>
-        <result column="admin_pw"           property="adminPw"/>
-        <result column="admin_name"         property="adminName"/>
-        <result column="admin_email"        property="adminEmail"/>
-        <result column="admin_level"        property="adminLevel"/>
-        <result column="admin_phone"        property="adminPhone"/>
-        <result column="admin_reg_date"     property="adminRegDate"/>
-        <result column="isExist"            property="isExist"/>
+        <id column="admin_id" property="adminId"/>
+        <result column="admin_pw" property="adminPw"/>
+        <result column="admin_name" property="adminName"/>
+        <result column="admin_email" property="adminEmail"/>
+        <result column="admin_level" property="adminLevel"/>
+        <result column="admin_phone" property="adminPhone"/>
+        <result column="admin_reg_date" property="adminRegDate"/>
+        <result column="isExist" property="isExist"/>
     </resultMap>
     <resultMap type="AllContractInfo" id="AllContractInfoMap">
-		<id column="contract_code" property="contractCode"></id>
-		<result column="contract_registration_code"
-			property="contractRegistrationCode"></result>
-		<result column="contract_type" property="contractType"></result>
-		<result column="member_id" property="memberId"></result>
-		<result column="contract_apply_date"
-			property="contractApplyDate"></result>
-		<result column="contract_start_date"
-			property="contractStartDate"></result>
-		<result column="contract_end_date" property="contractEndDate"></result>
-		<result column="contract_paper" property="contractPaper"></result>
-		<result column="admin_id" property="adminId"></result>
-		<result column="contract_approval_date"
-			property="contractApprovalDate"></result>
-		<result column="contract_approval" property="contractApproval"></result>
-		<result column="deposit" property="deposit"></result>
-		<result column="delivery_cycle" property="deliveryCycle"></result>
-		<result column="contract_amount" property="contractAmount"></result>
-		<result column="total_amount" property="totalAmount"></result>
-		<result column="contractee_company_code"
-			property="contracteeCompanyCode"></result>
-		<result column="contractor_company_code"
-			property="contractorCompanyCode"></result>
-		<result column="contract_days"
-			property="contractDays"></result>		
-		<result column="days_left"
-			property="daysLeft"></result>		
-	</resultMap>
+        <id column="contract_code" property="contractCode"></id>
+        <result column="contract_registration_code"
+                property="contractRegistrationCode"></result>
+        <result column="contract_type" property="contractType"></result>
+        <result column="member_id" property="memberId"></result>
+        <result column="contract_apply_date"
+                property="contractApplyDate"></result>
+        <result column="contract_start_date"
+                property="contractStartDate"></result>
+        <result column="contract_end_date" property="contractEndDate"></result>
+        <result column="contract_paper" property="contractPaper"></result>
+        <result column="admin_id" property="adminId"></result>
+        <result column="contract_approval_date"
+                property="contractApprovalDate"></result>
+        <result column="contract_approval" property="contractApproval"></result>
+        <result column="deposit" property="deposit"></result>
+        <result column="delivery_cycle" property="deliveryCycle"></result>
+        <result column="contract_amount" property="contractAmount"></result>
+        <result column="total_amount" property="totalAmount"></result>
+        <result column="contractee_company_code"
+                property="contracteeCompanyCode"></result>
+        <result column="contractor_company_code"
+                property="contractorCompanyCode"></result>
+        <result column="contract_days"
+                property="contractDays"></result>
+        <result column="days_left"
+                property="daysLeft"></result>
+    </resultMap>
+
+    <!-- 비밀번호 체크    -->
+    <select id="getMemberInfoById" resultType="Member">
+        SELECT
+            *
+        FROM
+            member_info
+        WHERE
+            member_id = #{memberId}
+    </select>
+
+    <!--  자동증가 코드  -->
+    <select id="autoIncrement" resultType="String">
+        SELECT
+        CONCAT(REGEXP_REPLACE(${column},'[0-9]', ''),  max(CAST(SUBSTRING_INDEX(${column},'_',-1) AS unsigned))+1)
+        FROM
+        ${table};
+    </select>
+
     <select id="getMemberLoginInfo" parameterType="MemberLoginInfo"
             resultMap="memberResultMap">
         select
@@ -97,29 +116,31 @@
         member_email = #{email};
     </select>
     <select id="getContractInfoByKeyValueAnd" parameterType="list"
-		resultMap="AllContractInfoMap">
-		select 
-			*, DATEDIFF(contract_end_date, contract_start_date) as contract_days, DATEDIFF(contract_end_date, CURDATE()) as days_left
-		FROM 
-			all_contract
-		<where>
-			<foreach collection="searchList" item="item">
-				and ${item.key} = #{item.value}
-			</foreach>
-		</where>
+            resultMap="AllContractInfoMap">
+        select
+        *, DATEDIFF(contract_end_date, contract_start_date) as contract_days, DATEDIFF(contract_end_date, CURDATE()) as
+        days_left
+        FROM
+        all_contract
+        <where>
+            <foreach collection="searchList" item="item">
+                and ${item.key} = #{item.value}
+            </foreach>
+        </where>
 
-	</select>
-	<select id="getContractInfoByKeyValueOr" parameterType="list"
-		resultMap="AllContractInfoMap">
-		select 
-			*, DATEDIFF(contract_end_date, contract_start_date) as contract_days, DATEDIFF(contract_end_date, CURDATE()) as days_left
-		FROM 
-			all_contract
-		<where>
-			<foreach collection="searchList" item="item">
-				or ${item.key} = #{item.value}
-			</foreach>
-		</where>
+    </select>
+    <select id="getContractInfoByKeyValueOr" parameterType="list"
+            resultMap="AllContractInfoMap">
+        select
+        *, DATEDIFF(contract_end_date, contract_start_date) as contract_days, DATEDIFF(contract_end_date, CURDATE()) as
+        days_left
+        FROM
+        all_contract
+        <where>
+            <foreach collection="searchList" item="item">
+                or ${item.key} = #{item.value}
+            </foreach>
+        </where>
 
-	</select>
+    </select>
 </mapper>

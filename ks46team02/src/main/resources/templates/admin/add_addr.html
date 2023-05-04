@@ -9,6 +9,15 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 
+function validationCheck(ele){
+	let data = $(ele).val();
+	let isValid = true;
+	if(typeof data == 'undefined' || data == null || data == ''){
+		isValid = false;	
+	}
+	return isValid;
+}
+
 			/* 휴대폰 전화 자동 하이픈 */
 $(document).ready(function () {
    $(function () {
@@ -98,9 +107,28 @@ $(document).on("keyup", "#tel_id", function() {
     $('.cancel').click(function(){
     	history.go(-1);
     });
+ // 등록버튼
+    $('.add').click(function(){
+		const addAddrForm = $('#addAddrForm');
+		const inputGroup = $('#addAddrForm input');
+		console.log(inputGroup);
+		
+		let isSubmit = true;
+		inputGroup.each(function(idx, item){
+			isSubmit = validationCheck(item);
+			if(!isSubmit) {
+				let msg = $(item).parents('tr').find('label').text();
+				alert(msg + '입력해주세요.');
+				$(item).focus();
+				return false;
+			}
+		});
+		if(isSubmit) addAddrForm.submit();
+	});
 </script>
 </th:block>
-<th:block layout:fragment="customContent">
+<body>
+	<th:block layout:fragment="customContent">
 	<div class="page-title">
 		<div class="title">
 			<div class="col-md-6">
@@ -112,14 +140,17 @@ $(document).on("keyup", "#tel_id", function() {
 					</div>
 					<div class="x_content">
 						<br>
-						<form class="form-horizontal form-label-left">
+						<form class="form-horizontal form-label-left" id="addAddrForm" th:action="@{/admin/addAddr}"
+                              method="post">
 							<div class="form-group row">
 								<label class="control-label col-md-3 col-sm-3 ">아이디 선택</label>
 								<div class="col-md-9 col-sm-9 ">
-									<select class="form-control">
-										<option >ddd</option>
-										<option>ddd</option>
-										
+									<select class="form-control" id="memberId" name="memberId">
+										<option ></option>
+									<th:block th:if="${memberInfo != null}">
+										<option th:each="l : ${memberInfo}"
+										th:value="${l.memberId}" th:text="${l.memberId}"></option>
+									</th:block>
 									</select>
 								</div>
 							</div>
@@ -128,7 +159,7 @@ $(document).on("keyup", "#tel_id", function() {
 								<label class="control-label col-md-3 col-sm-3" for="sample4_postcode">우편번호</label>
 								    <div class="col-md-9 col-sm-9">
 								        <div class="input-group">
-								            <input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호">
+								            <input type="text" class="form-control" id="sample4_postcode" name="addrPostal" placeholder="우편번호">
 								            <span class="input-group-btn">
 								                <input type="button" class="btn btn-dark" onclick="sample4_execDaumPostcode()" value="우편번호 찾기">
 								            </span>
@@ -138,32 +169,44 @@ $(document).on("keyup", "#tel_id", function() {
 							<div class="form-group row ">
 								<label class="control-label col-md-3 col-sm-3 "> 도로명 주소 </label>
 								<div class="col-md-9 col-sm-9 ">
-									<input type="text" class="form-control" id="sample4_roadAddress" placeholder="도로명주소">
+									<input type="text" class="form-control" id="sample4_roadAddress" name="addrRoad" placeholder="도로명주소">
 								</div>
 							</div>
 							<div class="form-group row ">
 								<label class="control-label col-md-3 col-sm-3 "> 지번 주소 </label>
 								<div class="col-md-9 col-sm-9 ">
-									<input type="text" class="form-control" id="sample4_jibunAddress" placeholder="지번주소">
+									<input type="text" class="form-control" id="sample4_jibunAddress" name="addrLoca" placeholder="지번주소">
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="control-label col-md-3 col-sm-3 "> 상세주소 </label>
 								<div class="col-md-9 col-sm-9 ">
-								<input type="text" class="form-control" id="sample4_detailAddress" placeholder="상세주소를입력하세요">
+								<input type="text" class="form-control" id="sample4_detailAddress" name="addrDetail" placeholder="상세주소를입력하세요">
 								</div>
 							</div>
-								<input type="hidden" class="form-control" id="sample4_extraAddress" placeholder="">
+							<div class="form-group row">
+								<label class="control-label col-md-3 col-sm-3 "> 주소명(별칭) </label>
+								<div class="col-md-9 col-sm-9 ">
+								<input type="text" class="form-control" id="name" name="addrName" placeholder="">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="control-label col-md-3 col-sm-3 "> 수령자 </label>
+								<div class="col-md-9 col-sm-9 ">
+								<input type="text" class="form-control" id="addrRecipient" name="addrRecipient" placeholder="">
+								</div>
+							</div>
+								<input type="hidden" class="form-control" id="sample4_extraAddress" name="1234" placeholder="">
 							<div class="form-group row">
 								<label class="control-label col-md-3 col-sm-3 ">일반전화</label>
 								<div class="col-md-9 col-sm-9 ">
-									<input type="text" id="tel_id" class="form-control" placeholder="숫자만 입력하세요">
+									<input type="text" id="tel_id" class="form-control" name="addrTel" placeholder="숫자만 입력하세요">
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="control-label col-md-3 col-sm-3 ">휴대폰전화</label>
 								<div class="col-md-9 col-sm-9 ">
-									<input type="text" id="MOBILE_NO" class="form-control" placeholder="숫자만 입력하세요">
+									<input type="text" id="MOBILE_NO" class="form-control" name="addrPhone" placeholder="숫자만 입력하세요">
 									
 								</div>
 							</div>
@@ -172,7 +215,7 @@ $(document).on("keyup", "#tel_id", function() {
 							<div class="ln_solid"></div>
 							<div class="form-group">
 								<div class="col-md-9 col-sm-9  offset-md-5">
-									<button type="button" class="btn btn-dark">등록</button>
+									<button type="button" class="btn btn-dark add">등록</button>
 									<button type="reset" class="btn btn-dark cancel">취소</button>
 								</div>
 							</div>
@@ -184,4 +227,5 @@ $(document).on("keyup", "#tel_id", function() {
 		</div>
 	</div>
 </th:block>
+</body>
 </html>

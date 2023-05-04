@@ -23,9 +23,13 @@ private final MemberLevelMapper memberLevelMapper;
 
 	}
 	
-	public List<MemberLevel> getAdminLevelList(){
+	public List<MemberLevel> getMemberLevelList(){
 		List<MemberLevel> MemberLevelList = memberLevelMapper.getMemberLevelList();
 		return MemberLevelList;
+	}	
+	public void  modifyMemberLevel(MemberLevel memberLevel) {
+		memberLevelMapper.modifyMemberLevel(memberLevel);
 	}
+
 	
 }

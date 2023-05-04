@@ -14,20 +14,60 @@
 		<result	column="manage_payment"  						property="adminPayment" />
 		<result	column="manage_reg_date"  						property="adminRegDate" />
 </resultMap>
+
+			<delete id="removeAdminLevel" parameterType="String" >
+					/* 관리자 등급 삭제 */
+					DELETE
+					FROM
+					 	admin_level 
+					WHERE
+			
+						admin_level = #{adminLevel};
+				</delete>
+			
+			<update id="modifyAdminLevel" parameterType="String">
+			/* 관리자 등급 수정  */
+		    UPDATE admin_level
+		    <set>
+		        <if test="adminPosition != null and adminPosition != ''">
+		            admin_position = #{adminPosition},
+		        </if>
+		        <if test="adminMember != null and adminMember != ''">
+		            manage_member = #{adminMember},
+		        </if>
+		        <if test="adminContract != null and adminContract != ''">
+		            manage_contract = #{adminContract},
+		        </if>
+		        <if test="adminFarm != null and adminFarm != ''">
+		            manage_farm = #{adminFarm},
+		        </if>
+		        <if test="adminQuestion != null and adminQuestion != ''">
+		            manage_question = #{adminQuestion},
+		        </if>
+		        <if test="adminSetting != null and adminSetting != ''">
+		            manage_setting = #{adminSetting},
+		        </if>
+		        <if test="adminPayment != null and adminPayment != ''">
+		            manage_payment = #{adminPayment},
+		        </if>
+		        manage_reg_date = CURDATE()
+		    </set>
+		    WHERE admin_level = #{adminLevel}
+		</update>
 	
 		
 	<select id="getAdminLevelList" parameterType="String" resultMap="adminLevelResultMap">
 				/* 관리자 레벨 조회 */
 				SELECT 
-					admin_level, 
-					admin_position,
-					CASE WHEN manage_member = 1 THEN 'O' ELSE 'X' END AS manage_member,
-					CASE WHEN manage_contract = 1 THEN 'O' ELSE 'X' END AS manage_contract,
-					CASE WHEN manage_farm = 1 THEN 'O' ELSE 'X' END AS manage_farm,
-					CASE WHEN manage_question = 1 THEN 'O' ELSE 'X' END AS manage_question,
-					CASE WHEN manage_setting = 1 THEN 'O' ELSE 'X' END AS manage_setting,
-					CASE WHEN manage_payment = 1 THEN 'O' ELSE 'X' END AS manage_payment,
-					manage_reg_date
+					 admin_level
+					,admin_position
+					,manage_member
+					,manage_contract
+					,manage_farm
+					,manage_question
+					,manage_setting
+					,manage_payment
+					,manage_reg_date
 				FROM 
 					admin_level 
 	</select>

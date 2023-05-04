@@ -3,20 +3,60 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/mypageLayout}">
 <head>
-	<script>
-	$(document).ready(function() {
-		  // 케이지 조회 버튼 클릭 시 모달창 띄우기
-		  $('button[data-target="#myModal"]').click(function() {
-		    $('#myModal').modal('show');
-		  });
+<th:block layout:fragment="customJs">
+<script>
 
-		  // 모달창에서 취소 버튼 클릭 시 모달창 닫기
-		  $('#myModal button[data-dismiss="modal"]').click(function() {
-		    $('#myModal').modal('hide');
-		  });
-		});
+$(document).ready(function() {
+  // 케이지 조회 버튼 클릭 시 모달창 띄우기
+  $('button[data-target="#myModal"]').click(function() {
+    $('#myModal').modal('show');
+  });
 
-    </script>
+  // 모달창에서 취소 버튼 클릭 시 모달창 닫기
+  $('#myModal button[data-dismiss="modal"]').click(function() {
+    $('#myModal').modal('hide');
+  });
+});
+
+function setCageValues(select) {
+    // 선택된 option의 index
+    var selectedIndex = select.selectedIndex;
+
+    // 선택된 option의 값 (cageCode)
+    var cageCode = select.value;
+
+    // Ajax 요청
+    $.ajax({
+        url: '/farm/cages',
+        type: 'GET',
+        data: {
+            cageCode: cageCode
+        },
+        success: function(data) {
+            // 받아온 케이지 객체의 값을 각 input에 설정
+            $('#cageNameInput').val(data.cageName);
+            $('#cageNumInput').val(data.cageNum);
+            $('#cageVolumeInput').val(data.cageVolume);
+            $('#cageTotalInput').val(data.cageTotal);
+
+            var optimalValue = data.cageVolume / data.cageNum * 1000; // 단위 변환 (L -> ml)
+            $('#optimalInput').val(optimalValue);
+            
+            $('input[name="cageCode"]').val(cageCode);
+        },
+        error: function(xhr, status, error) {
+            alert('케이지 정보를 불러오는 중 오류가 발생했습니다.');
+        }
+    });
+}
+$('#confirmButton').on('click', function() {
+    var cageCode = $('#myModal select[name="cageCode"]').val();
+    $('input[name="cageCode"]').val(cageCode);
+    $('#myModal').modal('hide');
+  });
+</script>
+</th:block>
+
 </head>
 
 <th:block layout:fragment="customContent">
@@ -31,14 +71,15 @@
 					</div>
 					<div class="x_content">
 						<br>
-						<form class="form-horizontal form-label-left">
+						<form class="form-horizontal form-label-left" th:action="@{/farm/addCycle}" method="post">
+							<input type="hidden" name="farmCode" th:value="${farmCode}"/>
 							<div class="form-group row ">
 								<label class="control-label col-md-3 col-sm-3"> 케이지 코드
 								</label>
 								<div class="col-md-9 col-sm-9">
 								  <div class="form-group row">
 								    <div class="input-group">
-								      <input type="text" class="form-control" placeholder="Default Input" readonly="readonly">
+								      <input type="text" name="cageCode" class="form-control" readonly="readonly">
 								      <span class="input-group-btn">
 								        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#myModal">케이지 조회</button>
 								      </span>
@@ -52,7 +93,7 @@
 								 <span class="required">*</span>
 								</label>
 								<div class="col-md-9 col-sm-9 ">
-									<input id="birthday" class="date-picker form-control"
+									<input name="harvestStartDate" class="date-picker form-control"
 										placeholder="dd-mm-yyyy" type="date" required="required"
 										onfocus="this.type='date'" onmouseover="this.type='date'"
 										onclick="this.type='date'" onblur="this.type='text'"
@@ -70,38 +111,29 @@
 							<div class="form-group row">
 								<label class="control-label col-md-3 col-sm-3 "> 투입 알 용량[g] </label>
 								<div class="col-md-9 col-sm-9 ">
-									<input type="text" class="form-control"
-										placeholder="Disabled Input">
+									<input type="text" class="form-control" name="inputEgg">
 								</div>
 							</div>
 							<div class="form-group row">
                             <label class="col-form-label col-md-3 col-sm-3 label-left">목표 상태</label>
                             <div class="col-md-6 col-sm-6 ">
                               <div id="gender" class="btn-group" data-toggle="buttons">
-                                <label class="btn btn-secondary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-                                  <input type="radio" name="gender" value="male" class="join-btn"> &nbsp; Lava &nbsp;
+                                <label class="btn btn-danger" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
+                                  <input type="radio" name="calculationStandardCode" value="Lava" class="join-btn"> 애벌레
                                 </label>
                                 <label class="btn btn-primary active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-                                  <input type="radio" name="gender" value="female" class="join-btn"> Puppa
+                                  <input type="radio" name="calculationStandardCode" value="Puppa" class="join-btn"> 번데기
                                 </label>
                               </div>
                             </div>
                           </div>
 
-							<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-3 ">비밀번호</label>
-								<div class="col-md-9 col-sm-9 ">
-									<input type="password" class="form-control"
-										value="passwordonetwo">
-								</div>
-							</div>
-
 							<div class="ln_solid"></div>
 							<div class="form-group">
 								<div class="col-md-9 col-sm-9  offset-md-3">
-									<button type="button" class="btn btn-primary">Cancel</button>
-									<button type="reset" class="btn btn-primary">Reset</button>
-									<button type="submit" class="btn btn-success">Submit</button>
+									<button type="submit" class="btn btn-dark">등록</button>
+									<button type="button" class="btn btn-dark">취소</button>
+
 								</div>
 							</div>
 
@@ -116,72 +148,73 @@
 	  <div class="modal-dialog modal-dialog-right modal-md" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h4 class="modal-title" id="myModalLabel">모달 타이틀</h4>
+	        <h4 class="modal-title" id="myModalLabel">케이지 검색</h4>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
 	      </div>
 	      <div class="modal-body">
 	        <!-- 모달 내용 -->
-	          <div class="form-group row">
-	        <div class="col-md-12 col-sm-12">
-	       <form class="form-horizontal form-label-left">
 	         <div class="form-group row">
-			  <select name="cageCode"  class="form-control">
-			    <option value="">케이지 선택</option>
-			    <option th:each="c : ${cageList}" th:value="${c.cageCode}" th:text="${c.cageCode}"></option>
-			  </select>
-			  </div>
-			  
-			  <div class="form-group row">
-				<label class="control-label col-md-4 col-sm-4 "> 케이지 이름 </label>
-					<div class="col-md-8 col-sm-8 ">
-						<input type="text" class="form-control"
-							placeholder="Disabled Input">
-					</div>
-				</div>
-			  
-			  <div class="form-group row">
-				<label class="control-label col-md-4 col-sm-4 "> 케이지 개수 </label>
-					<div class="col-md-8 col-sm-8 ">
-						<input type="text" class="form-control"
-							placeholder="Disabled Input">
-					</div>
-				</div>
-				 <div class="form-group row">
-				<label class="control-label col-md-4 col-sm-4 "> 케이지 용량 [L] </label>
-					<div class="col-md-8 col-sm-8 ">
-						<input type="text" class="form-control"
-							placeholder="Disabled Input">
-					</div>
-				</div>
-				 <div class="form-group row">
-				<label class="control-label col-md-4 col-sm-4 "> 케이지 총 용량 [L] </label>
-					<div class="col-md-8 col-sm-8 ">
-						<input type="text" class="form-control"
-							placeholder="Disabled Input">
-					</div>
-				</div>
-				<div class="form-group row">
-				<label class="control-label col-md-4 col-sm-4 "> 최적 투입 알 [g] </label>
-					<div class="col-md-8 col-sm-8 ">
-						<input type="text" class="form-control"
-							placeholder="Disabled Input">
-					</div>
-				</div>
-			  
-			</form>
-	        </div>
+		  <div class="col-md-12 col-sm-12">
+		    <form  class="form-horizontal form-label-left" th:action="@{/farm/addCycle}" method="get" >
+		      <div class="form-group row">
+		       <select name="cageCode" class="form-control" onchange="setCageValues(this)">
+		          <option value="">케이지 선택</option>
+		          <option th:each="c : ${cageList}" th:value="${c.cageCode}" th:text="${c.cageCode}"></option>
+		        </select>
+		      </div>
+		
+		      <div class="form-group row">
+		        <label class="control-label col-md-4 col-sm-4">케이지 이름</label>
+		        <div class="col-md-8 col-sm-8">
+		          <input type="text" class="form-control" id="cageNameInput" readonly>
+		        </div>
+		      </div>
+		
+		      <div class="form-group row">
+		        <label class="control-label col-md-4 col-sm-4">케이지 개수</label>
+		        <div class="col-md-8 col-sm-8">
+		          <input type="text" class="form-control" id="cageNumInput" name="cageNum" readonly>
+		        </div>
+		      </div>
+		
+		      <div class="form-group row">
+		        <label class="control-label col-md-4 col-sm-4">케이지 용량 [L]</label>
+		        <div class="col-md-8 col-sm-8">
+		          <input type="text" class="form-control" id="cageVolumeInput"  readonly>
+		        </div>
+		      </div>
+		
+		      <div class="form-group row">
+		        <label class="control-label col-md-4 col-sm-4">케이지 총 용량 [L]</label>
+		        <div class="col-md-8 col-sm-8">
+		          <input type="text" class="form-control" id="cageTotalInput" readonly>
+		        </div>
+		      </div>
+		
+		      <div class="form-group row">
+		        <label class="control-label col-md-4 col-sm-4">최적 투입 알 [g]</label>
+		        <div class="col-md-8 col-sm-8">
+		          <input type="text" class="form-control" id="optimalInput" readonly>
+		        </div>
+		      </div>
+		
+		    </form>
+		  </div>
+		</div>
 
 			
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-	        <button type="submit" class="btn btn-primary">확인</button>
+			  <a class="btn btn-default" th:href="@{/farm/addCage}" style="float: left;">케이지 추가</a>
+			  <button type="button" class="btn btn-primary" id="confirmButton">확인</button>
+			  <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+
 	      </div>
 	    </div>
 	  </div>
 	</div>
-</div>
+
 </th:block>
 </html>

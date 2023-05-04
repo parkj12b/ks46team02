@@ -14,6 +14,46 @@
 		<result column="admin_status"  					property="adminStatus"/>
 		<result column="admin_withdrawal_date"  		property="adminWithdrawalDate"/>
 </resultMap>
+		
+		<insert id="addAdmin" parameterType="AdminMember">
+			/* 관리자 등록 */
+			insert into admin_list
+			(admin_id,admin_pw,admin_name,admin_email,admin_level,admin_phone,admin_reg_date,admin_status)
+			VALUES
+			(#{adminId},#{adminPw},#{adminName},#{adminEmail},#{adminLevel},#{adminPhone},CURDATE(),'nomal');
+
+		</insert>
+
+
+		<delete id="removewithdrawalAdmin" parameterType="String" >
+		/* 탈퇴한 관리자 삭제 */
+		DELETE
+		FROM
+		 	admin_list 
+		WHERE
+
+			admin_id = #{adminId};
+		</delete>
+
+		<update id="removeAdmin" parameterType="String">
+		   /* 관리자회원 삭제 삭제인데 상태만 바꿔서 삭제처리 시키는 작업 */
+		    UPDATE admin_list
+		    SET
+		        admin_status = 'withdrawal',
+		        admin_withdrawal_date = CURDATE()
+		    WHERE
+		        admin_id = #{adminId};
+		</update>
+
+		<select id="idCheckAdmin" parameterType="String" resultType="boolean">
+				/* 관리자 아이디 중복 체크 */
+				SELECT 
+					IF(COUNT(1)=0, 1, 0)
+				FROM 
+					admin_list
+				WHERE 
+					admin_id = #{adminId}; 
+	</select>
 	<select id="getWithdrawalAdminList" parameterType="String" resultMap="adminMemberResultMap">
 				/* 탈퇴 관리자 조회 */
 				SELECT 
@@ -44,8 +84,7 @@
 			from 
 				 admin_list 
 			where 
-				 admin_status='nomal'
-				,admin_id = #{adminId};
+				admin_id = #{adminId};
 	</select>
 
 	<update id="modifyAdmin" parameterType="String" >

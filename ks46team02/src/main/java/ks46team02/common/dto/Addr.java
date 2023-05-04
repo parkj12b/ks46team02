@@ -12,6 +12,13 @@ public class Addr {
 	private String addrPhone;
 	private String addrSeq;
 	private String memberId;
+	private String addrRegDate;
+	public String getAddrRegDate() {
+		return addrRegDate;
+	}
+	public void setAddrRegDate(String addrRegDate) {
+		this.addrRegDate = addrRegDate;
+	}
 	public String getAddrCode() {
 		return addrCode;
 	}
@@ -83,7 +90,7 @@ public class Addr {
 		return "Addr [addrCode=" + addrCode + ", addrPostal=" + addrPostal + ", addrRoad=" + addrRoad + ", addrLoca="
 				+ addrLoca + ", addrDetail=" + addrDetail + ", addrName=" + addrName + ", addrRecipient="
 				+ addrRecipient + ", addrTel=" + addrTel + ", addrPhone=" + addrPhone + ", addrSeq=" + addrSeq
-				+ ", memberId=" + memberId + "]";
+				+ ", memberId=" + memberId + ", addrRegDate=" + addrRegDate + "]";
 	}
 
 }

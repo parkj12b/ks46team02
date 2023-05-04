@@ -46,10 +46,8 @@ input[type='checkbox'] {
 							$('.check-self').each(
 									function(idx, item) {
 										if ($(item).prop('checked')) {
-											$(item).parents('tr').find(
-													'a.contract_new_tab')[0]
-													.click();
-
+											console.log($(item).parents('tr').eq(0).attr('href'));
+											window.open($(item).parents('tr').eq(0).attr('href'), '_blank');
 										}
 
 									})
@@ -63,10 +61,10 @@ input[type='checkbox'] {
 										$('#check-all').prop('checked'));
 							});
 						});
-
+/* 체크박스 확인 전체 체크  */
 				$('.check-self').each(function(idx, item) {
 					$(item).click(function() {
-
+					
 						let checkboxes = $('.check-self');
 						let allchecked = true;
 						if (item.checked == false) {
@@ -178,7 +176,7 @@ input[type='checkbox'] {
 													<th:block th:each="m : ${contractList}"
 														th:if="${contractList != null}">
 
-														<tr role="row" class="odd">
+														<tr role="row" class="odd" th:href="@{/farm/mentorMenteeContractDetail(mentorContractRegCode=${m.contractRegistrationCode})}">
 															<th class="sorting_1 "><label class="checkbox"><input
 																	class="check-self" type="checkbox"></label></th>
 															<td th:text=${m.contractCode}></td>

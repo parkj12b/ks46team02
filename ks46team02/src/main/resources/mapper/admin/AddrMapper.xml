@@ -15,10 +15,11 @@
 		<result column="shipping_addr_phone"  				property="addrPhone"/>
 		<result column="shipping_addr_seq"  				property="addrSeq"/>
 		<result column="member_id"  						property="memberId"/>
+		<result column="shipping_addr_reg_date"  			property="addrRegDate"/>
 </resultMap>
 
-<select id="getAddrInfoById" parameterType="String" resultMap="adminAddrResultMap">
-		/* 특정 배송지 조회 */
+		<select id="getAddrMemberList" parameterType="String" resultMap="adminAddrResultMap">
+		/* 특정 회원 배송지 조회 */
 			select 
 				 shipping_addr_code
 				,shipping_addr_postal
@@ -34,18 +35,29 @@
 			from 
 				addr_manage 
 			where 
-				shipping_addr_code = #{addrCode};
+				member_id = #{memberId};
+	</select>
+	
+
+	<select id="getAddrAmountList" parameterType="String" resultMap="adminAddrResultMap">
+					/* 회원별 배송지 숫자 조회 */
+					SELECT 
+						count(*)
+					from
+						addr_manage
+					where 
+						member_id = #{memberId};
 	</select>
 
-	<update id="modifyAddr" parameterType="String" >
-		/* 배송지 수정 */	
+<update id="modifyAddr" parameterType="String" >
+		/* 배송지 수정  */
 		UPDATE addr_manage
 		<trim prefix="SET" suffixOverrides=",">
+			<if test="addrPostal != null and addrPostal != ''">
+				addr_manage = #{addrPostal},
+			</if>
 			<if test="addrRoad != null and addrRoad != ''">
 				shipping_addr_road = #{addrRoad},
-			</if>
-			<if test="addrPostal != null and addrPostal != ''">
-				shipping_addr_postal = #{addrPostal},
 			</if>
 			<if test="addrLoca != null and addrLoca != ''">
 				shipping_addr_loca = #{addrLoca},
@@ -66,17 +78,79 @@
 				shipping_addr_phone = #{addrPhone},
 			</if>
 			<if test="addrSeq != null and addrSeq != ''">
-				shipping_addr_seq = #{memberStatus},
+				shipping_addr_seq = #{addrSeq},
 			</if>
 			<if test="memberId != null and memberId != ''">
 				member_id = #{memberId},
 			</if>
+				shipping_addr_reg_date = NOW()
 		</trim>
-		WHERE 
-			shipping_addr_code = #{addrCode};
+		WHERE
+			member_id = #{memberId};
 
 	</update>
-	
+
+		
+		<insert id="addAddr" parameterType="Addr">
+			/* 배송지 등록 */
+			insert into addr_manage
+			(shipping_addr_code
+			 ,shipping_addr_postal
+			 ,shipping_addr_road
+			 ,shipping_addr_loca
+			 ,shipping_addr_detail
+			 ,shipping_addr_name
+			 ,shipping_addr_recipient
+			 ,shipping_addr_tel
+			 ,shipping_addr_phone
+			 ,shipping_addr_seq
+			 ,member_id
+			 ,shipping_addr_reg_date)
+			VALUES
+			(#{addrCode}
+			,#{addrPostal}
+			,#{addrRoad}
+			,#{addrLoca}
+			,#{addrDetail}
+			,#{addrName}
+			,#{addrRecipient}
+			,#{addrTel}
+			,#{addrPhone}
+			,#{addrSeq}
+			,#{memberId}
+			,CURDATE());
+
+		</insert>
+		<delete id="removeAddr" parameterType="String" >
+		/* 배송지 삭제 */
+		DELETE
+		FROM
+		 	addr_manage
+		WHERE
+
+			shipping_addr_code = #{addrCode};
+		</delete>
+
+	<select id="getAddrInfoById" parameterType="String" resultMap="adminAddrResultMap">
+		/* 특정 배송지 조회 */
+			select 
+				 shipping_addr_code
+				,shipping_addr_postal
+				,shipping_addr_road
+				,shipping_addr_loca
+				,shipping_addr_detail
+				,shipping_addr_name
+				,shipping_addr_recipient
+				,shipping_addr_tel
+				,shipping_addr_phone
+				,shipping_addr_seq
+				,member_id
+			from 
+				addr_manage 
+			where 
+				shipping_addr_code = #{addrCode};
+	</select>
+
 		
 	<select id="getAddrList" parameterType="String" resultMap="adminAddrResultMap">
 				/* 전체 회원 배송지 조회 */

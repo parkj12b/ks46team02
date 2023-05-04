@@ -77,6 +77,35 @@
 		<result column="admin_id" property="adminId"></result>
 		<result column="evaluation_reg_date" property="evaluationRegDate"></result>
 	</resultMap>
+	<resultMap type="EvaluationDetailCategory" id="evaluationDetailCategoryMap">
+		<id column="evaluation_unit_code" property="evaluationUnitCode"></id>
+		<result column="large_category_code" property="largeCategoryCode"></result>
+		<result column="question_content_small" property="questionContentSmall"></result>
+		<result column="question_content_reg_date" property="questionContentRegDate"></result>
+		<result column="admin_id" property="adminId"></result>
+	</resultMap>
+	<resultMap type="MentorFeedbackToken" id="mentorFeedbackTokenMap">
+		<id column="mentor_feedback_token_code" property="mentorFeedbackTokenCode"></id>
+		<result column="company_code" property="companyCode"></result>
+		<result column="mentor_feedback_token" property="mentorFeedbackToken"></result>
+		<result column="member_id" property="memberId"></result>
+		<result column="register_date" property="registerDate"></result>
+		<result column="expiry_date" property="expiryDate"></result>
+	</resultMap>
+	<resultMap type="EvaluationLargeCategory" id="evaluationLargeCategoryMap">
+		<id column="large_category_code" property="largeCategoryCode"></id>
+		<result column="evaluation_item" property="evaluationItem"></result>
+		<result column="evaluation_item_reg_date" property="evaluationItemRegDate"></result>
+		<result column="admin_id" property="adminId"></result>
+		<result column="large_category_num" property="largeCategoryNum"></result>
+		<collection property="detailCategory" ofType="EvaluationDetailCategory">
+			<id property="evaluationUnitCode" column="evaluation_unit_code"/>
+			<result property="largeCategoryCode" column="large_category_code"/>
+			<result property="questionContentSmall" column="question_content_small"/>
+			<result property="questionContentRegDate" column="question_content_reg_date"/>
+			<result property="adminId" column="admin_id"/>
+		</collection>
+	</resultMap>
 
 	<select id="getMMRegStatMentee" resultType="MMRegInfoMentee">
 		select
@@ -173,5 +202,74 @@
 		from
 			evaluation_standard
 	</select>
-
+	<select id="getVisitHistoryByVisitCode" resultMap="visitHistoryMap">
+		select
+			*
+		from
+			visit_history
+		where
+			visit_code = #{visitCode}
+	</select>
+	<select id="mentorMenteeIsApply" resultType="boolean">
+		select count(1) from (
+	select
+			company_code
+		from
+			mentor_apply
+		where
+			company_code = #{companyCode} and mentor_approval != 'denied'
+		union
+		select
+			company_code
+		from
+			mentee_apply
+		where
+			company_code = #{companyCode} and mentee_approval != 'denied'
+) as combined_table;
+	</select>
+	<select id="hasNoMentorMenteeContract" resultType='boolean'>
+		select count(1)
+		from
+			all_contract
+		where
+			contractee_company_code = #{companyCode}
+			and
+			contract_type = 'mentormentee'
+			and
+			contract_approval != 'terminate'
+	</select>
+	<select id="getEvalLargeCateList" resultMap="evaluationLargeCategoryMap">
+		select
+			*, substring_index(large_category_code, '_', -1) as large_category_num
+		from
+			evaluation_large_category elc
+			inner join
+			evaluation_detail_category edc
+			using (large_category_code)
+	</select>
+	<select id="getMentorFeedbackTokenByCompanyCode" parameterType="String" resultMap="mentorFeedbackTokenMap">
+		select
+			*
+		from
+			mentor_feedback_token
+		where
+			company_code = #{companyCode}
+	</select>
+	<insert id="addResultHistory" parameterType="ResultHistory">
+		insert into result_history(
+			result_code,  evaluation_unit_code, visit_code, contract_code, result_feedback, member_id, result_reg_date, result_evaluation_point
+		) values (
+			#{resultCode},#{evaluationCode},#{visitCode},#{resultFeedback},#{contractCode},#{memberId},#{resultEvaluationPoint}
+		)
+	</insert>
+	<update id="modifyVisitHistory" parameterType="VisitHistory">
+		update 
+			visit_history 
+		set 
+			visit_complete = #{visitComplete},
+			total_score_visit = #{totalScoreVisit},
+			total_detail_item_num = #{totalDetailItemNum}
+		where
+			visit_code = #{visitCode}
+	</update>
 </mapper>
