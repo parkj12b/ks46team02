@@ -6,8 +6,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script layout:fragment="customJs">
-	alert("삭제되었습니다");
-	location.href="/customerservice/main?questionTypeCode=[[${questionTypeCode}]]&page=[[${page}]]";
+	alert("저장 되었습니다");
+	location.href = "/customerservice/read?questionTypeCode=[[${writeQuestionDto.questionTypeCode}]]&questionCode=[[${writeQuestionDto.questionCode}]]&page=[[${page}]]";
 </script>
 </head>
 <body>

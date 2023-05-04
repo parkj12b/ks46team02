@@ -15,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
@@ -112,12 +114,15 @@ public class CommonController {
 		return "redirect:/login#signup";
 	}
 	
-	@GetMapping("/")
-	public String mainPage(Model model) {
-		List<QuestionTypeDto> topMenuList = topMenuService.getTopMenuCustomerServiceList();
-		log.info("{}",topMenuList);
-		model.addAttribute("topMenuList",topMenuList);
-		return "mainPage";
+	@RequestMapping(value="/", method=RequestMethod.GET)
+	public String mainPage(@RequestParam(name = "questionTypeCode", defaultValue = "0") int questionTypeCode, Model model) {
+	
+	    List<QuestionTypeDto> topMenuList = topMenuService.getTopMenuCustomerServiceList();
+	    log.info("{}", topMenuList);
+	    model.addAttribute("topMenuList", topMenuList);
+
+	 
+	    return "mainPage";
 	}
 	
 	@GetMapping("/mypage")

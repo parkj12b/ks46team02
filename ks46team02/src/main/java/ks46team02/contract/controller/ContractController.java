@@ -23,6 +23,8 @@ public class ContractController {
 
         return "contract/contract_list";
     }
+    
+    
 
 
 }

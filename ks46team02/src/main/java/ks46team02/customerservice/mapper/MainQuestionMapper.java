@@ -4,15 +4,15 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.data.repository.query.Param;
 
 import ks46team02.customerservice.dto.QuestionDto;
+import ks46team02.customerservice.dto.QuestionTypeDto;
 
 @Mapper
 public interface MainQuestionMapper {
 	
-
-
+	public List<QuestionTypeDto>getQuestionTypeList(); 
+	
 	public void writeQuestion(QuestionDto questionDto);
 	
 	public String getQuestionTypeName(int questionTypeCode);
@@ -21,7 +21,7 @@ public interface MainQuestionMapper {
 
 	public QuestionDto selectQuestionInfo(String questionCode);
 
-	public void updateQuestion(QuestionDto questiondto);
+	public void modifyQuestionDto(QuestionDto questiondto);
 
 	public void deleteQuestion(String questionCode);
 
