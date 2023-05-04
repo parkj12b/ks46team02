@@ -34,7 +34,7 @@ public class FarmService {
     
     
 	private static final Logger log = LoggerFactory.getLogger(FarmService.class);
-
+    final double standardEggWeight = 0.089;
 
     /**
      * 케이지 등록
@@ -44,9 +44,7 @@ public class FarmService {
         String column = "cage_code";
         String table = "cage";
         String cageCode = mainMapper.autoIncrement(table, column);
-        HashMap <String, Object> standardData = farmMapper.getStandard();
-        Double standardEggWeight = (Double) standardData.get("lava_standard_egg_weight");
-        log.info("lava_standard_egg_weight: {}", standardEggWeight);
+
         int cageNum = cage.getCageNum();
         double CageVolume = cage.getCageVolume();
         double cageTotal = cageNum*CageVolume;

@@ -29,7 +29,7 @@
             CURDATE(),
             #{cageNum},
             #{cageVolume},
-            L,
+            'L',
             #{cageTotal}
         )
     </insert>
@@ -79,8 +79,8 @@
 	        member_id AS memberId,
 	        cage_reg_date AS cageRegDate,
 	        cage_num AS cageNum,
-	        cage_volum AS cageVolume,
-	        cage_volum_unit AS cageVolumeUnit,
+	        cage_volume AS cageVolume,
+	        cage_volume_unit AS cageVolumeUnit,
 	        cage_total AS cageTotal
         FROM
         	cage
@@ -100,8 +100,8 @@
 	        member_id AS memberId,
 	        cage_reg_date AS cageRegDate,
 	        cage_num AS cageNum,
-	        cage_volum AS cageVolume,
-	        cage_volum_unit AS cageVolumeUnit,
+	        cage_volume AS cageVolume,
+	        cage_volume_unit AS cageVolumeUnit,
 	        cage_total AS cageTotal
         FROM
         	cage
@@ -122,8 +122,8 @@
         member_id AS memberId,
         DATE_FORMAT(cage_reg_date, '%Y-%m-%d') AS cageRegDate,
         cage_num AS cageNum,
-        cage_volum AS cageVolume,
-        cage_volum_unit AS cageVolumeUnit,
+        cage_volume AS cageVolume,
+        cage_volume_unit AS cageVolumeUnit,
         cage_total AS cageTotal
         FROM
         cage

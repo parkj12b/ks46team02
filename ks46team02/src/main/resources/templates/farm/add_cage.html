@@ -5,7 +5,23 @@
 <head>
 
 </head>
+<th:block layout:fragment="customJs">
+	<script>
+		$('form').submit(function(event) {
+			let farmCode = $('select[name="farmCode"]').val();
+			let cageNum = $('input[name="cageNum"]').val();
+			let cageVolume = $('input[name="cageVolume"]').val();
 
+			if (farmCode === '::::사육장 선택::::') {
+				event.preventDefault();
+				alert("사육장을 선택하십시오.");
+			} else if (isNaN(cageNum) || isNaN(cageVolume)) {
+				event.preventDefault();
+				alert("정확한 값을 입력하세요");
+			}
+		});
+	</script>
+</th:block>
 
 <th:block layout:fragment="customContent">
 	<div class="page-title">
@@ -26,17 +42,17 @@
 									<label>
 										<select name="farmCode" class="form-control" style="text-align:center">
 											<option >::::사육장 선택::::</option>
-											<option th:unless="${farmList == null}" th:each="l : ${farmList}" th:text="${l.farmName}"  th:value="${l.farmCode}"></option>
+											<option th:unless="${farmList == null}" th:each="l : ${farmList}" th:text="${l.farmName}" th:value="${l.farmCode}"></option>
 										</select>
 									</label>
 								</div>
 							</div>
-							<input type="hidden" name="farmCode" th:value="${farmCode}"/>
+
 							<div class="form-group row ">
 								<label class="control-label col-md-3 col-sm-3 ">케이지 이름
 								</label>
 								<div class="col-md-9 col-sm-9 ">
-									<input type="text" class="form-control" name="cageName">
+									<input type="text" class="form-control" name="cageName" required>
 								</div>
 							</div>
 
@@ -44,13 +60,13 @@
 								<label class="control-label col-md-3 col-sm-3 "> 케이지 개수
 								</label>
 								<div class="col-md-9 col-sm-9 ">
-									<input type="text" class="form-control" name="cageNum">
+									<input type="text" class="form-control" name="cageNum"  required>
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="control-label col-md-3 col-sm-3 "> 케이지 용량[L] </label>
 								<div class="col-md-9 col-sm-9 ">
-									<input type="text" class="form-control" name="cageVolume">
+									<input type="text" class="form-control" name="cageVolume"  required>
 								</div>
 							</div>
 
