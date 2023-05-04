@@ -66,6 +66,11 @@ public class FarmController {
 	public String addCage(Cage cage
 						,HttpSession session){
 		log.info("화면에서 전달받은 데이터 : {}", cage);
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		String memberId = (String) session.getAttribute("sessionId");
+		cage.setCompanyCode(companyCode);
+		cage.setMemberId(memberId);
+		farmService.addCage(cage);
 		return "redirect:/farm/cageList";
 	}
 	@GetMapping("/addCage")

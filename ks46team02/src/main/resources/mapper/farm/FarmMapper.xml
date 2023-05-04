@@ -4,17 +4,66 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.farm.mapper.FarmMapper">
     
-    
 
+    <!-- 케이지 등록   -->
+    <insert id="addCage" parameterType="Cage">
+        INSERT INTO cage (
+            cage_code,
+            cage_name,
+            company_code,
+            farm_code,
+            optimal_input_egg,
+            member_id,
+            cage_reg_date,
+            cage_num,
+            cage_volume,
+            cage_volume_unit,
+            cage_total
+        ) VALUES (
+            #{cageCode},
+            #{cageName},
+            #{companyCode},
+            #{farmCode},
+            #{optimalInputEgg},
+            #{memberId},
+            CURDATE(),
+            #{cageNum},
+            #{cageVolume},
+            L,
+            #{cageTotal}
+        )
+    </insert>
+
+    <!-- 기준 단위 가져오기  -->
+    <select id="getStandard" resultType="HashMap">
+        SELECT
+             *
+        FROM
+            calculation_standard
+    </select>
 
     <!-- 사육장 등록   -->
     <insert id="addFarm" parameterType="FarmInfo">
         INSERT INTO farm_info (
-        farm_code, farm_name, company_code, farm_reg_date, cage_amount,
-        member_id, total_capacity, farm_address, farm_detail
+            farm_code,
+            farm_name,
+            company_code,
+            farm_reg_date,
+            cage_amount,
+            member_id,
+            total_capacity,
+            farm_address,
+            farm_detail
         ) VALUES (
-        #{farmCode}, #{farmName}, #{companyCode}, CURDATE(), #{cageAmount},
-        #{memberId}, #{totalCapacity}, #{farmAddr}, #{farmDetail}
+            #{farmCode},
+            #{farmName},
+            #{companyCode},
+            CURDATE(),
+            #{cageAmount},
+            #{memberId},
+            #{totalCapacity},
+            #{farmAddr},
+            #{farmDetail}
         )
     </insert>
 
