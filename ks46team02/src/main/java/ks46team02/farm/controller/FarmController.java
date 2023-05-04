@@ -59,6 +59,15 @@ public class FarmController {
 		this.memberService = memberService;
 	}
 
+	/**
+	 * 케이지 등록
+	 */
+	@GetMapping("/addCage")
+	public String addCage(Model model){
+		model.addAttribute("title","케이지 등록");
+		return "farm/add_cage";
+	}
+
 
 	/**
 	 * 모달 창 케이지 조회
@@ -103,6 +112,7 @@ public class FarmController {
 
 	/**
 	 * 사육 장 등록
+	 * 등록 화면 이랑 등록
 	 */
 
 	@PostMapping("/addFarm")
@@ -131,7 +141,6 @@ public class FarmController {
 	@GetMapping("/addFarm")
 	public String addFarm(Model model){
 		model.addAttribute("title", "사육장 등록");
-		
 		return "farm/add_farm";
 	}
 
