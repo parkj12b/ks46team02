@@ -17,6 +17,8 @@ public interface MemberMapper {
 	public List<Member> getEmployeeList(String companyCode);
 	/* 전체 회원  조회*/
 	public List<Member> getMemberList();
+	/* 회원 등록 */
+	public int addMember(Member member);
 	/* 휴면 회원 조회 */
 	public List<Member> getDormantMemberList();
 	/* 회원 정보 수정 */
