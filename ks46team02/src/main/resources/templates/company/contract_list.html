@@ -36,16 +36,16 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr role="row" class="odd">
-                                    <td>con1</td>
-                                    <td>건조업체</td>
-                                    <td>333333333</td>
-                                    <td>333333333</td>
-                                    <td>333333333</td>
-                                    <td>333333333</td>
+                                <tr role="row" class="odd" th:unless="${contractList == null}" th:each="l :${contractList}">
+                                    <td th:text="${l.contractCode}"></td>
+                                    <td th:text="${l.contractType}"></td>
+                                    <td th:text="${l.memberId}"></td>
+                                    <td th:text="${l.contractApproval}"></td>
+                                    <td th:text="${l.contracteeCompanyCode}"></td>
+                                    <td th:text="${l.contractorCompanyCode}"></td>
 <!--                                    <td>333333333</td>-->
                                     <td>
-                                        <a th:href="@{/contract/contract_info}">계약상세보기</a>
+                                        <a class="btn btn-secondary btn-sm" th:href="@{/company/contract_info}">계약상세보기</a>
                                     </td>
                                 </tr>
                                 </tbody>
