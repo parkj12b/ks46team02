@@ -4,16 +4,15 @@
       layout:decorate="~{layout/mypageLayout}">
 
 <head>
-<style >
-	.delete{
-	  font-size: smaller; /* 원하는 크기로 변경 가능 */
-	  padding: 5px 10px; /* 내용과 버튼의 크기 조정 */
-	  
-	}
-</style>
+
 </head>
 <th:block layout:fragment="customJs">
 <script>
+$(document).ready(function() {
+  $('button.btn-primary').click(function() {
+    window.location.href = '/admin/addAddr';
+  });
+});
 $(".delete").click(function () {
 	  (async () => {
 	    const { value: adminPw } = await Swal.fire({
@@ -25,8 +24,8 @@ $(".delete").click(function () {
 	    const sessionId = "[[${session.sessionId}]]";
 	    var tr = $(this).closest('tr');
 	    console.log("tr     "+tr);
-	    var loginCode = tr.find('td:eq(0)').text(); 
-	    console.log("loginCode     "+loginCode);
+	    var addrCode = tr.find('td:eq(0)').text(); 
+	    console.log("addrCode     "+addrCode);
 	    
 	    console.log(sessionId);
 	    $.ajax({
@@ -52,9 +51,9 @@ $(".delete").click(function () {
 	            if (result.isConfirmed) {
 	              $.ajax({
 	                type: "POST",
-	                url: "/admin/removeLogin",
+	                url: "/admin/removeAddr",
 	                data: {
-	                	loginCode: loginCode, // 관리자 아이디를 입력해주세요.
+	                	addrCode: addrCode, // 관리자 아이디를 입력해주세요.
 	                },
 	                success: function () {
 	                  Swal.fire("삭제가 완료되었습니다.");
@@ -89,7 +88,7 @@ $(".delete").click(function () {
         <div class="title">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>로그인 기록 조회</h2>
+                    <h2>배송지 조회</h2>
 
                     <ul class="nav navbar-right panel_toolbox" style="flex-direction: row-reverse">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -109,44 +108,65 @@ $(".delete").click(function () {
                                 <div class="col-sm-12">
 
 
-                                    <table id="datatable"
+                                    <table id="datatable-buttons"
                                            class="table table-striped table-bordered dataTable no-footer dtr-inline"
                                            >
                                         <thead>
-                                        <tr >
-                                            <th >로그인 코드
+                                        <tr>
+                                            <th >배송지 코드
                                             </th>
-                                            <th>로그인 시간
+                                            <th>우편번호
                                             </th>
-                                            <th>로그아웃 시간
+                                            <th>주소(도로명)
                                             </th>
-                                            <th >회원아이디
+                                            <th>주소(지번)
                                             </th>
-                                            <th>ip주소(IPv4)
-                                            </th>                                                                                                                      
-                                            <th >
-        									</th>                                   
+                                            <th>주소명칭
+                                            </th>
+                                            <th >수령자
+                                            </th>
+                                            <th >일반전화
+                                            </th>
+                                            <th >휴대폰
+                                            </th>
+                                            <th >주소유형
+                                            </th>
+                                            <th>회원아이디
+                                            </th> 
+                                            <th>
+        									</th>
+        									<th>
+        									</th>                                    
                                             
                                            
 
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:unless="${loginHistory == null}" th:each="l : ${loginHistory}">
-                                            <td th:text="${l.loginCode}"></td>
-                                            <td th:text="${l.LoginDate}"></td>
-                                            <td th:text="${l.logoutDate}"></td>
+                                        <tr th:unless="${addrList == null}" th:each="l : ${addrList}">
+                                            <td th:text="${l.addrCode}"></td>
+                                            <td th:text="${l.addrPostal}"></td>
+                                            <td th:text="${l.addrRoad+l.addrDetail}"></td>
+                                            <td th:text="${l.addrLoca+l.addrDetail}"></td>
+                                            <td th:text="${l.addrName}"></td>
+                                            <td th:text="${l.addrRecipient}"></td>
+                                            <td th:text="${l.addrTel}"></td>
+                                            <td th:text="${l.addrPhone}"></td>
+                                            <td th:text="${l.addrSeq}"></td>
                                             <td th:text="${l.memberId}"></td>
-                                            <td th:text="${l.ipv4Address}"></td>
+                                            <td>                                            
+                                           		<a class="btn btn-dark modify" th:href="@{/admin/modifyAddr(addrCode=*{l.addrCode})}">수정</a>
+                                            </td>
                                             <td>
-                                           <button class="btn btn-dark delete" type="button">삭제</button>
-                                        	</td>
+                                            	<button class="btn btn-dark delete" type="button">삭제</button>
+                                            </td>
                                         </tr>
-
                                         </tbody>
-                                    </table>
-
+                                       </table>
                                 </div>
+                                	<div class="col-md-12 text-right">
+							      		<button class="btn btn-primary float-right" type="button">배송지 등록</button>
+							    	</div>
                             </div>
                         </div>
                     </div>
