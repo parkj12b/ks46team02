@@ -81,6 +81,7 @@
 			<if test="memberStatus != null and memberStatus != ''">
 				member_status = #{memberStatus},
 			</if>
+				dormant_member_reg_date = #{dormantMemberRegDate}
 		</trim>
 		WHERE
 			member_id = #{memberId};

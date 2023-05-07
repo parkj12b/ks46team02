@@ -1,5 +1,7 @@
 package ks46team02.common.dto;
 
+import java.util.Date;
+
 public class Member {
 	
 	private String memberId;
@@ -107,8 +109,8 @@ public class Member {
 	public String getDormantMemberRegDate() {
 		return dormantMemberRegDate;
 	}
-	public void setDormantMemberRegDate(String dormantMemberRegDate) {
-		this.dormantMemberRegDate = dormantMemberRegDate;
+	public void setDormantMemberRegDate(String nowTime) {
+		this.dormantMemberRegDate = nowTime;
 	}
 
 	@Override
