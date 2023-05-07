@@ -383,10 +383,9 @@ public class AdminController {
 							  ,@RequestParam (name="memberStatus")String memberStatus) {
 		
 	  if(memberStatus.equals("dormant")) {
-		  SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		  SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		  Date date = new Date();
-	      String nowTime = sdf.format(date);
-		  member.setMemberStatus(memberStatus);
+	      String nowTime = form.format(date);
 		  member.setDormantMemberRegDate(nowTime);
 	  }
 		

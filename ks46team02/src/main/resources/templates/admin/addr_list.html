@@ -20,7 +20,7 @@
   $('button.btn-primary').click(function() {
     window.location.href = '/admin/addAddr';
   });
-  $(document).ready(function() {
+
 	    $('button[data-target="#myModal"]').click(function() {
 	    	var tr = $(this).closest('tr');
 	    	var AddrCode = tr.find('td:eq(1)').text(); 
@@ -46,7 +46,6 @@
 	            }
 	        });
 	    });
-	});
 
 $(".delete").click(function () {
 	  (async () => {
