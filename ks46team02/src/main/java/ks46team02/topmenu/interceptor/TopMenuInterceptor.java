@@ -15,7 +15,6 @@ import ks46team02.topmenu.service.TopMenuService;
 
 public class TopMenuInterceptor implements HandlerInterceptor {
 
-
 		@Autowired
 		private TopMenuService topmenuservice;
 		
@@ -30,13 +29,7 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 			request.setAttribute("topMenuList", topMenuList);
 			request.setAttribute("loginMemberDto", loginMemberDto);
 			return true;
+			
 		}
-		
-	
-
-
-
-
-
 
 }

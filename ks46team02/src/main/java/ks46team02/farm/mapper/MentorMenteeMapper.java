@@ -36,5 +36,6 @@ public interface MentorMenteeMapper {
 	public List<MentorFeedbackToken> getMentorFeedbackTokenByCompanyCode(String companyCode);
 	public int addResultHistory(ResultHistory resultHistory);
 	public int modifyVisitHistory(VisitHistory visitHistoryParam);
+	public int modifyResultHistory(ResultHistory resultHistory);
 	
 }

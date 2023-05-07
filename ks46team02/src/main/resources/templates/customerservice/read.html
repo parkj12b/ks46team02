@@ -5,64 +5,69 @@
 <head>
 <title _msttexthash="44395234" _msthash="0">젠텔렐라 알레라! |</title>
 </head>
-	<th:block layout:fragment="customContent">
-		<section class="py-2">
-			<div class="container px-4 px-lg-5 mt-1">
-				<h2>Q & A</h2>
-				<div class="row">
-					<div class="col-sm-3"></div>
-					<div class="col-sm-6 col-lg-12">
-						<div class="card shadow">
-							<div class="card-body">
-								<div class="form-group mb-3">
-
-									<label for="qusetionWiterName" class="form-label">작성자</label> <input
-										type="text" id="qusetionWiterName" name="qusetionWiterName"
-										class="form-control" value="${readQuestionDto.memberId}"
+<th:block layout:fragment="customContent">
+	<section class="py-2">
+		<div class="container px-4 px-lg-5 mt-1">
+			<h2>Q & A</h2>
+			<div class="row">
+				<div class="col-sm-3"></div>
+				<div class="col-sm-6 col-lg-12">
+					<div class="card shadow">
+						<div class="card-body">
+							<div class="form-group mb-3">
+								<label for="qusetionWiterName" class="form-label">작성자</label> 
+								<input type="text" id="qusetionWiterName" name="qusetionWiterName"
+										class="form-control" th:value="${readQuestionDto.memberId}"
 										disabled="disabled" />
-								</div>
+							</div>
+							<div class="form-group mb-3">
+								<label for="questionRegDate" class="form-label">작성일</label> <input
+									type="text" id="questionRegDate" name="questionRegDate"
+									class="form-control"
+									th:value="${readQuestionDto.questionRegDate}"
+									disabled="disabled" />
+							</div>
+							<div class="form-group mb-3">
+								<label for="questionTitle" class="form-label">제목</label> <input
+									type="text" id="questionTitle" name="questionTitle"
+									class="form-control"
+									th:value="${readQuestionDto.questionTitle}" disabled="disabled"/>
+							</div>
+							<div class="form-group mb-3">
+								<label for="questionContent" class="form-label">내용</label>
+								<textarea id="questionContent" name="questionContent"
+									class="form-control" rows="10" style="resize: none"
+									disabled="disabled"
+									th:text="${readQuestionDto.questionContent}"></textarea>
+							</div>
+							<th:if test="${readQuestionDto.questionFile != null}">
 								<div class="form-group mb-3">
-									<label for="questionRegDate" class="form-label">작성일</label> <input
-										type="text" id="questionRegDate" name="questionRegDate"
-										class="form-control"
-										value="${readQuestionDto.questionRegDate}" disabled="disabled" />
+									<label for="quesitonFile" class="form-label">첨부 이미지</label> <img
+										src="@{/upload/${readQuestionDto.questionFile}}" width="50%" />
 								</div>
-								<div class="form-group mb-3">
-									<label for="questionTitle" class="form-label">제목</label> <input
-										type="text" id="questionTitle" name="questionTitle"
-										class="form-control" value="${readQuestionDto.questionTitle}"
-										disabled="disabled" />
-								</div>
-								<div class="form-group mb-3">
-									<label for="questionContent" class="form-label">내용</label>
-									<textarea id="questionContent" name="questionContent"
-										class="form-control" rows="10" style="resize: none"
-										disabled="disabled"
-										th:text="${readQuestionDto.questionContent}"></textarea>
-								</div>
-								<th:if test="${readQuestionDto.questionFile != null}">
-									<div class="form-group mb-3">
-										<label for="quesitonFile" class="form-label">첨부 이미지</label> <img
-											src="${root}upload/${readQuestionDto.questionFile}" width="50%" />
-									</div>
-								</th:if>
-								<div class="form-group mb-3">
-									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-										<a th:href=@{${root}customerservice/main?questionTypeCode=${questionTypeCode}$page=${page}} class="btn btn-outline-dark">목록보기</a>
-										<th:if test="${loginMemberDto.memberId == readQuestionDto.memberId}"> 
-										<a th:href="${root}customerservice/modify?questionTypeCode=${questionTypeCode}&questionCode=${questionCode}&page=${page}"
+							</th:if>
+							<div class="form-group mb-3">
+								<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+									<a
+										th:href="@{/customerservice/main(questionTypeCode=${questionTypeCode},page=${page})}"
+										class="btn btn-outline-dark">목록보기</a>
+									<th:if
+										test="${loginMemberDto.memberId == readQuestionDto.memberId}">
+										<a
+											th:href="@{/customerservice/modify(questionTypeCode=${questionTypeCode},questionCode=${questionCode},page=${page})}"
 											class="btn btn-outline-dark">수정하기</a>
-											 <a th:href="${root}question/delete?questionTypeCode=${questionTypeCode}&questionCode=${questionCode}&page=${page}"
+										<a
+											th:href="@{/customerservice/delete(questionTypeCode=${questionTypeCode},questionCode=${questionCode},page=${page})}"
 											onclick="return cinfirm('정말 삭제하시겠습니까?');"
 											class="btn btn-outline-dark">삭제하기</a>
-										</th:if>
-									</div>
+									</th:if>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</section>
-	</th:block>
-</html>
+		</div>
+	</section>
+</th:block>
+</html> 
