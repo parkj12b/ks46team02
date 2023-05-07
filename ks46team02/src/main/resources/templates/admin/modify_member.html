@@ -56,7 +56,7 @@
 		        icon: 'warning',  // 여기다가 아이콘 종류를 쓰면 됩니다.                     
 		        title: `${item.name}를 입력해주세요.` 
 		      }).then((result) => {
-		        if (result.isConfirmed) {
+		        if (result.isConfirmed) { // 모달창에서 확인을 누르면 true가 되는 속성
 		          $(item.id).focus();
 		          Swal.close(); // 모달창이 닫힐 때까지 기다림
 		        }
