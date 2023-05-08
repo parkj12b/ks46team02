@@ -3,6 +3,8 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/default}">
 <head>
+<style>
+</style>
 
 <title _msttexthash="44396482" _msthash="0">젠텔렐라 알렐라!</title>
 </head>
@@ -19,27 +21,36 @@
 			</ul>
 			<h2 th:text="${questionTypeName}"></h2>
 			<div class="clearfix"></div>
-			<div class="x_content">
-				<ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist">
-					<th:block th:each="qtl, status: ${questionTypeList}">
-						<li class="nav-item"
-							th:classappend="${status.index} == 0?'active':''"><a
-							class="nav-link" th:id="|${qtl.questionTypeEngName}-tab|"
-							data-toggle="tab" th:href="@{|#${qtl.questionTypeEngName}|}"
-							role="tab" th:aria-controls="${qtl.questionTypeEngName}"
-							aria-selected="true" th:text="${qtl.questionTypeName}">Home</a></li>
-					</th:block>
-					<!-- th:href="@{|#${qtl.questionTypeEngName}|}" -->
-				</ul>
-				<div class="tab-content" id="myTabContent">
-					<th:block th:each="qtl, status: ${questionTypeList}">
-						<div class="tab-pane"
-							th:classappend="${status.index} == 0?'active':''"
-							th:id="${qtl.questionTypeEngName}" role="tabpanel"
-							th:aria-labelledby="${qtl.questionTypeEngName + '-tab'}">[[${qtl.questionTypeName}]]</div>
+			<div class="x_content" role="tablist">
+				<div>
+					<div style="display: flex;">
+						<th:block th:each="l: ${questionTypeList}">
+							<ul class="nav nav-tabs">
+								<li class="nav-item"
+									th:class="${param.questionTypeCode == l.questionTypeCode} ? 'nav-item active' : 'nav-item'">
+									<a class="nav-link"
+									th:href="@{/customerservice/main(questionTypeCode=${l.questionTypeCode})}"
+									th:text="${l.questionTypeName}"> </a>
+								</li>
+							</ul>
+						</th:block>
+						<!-- <th:block th:each="l: ${questionTypeList}">
+							<ul class="nav nav-tabs" style="display: inline-flex;">
+								<li class="nav-item"><a class="nav-link active"
+									aria-current="page"
+									th:href="@{/customerservice/main(questionTypeCode=${l.questionTypeCode})}"
+									th:text="${l.questionTypeName}"></a></li>
+							</ul>
+						</th:block> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
-						<!-- <div class="x_content">
+
+	<!-- <div class="x_content">
 						<th:block th:each="qtl: ${questionTypeList}">
 							<ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist">
 								<li class="nav-item"><a class="nav-link" id="home-tab"
@@ -49,52 +60,47 @@
 							</ul>
 						</th:block>-->
 
-						<table class="table table-striped jambo_table bulk_action"
-							id="questionlist">
-							<thead>
-								<tr class="headings">
-									<th class="sorting" tabindex="0"
-										aria-controls="datatable-buttons" rowspan="1" colspan="1"
-										style="width: 200px;"
-										aria-label="Name: activate to sort column ascending">No.</th>
-									<th class="sorting" tabindex="0"
-										aria-controls="datatable-buttons" rowspan="1" colspan="1"
-										style="width: 200px;"
-										aria-label="Position: activate to sort column ascending">제목</th>
-									<th class="sorting" tabindex="0"
-										aria-controls="datatable-buttons" rowspan="1" colspan="1"
-										style="width: 200px;"
-										aria-label="Office: activate to sort column ascending">작성자</th>
-									<th class="sorting" tabindex="0"
-										aria-controls="datatable-buttons" rowspan="1" colspan="1"
-										style="width: 200px;"
-										aria-label="Age: activate to sort column ascending">작성일</th>
-								</tr>
-							</thead>
-							<tbody>
-								<th:block th:each="m: ${questionList}">
-									<tr>
-										<td th:text="${m.questionCode}"></td>
-										<td class="w-25"><a
-											th:href="@{/customerservice/read(questionTypeCode=${questionTypeCode},questionCode=${m.questionCode},page=${page})}"
-											class="text-decoration-none" th:text="${m.questionTitle}">
-										</a></td>
-										<td th:text="${m.memberId}"></td>
-										<td th:text="${m.questionRegDate}"></td>
-									</tr>
-								</th:block>
-							</tbody>
-						</table>
-						<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-							<a
-								th:href="@{/customerservice/write(questionTypeCode=${questionTypeCode},page=${page})}"
-								class="btn btn-primary">글쓰기</a>
-						</div>
-					</th:block>
-				</div>
-			</div>
-		</div>
+	<table class="table table-striped jambo_table bulk_action"
+		id="questionlist">
+		<thead>
+			<tr class="headings">
+				<th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+					rowspan="1" colspan="1" style="width: 200px;"
+					aria-label="Name: activate to sort column ascending">No.</th>
+				<th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+					rowspan="1" colspan="1" style="width: 200px;"
+					aria-label="Position: activate to sort column ascending">제목</th>
+				<th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+					rowspan="1" colspan="1" style="width: 200px;"
+					aria-label="Office: activate to sort column ascending">작성자</th>
+				<th class="sorting" tabindex="0" aria-controls="datatable-buttons"
+					rowspan="1" colspan="1" style="width: 200px;"
+					aria-label="Age: activate to sort column ascending">작성일</th>
+			</tr>
+		</thead>
+		<tbody>
+			<th:block th:each="m: ${questionList}">
+				<tr>
+					<td th:text="${m.questionCode}"></td>
+					<td class="w-25"><a
+						th:href="@{/customerservice/read(questionTypeCode=${questionTypeCode},questionCode=${m.questionCode},page=${page})}"
+						class="text-decoration-none" th:text="${m.questionTitle}"> </a></td>
+					<td th:text="${m.memberId}"></td>
+					<td th:text="${m.questionRegDate}"></td>
+				</tr>
+			</th:block>
+		</tbody>
+	</table>
+	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+		<a
+			th:href="@{/customerservice/write(questionTypeCode=${questionTypeCode},page=${page})}"
+			class="btn btn-primary">글쓰기</a>
 	</div>
+</th:block>
+</div>
+</div>
+</div>
+</div>
 </th:block>
 </html>
 
