@@ -37,5 +37,10 @@ public interface MentorMenteeMapper {
 	public int addResultHistory(ResultHistory resultHistory);
 	public int modifyVisitHistory(VisitHistory visitHistoryParam);
 	public int modifyResultHistory(ResultHistory resultHistory);
+	public List<MentorFeedbackToken> getMentorFeedbackTokenListByCompanyCode(String companyCode);
+	public int removeTokenByTokenCode(String tokenCode);
+	public int addMentorFeedbackToken(MentorFeedbackToken token);
+	public MentorFeedbackToken getMentorFeedbackTokenByTokenCode(String tokenCode);
+	
 	
 }

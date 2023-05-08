@@ -12,7 +12,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import ks46team02.admin.service.MemberService;
@@ -30,12 +36,12 @@ import ks46team02.farm.dto.GoogleFormResult;
 import ks46team02.farm.dto.MMContractInfo;
 import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
+import ks46team02.farm.dto.MentorFeedbackToken;
 import ks46team02.farm.dto.Production;
 import ks46team02.farm.dto.ResultHistory;
 import ks46team02.farm.dto.VisitHistory;
 import ks46team02.farm.service.FarmService;
 import ks46team02.farm.service.MentorMenteeService;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/farm")
@@ -636,7 +642,7 @@ public class FarmController {
 	}
 	
 	@GetMapping("/myMenteeFeedbackModify")
-	public String myMenteeFeedbackModify(Model model, @RequestParam(name="visitCode", required=false) String visitCode) {
+	public String myMenteeFeedbackModify(Model model,HttpSession session, @RequestParam(name="visitCode", required=false) String visitCode) {
 		
 		
 		List<EvaluationLargeCategory> evaluationLargeCategoryList = mentorMenteeService.getEvalLargeCateList();
@@ -648,9 +654,12 @@ public class FarmController {
 		if(visitCode == null) {
 			return "farm/my_mentee_feedback_modify";
 		}
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
 		
 		List<ResultHistory> resultHistoryList = mentorMenteeService.getResultHistoryList(visitCode);
+		List<MentorFeedbackToken> mentorFeedbackToken = mentorMenteeService.getMentorFeedbackTokenList(companyCode);
 		
+		model.addAttribute("mentorFeedbackToken", mentorFeedbackToken);
 		model.addAttribute("resultHistoryList", resultHistoryList);
 		
 		
