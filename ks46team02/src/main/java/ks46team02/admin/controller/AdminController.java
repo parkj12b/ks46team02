@@ -1,10 +1,9 @@
 package ks46team02.admin.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
-import jakarta.servlet.http.HttpSession;
-import ks46team02.company.dto.Company;
-import ks46team02.company.service.CompanyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -109,17 +108,7 @@ public class AdminController {
 	    this.withdrawalMemberMapper = withdrawalMemberMapper;
 	    this.companyService = companyService;
 	}
-	/* 회원별 배송지 조회 */
-	@GetMapping("/addrMemberList")
-	public String addrMemberList( Model model
-							     ,@RequestParam(name="memberId") String memberId){
-		List<Addr> addrMemberInfo = addrService.getAddrList();		
-		 log.info("addrMemberInfo >>>>>>>>>>>>>>>>>"+addrMemberInfo );
-		model.addAttribute("title", "회원별 배송지 조회");
-		model.addAttribute("addrMemberInfo", addrMemberInfo);
 
-		return "admin/addr_member_list";
-	}
 	/* 관리자 아이디 중복 체크 */
 	@PostMapping("/idCheckAdmin")
 	@ResponseBody
@@ -169,6 +158,7 @@ public class AdminController {
 
 		return "admin/admin_list";
 	}
+	
 	
 	/* 관리자 수정 */
 	@PostMapping("/modifyAdmin")
@@ -276,14 +266,18 @@ public class AdminController {
 	}
 	/* 전체 회원 배송지 목록 조회 */
 	@GetMapping("/addrList")
-	public String getAddrList(Model model
-							 ) {
+	public String getAddrList(Model model) {
 		List<Addr> addrList = addrService.getAddrList();
-
-
 		model.addAttribute("title", "배송지조회");
 		model.addAttribute("addrList", addrList);
 		return "admin/addr_list";
+	}
+	/* 배송지 세부 조회 */
+	@GetMapping("/addrMemberList")
+	@ResponseBody
+	public Addr getAddrMemberList(@RequestParam(name="addrCode")String addrCode) {
+	    Addr addr = addrService.getAddrInfoById(addrCode);
+	    return addr;
 	}
 	
 	/* 배송지 수정 */
@@ -388,7 +382,15 @@ public class AdminController {
 
 	/* 회원 수정 */
 	@PostMapping("/modifyMember")
-	public String modifyMember(Member member) {
+	public String modifyMember(Member member
+							  ,@RequestParam (name="memberStatus")String memberStatus) {
+		
+	  if(memberStatus.equals("dormant")) {
+		  SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		  Date date = new Date();
+	      String nowTime = form.format(date);
+		  member.setDormantMemberRegDate(nowTime);
+	  }
 		
 		memberMapper.modifyMember(member);
 		
