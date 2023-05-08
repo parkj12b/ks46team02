@@ -2,6 +2,8 @@ package ks46team02.farm.service;
 
 
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,6 +37,38 @@ public class FarmService {
     
 	private static final Logger log = LoggerFactory.getLogger(FarmService.class);
     final double standardEggWeight = 0.089;
+
+
+    /**
+     * 싸이클 등록
+     */
+    public int addCycle(Cycle cycle){
+        String standardCode = cycle.getCalculationStandardCode();
+        String column = "expected_cage_production_code";
+        String table = "cage_cycle";
+        String cycleCode = mainMapper.autoIncrement(table, column);
+
+
+        HashMap<String, Object> standard = farmMapper.getStandard(standardCode);
+        int standardPeriod = (int) standard.get("standard_period");
+        String harvestStartDate = cycle.getHarvestStartDate();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = LocalDate.parse(harvestStartDate, formatter);
+        LocalDate estimatedHarvestDate = startDate.plusDays(standardPeriod);
+        String estimatedHarvestDateString = estimatedHarvestDate.format(formatter);
+
+        double output = (double) standard.get("standard_output");
+        double inputEgg = cycle.getInputEgg();
+        double estimatedProduction = output*inputEgg;
+
+        cycle.setEstimatedProduction(estimatedProduction);
+        cycle.setEstimatedHarvestDate(estimatedHarvestDateString);
+        cycle.setCycleCode(cycleCode);
+        log.info("화면에서 전달받은 데이터 : {}", cycle);
+        int result = farmMapper.addCycle(cycle);
+        return result;
+    }
 
     /**
      * 케이지 등록
@@ -87,8 +121,6 @@ public class FarmService {
 		List<Cage> cageList = farmMapper.getCageListByCode(farmCode);
 		return cageList;
 	}
-
-
 
     /**
      * 전체 사육장 케이지 조회
