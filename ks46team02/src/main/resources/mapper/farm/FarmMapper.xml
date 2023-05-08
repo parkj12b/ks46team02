@@ -4,6 +4,31 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.farm.mapper.FarmMapper">
 
+    <select id="getCycleByCode" resultType="Cycle">
+        SELECT
+            c.expected_cage_production_code as cycleCode,
+            c.farm_code as farmCode,
+            c.calculation_standard_code as calculationStandardCode,
+            c.estimated_production as estimatedProduction
+        FROM
+            cage_cycle as c
+        WHERE
+            c.expected_cage_production_code = #{cycleCode}
+    </select>
+
+    <!-- 모달창 사육장 싸이클 조회-->
+    <select id="getCycleListByCompanyCode" resultType="Cycle">
+        SELECT
+            c.expected_cage_production_code as cycleCode,
+            c.farm_code as farmCode,
+            c.calculation_standard_code as calculationStandardCode,
+            c.estimated_production as estimatedProduction
+        FROM
+            cage_cycle as c
+        WHERE
+            c.company_code = #{companyCode}
+    </select>
+
 
     <!-- 싸이클 등록    -->
     <insert id="addCycle" parameterType="Cycle">
