@@ -86,7 +86,44 @@
             
             }).open();
         }
-        
+        /* 유효성 검사 > sweat로 모달창 */
+        $('#submitBtn').click(function() {
+
+      	  var arr = [
+      		    {id: '#addrCode', 		name: '배송지 코드'},
+      		    {id: '#addrPostal', 	name: '우편번호'},
+      		    {id: '#addrRoad', 		name: '도로명주소'},
+      		    {id: '#addrLoca', 		name: '지번주소'},
+      		    {id: '#addrDetail', 	name: '상세주소'},
+      		    {id: '#addrName', 		name: '주소명'},
+      		    {id: '#addrRecipient', 	name: '수령자'},
+      		    {id: '#addrTel', 		name: '일반전화'},
+      		    {id: '#addrPhone', 		name: '휴대폰'}
+      		  ];
+      	  console.log(arr);
+      	  
+  		  var isValid = true;
+  		  $.each(arr, function(index, item) {
+  		    var data = $(item.id).val();
+  		    if (typeof data == 'undefined' || data == null || data == '') {
+  		      Swal.fire({
+  		        icon: 'warning',  // 여기다가 아이콘 종류를 쓰면 됩니다.                     
+  		        title: `${item.name}를 입력해주세요.` 
+  		      }).then((result) => {
+  		        if (result.isConfirmed) { // 모달창에서 확인을 누르면 true가 되는 속성
+  		          $(item.id).focus();
+  		          Swal.close(); // 모달창이 닫힐 때까지 기다림
+  		        }
+  		      });
+  		      isValid = false;
+  		      return false; // each()를 중단합니다.
+  		    }
+  		  });
+  		
+  		  if (!isValid) {
+  		    return false; // form 전송을 막습니다.
+  		  }
+  		});
     </script>
 </th:block>
 
@@ -108,10 +145,6 @@
 							        <input id="addrCode" class="form-control" name="addrCode" type="text" th:value="*{addrCode}" readonly/>
 							    </div>
 							</div>
-							<script>
-								console.log(addrInfo);
-							</script>
-							
 						<div class="field item form-group">
 						    <label class="col-form-label col-md-3 col-sm-3 label-align" for="companyRegNum">우편번호</label>
 						    <div class="col-md-3 col-sm-3 input-group">
@@ -177,7 +210,7 @@
 						  <label class="control-label col-md-3 col-sm-3 label-align" for="companyAddr">회원아이디</label>
 						  <div class="col-md-3 col-sm-3">
 						   <input id="memberId" class="form-control" name="memberId"
-                                       th:value="*{memberId}"/>
+                                       th:value="*{memberId}" readonly />
 						  </div>
 						</div>
 						<span id="guide" style="color:#999;display:none"></span>

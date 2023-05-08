@@ -35,6 +35,41 @@
            });
 
         });
+        /* 유효성 검사 > sweat로 모달창 */
+        $('#submitBtn').click(function() {
+
+      	  var arr = [
+      		    {id: '#adminId', name: '아이디', value: $('#adminId').val()},
+      		    {id: '#adminPw', name: '비밀번호', value: $('#adminPw').val()},
+      		    {id: '#adminName', name: '이름', value: $('#adminName').val()},
+      		    {id: '#adminEmail', name: '이메일', value: $('#adminEmail').val()},
+      		    {id: '#adminLevel', name: '등급코드', value: $('#adminLevel').val()},
+      		    {id: '#adminPhone', name: '전화번호', value: $('#adminPhone').val()}
+      		  ];
+      	  console.log(arr);
+      	  
+  		  var isValid = true;
+  		  $.each(arr, function(index, item) {
+  		    var data = $(item.id).val();
+  		    if (typeof data == 'undefined' || data == null || data == '') {
+  		      Swal.fire({
+  		        icon: 'warning',  // 여기다가 아이콘 종류를 쓰면 됩니다.                     
+  		        title: `${item.name}를 입력해주세요.` 
+  		      }).then((result) => {
+  		        if (result.isConfirmed) { // 모달창에서 확인을 누르면 true가 되는 속성
+  		          $(item.id).focus();
+  		          Swal.close(); // 모달창이 닫힐 때까지 기다림
+  		        }
+  		      });
+  		      isValid = false;
+  		      return false; // each()를 중단합니다.
+  		    }
+  		  });
+  		
+  		  if (!isValid) {
+  		    return false; // form 전송을 막습니다.
+  		  }
+  		});
     </script>
 </th:block>
 
@@ -84,7 +119,7 @@
 						<div class="form-group row">
 						  <label class="control-label col-md-3 col-sm-3 label-align" for="companyAddr">관리자 등급</label>
 						  <div class="col-md-3 col-sm-3">
-						    <select class="form-control" name="adminLevel">
+						    <select class="form-control" id="adminLevel" name="adminLevel">
 						      <option value="">---선택--</option>
 						      <th:block th:each="l : ${adminLevelList}" th:if="${l.adminLevel != '0'}">
 						        <option th:value="${l.adminLevel}" th:text="${l.adminPosition}"></option>

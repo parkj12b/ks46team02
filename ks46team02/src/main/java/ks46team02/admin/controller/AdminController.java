@@ -261,6 +261,13 @@ public class AdminController {
 
 		return "admin/memberLevel_list";
 	}
+	/* 회원별 배송지 숫자 조회 */
+	@PostMapping("/AddrAmountList")
+	@ResponseBody
+	public int getAddrAmountList(String memberId ){
+		int result = addrMapper.getAddrAmountList(memberId);
+		return result;
+	}
 	/* 전체 회원 배송지 목록 조회 */
 	@GetMapping("/addrList")
 	public String getAddrList(Model model) {
@@ -306,10 +313,11 @@ public class AdminController {
 	
 	/* 배송지 등록 */
 	@PostMapping("/addAddr")
-	public String addAddr(Addr addr) {
-		addrService.addAddr(addr);
-		return "redirect:/admin/addrList";
+	public String addAddr(Addr addr, Model model) {
+	    addrService.addAddr(addr);
+	    return "redirect:/admin/addrList";
 	}
+
 	/* 배송지 등록 */
 	@GetMapping("/addAddr")
 	public String addAddr(Model model){
