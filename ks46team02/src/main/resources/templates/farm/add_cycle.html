@@ -6,7 +6,7 @@
 <th:block layout:fragment="customJs">
 <script>
 
-$(document).ready(function() {
+
   // 케이지 조회 버튼 클릭 시 모달창 띄우기
   $('button[data-target="#myModal"]').click(function() {
     $('#myModal').modal('show');
@@ -16,7 +16,7 @@ $(document).ready(function() {
   $('#myModal button[data-dismiss="modal"]').click(function() {
     $('#myModal').modal('hide');
   });
-});
+
 
 function setCageValues(select) {
     // 선택된 option의 index
@@ -88,6 +88,9 @@ function validateForm() {
 	}
 	return true;
 }
+$('#cancelBtn').click(function (){
+	window.history.back();
+});
 
 
 </script>
@@ -186,7 +189,7 @@ function validateForm() {
 							<div class="form-group">
 								<div class="col-md-9 col-sm-9  offset-md-3">
 									<button type="submit" class="btn btn-dark">등록</button>
-									<button type="button" class="btn btn-dark">취소</button>
+									<button type="button" class="btn btn-dark" id="cancelBtn">취소</button>
 
 								</div>
 							</div>

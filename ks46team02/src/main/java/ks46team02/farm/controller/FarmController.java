@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ks46team02.farm.mapper.FarmMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,19 +50,41 @@ public class FarmController {
 	MentorMenteeService mentorMenteeService;
 	private final FarmService farmService;
 	private final MemberService memberService;
-
+	private final FarmMapper farmMapper;
 
 	private static final Logger log = LoggerFactory.getLogger(FarmController.class);
 
 
 	public FarmController(MentorMenteeService mentorMenteeService
 						,FarmService farmService
-						,MemberService memberService ){
+						,MemberService memberService
+						,FarmMapper farmMapper){
 		this.mentorMenteeService = mentorMenteeService;
 		this.farmService = farmService;
 		this.memberService = memberService;
+		this.farmMapper = farmMapper;
 	}
 
+	/**
+	 * 모달창 싸이클 정보 가져오기
+	 */
+	@GetMapping("/getCycleInfo")
+	public ResponseEntity<Cycle> getCycleInfo(@RequestParam String cycleCode) {
+		Cycle cycle = farmMapper.getCycleByCode(cycleCode);
+		return ResponseEntity.ok(cycle);
+	}
+
+
+	/**
+	 * 생산량 등록
+	 */
+	@PostMapping("/addProduction")
+	public String addProduction(@RequestParam(name="cycleCode")String cycleCode
+								,@RequestParam(name="realProduction")String realProduction){
+		log.info("cycleCode  : {}", cycleCode);
+		log.info("realProduction: {}", realProduction);
+		return "redirect:/farm/production_list";
+	}
 	/**
 	 * 케이지 등록
 	 */
@@ -178,8 +202,6 @@ public class FarmController {
 		return "farm/add_farm";
 	}
 
-
-
 	/**
 	 * 한 사육장 상태 조회
 	 */
@@ -219,9 +241,11 @@ public class FarmController {
 			,@RequestParam(name="toDate", required = false) String toDate){
 		String companyCode =(String) session.getAttribute("sessionCompanyCode");
 
+		List<Cycle> cycleList = farmMapper.getCycleListByCompanyCode(companyCode);
 		List<Production> productionList = farmService.getSearchProduction(companyCode,searchKey,searchValue,fromDate,toDate);
 		model.addAttribute("title", "생산량 목록");
 		model.addAttribute("productionList", productionList);
+		model.addAttribute("cycleList", cycleList);
 		return "farm/production_list";
 	}
 
