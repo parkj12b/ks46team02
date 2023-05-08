@@ -16,10 +16,16 @@ import ks46team02.farm.dto.Production;
 @Mapper
 public interface FarmMapper {
 
+    // 모달창 싸이클 조회 //
+    public Cycle getCycleByCode(String cycleCode);
+    // 사육장 코드에 따른 싸이클 조회 //
+    public List<Cycle> getCycleListByCompanyCode(String companyCode);
+    // 싸이클 등록 //
+    public int addCycle(Cycle cycle);
     // 케이지 등록 //
 	public int addCage(Cage cage);
     // 단위기준 조회 //
-    HashMap <String, Object> getStandard();
+    HashMap <String, Object> getStandard(String standardCode);
 	// 사육장 등록 //
     public int addFarm(FarmInfo farmInfo);
 	// 케이지 코드로 케이지 정보 조회 //

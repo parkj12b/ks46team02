@@ -91,6 +91,7 @@
 		<result column="member_id" property="memberId"></result>
 		<result column="register_date" property="registerDate"></result>
 		<result column="expiry_date" property="expiryDate"></result>
+		<result column="token_name" property="tokenName"></result>
 	</resultMap>
 	<resultMap type="EvaluationLargeCategory" id="evaluationLargeCategoryMap">
 		<id column="large_category_code" property="largeCategoryCode"></id>
@@ -106,7 +107,6 @@
 			<result property="adminId" column="admin_id"/>
 		</collection>
 	</resultMap>
-
 	<select id="getMMRegStatMentee" resultType="MMRegInfoMentee">
 		select
 		mentee_app_code as menteeAppCode,
@@ -286,4 +286,34 @@
 			contract_code = #{contractCode} 		
 		</where>
 	</update>
+	<select id="getMentorFeedbackTokenListByCompanyCode" resultMap="mentorFeedbackTokenMap">
+		select
+			*
+		from
+			mentor_feedback_token
+		where
+			company_code = #{company_code}
+	</select>
+	<delete id="removeTokenByTokenCode" parameterType="String">
+		delete
+		from
+			mentor_feedback_token
+		where
+			mentor_feedback_token_code = #{tokenCode}
+	</delete>
+	<insert id="addMentorFeedbackToken" parameterType="MentorFeedbackToken">
+		insert into mentor_feedback_token(
+			company_code, mentor_feedback_token, member_id, register_date, expiry_date, mentor_feedback_token_code, token_name
+		) values (
+			#{companyCode}, #{mentorFeedbackToken}, #{memberId}, now(), if(#{validDate} = 'infinity', '9999-01-01', date_add(curdate(),interval #{validDate} day)), #{mentorFeedbackTokenCode}, #{tokenName} 
+		)
+	</insert>
+	<select id="getMentorFeedbackTokenByTokenCode" resultMap="mentorFeedbackTokenMap">
+		select
+			*
+		from
+			mentor_feedback_token
+		where
+			mentor_feedback_token_code = #{tokenCode}
+	</select>
 </mapper>

@@ -4,15 +4,14 @@
 	layout:decorate="~{layout/mypageLayout}">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title th:text="${title}"></title>
 </head>
 <th:block layout:fragment="customContent">
 	<div class="col-md-12 col-sm-12 ">
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>
-					멘토멘티 승인 여부 조회 <small th:if="${mmRegType == 1}">멘토</small> <small
-						th:if="${mmRegType == 2}">멘티</small>
+					멘토멘티 신청 관리 <small>멘토</small>
 				</h2>
 				
 				<div class="clearfix"></div>
@@ -26,38 +25,12 @@
 								<div class="row">
 
 									<div class="col-sm-12">
-										<th:block th:if="${mmRegType == 1}">
-											<h2 th:if="${mmRegInfo.mentorApproval.equals('approved')}">
-												나의 멘토 멘티 승인여부: 승인완료
-											</h2>
-											<h2
-												th:if="${mmRegInfo.mentorApproval.equals('under review')}">
-												나의 멘토 멘티 승인여부: 대기중
-											</h2>
-										</th:block>
-										<th:block th:if="${mmRegType == 2}">
-											<h2 th:if="${mmRegInfo.menteeApproval.equals('approved')}">
-												나의 멘토 멘티 승인여부: <span>승인완료</span>
-											</h2>
-											<h2
-												th:if="${mmRegInfo.menteeApproval.equals('under review')}">
-												나의 멘토 멘티 승인여부: <span>대기중</span>
-											</h2>
-										</th:block>
 										<table id="datatable"
 											class="table table-striped table-bordered dataTable no-footer"
 											style="width: 100%;" role="grid"
 											aria-describedby="datatable_info">
 											<thead>
-												<tr role="row" th:if="${mmRegType == 2}">
-													<th>멘티 신청코드</th>
-													<th>신청일자</th>
-													<th>승인날자</th>
-													<th>회원아이디</th>
-													<th>승인여부</th>
-													<th>관리자 아이디</th>
-												</tr>
-												<tr role="row" th:if="${mmRegType == 1}">
+												<tr role="row">
 													<th>멘토 신청코드</th>
 													<th>신청일자</th>
 													<th>승인날자</th>
@@ -67,7 +40,6 @@
 												</tr>
 											</thead>
 											<tbody>
-												<th:block th:if="${mmRegType == 1}">
 													<tr role="row" class="odd" th:if="${mmRegInfo != null }">
 														<td th:text="${mmRegInfo.mentorAppCode}"></td>
 														<td th:text="${mmRegInfo.mentorApplyDate}"></td>
@@ -76,17 +48,6 @@
 														<td th:text="${mmRegInfo.mentorApproval}"></td>
 														<td th:text="${mmRegInfo.adminId}"></td>
 													</tr>
-												</th:block>
-												<th:block th:if="${mmRegType == 2}">
-													<tr role="row" class="odd" th:if="${mmRegInfo != null }">
-														<td th:text="${mmRegInfo.menteeAppCode}"></td>
-														<td th:text="${mmRegInfo.menteeApplyDate}"></td>
-														<td th:text="${mmRegInfo.menteeApprovalDate}"></td>
-														<td th:text="${mmRegInfo.memberId}"></td>
-														<td th:text="${mmRegInfo.menteeApproval}"></td>
-														<td th:text="${mmRegInfo.adminId}"></td>
-													</tr>
-												</th:block>
 												<tr role="row" class="odd" th:unless="${mmRegInfo != null}">
 													<td colspan="9">멘토멘티 신청여부가 존재하지 않습니다.</td>
 												</tr>
