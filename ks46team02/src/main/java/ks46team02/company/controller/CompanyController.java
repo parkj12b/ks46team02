@@ -97,6 +97,7 @@ public class CompanyController {
 
     @PostMapping("/deleteCompany")
     public String deleteCompany(){
+
         String redirectURI = "redirect:/company/company_delete/deleteCompany?";
         return redirectURI;
     }
@@ -221,7 +222,13 @@ public class CompanyController {
                                     ,HttpSession session){
         String sessionId = (String)session.getAttribute("sessionId");
         String sessionLevel = (String)session.getAttribute("sessionLevel");
-        Company companyInfo = companyService.getCompanyInfoById(sessionId);
+        String sessionCompanyCode = (String)session.getAttribute("sessionCompanyCode");
+        Company companyInfo = null;
+        if(sessionLevel != null && sessionLevel.equals("level_code_1")) {
+            companyInfo = companyService.getCompanyInfoById(sessionId);
+        } else {
+            companyInfo = companyService.getCompanyInfoByCode(sessionCompanyCode);
+        }
         model.addAttribute("title", "업체상세정보");
         model.addAttribute("companyInfo", companyInfo);
         model.addAttribute("sessionLevel",sessionLevel);
