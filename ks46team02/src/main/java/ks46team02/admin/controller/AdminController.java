@@ -44,6 +44,7 @@ import ks46team02.company.dto.Company;
 import ks46team02.company.service.CompanyService;
 import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
+import ks46team02.farm.service.MentorMenteeService;
 
 @Controller
 @RequestMapping("/admin")
@@ -67,7 +68,7 @@ public class AdminController {
 	private final AdminLevelMapper adminLevelMapper;
 	private final LoginHistoryMapper loginHistoryMapper;
 	private final WithdrawalMemberMapper withdrawalMemberMapper;
-	
+	private final MentorMenteeService mentorMenteeService;
 	
 	private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
@@ -88,7 +89,9 @@ public class AdminController {
     					  ,AdminLevelMapper adminLevelMapper
     					  ,LoginHistoryMapper loginHistoryMapper
     					  ,WithdrawalMemberMapper withdrawalMemberMapper
-						  ,CompanyService companyService) {
+						  ,CompanyService companyService
+						  ,MentorMenteeService mentorMenteeService) {
+		this.mentorMenteeService = mentorMenteeService;
 		this.addrService = addrService;
 		this.adminService = adminService;
 		this.withdrawalMemberService = withdrawalMemberService;
@@ -473,5 +476,11 @@ public class AdminController {
 		return "admin/contractStandard_list";
 		}
 	
-	
+	@GetMapping("/mentorRegManageList")
+	public String mentorApplyList(Model model, String approveStatus) {
+		
+		
+		model.addAttribute("title", "멘토 신청 관리");
+		return "admin/mentor_reg_manage_list";
+	}
 }
