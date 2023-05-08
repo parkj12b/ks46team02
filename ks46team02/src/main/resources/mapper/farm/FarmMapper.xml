@@ -3,7 +3,37 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.farm.mapper.FarmMapper">
-    
+
+
+    <!-- 싸이클 등록    -->
+    <insert id="addCycle" parameterType="Cycle">
+        INSERT INTO cage_cycle (
+            expected_cage_production_code,
+            company_code,
+            farm_code,
+            cage_code,
+            harvest_start_date,
+            estimated_harvest_date,
+            input_egg,
+            calculation_standard_code,
+            estimated_production,
+            member_id,
+            estimated_production_reg_date
+        ) VALUES (
+            #{cycleCode},
+            #{companyCode},
+            #{farmCode},
+            #{cageCode},
+            #{harvestStartDate},
+            #{estimatedHarvestDate},
+            #{inputEgg},
+            #{calculationStandardCode},
+            #{estimatedProduction},
+            #{memberId},
+             CURDATE()
+        )
+
+    </insert>
 
     <!-- 케이지 등록   -->
     <insert id="addCage" parameterType="Cage">
@@ -40,6 +70,8 @@
              *
         FROM
             calculation_standard
+        where
+            calculation_standard_code = #{standardCode}
     </select>
 
     <!-- 사육장 등록   -->
@@ -181,8 +213,8 @@
         FROM
         production AS p
         INNER JOIN
-        expeted_cage_production AS ex
-        ON p.expected_cage_production_code = ex.expeted_cage_production_code
+        cage_cycle AS ex
+        ON p.expected_cage_production_code = ex.expected_cage_production_code
         <where>
             p.company_code = #{companyCode}
 
@@ -266,8 +298,8 @@
         FROM
         production AS p
         INNER JOIN
-        expeted_cage_production AS ex
-        ON p.expected_cage_production_code = ex.expeted_cage_production_code
+        cage_cycle AS ex
+        ON p.expected_cage_production_code = ex.expected_cage_production_code
         <where>
             p.farm_code = #{farmCode}
         </where>
@@ -290,8 +322,8 @@
         FROM
         production AS p
         INNER JOIN
-        expeted_cage_production AS ex
-        ON p.expected_cage_production_code = ex.expeted_cage_production_code
+        cage_cycle AS ex
+        ON p.expected_cage_production_code = ex.expected_cage_production_code
         <where>
             p.company_code = #{companyCode}
         </where>

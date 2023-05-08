@@ -97,12 +97,19 @@ public class FarmController {
 	 * 하나의 사육장 싸이클 등록
 	 */
 	@PostMapping("/addCycle")
-	public String addCycle(Cycle cycle, RedirectAttributes reattr){
+	public String addCycle(Cycle cycle
+						,RedirectAttributes reAttr
+						,HttpSession session){
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		String memberId = (String) session.getAttribute("sessionId");
+		cycle.setCompanyCode(companyCode);
+		cycle.setMemberId(memberId);
 		String farmCode = cycle.getFarmCode();
-		log.info("화면에서 전달받은 데이터 : {}", cycle);
 		String tapName = "cycle";
-		reattr.addAttribute("farmCode", farmCode);
-		reattr.addAttribute("tapName", tapName);
+		reAttr.addAttribute("farmCode", farmCode);
+		reAttr.addAttribute("tapName", tapName);
+		log.info("화면에서 전달받은 데이터 : {}", cycle);
+		farmService.addCycle(cycle);
 		return "redirect:/farm/farmDetail";
 	}
 	@GetMapping("/addCycle")
