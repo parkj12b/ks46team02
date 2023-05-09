@@ -16,6 +16,8 @@ import ks46team02.farm.dto.Production;
 @Mapper
 public interface FarmMapper {
 
+    // 생산량 등록 //
+    public int addProduction(Production production);
     // 모달창 싸이클 조회 //
     public Cycle getCycleByCode(String cycleCode);
     // 사육장 코드에 따른 싸이클 조회 //
