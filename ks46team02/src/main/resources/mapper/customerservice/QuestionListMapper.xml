@@ -83,4 +83,10 @@
 		FROM
 			question_type;
 	</select>
+	
+	<insert id="writeQuestionType" parameterType="questionTypeDto">
+			insert into 
+				question_type (question_type_code, admin_id, question_type_name, question_type_reg_date)
+			VALUES (#{questionTypeCode}, #{adminId}, #{questionTypeName}, CURRENT_TIMESTAMP());
+	</insert>
 </mapper>

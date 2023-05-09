@@ -56,6 +56,9 @@
                 	    icon: 'success',
                 	    title: '등록 가능한 아이디 입니다.'
                 	})
+                	$('#addMemberForm input').prop('disabled', false);
+					$('#addMemberForm button').prop('disabled', false);
+					$('#addMemberForm select').prop('disabled', false);
                 }
             }
         });
@@ -129,32 +132,32 @@
 						</label>
 						<div class="col-md-3 col-sm-3 ">
 							<input type="password" class="form-control"
-								id="memberPw" name="memberPw" placeholder="">
+								id="memberPw" name="memberPw" placeholder="" disabled="disabled">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3 col-sm-3  "> 이름 </label>
 						<div class="col-md-3 col-sm-3 ">
 							<input type="text" class="form-control"
-								id="memberName" name="memberName" placeholder="">
+								id="memberName" name="memberName" placeholder="" disabled="disabled">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3 col-sm-3 "> 전화번호</label>
 						<div class="col-md-3 col-sm-3 ">
-							<input type="text" class="form-control" id="memberPhone" name="memberPhone" value="">
+							<input type="text" class="form-control" id="memberPhone" name="memberPhone" disabled="disabled">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3 col-sm-3 ">이메일</label>
 						<div class="col-md-3 col-sm-3 ">
-								<input type="text" class="form-control" id="memberEmail" name="memberEmail" value="">
+								<input type="email" class="form-control" id="memberEmail" name="memberEmail" disabled="disabled">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3 col-sm-3 "> 직원별 권한코드</label>
 						<div class="col-md-3 col-sm-3 ">
-							<select class="form-control" id="positionLevelCode" name="positionLevelCode">
+							<select class="form-control" id="positionLevelCode" name="positionLevelCode" disabled="disabled">
 							<option></option>
 								<th:block th:if="${memberLevelList != null}">
 									<option th:each="l : ${memberLevelList}"
@@ -166,7 +169,7 @@
 					<div class="form-group row">
 						<label class="control-label col-md-3 col-sm-3 "> 업체코드</label>
 						<div class="col-md-3 col-sm-3 ">
-							<select class="form-control" id="companyCode" name="companyCode">
+							<select class="form-control" id="companyCode" name="companyCode" disabled="disabled">
 							<option></option>
 								<th:block th:if="${companyList != null}">
 									<option th:each="l : ${companyList}"
@@ -178,7 +181,7 @@
 					<div class="ln_solid"></div>
 					<div class="form-group">
 						<div class="col-md-9 col-sm-9  offset-md-5">
-							<button type="button" class="btn btn-dark add">등록</button>
+							<button type="button" class="btn btn-dark add" disabled="disabled">등록</button>
 							<button type="reset" class="btn btn-dark cancel">취소</button>
 						</div>
 					</div>

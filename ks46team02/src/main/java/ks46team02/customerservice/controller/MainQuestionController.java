@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpSession;
 import ks46team02.customerservice.service.MainQuestionService;
 import ks46team02.topmenu.service.TopMenuService;
 import ks46team02.common.dto.Member;
@@ -28,9 +29,9 @@ import ks46team02.customerservice.dto.QuestionTypeDto;
 @RequestMapping("/customerservice")
 public class MainQuestionController {
 
-	@Resource(name = "loginMemberDto")
+	@Resource(name = "loginMemberBean")
 	@Lazy
-	private Member loginMemberDto;
+	private Member loginMemberBean;
 
 	private static final Logger log = LoggerFactory.getLogger(MainQuestionController.class);
 
@@ -42,7 +43,7 @@ public class MainQuestionController {
 	@GetMapping("/main") // @RequestParam 어노테이션을 사용하여 요청 매개변수를 지정하고, 매개변수 이름과 매개변수 값의 형태로 요청 매개변수를 받는다.
 							// -> 이 메서드에서는 "questionTypeCode"와 "page"라는 두 개의 요청 매개변수.
 	public String main(@RequestParam(name = "questionTypeCode", defaultValue = "0") int questionTypeCode,
-			@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
+			@RequestParam(value = "page", defaultValue = "1") int page,HttpSession session, Model model) {
 
 		if (questionTypeCode == 5) {
 			return "redirect:/customerservice/main?questionTypeCode=1";
@@ -59,7 +60,7 @@ public class MainQuestionController {
 		List<QuestionDto> questionList = mainquestionservice.selectQuestionList(questionTypeCode, page);
 		log.info("{}", questionList);
 		model.addAttribute("questionList", questionList);
-		
+
 		/* 해당하는 질문정보록을 select */
 		List<QuestionTypeDto> questionTypeList = mainquestionservice.getQuestionTypeList(questionTypeCode);
 		log.info("{}", questionTypeList);
@@ -82,39 +83,44 @@ public class MainQuestionController {
 
 		QuestionDto questionDto = mainquestionservice.selectQuestionInfo(questionCode);
 		model.addAttribute("readQuestionDto", questionDto);
+		System.out.println(questionDto);
 
-		model.addAttribute("loginMemberDto", loginMemberDto);
+		model.addAttribute("loginMemberBean", loginMemberBean);
+		log.info("{}", loginMemberBean);
 
 		model.addAttribute("page", page);
-		log.info("log={}",questionDto);
+		log.info("log={}", questionDto);
 		return "customerservice/read";
 
 	}
 
 	@GetMapping("/write")
-	public String write(@ModelAttribute("writeQuestionDto") QuestionDto questiondto
-			,@RequestParam("questionTypeCode") int questionTypeCode
-			,@RequestParam("page") int page, Model model) {
+	public String write(@ModelAttribute("writeQuestionDto") QuestionDto questiondto,
+			@RequestParam("questionTypeCode") int questionTypeCode, @RequestParam("page") int page, Model model) {
 
 		model.addAttribute("questionTypeCode", questionTypeCode);
 		log.info("{}", questionTypeCode);
 		model.addAttribute("page", page);
-		System.out.println(page+"<<<<<<<<<<<<<<<<<<<<<");
+		System.out.println(page + "<<<<<<<<<<<<<<<<<<<<<");
 
 		questiondto.setQuestionTypeCode(questionTypeCode);
-		System.out.println(questiondto+"PPPPPPPPPPP");
+		System.out.println(questiondto + "PPPPPPPPPPP");
 
 		return "customerservice/write";
 	}
 
 	@PostMapping("/write_proc")
 	public String write_proc(@Validated @ModelAttribute("writeQuestionDto") QuestionDto questiondto,
+							 HttpSession session,
 							 BindingResult bindingresult, 
 							 @RequestParam("page") int page, 
 							 Model model) {
 		
 	
 		model.addAttribute("page", page);
+		String memberId = (String) session.getAttribute("sessionId");
+		questiondto.setMemberId(memberId);
+		log.info("아이디 : {}", memberId);
 
 		if (bindingresult.hasErrors()) {
 			return "customerservice/write";
@@ -128,9 +134,7 @@ public class MainQuestionController {
 	@GetMapping("/modify")
 	public String modify(@RequestParam("questionTypeCode") int questionTypeCode,
 			@RequestParam("questionCode") String questionCode,
-			@ModelAttribute("modifyQuestionDto") QuestionDto questiondto, 
-			@RequestParam("page") int page,
-			Model model) {
+			@ModelAttribute("modifyQuestionDto") QuestionDto questiondto, @RequestParam("page") int page, Model model) {
 
 		model.addAttribute("questionTypeCode", questionTypeCode);
 		model.addAttribute("quesitonCode", questionCode);
@@ -145,15 +149,13 @@ public class MainQuestionController {
 		questiondto.setQuestionFile(questiontemp.getQuestionFile());
 		questiondto.setQuestionTypeCode(questionTypeCode);
 		questiondto.setQuestionCode(questionCode);
-		
+
 		return "customerservice/modify";
 	}
 
 	@PostMapping("/modify_proc")
 	public String modify_proc(@Validated @ModelAttribute("modifyQuestionDto") QuestionDto questiondto,
-			BindingResult bindingresult, 
-			@RequestParam("page") int page, 
-			Model model) {
+			BindingResult bindingresult, @RequestParam("page") int page, Model model) {
 
 		model.addAttribute("page", page);
 		model.addAttribute("questionTypeCode", questiondto.getQuestionTypeCode());

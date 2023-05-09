@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import groovy.util.logging.Slf4j;
+import jakarta.servlet.http.HttpSession;
 import ks46team02.admin.dto.AdminLevel;
 import ks46team02.admin.dto.ContractStandard;
 import ks46team02.admin.dto.LoginHistory;
@@ -121,7 +122,7 @@ public class AdminController {
 	
 	
 	
-	/* 탈퇴한 관리자 조회  */
+	/* 탈퇴한 관리자 조회 */
 	@GetMapping("/withdrawalAdminList")
 	public String getWithdrawalAdminList(Model model) {
 		List<AdminMember> withdrawalAdminList = adminService.getWithdrawalAdminList();
@@ -185,20 +186,22 @@ public class AdminController {
 	/* 관리자 비밀번호 확인 */
 	@PostMapping("/pwCheckAdmin")
 	@ResponseBody
-	public String pwCheckAdmin( @RequestParam(name="adminId") String adminId
-							    ) {
-		AdminMember adminInfo = adminService.getAdminInfoById(adminId);
-		String adminPw = adminInfo.getAdminPw();
-		 log.info("adminInfo     "+adminInfo );
-		  return adminPw; 
+	public Boolean pwCheckAdmin(@RequestParam(name="adminPw") String adminPw
+			    			    ,HttpSession session) {
+		String adminIdCheck = (String) session.getAttribute("sessionId");
+		AdminMember adminInfo = adminService.getAdminInfoById(adminIdCheck);
+		String adminPwCheck = adminInfo.getAdminPw();
+		Boolean pwCheck = adminPwCheck.equals(adminPw);
+		
+		return pwCheck; 
 		
 	}
+	
 	/* 관리자 삭제 */
 	@PostMapping("/removeAdmin")
 	@ResponseBody
-	public void removeAdmin(String adminId ){
-					 
-			 adminMapper.removeAdmin(adminId);
+	public void removeAdmin(String adminId ){			 
+		adminMapper.removeAdmin(adminId);
 		 }
 	/* 관리자 등록 */
 	@PostMapping("/addAdmin")
@@ -220,7 +223,7 @@ public class AdminController {
 		model.addAttribute("title", "관리자 등급 등록");
 		return "admin/add_adminLevel";
 	}
-	/* 관리자등급 수정 */
+	/* 관리자등급 수정   */
 	@PostMapping("/modifyAdminLevel")
 	@ResponseBody
 	public void modifyAdminLevel(AdminLevel adminLevel) {
@@ -311,7 +314,20 @@ public class AdminController {
 	@PostMapping("/removeAddr")
 	@ResponseBody
 	public void removeAddr(String addrCode) {
+		Addr addr = addrService.getAddrInfoById(addrCode);
+		String memberId = addr.getMemberId();
+		List<Addr> addrList= addrService.getAddrInfoByMemberId(memberId);
+		String addrSeq = addr.getAddrSeq();
 		addrMapper.removeAddr(addrCode);
+		 if ("primary".equals(addrSeq) && addrList != null) {
+		        for (Addr a : addrList) {
+		            if ("primary".equals(a.getAddrSeq())) {
+		                a.setAddrSeq("primary");
+		                addrMapper.modifyAddr(a);
+		                break;
+		            }
+		        }
+		    }
 	}
 	
 	/* 배송지 등록 */
