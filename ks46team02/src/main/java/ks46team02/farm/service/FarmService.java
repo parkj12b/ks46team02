@@ -41,6 +41,32 @@ public class FarmService {
 
 
     /**
+     * 생산량 수정
+     */
+    public int modifyProduction(Production production){
+        String cycleCode = production.getExpectedCageProductionCode();
+        Cycle cycle = farmMapper.getCycleByCode(cycleCode);
+
+        double realProduction = production.getRealProduction();
+        double estimatedProduction = cycle.getEstimatedProduction();
+        double lossLate = (realProduction/estimatedProduction)*100;
+        lossLate = Math.round(lossLate * 100.0) / 100.0;
+        production.setLossRate(lossLate);
+        log.info("service넘기기전 : {}", production);
+        int result = farmMapper.modifyProduction(production);
+        return result;
+    }
+
+    /**
+     * 사육장 수정
+     */
+    public int modifyFarm(FarmInfo farmInfo){
+        int result = farmMapper.modifyFarm(farmInfo);
+        return result;
+    }
+
+
+    /**
      * 생산량 등록
      */
     public int addProduction(Production production){
