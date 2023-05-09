@@ -191,7 +191,6 @@
         </if>
     </select>
 
-
     <!-- 하나의 사육장 상태 조회 -->
     <select id="getFarmStatusList" resultType="FarmStatus">
         SELECT
