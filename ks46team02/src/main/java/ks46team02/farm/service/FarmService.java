@@ -2,6 +2,7 @@ package ks46team02.farm.service;
 
 
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -38,6 +39,31 @@ public class FarmService {
 	private static final Logger log = LoggerFactory.getLogger(FarmService.class);
     final double standardEggWeight = 0.089;
 
+
+    /**
+     * 생산량 등록
+     */
+    public int addProduction(Production production){
+        String column = "production_code";
+        String table = "production";
+        String productionCode = mainMapper.autoIncrement(table, column);
+        String cycleCode = production.getExpectedCageProductionCode();
+        Cycle cycle = farmMapper.getCycleByCode(cycleCode);
+        String farmCode =  cycle.getFarmCode();
+        double realProduction = production.getRealProduction();
+        double estimatedProduction = cycle.getEstimatedProduction();
+        double lossLate = (realProduction/estimatedProduction)*100;
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        lossLate = Double.valueOf(df.format(lossLate));
+
+        production.setFarmCode(farmCode);
+        production.setProductionCode(productionCode);
+        production.setLossRate(lossLate);
+        log.info("controller에서 넘어온 데이터 : {}", production);
+        int result = farmMapper.addProduction(production);
+        return result;
+    }
 
     /**
      * 싸이클 등록

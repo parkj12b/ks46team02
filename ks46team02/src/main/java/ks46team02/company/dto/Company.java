@@ -6,6 +6,7 @@ public class Company {
     private int companyTypeNum;
     private String companyRegNum;
     private String memberId;
+    private String memberName;
     private String companyTel;
     private String companyAddr;
     private String companyAddrDetail;
@@ -21,6 +22,14 @@ public class Company {
     private String companyType;
     private String breederLevelName;
     private boolean isExist;
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
 
     public boolean isExist() {
         return isExist;
@@ -181,6 +190,7 @@ public class Company {
                 ", companyTypeNum=" + companyTypeNum +
                 ", companyRegNum='" + companyRegNum + '\'' +
                 ", memberId='" + memberId + '\'' +
+                ", memberName='" + memberName + '\'' +
                 ", companyTel='" + companyTel + '\'' +
                 ", companyAddr='" + companyAddr + '\'' +
                 ", companyAddrDetail='" + companyAddrDetail + '\'' +

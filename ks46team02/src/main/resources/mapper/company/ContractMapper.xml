@@ -22,6 +22,14 @@
         <result column="contractee_company_code"     property="contracteeCompanyCode"/>
         <result column="contractor_company_code"     property="contractorCompanyCode"/>
     </resultMap>
+<select id="getContractInfo" parameterType="String" resultMap="contractResultMap">
+    SELECT
+        *
+    FROM
+        all_contract
+    WHERE
+        contract_code = #{contractCode};
+</select>
 
 <select id="getContractList" resultMap="contractResultMap">
     SELECT

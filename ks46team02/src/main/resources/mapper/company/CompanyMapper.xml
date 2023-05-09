@@ -8,6 +8,7 @@
         <result column="company_type_num"           property="companyTypeNum"/>
         <result column="company_reg_num"            property="companyRegNum"/>
         <result column="member_id"                  property="memberId"/>
+        <result column="member_name"                property="memberName"/>
         <result column="company_tel"                property="companyTel"/>
         <result column="company_addr"               property="companyAddr"/>
         <result column="company_addr_detail"        property="companyAddrDetail"/>
@@ -173,35 +174,40 @@
     <select id="getCompanyInfoByCode" parameterType="String" resultMap="companyResultMap">
         /* 업체상세 정보조회 */
         SELECT
-        ci.company_code
-        ,ct.company_type
-        ,ci.company_type_num
-        ,ci.company_reg_num
-        ,ci.member_id
-        ,ci.company_tel
-        ,ci.company_addr
-        ,ci.company_name
-        ,ci.apply_date
-        ,ci.approval_status
-        ,ci.approval_denied_content
-        ,ci.admin_id
-        ,ci.approval_date
-        ,fl.breeder_level_name
-        ,ci.reg_password
-        ,ci.farm_cnt
-        ,count(1) as isExist
+            ci.company_code
+            ,ct.company_type
+            ,ci.company_type_num
+            ,ci.company_reg_num
+            ,ci.member_id
+            ,ci.company_tel
+            ,ci.company_addr
+            ,ci.company_name
+            ,ci.apply_date
+            ,ci.approval_status
+            ,ci.approval_denied_content
+            ,ci.admin_id
+            ,ci.approval_date
+            ,fl.breeder_level_name
+            ,ci.reg_password
+            ,ci.farm_cnt
+            ,mi.member_name
+            ,count(1) as isExist
         FROM
             company_info as ci
-            inner join
+        inner join
             company_type as ct
-            on
+        on
             ci.company_type_num = ct.company_type_num
-            inner join
+        inner join
             farm_level as fl
-            on
+        on
             ci.farm_level_num = fl.farm_level_num
+        inner JOIN
+            member_info as mi
+        on
+            ci.member_id = mi.member_id
         WHERE
-            company_code = #{companyCode};
+            ci.company_code = #{companyCode};
 
     </select>
 
@@ -234,11 +240,16 @@
             ,ci.farm_level_num
             ,ci.reg_password
             ,ci.farm_cnt
+            ,mi.member_name
         FROM
             company_info as ci
-            inner join
+        inner join
             company_type as ct
-            on
-            ci.company_type_num = ct.company_type_num ;
+        on
+            ci.company_type_num = ct.company_type_num
+        inner JOIN
+            member_info as mi
+        on
+            ci.member_id = mi.member_id ;
     </select>
 </mapper>

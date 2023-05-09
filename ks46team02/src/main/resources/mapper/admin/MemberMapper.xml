@@ -15,15 +15,30 @@
 		<result column="member_ci"  							property="memberCi"/>
 		<result column="member_status"  						property="memberStatus"/>
 		<result column="dormant_member_reg_date"  				property="dormantMemberRegDate"/>
+		<result column="member_level_name"						property="memberLevelName"/>
 </resultMap>
 
+		<update id="addEmployee" parameterType="String">
+			UPDATE member_info
+			SET
+				<if test="companyCode != null and companyCode != ''">
+					company_code = #{companyCode},
+				</if>
+				position_level_code = 'level_code_3'
+			WHERE
+			member_id = #{memberId};
+		</update>
 		<insert id="addMember" parameterType="Member">
 			/* 회원 등록 */
 			insert into member_info
 			(member_id,member_pw,member_name,member_phone,member_email,position_level_code,company_code,member_reg_date,member_status)
 			VALUES
+<<<<<<< HEAD
 			(#{memberId},#{memberPw},#{memberName},#{memberPhone},#{memberEmail},#{positionLevelCode},#{companyCode},CURDATE(),'normal');
 
+=======
+			(#{memberId},#{memberPw},#{memberName},#{memberPhone},#{memberEmail},#{positionLevelCode},'comp_5',CURDATE(),'normal');
+>>>>>>> refs/heads/develop
 		</insert>
 		
 
@@ -64,7 +79,7 @@
 				member_pw = #{memberPw},
 			</if>
 			<if test="memberName != null and memberName != ''">
-				member_name = #{memberName},
+				member_name = #{adminName},
 			</if>
 			<if test="memberPhone != null and memberPhone != ''">
 				member_phone = #{memberPhone},
@@ -80,6 +95,9 @@
 			</if>
 			<if test="memberStatus != null and memberStatus != ''">
 				member_status = #{memberStatus},
+			</if>
+			<if test="companyCode != null and companyCode != ''">
+				company_code = #{companyCode},
 			</if>
 				dormant_member_reg_date = #{dormantMemberRegDate}
 		</trim>
@@ -137,7 +155,7 @@
 			on
 			m.position_level_code = cp.position_level_code
 		WHERE
-			m.company_code = #{companyCode} and m.member_status != 'dormant' and cp.position_level_code != 'level_code_1';
+			m.company_code = #{companyCode} and m.member_status != 'dormant';
 	</select>
 
 	<select id="getDormantMemberList" parameterType="String" resultMap="MemberResultMap">
