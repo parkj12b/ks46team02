@@ -4,6 +4,31 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.farm.mapper.FarmMapper">
 
+    <insert id="addProduction" parameterType="Production">
+        INSERT INTO production (
+            production_code,
+            company_code,
+            farm_code,
+            expected_cage_production_code,
+            real_harvest_day,
+            real_production,
+            loss_rate,
+            member_id,
+            production_reg_date
+        ) VALUES (
+            #{productionCode},
+            #{companyCode},
+            #{farmCode},
+            #{expectedCageProductionCode},
+            #{realHarvestDay},
+            #{realProduction},
+            #{lossRate},
+            #{memberId},
+            curdate()
+        );
+
+    </insert>
+
     <select id="getCycleByCode" resultType="Cycle">
         SELECT
             c.expected_cage_production_code as cycleCode,
@@ -25,8 +50,10 @@
             c.estimated_production as estimatedProduction
         FROM
             cage_cycle as c
+        LEFT JOIN
+            production p ON c.expected_cage_production_code = p.expected_cage_production_code
         WHERE
-            c.company_code = #{companyCode}
+            c.company_code = #{companyCode} AND p.expected_cage_production_code IS NULL;
     </select>
 
 
