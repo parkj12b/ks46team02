@@ -22,12 +22,12 @@
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
 					<li><a th:href="@{/company/companyInfoUser}">!최학준 내 업체 정보</a></li>
-					<li><a th:href="@{/company/companyEmployeeList}">!최학준 사원 조회</a></li>
+					<li><a th:href="@{/company/companyEmployeeList}">!최학준 직원 정보</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-file-text-o"></i> 계약 관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="#">#최학준 건조음식물 계약 공고</a></li>
+					<li><a th:href="@{/company/contractList}">#최학준 건조음식물 계약 공고</a></li>
 					<li><a href="#">#최학준 건조음식물 계약 공고 등록</a></li>
 					<li><a href="#">#최학준 신청한 계약 조회</a></li>
 				</ul></li>
@@ -48,12 +48,14 @@
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
 					<li><a th:href="@{/company/companyInfoUser}">!최학준 내 업체 정보</a></li>
+					<li><a th:href="@{/company/companyEmployeeList}">!최학준 직원 정보</a></li>
 					<li><a th:href="@{/company/companyEmployeeList}">!최학준 사원 조회</a></li>
+					<li th:if="${session.mmRegType == 1}"><a th:href="@{/company/mentorFeedbackToken}">멘토 피드백 토큰 관리</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-file-text-o"></i> 계약 관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="#">#최학준 동애등에 계약 공고</a></li>
+					<li><a th:href="@{/company/contractList}">#최학준 동애등에 계약 공고</a></li>
 					<li><a href="#">#최학준 동애등에 계약 공고 등록</a></li>
 					<li><a href="#">#최학준 신청한 건조업체 계약조회</a></li>
 					<li><a href="#">#최학준 신청한 구매업체 계약조회</a></li>
@@ -137,12 +139,12 @@
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
 					<li><a th:href="@{/company/companyInfoUser}">!최학준 내 업체 정보</a></li>
-					<li><a th:href="@{/company/companyEmployeeList}">!최학준 사원 조회</a></li>
+					<li><a th:href="@{/company/companyEmployeeList}">!최학준 직원 정보</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-file-text-o"></i> 계약 관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="#">#최학준 계약조회</a></li>
+					<li><a th:href="@{/company/contractList}">#최학준 계약조회</a></li>
 				</ul></li>
 		</ul>
 	</div>
@@ -158,7 +160,7 @@
 			<li><a><i class="fa fa-building-o"></i> 업체 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="#">#최학준 업체 사원등록</a></li>
+					<li><a th:href="@{/company/addEmployee}">#최학준 업체 사원등록</a></li>
 					<li><a th:href="@{/company/addCompanyIntro}">#최학준 업체 등록</a></li>
 					<li><a th:href="@{/company/companyInfoUser}">#최학준 업체 신청 현황</a></li>
 				</ul></li>
@@ -195,7 +197,7 @@
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
 					<li><a th:href="@{/admin/contractStandardList}">승인 기준 관리</a></li>
-					<li><a th:href="@{/admin/applyCompanyRegList}">#최학준 업체등록신청 목록</a></li>
+					<li><a th:href="@{/admin/applyCompanyRegList}">!최학준 업체등록신청 목록</a></li>
 					<li><a href="#">멘토 멘티 승인</a></li>
 					<li><a href="#">계약 승인</a></li>
 				</ul></li>
@@ -218,17 +220,11 @@
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
 					<li><a href="#">#계약 승인 기준관리</a></li>
-<<<<<<< HEAD
+
 					<li><a th:href="@{/contract/contractList}">!최학준 계약 공고 관리</a></li>
 					<li><a th:href="@{/contract/terminate_reason}">#황병준 계약 파기사유 관리</a></li>
 					<li><a href="#"># 계약 결제 관리</a></li>
 					<li><a href="#">#황병준 계약 환불 관리</a></li>
-=======
-					<li><a th:href="@{/company/contractList}">!최학준 계약 공고 관리</a></li>
-					<li><a href="#">#계약 파기사유 관리</a></li>
-					<li><a href="#">#계약 결제 관리</a></li>
-					<li><a href="#">#계약 환불 관리</a></li>
->>>>>>> refs/heads/develop
 					<li><a href="#">#계약 수단 관리</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-users"></i> 멘토멘티 관리 <span

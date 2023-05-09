@@ -7,6 +7,8 @@ import java.util.List;
 
 @Mapper
 public interface ContractMapper {
+    //계약상세정보
+    public Contract getContractInfo(String contractCode);
     // 계약조회
     public List<Contract> getContractList();
 

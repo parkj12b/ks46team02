@@ -4,7 +4,15 @@
       layout:decorate="~{layout/mypageLayout}">
 
 <head>
-
+<style >
+.delete,
+.modify,
+.cancel,
+#detail {
+  font-size: smaller; /* 원하는 크기로 변경 가능 */
+  padding: 5px 10px; /* 내용과 버튼의 크기 조정 */  
+}
+</style>
 </head>
 <th:block layout:fragment="customJs">
 <script>
@@ -12,25 +20,32 @@
   $('button.btn-primary').click(function() {
     window.location.href = '/admin/addAddr';
   });
-  $('button[data-target="#myModal"]').click(function() {
-	  var currentAddrCode = $(this).find('td:eq(1)').text();
-	  $.ajax({
-	      type: 'GET',
-	      url: '/admin/addrList/' + id,
-	      success: function(data) {
-	        // 모달창에 정보 출력하기
-	        $('#memberId').text(data.memberId);
-	        $('#addrPostal').text(data.addrPostal);
-	        $('#addrRoad').text(data.addrRoad);
-	        $('#addrLoca').text(data.addrLoca);
-	        $('#myModal').modal('show');
-	      },
-	      error: function() {
-	        alert('오류');
-	      }
-	    });
-	  });
 
+	    $('button[data-target="#myModal"]').click(function() {
+	    	var tr = $(this).closest('tr');
+	    	var AddrCode = tr.find('td:eq(1)').text(); 
+	        console.log("AddrCode>>>>"+AddrCode);
+	        $.ajax({
+	            type: 'GET',
+	            url: '/admin/addrMemberList',
+	            data: { addrCode: AddrCode },
+	            success: function(addr) {
+	                // 회원 주소 정보를 테이블에 출력하기
+	                var addrRoad = addr.addrRoad+addr.addrDetail;
+	                var addrLoca = addr.addrLoca+addr.addrDetail;
+	                $('#memberId').text(addr.memberId);
+	                $('#addrPostal').text(addr.addrPostal);
+	                $('#addrRoad').text(addrRoad);
+	                $('#addrLoca').text(addrLoca);
+
+	                // 모달 창 열기
+	                $('#myModal').modal('show');
+	            },
+	            error: function() {
+	                alert('오류');
+	            }
+	        });
+	    });
 
 $(".delete").click(function () {
 	  (async () => {
@@ -43,7 +58,7 @@ $(".delete").click(function () {
 	    const sessionId = "[[${session.sessionId}]]";
 	    var tr = $(this).closest('tr');
 	    console.log("tr     "+tr);
-	    var addrCode = tr.find('td:eq(0)').text(); 
+	    var addrCode = tr.find('td:eq(1)').text(); 
 	    console.log("addrCode     "+addrCode);
 	    
 	    console.log(sessionId);
@@ -100,6 +115,9 @@ $(".delete").click(function () {
 	    });
 	  })();
 	});
+
+
+
 </script>
 </th:block>
 <th:block layout:fragment="customContent">
@@ -149,7 +167,7 @@ $(".delete").click(function () {
                                             <td th:text="${l.memberId}"></td>
                                             <td th:text="${l.addrCode}"></td>
                                             <td>
-                                             <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#myModal">상세 주소 보기</button>
+                                             <button type="button" class="btn btn-dark " id="detail" data-toggle="modal" data-target="#myModal">상세 주소 보기</button>
                                             </td>
                                             <td th:text="${l.addrName}"></td>
                                             <td th:text="${l.addrRecipient}"></td>
@@ -178,7 +196,7 @@ $(".delete").click(function () {
     </div>
 <!-- 모달 창 -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-right modal-md" role="document">
+  <div class="modal-dialog modal-dialog-right modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title" id="myModalLabel">주소 상세 정보</h4>

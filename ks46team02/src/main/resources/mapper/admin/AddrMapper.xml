@@ -18,6 +18,8 @@
 		<result column="shipping_addr_reg_date"  			property="addrRegDate"/>
 </resultMap>
 
+
+
 		<select id="getAddrMemberList" parameterType="String" resultMap="adminAddrResultMap">
 		/* 특정 회원 배송지 조회 */
 			select 
@@ -39,10 +41,10 @@
 	</select>
 	
 
-	<select id="getAddrAmountList" parameterType="String" resultMap="adminAddrResultMap">
+	<select id="getAddrAmountList" resultType="int">
 					/* 회원별 배송지 숫자 조회 */
-					SELECT 
-						count(*)
+					select 
+						count(1)
 					from
 						addr_manage
 					where 
@@ -54,7 +56,7 @@
 		UPDATE addr_manage
 		<trim prefix="SET" suffixOverrides=",">
 			<if test="addrPostal != null and addrPostal != ''">
-				addr_manage = #{addrPostal},
+				shipping_addr_postal = #{addrPostal},
 			</if>
 			<if test="addrRoad != null and addrRoad != ''">
 				shipping_addr_road = #{addrRoad},

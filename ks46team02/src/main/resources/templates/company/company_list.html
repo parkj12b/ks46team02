@@ -32,36 +32,38 @@
                                                aria-describedby="datatable-buttons_info">
                                             <thead>
                                             <tr role="row">
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                    rowspan="1" colspan="1" style="width: 255px;"
-                                                    aria-label="Name: activate to sort column ascending">업체코드
+                                                <th class="sorting" aria-controls="datatable-buttons"
+                                                    style="width: 255px;">
+                                                    업체코드
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                    rowspan="1" colspan="1" style="width: 387px;"
-                                                    aria-label="Position: activate to sort column ascending">업체명
+                                                <th class="sorting" aria-controls="datatable-buttons"
+                                                    style="width: 387px;">
+                                                    업체명
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                    rowspan="1" colspan="1" style="width: 199px;"
-                                                    aria-label="Office: activate to sort column ascending">업체종류
+                                                <th class="sorting" aria-controls="datatable-buttons"
+                                                    style="width: 199px;">
+                                                    업체종류
                                                 </th>
-                                                <th class="sorting" tabindex="0" aria-controls="datatable-buttons"
-                                                    rowspan="1" colspan="1" style="width: 108px;"
-                                                    aria-label="Age: activate to sort column ascending">승인여부
+                                                <th class="sorting" aria-controls="datatable-buttons"
+                                                    style="width: 108px;">
+                                                    승인여부
                                                 </th>
                                                 <th class="sorting_desc" tabindex="0" aria-controls="datatable-buttons"
-                                                    rowspan="1" colspan="1" style="width: 187px;"
-                                                    aria-label="Start date: activate to sort column ascending"
+                                                    style="width: 187px;"
                                                     aria-sort="descending">
                                                 </th>
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr role="row" class="odd" th:unless="${companyList == null}" th:each="l : ${companyList}">
+                                            <tr role="row" class="odd" th:unless="${companyList == null}"
+                                                th:each="l : ${companyList}">
                                                 <td th:text="${l.companyCode}"></td>
                                                 <td th:text="${l.companyName}"></td>
                                                 <td th:text="${l.companyType}"></td>
                                                 <td th:text="${l.approvalStatus}"></td>
-                                                <td><a class="btn btn-secondary btn-sm" th:href="@{/company/companyInfo(companyCode=${l.companyCode})}">상세정보</a></td>
+                                                <td><a class="btn btn-secondary btn-sm"
+                                                       th:href="@{/company/companyInfo(companyCode=${l.companyCode})}">상세정보</a>
+                                                </td>
                                             </tr>
                                             <tr th:if="${companyList == null}">
                                                 <td>등록된 업체가 없습니다.</td>

@@ -10,7 +10,58 @@
         }
 
     </style>
+    <th:block layout:fragment="customJs">
+        <script>
+           $('button[data-target="#myModal"]').click(function() {
+               $('#myModal').modal('show');
+           });
 
+           $('#myModal button[data-dismiss="modal"]').click(function() {
+               $('#myModal').modal('hide');
+           });
+           function setCycleValue(selectElement) {
+               const cycleCode = selectElement.value;
+
+               $.ajax({
+                   url: '/farm/getCycleInfo', // 서버에서 싸이클 정보를 가져오는 엔드포인트
+                   method: 'GET',
+                   data: { cycleCode: cycleCode },
+                   dataType: 'json',
+                   success: function(cycle) {
+                       if (cycle) {
+                           document.querySelector('.modal input[name="farmCode"]').value = cycle.farmCode || '';
+                           document.querySelector('.modal input[name="calculationStandardCode"]').value = cycle.calculationStandardCode || '';
+                           document.querySelector('.modal input[name="estimatedProduction"]').value = cycle.estimatedProduction || '';
+                       } else {
+                           document.querySelector('.modal input[name="farmCode"]').value = '';
+                           document.querySelector('.modal input[name="calculationStandardCode"]').value = '';
+                           document.querySelector('.modal input[name="estimatedProduction"]').value = '';
+                       }
+                   },
+                   error: function(error) {
+                       console.error('Error fetching cycle info:', error);
+                   }
+               });
+           }
+           $('#productionForm').on('submit', function(e) {
+               let cycleCode = $('select[name="cycleCode"]').val();
+               let realProduction = $('input[name="realProduction"]').val();
+
+               if (cycleCode === "") {
+                   alert("싸이클 코드를 선택해주세요.");
+                   e.preventDefault();
+               }
+
+               let regex = /^\d+(\.\d{1,2})?$/; // 숫자 혹은 소수점 두 자리까지 허용하는 정규표현식
+               if (!regex.test(realProduction)) {
+                   alert("실제 생산량은 숫자 혹은 소수점 두 자리까지 입력해야 합니다.");
+                   e.preventDefault();
+               }
+           });
+
+
+        </script>
+    </th:block>
 </head>
 <th:block layout:fragment="customContent">
     <div class="page-title">
@@ -93,6 +144,9 @@
                                     </table>
 
                                 </div>
+                                <div class="row" style="margin: 2px; padding-left: 14px; padding-top: 4px">
+                                    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#myModal">생산량 등록</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -100,6 +154,81 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-right modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">생산량 등록</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form class="form-horizontal form-label-left" th:action="@{/farm/addProduction}" method="post">
+                    <div class="modal-body">
+                        <!-- 모달 내용 -->
+                        <div class="form-group row">
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group row">
+                                    <select name="cycleCode" class="form-control" onchange="setCycleValue(this)">
+                                    <option value="">싸이클 선택</option>
+                                        <option name="cycleCode" th:each="c : ${cycleList}" th:value="${c.cycleCode}" th:text="${c.cycleCode}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="control-label col-md-4 col-sm-4">사육장 코드</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input type="text" class="form-control" name="farmCode" id="farmCode" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="control-label col-md-4 col-sm-4">목표 상태</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input type="text" class="form-control" name="calculationStandardCode" id="calculationStandardCode" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="control-label col-md-4 col-sm-4">예상 생산량[g]</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input type="text" class="form-control" name="estimatedProduction" id="estimatedProduction" readonly>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-4 col-sm-4 label-left">수확 날짜
+                                        <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 ">
+                                        <input name="realHarvestDay" class="date-picker form-control"
+                                               placeholder="dd-mm-yyyy" type="date" required="required"
+                                               onfocus="this.type='date'" onmouseover="this.type='date'"
+                                               onclick="this.type='date'" onblur="this.type='text'"
+                                               onmouseout="timeFunctionLong(this)">
+                                        <script>
+                                            function timeFunctionLong(input) {
+                                                setTimeout(function() {
+                                                    input.type = 'text';
+                                                }, 60000);
+                                            }
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="control-label col-md-4 col-sm-4">실제 생산량</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input type="text" class="form-control" name="realProduction" required="required" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-dark">등록</button>
+                        <button type="button" class="btn btn-dark" data-dismiss="modal">취소</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
 
 </th:block>

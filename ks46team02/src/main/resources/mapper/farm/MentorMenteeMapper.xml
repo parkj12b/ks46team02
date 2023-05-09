@@ -49,7 +49,7 @@
 		<id column="visit_code" property="visitCode"></id>
 		<result column="contract_code" property="contractCode"></result>
 		<result column="period_count" property="periodCount"></result>
-		<result column="period_state_date" property="periodStateDate"></result>
+		<result column="period_start_date" property="periodStartDate"></result>
 		<result column="period_end_date" property="periodEndDate"></result>
 		<result column="visit_complete" property="visitComplete"></result>
 		<result column="visit_complete_final"
@@ -91,6 +91,7 @@
 		<result column="member_id" property="memberId"></result>
 		<result column="register_date" property="registerDate"></result>
 		<result column="expiry_date" property="expiryDate"></result>
+		<result column="token_name" property="tokenName"></result>
 	</resultMap>
 	<resultMap type="EvaluationLargeCategory" id="evaluationLargeCategoryMap">
 		<id column="large_category_code" property="largeCategoryCode"></id>
@@ -106,7 +107,6 @@
 			<result property="adminId" column="admin_id"/>
 		</collection>
 	</resultMap>
-
 	<select id="getMMRegStatMentee" resultType="MMRegInfoMentee">
 		select
 		mentee_app_code as menteeAppCode,
@@ -259,7 +259,7 @@
 		insert into result_history(
 			result_code,  evaluation_unit_code, visit_code, contract_code, result_feedback, member_id, result_reg_date, result_evaluation_point
 		) values (
-			#{resultCode},#{evaluationCode},#{visitCode},#{resultFeedback},#{contractCode},#{memberId},#{resultEvaluationPoint}
+			#{resultCode},#{evaluationUnitCode},#{visitCode},#{contractCode},#{resultFeedback},#{memberId},now(),#{resultEvaluationPoint}
 		)
 	</insert>
 	<update id="modifyVisitHistory" parameterType="VisitHistory">
@@ -272,4 +272,48 @@
 		where
 			visit_code = #{visitCode}
 	</update>
+	<update id="modifyResultHistory" parameterType="ResultHistory">
+		update 
+			result_history 
+		set
+			result_feedback = #{resultFeedback}, 
+			member_id = #{memberId}, 
+			result_reg_date = now(), 
+			result_evaluation_point = #{resultEvaluationPoint}
+		<where>
+			evaluation_unit_code = #{evaluationUnitCode} and 
+			visit_code = #{visitCode} and
+			contract_code = #{contractCode} 		
+		</where>
+	</update>
+	<select id="getMentorFeedbackTokenListByCompanyCode" resultMap="mentorFeedbackTokenMap">
+		select
+			*
+		from
+			mentor_feedback_token
+		where
+			company_code = #{company_code}
+	</select>
+	<delete id="removeTokenByTokenCode" parameterType="String">
+		delete
+		from
+			mentor_feedback_token
+		where
+			mentor_feedback_token_code = #{tokenCode}
+	</delete>
+	<insert id="addMentorFeedbackToken" parameterType="MentorFeedbackToken">
+		insert into mentor_feedback_token(
+			company_code, mentor_feedback_token, member_id, register_date, expiry_date, mentor_feedback_token_code, token_name
+		) values (
+			#{companyCode}, #{mentorFeedbackToken}, #{memberId}, now(), if(#{validDate} = 'infinity', '9999-01-01', date_add(curdate(),interval #{validDate} day)), #{mentorFeedbackTokenCode}, #{tokenName} 
+		)
+	</insert>
+	<select id="getMentorFeedbackTokenByTokenCode" resultMap="mentorFeedbackTokenMap">
+		select
+			*
+		from
+			mentor_feedback_token
+		where
+			mentor_feedback_token_code = #{tokenCode}
+	</select>
 </mapper>

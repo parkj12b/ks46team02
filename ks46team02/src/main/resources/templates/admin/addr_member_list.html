@@ -81,6 +81,53 @@ $(".delete").click(function () {
 	    });
 	  })();
 	});
+/* 아이디 중복 체크 */
+$('.checkId').click(function(){
+    const adminIdEle = $('#adminId'); // 아이디를 입력하는 input 요소를 찾아옵니다.
+    let adminId = adminIdEle.val(); // 입력된 아이디 값을 가져옵니다.
+
+    if(typeof adminId === 'undefined' || adminId == null || adminId === ''){
+        alert('아이디를 입력해주세요');
+        adminIdEle.focus();
+        return false;
+    }
+
+    $.ajax({
+        type: 'POST', // POST 방식으로 요청을 보냅니다.
+        url: '/admin/idCheckAdmin', // 아이디 중복 체크를 위한 URL을 지정합니다.
+        data: { 'adminId' : adminId }, // 요청 데이터에 입력된 아이디 값을 포함시킵니다.
+        dataType: 'json', // 반환되는 데이터의 타입을 JSON으로 지정합니다.
+        success: function(isDuplicate) {
+            if(!isDuplicate){
+            	  Swal.fire({
+                      icon: 'error',                         // Alert 타입
+                      title: '중복된 아이디가 존재합니다.',         // Alert 제목
+                      text: '다른 아이디로 다시 시도해주시길 바랍니다.',  // Alert 내용
+                  });
+                adminIdEle.val(''); // 입력된 아이디 값을 지웁니다.
+                adminIdEle.focus(); // 아이디를 입력하는 input 요소에 포커스를 줍니다.
+            }
+            else{
+            	const Toast = Swal.mixin({
+            	    toast: true,
+            	    position: 'center-center',
+            	    showConfirmButton: false,
+            	    timer: 1000,
+            	    timerProgressBar: true,
+            	    didOpen: (toast) => {
+            	        toast.addEventListener('mouseenter', Swal.stopTimer)
+            	        toast.addEventListener('mouseleave', Swal.resumeTimer)
+            	    }
+            	})
+
+            	Toast.fire({
+            	    icon: 'success',
+            	    title: '등록 가능한 아이디 입니다.'
+            	})
+            }
+        }
+    });
+});
 </script>
 </th:block>
 <th:block layout:fragment="customContent">
