@@ -219,7 +219,7 @@ public class AdminController {
 		model.addAttribute("title", "관리자 등급 등록");
 		return "admin/add_adminLevel";
 	}
-	/* 관리자등급 수정 */
+	/* 관리자등급 수정   */
 	@PostMapping("/modifyAdminLevel")
 	@ResponseBody
 	public void modifyAdminLevel(AdminLevel adminLevel) {
