@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import groovy.util.logging.Slf4j;
+import jakarta.servlet.http.HttpSession;
 import ks46team02.admin.dto.AdminLevel;
 import ks46team02.admin.dto.ContractStandard;
 import ks46team02.admin.dto.LoginHistory;
@@ -109,7 +110,7 @@ public class AdminController {
 	    this.companyService = companyService;
 	}
 
-	/* 관리자 아이디 중복 체크  */
+	/* 관리자 아이디 중복 체크 */
 	@PostMapping("/idCheckAdmin")
 	@ResponseBody
 	public boolean idCheckAdmin(@RequestParam(name="adminId") String adminId) {
@@ -121,7 +122,7 @@ public class AdminController {
 	
 	
 	
-	/* 탈퇴한 관리자 조회  */
+	/* 탈퇴한 관리자 조회 */
 	@GetMapping("/withdrawalAdminList")
 	public String getWithdrawalAdminList(Model model) {
 		List<AdminMember> withdrawalAdminList = adminService.getWithdrawalAdminList();
@@ -185,14 +186,17 @@ public class AdminController {
 	/* 관리자 비밀번호 확인 */
 	@PostMapping("/pwCheckAdmin")
 	@ResponseBody
-	public String pwCheckAdmin( @RequestParam(name="adminId") String adminId
-							    ) {
-		AdminMember adminInfo = adminService.getAdminInfoById(adminId);
-		String adminPw = adminInfo.getAdminPw();
-		 log.info("adminInfo     "+adminInfo );
-		  return adminPw; 
+	public Boolean pwCheckAdmin(@RequestParam(name="adminPw") String adminPw
+			    			    ,HttpSession session) {
+		String adminIdCheck = (String) session.getAttribute("sessionId");
+		AdminMember adminInfo = adminService.getAdminInfoById(adminIdCheck);
+		String adminPwCheck = adminInfo.getAdminPw();
+		Boolean pwCheck = adminPwCheck.equals(adminPw);
+		
+		return pwCheck; 
 		
 	}
+	
 	/* 관리자 삭제 */
 	@PostMapping("/removeAdmin")
 	@ResponseBody
@@ -312,18 +316,18 @@ public class AdminController {
 	public void removeAddr(String addrCode) {
 		Addr addr = addrService.getAddrInfoById(addrCode);
 		String memberId = addr.getMemberId();
-		log.info("addr:{}",addr);
-		log.info("memberId:{}",memberId);
+		List<Addr> addrList= addrService.getAddrInfoByMemberId(memberId);
 		String addrSeq = addr.getAddrSeq();
-		log.info("addrSeq:{}",addrSeq);
 		addrMapper.removeAddr(addrCode);
-		int account = addrMapper.getAddrAmountList(memberId);
-		log.info("account:{}",account);
-		if(addrSeq.equals("primary") && !(addrSeq.equals(null) && account>1)) {
-			Addr addrList= addrService.getAddrInfoByMemberId(memberId);
-			addrList.setAddrSeq("primary");
-			addrMapper.modifyAddr(addrList);
-		}
+		 if ("primary".equals(addrSeq) && addrList != null) {
+		        for (Addr a : addrList) {
+		            if ("primary".equals(a.getAddrSeq())) {
+		                a.setAddrSeq("primary");
+		                addrMapper.modifyAddr(a);
+		                break;
+		            }
+		        }
+		    }
 	}
 	
 	/* 배송지 등록 */
