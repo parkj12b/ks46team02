@@ -56,6 +56,9 @@
                 	    icon: 'success',
                 	    title: '등록 가능한 아이디 입니다.'
                 	})
+                	$('#addAdminForm input').prop('disabled', false);
+					$('#addAdminForm button').prop('disabled', false);
+					$('#addAdminForm select').prop('disabled', false);
                 }
             }
         });
@@ -129,26 +132,26 @@
 						</label>
 						<div class="col-md-3 col-sm-3 ">
 							<input type="password" class="form-control"
-								id="adminPw" name="adminPw" placeholder="">
+								id="adminPw" name="adminPw" placeholder="" disabled="disabled">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3 col-sm-3  "> 관리자 이름 </label>
 						<div class="col-md-3 col-sm-3 ">
 							<input type="text" class="form-control"
-								id="adminName" name="adminName" placeholder="">
+								id="adminName" name="adminName" placeholder="" disabled="disabled">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3 col-sm-3 "> 이메일</label>
 						<div class="col-md-3 col-sm-3 ">
-							<input type="text" class="form-control" id="adminEmail" name="adminEmail" value="">
+							<input type="text" class="form-control" id="adminEmail" name="adminEmail" disabled="disabled">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3 col-sm-3 ">관리자 등급</label>
 						<div class="col-md-3 col-sm-3 ">
-							<select class="form-control" id="adminLevel" name="adminLevel">
+							<select class="form-control" id="adminLevel" name="adminLevel" disabled="disabled">
 								<option></option>
 								<th:block th:if="${adminLevelList1 != null}">
 									<option th:each="l : ${adminLevelList1}"
@@ -160,14 +163,14 @@
 					<div class="form-group row">
 						<label class="control-label col-md-3 col-sm-3 "> 전화 번호</label>
 						<div class="col-md-3 col-sm-3 ">
-							<input type="text" class="form-control" id="adminPhone" name="adminPhone" value="">
+							<input type="text" class="form-control" id="adminPhone" name="adminPhone"  disabled="disabled">
 							
 						</div>
 					</div>
 					<div class="ln_solid"></div>
 					<div class="form-group">
 						<div class="col-md-9 col-sm-9  offset-md-5">
-							<button type="button" class="btn btn-dark add">등록</button>
+							<button type="button" class="btn btn-dark add" disabled="disabled">등록</button>
 							<button type="reset" class="btn btn-dark cancel">취소</button>
 						</div>
 					</div>
