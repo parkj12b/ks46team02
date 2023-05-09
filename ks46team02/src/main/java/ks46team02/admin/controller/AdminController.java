@@ -109,7 +109,7 @@ public class AdminController {
 	    this.companyService = companyService;
 	}
 
-	/* 관리자 아이디 중복 체크 */
+	/* 관리자 아이디 중복 체크  */
 	@PostMapping("/idCheckAdmin")
 	@ResponseBody
 	public boolean idCheckAdmin(@RequestParam(name="adminId") String adminId) {
@@ -196,9 +196,8 @@ public class AdminController {
 	/* 관리자 삭제 */
 	@PostMapping("/removeAdmin")
 	@ResponseBody
-	public void removeAdmin(String adminId ){
-					 
-			 adminMapper.removeAdmin(adminId);
+	public void removeAdmin(String adminId ){			 
+		adminMapper.removeAdmin(adminId);
 		 }
 	/* 관리자 등록 */
 	@PostMapping("/addAdmin")
@@ -220,7 +219,7 @@ public class AdminController {
 		model.addAttribute("title", "관리자 등급 등록");
 		return "admin/add_adminLevel";
 	}
-	/* 관리자등급 수정 */
+	/* 관리자등급 수정   */
 	@PostMapping("/modifyAdminLevel")
 	@ResponseBody
 	public void modifyAdminLevel(AdminLevel adminLevel) {
@@ -311,7 +310,20 @@ public class AdminController {
 	@PostMapping("/removeAddr")
 	@ResponseBody
 	public void removeAddr(String addrCode) {
+		Addr addr = addrService.getAddrInfoById(addrCode);
+		String memberId = addr.getMemberId();
+		log.info("addr:{}",addr);
+		log.info("memberId:{}",memberId);
+		String addrSeq = addr.getAddrSeq();
+		log.info("addrSeq:{}",addrSeq);
 		addrMapper.removeAddr(addrCode);
+		int account = addrMapper.getAddrAmountList(memberId);
+		log.info("account:{}",account);
+		if(addrSeq.equals("primary") && !(addrSeq.equals(null) && account>1)) {
+			Addr addrList= addrService.getAddrInfoByMemberId(memberId);
+			addrList.setAddrSeq("primary");
+			addrMapper.modifyAddr(addrList);
+		}
 	}
 	
 	/* 배송지 등록 */

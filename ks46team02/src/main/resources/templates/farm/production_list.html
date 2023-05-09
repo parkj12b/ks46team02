@@ -43,6 +43,21 @@
                    }
                });
            }
+           $('#productionForm').on('submit', function(e) {
+               let cycleCode = $('select[name="cycleCode"]').val();
+               let realProduction = $('input[name="realProduction"]').val();
+
+               if (cycleCode === "") {
+                   alert("싸이클 코드를 선택해주세요.");
+                   e.preventDefault();
+               }
+
+               let regex = /^\d+(\.\d{1,2})?$/; // 숫자 혹은 소수점 두 자리까지 허용하는 정규표현식
+               if (!regex.test(realProduction)) {
+                   alert("실제 생산량은 숫자 혹은 소수점 두 자리까지 입력해야 합니다.");
+                   e.preventDefault();
+               }
+           });
 
 
         </script>
@@ -177,18 +192,37 @@
                                         <input type="text" class="form-control" name="estimatedProduction" id="estimatedProduction" readonly>
                                     </div>
                                 </div>
+                                <div class="item form-group">
+                                    <label class="col-form-label col-md-4 col-sm-4 label-left">수확 날짜
+                                        <span class="required">*</span>
+                                    </label>
+                                    <div class="col-md-8 col-sm-8 ">
+                                        <input name="realHarvestDay" class="date-picker form-control"
+                                               placeholder="dd-mm-yyyy" type="date" required="required"
+                                               onfocus="this.type='date'" onmouseover="this.type='date'"
+                                               onclick="this.type='date'" onblur="this.type='text'"
+                                               onmouseout="timeFunctionLong(this)">
+                                        <script>
+                                            function timeFunctionLong(input) {
+                                                setTimeout(function() {
+                                                    input.type = 'text';
+                                                }, 60000);
+                                            }
+                                        </script>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <label class="control-label col-md-4 col-sm-4">실제 생산량</label>
                                     <div class="col-md-8 col-sm-8">
-                                        <input type="text" class="form-control" name="realProduction" >
+                                        <input type="text" class="form-control" name="realProduction" required="required" >
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">등록</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                        <button type="submit" class="btn btn-dark">등록</button>
+                        <button type="button" class="btn btn-dark" data-dismiss="modal">취소</button>
                     </div>
                 </form>
             </div>

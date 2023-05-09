@@ -33,7 +33,10 @@
 			insert into member_info
 			(member_id,member_pw,member_name,member_phone,member_email,position_level_code,company_code,member_reg_date,member_status)
 			VALUES
-			(#{memberId},#{memberPw},#{memberName},#{memberPhone},#{memberEmail},#{positionLevelCode},'comp_5',CURDATE(),'normal');
+
+			(#{memberId},#{memberPw},#{memberName},#{memberPhone},#{memberEmail},#{positionLevelCode},#{companyCode},CURDATE(),'normal');
+
+
 		</insert>
 		
 

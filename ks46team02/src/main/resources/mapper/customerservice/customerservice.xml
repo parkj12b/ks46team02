@@ -31,7 +31,7 @@
 			VALUES (#{questionCode}, #{questionTitle}, #{questionContent},
 					#{questionFile}, #{memberId}, #{questionTypeCode}, 'weighting for response', CURRENT_TIMESTAMP());
 	</insert>
-
+	
 	<select id="getQuestionTypeName" parameterType="int"
 		resultType="String">
 		SELECT question_type_name as questionTypeName

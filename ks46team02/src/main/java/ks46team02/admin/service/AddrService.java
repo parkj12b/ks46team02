@@ -60,8 +60,8 @@ private static final Logger log = LoggerFactory.getLogger(AdminController.class)
 		return adddrInfo;
 	}
 	/* 특정 회원 배송지 조회 */
-	public List<Addr> getAddrInfoByMemberId(String memberId) {
-		List<Addr> AddrList = addrMapper.getAddrMemberList(memberId);
+	public Addr getAddrInfoByMemberId(String memberId) {
+		Addr AddrList = addrMapper.getAddrMemberList(memberId);
 		return AddrList;
 	}
 	}
