@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mypageLayout}">
+<head>
+<meta charset="UTF-8">
+<title th:text="${title}">Insert title here</title>
+<style>
+#submit {
+	float: right;
+	margin-top: 30px;
+}
+#token-num{
+	margin: 0 auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #F7F7F7;
+	height: 50px;
+}
+.div-container{
+	margin-top: 30px;
+}
+#btn-link{
+	float:right;
+	margin-top: 30px;
+}
+</style>
+</head>
+<th:block layout:fragment="customJs">
+	<script>
+		
+	</script>
+</th:block>
+
+<body>
+	<th:block layout:fragment="customContent">
+		<div class="">
+
+			<div class="row">
+				<div class="col-md-9 col-sm-9" style="margin: 0px auto;">
+					<div class="x_panel">
+						<div class="x_title">
+							<h2>
+								동애등에 사육장 <small>멘토 멘티 피드백 토큰</small>
+							</h2>
+
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<div class="col-md-12 col-sm-12">
+								<h2 style="text-align:center;">새로운 토큰이 생성되었습니다!</h2>
+								<div class="div-container">
+								<ul>
+									<li>토큰의 비밀번호는 생성시에만 볼수 있으니 생성시에 로컬 환경에 캡쳐해주세요. 토큰 탈취시 다른사람이 피드백을 작성할 수 있으니 주의하여 주세요.</li>
+								</ul>
+									<h2>
+										<span th:text="${mentorFeedbackToken.tokenName}"></span>의 토큰
+										번호:
+									</h2>
+									<div id="token-num">
+										<span 
+										th:text="${mentorFeedbackToken.mentorFeedbackToken}"></span>
+									</div>
+									<button id="btn-link" type="button" class="btn btn-info">멘티 조회 바로가기</button>
+								</div>
+
+							</div>
+
+
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</th:block>
+</body>
+</html>

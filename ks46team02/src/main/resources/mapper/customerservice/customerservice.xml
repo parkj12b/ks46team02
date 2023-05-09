@@ -13,75 +13,86 @@
 		<result column="question_type_code" property="questionTypeCode" />
 		<result column="question_status" property="questionStatus" />
 		<result column="question_reg_date" property="questionRegDate" />
-		<result column="question_modify_date" property="questionModityDate" />
+		<result column="question_modify_date"
+			property="questionModityDate" />
 		<result column="question_del_date" property="questionDelDate" />
 		<result column="question_del_yn" property="questionDelYN" />
 	</resultMap>
 
 	<insert id="writeQuestion" parameterType="questionDto">
 		<selectKey keyProperty="questionCode" order="BEFORE"
-			resultType="Integer">
-			select sf_new_question_code() as questionCode
+			resultType="String">
+			select sf_new_question_code() as questionCode;
 		</selectKey>
-		insert into question (question_code, question_title, question_content,
-		question_file, member_id, question_type_code, question_status,
-		question_reg_date, question_modify_date, question_del_date,
-		question_del_yn)
-		values (#{questionTitle},
-		#{questionContent},
-		#{questionFile}, #{memberId},
-		#{questionTypeCode},
-		#{questionStarus},
-		CURDATE(), null, null, 'N')
+			insert into 
+				question (question_code, question_title, question_content,
+						  question_file, member_id, question_type_code, question_status,
+						  question_reg_date)
+			VALUES (#{questionCode}, #{questionTitle}, #{questionContent},
+					#{questionFile}, #{memberId}, #{questionTypeCode}, 'weighting for response', CURRENT_TIMESTAMP());
 	</insert>
 
 	<select id="getQuestionTypeName" parameterType="int"
-		resultType="String" >
-		SELECT question_type_name as questionTypeName 
+		resultType="String">
+		SELECT question_type_name as questionTypeName
 		FROM question_type WHERE
 		question_type_code =
 		#{questionTypeCode}
 	</select>
 
-	<select id="selectQuestionList" parameterType="Integer" resultMap="customerserviceResultMap">
+	<select id="selectQuestionList" parameterType="Integer"
+		resultMap="customerserviceResultMap">
 		SELECT
 		*
 		FROM
 		question q
 		LEFT JOIN member_info m ON
-		q.member_id = m.member_id
+		q.member_id =
+		m.member_id
 		WHERE
 		q.question_type_code =
-		#{questionType} AND
+		#{questionTypeCode} AND
 		q.question_del_yn =
 		'N'
 		ORDER BY
 		q.question_code DESC;
 	</select>
 
-	<select id="selectQuestionInfo" parameterType="Integer" resultType="questionDto"> 
-		select m.member_name, q.question_reg_date'YYYY-MM-DD',
-		q.question_title, q.question_content, q.question_file, q.member_id
-		from question q, member_info m
-		where q.member_id = m.member_id and q.question_code = #{question_code} and
-		q.question_del_yn = 'N';
+	<select id="selectQuestionInfo" parameterType="String"
+		resultType="questionDto" resultMap="customerserviceResultMap">
+		SELECT
+		m.member_name,
+		q.question_reg_date,
+		q.question_code,
+		q.question_title,
+		q.question_content,
+		q.question_file,
+		q.member_id
+		FROM question q
+		JOIN member_info m ON q.member_id = m.member_id
+		WHERE
+		q.question_code = #{questionCode}
+		AND q.question_del_yn = 'N';
 	</select>
 
-	<update id="updateQuestion"
-		parameterType="QuestionDto">
+	<update id="modifyQuestionDto" parameterType="QuestionDto">
 		UPDATE question
-		SET question_title = #{question_title},
-		question_content = #{question_content},
-		question_file = #{question_file, jdbcType=VARCHAR},
+		SET
+		question_title = #{questionTitle},
+		question_content = #{questionContent},
+		question_file = #{questionFile},
 		question_modify_date = CURRENT_TIMESTAMP()
-		WHERE question_code = #{code} AND question_del_yn ='N';
+		WHERE question_code = #{questionCode} 
+		AND question_del_yn ='N';
 	</update>
 
-	<update id="deleteQuestion" parameterType="Integer">
+	<update id="deleteQuestion" parameterType="String">
 		update question
-		set question_del_yn = 'Y',
-		j_delete_date = CURRENT_TIMESTAMP()
-		where question_code = #{code};
+		set
+		question_del_yn = 'Y',
+		question_del_date = CURRENT_TIMESTAMP()
+		where
+		question_code = #{questionCode};
 	</update>
 
 	<select id="getTotalCount" parameterType="Integer"
@@ -90,7 +101,8 @@
 		FROM
 		question
 		WHERE question_type_code =
-		#{code}
+		#{questionTypecode}
 		AND question_del_yn = 'N'
 	</select>
 </mapper>
+

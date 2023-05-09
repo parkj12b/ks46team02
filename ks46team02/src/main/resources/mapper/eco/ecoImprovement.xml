@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ks46team02.eco.mapper.EcoImprovementMapper">
+	<resultMap type="EcoImprovementDto" id="ecoImprovementDtoMap">
+		<id column="eco_code" property="ecoCode"></id>
+		<result column="company_code" property="companyCode"></result>
+		<result column="company_name" property="companyName"></result>
+		<result column="total_processed" property="totalProcessed"></result>
+		<result column="gas_weight" property="gasWeight"></result>
+		<result column="tree_equivalent" property="treeEquivalent"></result>
+		<result column="waste_saved" property="wasteSaved"></result>
+		<result column="renewal_date" property="renewalDate"></result>
+	</resultMap>
+	
+	<select id="getEcoList" resultMap="ecoImprovementDtoMap">
+		SELECT DISTINCT
+    		e.eco_code,
+    		c.company_name,
+    		e.total_processed,
+    		e.gas_weight,
+    		e.tree_Equivalent,
+    		e.waste_saved,
+    		e.renewal_date
+		FROM
+    		eco_improvement AS e
+   	  	INNER JOIN company_info AS c ON e.company_code = c.company_code;
+	</select>
+</mapper>

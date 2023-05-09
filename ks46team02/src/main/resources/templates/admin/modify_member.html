@@ -12,7 +12,7 @@
         $('#resetBtn').click(function(){
 			history.go(-1);
 		});
-        /* 휴대폰 전화 자동 하이픈 */
+        /* 휴대폰 전화 자동 하이픈  */
         $(document).ready(function () {
            $(function () {
                     
@@ -35,6 +35,42 @@
            });
 
         });
+        /* 유효성 검사 > sweat로 모달창 */
+      $('#submitBtn').click(function() {
+
+    	  var arr = [
+    		    {id: '#memberId', name: '아이디', value: $('#memberId').val()},
+    		    {id: '#memberPw', name: '비밀번호', value: $('#memberPw').val()},
+    		    {id: '#memberName', name: '이름', value: $('#memberName').val()},
+    		    {id: '#memberPhone', name: '휴대폰번호', value: $('#memberPhone').val()},
+    		    {id: '#memberEmail', name: '이메일', value: $('#memberEmail').val()},
+    		    {id: '#memberStatus', name: '회원상태', value: $('#memberStatus').val()}
+    		  ];
+    	  console.log(arr);
+    	  
+		  var isValid = true;
+		  $.each(arr, function(index, item) {
+		    var data = $(item.id).val();
+		    if (typeof data == 'undefined' || data == null || data == '') {
+		      Swal.fire({
+		        icon: 'warning',  // 여기다가 아이콘 종류를 쓰면 됩니다.                     
+		        title: `${item.name}를 입력해주세요.` 
+		      }).then((result) => {
+		        if (result.isConfirmed) { // 모달창에서 확인을 누르면 true가 되는 속성
+		          $(item.id).focus();
+		          Swal.close(); // 모달창이 닫힐 때까지 기다림
+		        }
+		      });
+		      isValid = false;
+		      return false; // each()를 중단합니다.
+		    }
+		  });
+		
+		  if (!isValid) {
+		    return false; // form 전송을 막습니다.
+		  }
+		});
+
     </script>
 </th:block>
 
@@ -118,7 +154,7 @@
                          <div class="form-group row">
 						  <label class="control-label col-md-3 col-sm-3 label-align" for="companyAddr">회원 상태</label>
 						  <div class="col-md-3 col-sm-3">
-						    <select class="form-control" name="adminLevel">
+						    <select class="form-control" id="memberStatus" name="memberStatus">
 						      <option value="">---선택--</option>
 						        <option th:value="nomal" th:text="일반회원"></option>
 						        <option th:value="dormant" th:text="휴면회원"></option>

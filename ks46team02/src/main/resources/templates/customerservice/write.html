@@ -5,50 +5,70 @@
 <head>
 <title _msttexthash="44395234" _msthash="0">젠텔렐라 알레라! |</title>
 </head>
-	<th:block layout:fragment="customContent">
-		<section class="py-2" style="height: 720px">
-			<div class="container px-4 px-lg-5 mt-1">
-				<h2>Q & A</h2>
+<th:block layout:fragment="customContent">
+	<section class="py-2" style="height: 720px">
+		<div class="container px-4 px-lg-5 mt-1">
+			<div class="container" th:style="'margin-top:100px'">
 				<div class="row">
+				<h1>Q & A</h1>
 					<div class="col-sm-3"></div>
-					<div class="col-sm-6 col-lg-12">
+					 <div class="col-sm-6 col-lg-12"> 
 						<div class="card shadow">
 							<div class="card-body">
-								<th:form action="${root}" method="post" modelAttribute=""
+								<form th:action="@{/customerservice/write_proc}" method="post"
 									enctype="multipart/form-data">
-									<th:hidden path="" />
-									<input type="hidden" name="page" value="" />
-									<div class="form-group mb-3">
-										<th:label path="" class="form-label">제목</th:label>
-										<th:input path="" class="form-control" />
-										<th:errors path="" style="color:red" />
-									</div>
-									<div class="form-group mb-3">
-										<th:label path="" class="form-label">내용</th:label>
-										<th:text path="" class="form-control" rows="10"
-											style="resize:none" />
-										<th:errors path="" style="color:red" />
-									</div>
-									<div class="form-group mb-3">
-										<th:label path="" class="form-label">첨부 이미지</th:label>
-										<th:input type="file" path="" class="form-control"
-											accept="image/*" />
-									</div>
-									<div class="form-group mb-3">
-										<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-											<th:button class="btn btn-outline-dark">작성하기</th:button>
-											<a href="" class="btn btn-outline-dark">취소</a>
+									<div th:object="${writeQuestionDto}">
+										<input type="hidden" name="page" th:value="${page}" /> <input
+											type="hidden" th:value="${writeQuestionDto.questionTypeCode}" />
+											
+										<div class="form-group mb-3">
+											<label class="form-label" for="questionTitle" th:text="제목">제목</label>
+											<input type="text" id="questionTitle"
+												th:value="*{questionTitle}" name="questionTitle"
+												class="form-control" />
+											<div th:if="${#fields.hasErrors('questionTitle')}"
+												th:errors="*{questionTitle}" style="color: red"></div>
+
+											<!-- <div class="form-group mb-3">
+												<label class="form-label" for="memberId" th:text="작성자">작성자</label>
+												<input type="text" id="memberId" th:value="*{memberId}"
+													name="memberId" class="form-control" readonly="readonly" />
+											</div> -->
+											<div class="form-group mb-3">
+												<label class="form-label" for="questionTypeCode" >문의타입</label>
+												<input type="text" id="questionTypeCode" th:value="*{questionTypeCode}"
+													name="questionTypeCode" class="form-control" readonly="readonly" />
+											</div>
+											<div class="form-group mb-3">
+												<label class="form-label" for="questionContent" th:text="내용">내용</label>
+												<textarea th:value="*{questionContent}" id="questionContent" name="questionContent"
+													class="form-control" rows="10" style="resize: none"></textarea>
+												<div th:if="${#fields.hasErrors('questionContent')}"
+													th:errors="*{questionContent}" style="color: red"></div>
+											</div>
+											<div class="form-group mb-3">
+												<label class="form-label" for="" th:text="첨부이미지">첨부이미지</label>
+												<input type="file" value="" class="form-control"
+													accept="image/*" />
+											</div>
+											<div class="form-group mb-3">
+												<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+													<button type="submit" class="btn btn-primary"
+														th:text="작성하기">작성하기</button>
+													<a
+														th:href="@{/customerservice/main(questionTypeCode=${questionTypeCode},page=${page})}"
+														class="btn btn-info">취소</a>
+												</div>
+											</div>
 										</div>
 									</div>
-
-								</th:form>
+								</form>
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-3"></div>
 				</div>
 			</div>
-		</section>
-	</th:block>
+		</div>
+	</section>
+</th:block>
 </html>
-

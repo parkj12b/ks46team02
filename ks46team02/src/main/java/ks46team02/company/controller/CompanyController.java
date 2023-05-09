@@ -1,6 +1,21 @@
 package ks46team02.company.controller;
 
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import jakarta.servlet.http.HttpSession;
 import ks46team02.admin.mapper.MemberMapper;
 import ks46team02.admin.service.MemberService;
@@ -11,13 +26,9 @@ import ks46team02.company.dto.CompanyType;
 import ks46team02.company.dto.FarmProductCategory;
 import ks46team02.company.mapper.CompanyMapper;
 import ks46team02.company.service.CompanyService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import ks46team02.farm.dto.MentorFeedbackToken;
+import ks46team02.farm.mapper.MentorMenteeMapper;
+import ks46team02.farm.service.MentorMenteeService;
 
 @Controller
 @RequestMapping("/company")
@@ -27,18 +38,20 @@ public class CompanyController {
     private final CompanyMapper companyMapper;
     private final MemberService memberService;
     private final MemberMapper memberMapper;
-
+    private final MentorMenteeService mentorMenteeService;
+    
     private static final Logger log = LoggerFactory.getLogger(CompanyController.class);
 
     public CompanyController(CompanyService companyService
                             , CompanyMapper companyMapper
                             , MemberService memberService
-                            , MemberMapper memberMapper) {
+                            , MemberMapper memberMapper
+                            , MentorMenteeService mentorMenteeService) {
         this.companyService = companyService;
         this.companyMapper = companyMapper;
         this.memberService = memberService;
         this.memberMapper = memberMapper;
-
+        this.mentorMenteeService = mentorMenteeService;
     }
 
     @PostMapping("/regPassCheck")
@@ -54,7 +67,8 @@ public class CompanyController {
     @PostMapping("/addEmployee")
     @ResponseBody
     public void addEmployee(Member member){
-    int result = memberMapper.addEmployee(member);
+
+        int result = memberMapper.addEmployee(member);
     }
 
     @GetMapping("/addEmployee")
@@ -279,5 +293,68 @@ public class CompanyController {
         return "company/company_list";
     }
 
+    @GetMapping("/mentorFeedbackToken")
+    public String getMentorFeedbackTokenList(Model model, HttpSession session) {
+    	String companyCode = (String) session.getAttribute("sessionCompanyCode");
+    	List<MentorFeedbackToken> mentorFeedbackToken = mentorMenteeService.getMentorFeedbackTokenList(companyCode);
+    	
+    	model.addAttribute("mentorFeedbackTokenList", mentorFeedbackToken);
+    	
+    	return "company/mentor_feedback_token";
+    }
     
+    @PostMapping("/deleteTokenAction")
+    @ResponseBody
+    public Map<String, Object> removeTokenAction(Model model, String tokenCode, HttpSession session) {
+    	String msg;
+    	boolean isSuccess = false;
+    	String positionLevelCode = (String) session.getAttribute("sessionLevel");
+    	String sessionId = (String) session.getAttribute("sessionId");
+    	MentorFeedbackToken tokenInfo = mentorMenteeService.getMentorFeedbackTokenByTokenCode(tokenCode);
+    	String memberId = tokenInfo.getMemberId();
+    	
+    	int result = 0;
+    	
+    	if(positionLevelCode.equals("level_code_1") || sessionId.equals(memberId)) {
+    		result = mentorMenteeService.removeTokenByTokenCode(tokenCode);    		
+    		msg = "삭제되었습니다.";
+    		isSuccess = true;
+    	} else {
+    		msg = "권한이 없습니다.";
+    		
+    	}
+    	Map<String,Object> returnMap = new HashMap<String,Object>();
+    	
+    	returnMap.put("isSuccess", isSuccess);
+    	returnMap.put("msg", msg);
+    	
+    	return returnMap;
+    }
+    
+    @GetMapping("/addMentorFeedbackToken")
+    public String addMentorFeedbackToken(Model model) {
+    	model.addAttribute("title", "멘토 피드백 토큰 생성");
+    	return "company/add_mentor_feedback_token";
+    }
+    
+    @PostMapping("/addMentorFeedbackTokenAction")
+    public String addMentorFeedbackTokenAction(MentorFeedbackToken token, RedirectAttributes reAttr) {
+    	
+    	MentorFeedbackToken tokenInfo = mentorMenteeService.addMentorFeedbackToken(token);
+  
+    	reAttr.addFlashAttribute("token", tokenInfo);
+    	return "redirect:/company/newTokenPage";
+    }
+    
+    @GetMapping("/newTokenPage")
+    public String newTokenPage(Model model) {
+    	MentorFeedbackToken tokenInfo = (MentorFeedbackToken) model.asMap().get("token");
+    	log.info("{}",tokenInfo);
+    	if(tokenInfo == null) {
+    		return "redirect:/";
+    	}
+    	model.addAttribute("mentorFeedbackToken",tokenInfo);
+    	model.addAttribute("title", "멘토 피드백 토큰 생성완료");
+    	return "company/new_token_page";
+    }
 }

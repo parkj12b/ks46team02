@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ks46team02.farm.mapper.FarmMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import ks46team02.admin.service.MemberService;
@@ -33,6 +36,7 @@ import ks46team02.farm.dto.GoogleFormResult;
 import ks46team02.farm.dto.MMContractInfo;
 import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
+import ks46team02.farm.dto.MentorFeedbackToken;
 import ks46team02.farm.dto.Production;
 import ks46team02.farm.dto.ResultHistory;
 import ks46team02.farm.dto.VisitHistory;
@@ -46,17 +50,64 @@ public class FarmController {
 	MentorMenteeService mentorMenteeService;
 	private final FarmService farmService;
 	private final MemberService memberService;
-
+	private final FarmMapper farmMapper;
 
 	private static final Logger log = LoggerFactory.getLogger(FarmController.class);
 
 
 	public FarmController(MentorMenteeService mentorMenteeService
 						,FarmService farmService
-						,MemberService memberService ){
+						,MemberService memberService
+						,FarmMapper farmMapper){
 		this.mentorMenteeService = mentorMenteeService;
 		this.farmService = farmService;
 		this.memberService = memberService;
+		this.farmMapper = farmMapper;
+	}
+
+	/**
+	 * 모달창 싸이클 정보 가져오기
+	 */
+	@GetMapping("/getCycleInfo")
+	public ResponseEntity<Cycle> getCycleInfo(@RequestParam String cycleCode) {
+		Cycle cycle = farmMapper.getCycleByCode(cycleCode);
+		return ResponseEntity.ok(cycle);
+	}
+
+
+	/**
+	 * 생산량 등록
+	 */
+	@PostMapping("/addProduction")
+	public String addProduction(@RequestParam(name="cycleCode")String cycleCode
+								,@RequestParam(name="realProduction")String realProduction){
+		log.info("cycleCode  : {}", cycleCode);
+		log.info("realProduction: {}", realProduction);
+		return "redirect:/farm/production_list";
+	}
+	/**
+	 * 케이지 등록
+	 */
+	@PostMapping("/addCage")
+	public String addCage(Cage cage
+						,HttpSession session){
+		log.info("화면에서 전달받은 데이터 : {}", cage);
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		String memberId = (String) session.getAttribute("sessionId");
+		cage.setCompanyCode(companyCode);
+		cage.setMemberId(memberId);
+		farmService.addCage(cage);
+		return "redirect:/farm/cageList";
+	}
+	@GetMapping("/addCage")
+	public String addCage(Model model
+						,HttpSession session){
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		List<FarmInfo> farmList = farmService.getFarmList(companyCode);
+		model.addAttribute("title","케이지 등록");
+		model.addAttribute("farmList", farmList);
+
+		return "farm/add_cage";
 	}
 
 
@@ -75,12 +126,29 @@ public class FarmController {
 	/**
 	 * 하나의 사육장 싸이클 등록
 	 */
+	@PostMapping("/addCycle")
+	public String addCycle(Cycle cycle
+						,RedirectAttributes reAttr
+						,HttpSession session){
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		String memberId = (String) session.getAttribute("sessionId");
+		cycle.setCompanyCode(companyCode);
+		cycle.setMemberId(memberId);
+		String farmCode = cycle.getFarmCode();
+		String tapName = "cycle";
+		reAttr.addAttribute("farmCode", farmCode);
+		reAttr.addAttribute("tapName", tapName);
+		log.info("화면에서 전달받은 데이터 : {}", cycle);
+		farmService.addCycle(cycle);
+		return "redirect:/farm/farmDetail";
+	}
 	@GetMapping("/addCycle")
 	public String addCycle(Model model
 							,@RequestParam(name="farmCode") String farmCode) {
 		List<Cage> cageList = farmService.getCageListByCode(farmCode);
 		model.addAttribute("title", "싸이클 등록");
 		model.addAttribute("cageList", cageList);
+		model.addAttribute("farmCode",farmCode);
 		return "farm/add_cycle";
 	}
 
@@ -103,8 +171,8 @@ public class FarmController {
 
 	/**
 	 * 사육 장 등록
+	 * 등록 화면 이랑 등록
 	 */
-
 	@PostMapping("/addFarm")
 	public String addFarm(FarmInfo farmInfo
 						,Model model
@@ -131,11 +199,8 @@ public class FarmController {
 	@GetMapping("/addFarm")
 	public String addFarm(Model model){
 		model.addAttribute("title", "사육장 등록");
-		
 		return "farm/add_farm";
 	}
-
-
 
 	/**
 	 * 한 사육장 상태 조회
@@ -176,9 +241,11 @@ public class FarmController {
 			,@RequestParam(name="toDate", required = false) String toDate){
 		String companyCode =(String) session.getAttribute("sessionCompanyCode");
 
+		List<Cycle> cycleList = farmMapper.getCycleListByCompanyCode(companyCode);
 		List<Production> productionList = farmService.getSearchProduction(companyCode,searchKey,searchValue,fromDate,toDate);
 		model.addAttribute("title", "생산량 목록");
 		model.addAttribute("productionList", productionList);
+		model.addAttribute("cycleList", cycleList);
 		return "farm/production_list";
 	}
 
@@ -575,7 +642,7 @@ public class FarmController {
 	}
 	
 	@GetMapping("/myMenteeFeedbackModify")
-	public String myMenteeFeedbackModify(Model model, @RequestParam(name="visitCode", required=false) String visitCode) {
+	public String myMenteeFeedbackModify(Model model,HttpSession session, @RequestParam(name="visitCode", required=false) String visitCode) {
 		
 		
 		List<EvaluationLargeCategory> evaluationLargeCategoryList = mentorMenteeService.getEvalLargeCateList();
@@ -587,9 +654,12 @@ public class FarmController {
 		if(visitCode == null) {
 			return "farm/my_mentee_feedback_modify";
 		}
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
 		
 		List<ResultHistory> resultHistoryList = mentorMenteeService.getResultHistoryList(visitCode);
+		List<MentorFeedbackToken> mentorFeedbackToken = mentorMenteeService.getMentorFeedbackTokenList(companyCode);
 		
+		model.addAttribute("mentorFeedbackToken", mentorFeedbackToken);
 		model.addAttribute("resultHistoryList", resultHistoryList);
 		
 		
@@ -598,7 +668,7 @@ public class FarmController {
 	
 	@PostMapping("/receiveFormData")
 	@ResponseBody
-	public String receiveFormDataMentorMentee(@RequestBody GoogleFormResponse googleFormResponse) {
+	public String receiveFormDataMentorMentee(@RequestBody GoogleFormResponse googleFormResponse) throws Exception {
 		Map<String, String> memberInfo = new HashMap<>();
 		List<GoogleFormResult> feedbackList = new ArrayList<>();
 		List<GoogleFormResult> feedbackScore = new ArrayList<>();
@@ -634,6 +704,13 @@ public class FarmController {
 		
 		log.info("feedbackList={}", feedbackList);
 		log.info("feedbackScore={}", feedbackScore);
+		Map<String,Object> paramMap = new HashMap<>();
+		paramMap.put("memberInfo", memberInfo);
+		paramMap.put("feedbackList", feedbackList);
+		paramMap.put("feedbackScore", feedbackScore);
+		mentorMenteeService.addFeedback(paramMap);
+		
+		
 		return "Success";
 	}
 }

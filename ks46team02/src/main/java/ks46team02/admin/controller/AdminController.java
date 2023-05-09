@@ -1,10 +1,9 @@
 package ks46team02.admin.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
-import jakarta.servlet.http.HttpSession;
-import ks46team02.company.dto.Company;
-import ks46team02.company.service.CompanyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -44,6 +43,7 @@ import ks46team02.company.dto.Company;
 import ks46team02.company.service.CompanyService;
 import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
+import ks46team02.farm.service.MentorMenteeService;
 
 @Controller
 @RequestMapping("/admin")
@@ -67,7 +67,7 @@ public class AdminController {
 	private final AdminLevelMapper adminLevelMapper;
 	private final LoginHistoryMapper loginHistoryMapper;
 	private final WithdrawalMemberMapper withdrawalMemberMapper;
-	
+	private final MentorMenteeService mentorMenteeService;
 	
 	private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
@@ -88,7 +88,9 @@ public class AdminController {
     					  ,AdminLevelMapper adminLevelMapper
     					  ,LoginHistoryMapper loginHistoryMapper
     					  ,WithdrawalMemberMapper withdrawalMemberMapper
-						  ,CompanyService companyService) {
+						  ,CompanyService companyService
+						  ,MentorMenteeService mentorMenteeService) {
+		this.mentorMenteeService = mentorMenteeService;
 		this.addrService = addrService;
 		this.adminService = adminService;
 		this.withdrawalMemberService = withdrawalMemberService;
@@ -106,6 +108,7 @@ public class AdminController {
 	    this.withdrawalMemberMapper = withdrawalMemberMapper;
 	    this.companyService = companyService;
 	}
+
 	/* 관리자 아이디 중복 체크 */
 	@PostMapping("/idCheckAdmin")
 	@ResponseBody
@@ -156,6 +159,7 @@ public class AdminController {
 		return "admin/admin_list";
 	}
 	
+	
 	/* 관리자 수정 */
 	@PostMapping("/modifyAdmin")
 	public String modifyAdmin(AdminMember adminMember) {
@@ -202,12 +206,6 @@ public class AdminController {
 		adminService.addAdmin(adminMeber);
 		return "redirect:/admin/adminList";
 	}
-
-		
-		
-	  
-	
-
 	/* 관리자 등록 */
 	@GetMapping("/addAdmin")
 	public String addAdmin(Model model){
@@ -266,16 +264,29 @@ public class AdminController {
 
 		return "admin/memberLevel_list";
 	}
+	/* 회원별 배송지 숫자 조회 */
+	@PostMapping("/AddrAmountList")
+	@ResponseBody
+	public int getAddrAmountList(String memberId ){
+		int result = addrMapper.getAddrAmountList(memberId);
+		return result;
+	}
 	/* 전체 회원 배송지 목록 조회 */
 	@GetMapping("/addrList")
 	public String getAddrList(Model model) {
 		List<Addr> addrList = addrService.getAddrList();
-
 		model.addAttribute("title", "배송지조회");
 		model.addAttribute("addrList", addrList);
-
 		return "admin/addr_list";
 	}
+	/* 배송지 세부 조회 */
+	@GetMapping("/addrMemberList")
+	@ResponseBody
+	public Addr getAddrMemberList(@RequestParam(name="addrCode")String addrCode) {
+	    Addr addr = addrService.getAddrInfoById(addrCode);
+	    return addr;
+	}
+	
 	/* 배송지 수정 */
 	@PostMapping("/modifyAddr")
 	public String modifyAddr(Addr addr) {
@@ -305,10 +316,11 @@ public class AdminController {
 	
 	/* 배송지 등록 */
 	@PostMapping("/addAddr")
-	public String addAddr(Addr addr) {
-		addrService.addAddr(addr);
-		return "redirect:/admin/addrList";
+	public String addAddr(Addr addr, Model model) {
+	    addrService.addAddr(addr);
+	    return "redirect:/admin/addrList";
 	}
+
 	/* 배송지 등록 */
 	@GetMapping("/addAddr")
 	public String addAddr(Model model){
@@ -330,7 +342,7 @@ public class AdminController {
 	@PostMapping("/removewithdrawalMember")
 	@ResponseBody
 	public void removewithdrawalMember(String WithdrawalMemberCode ){
-		loginHistoryMapper.removeLogin(WithdrawalMemberCode);
+		withdrawalMemberMapper.removewithdrawalMember(WithdrawalMemberCode);
 					 
 			
 		 }
@@ -378,7 +390,15 @@ public class AdminController {
 
 	/* 회원 수정 */
 	@PostMapping("/modifyMember")
-	public String modifyMember(Member member) {
+	public String modifyMember(Member member
+							  ,@RequestParam (name="memberStatus")String memberStatus) {
+		
+	  if(memberStatus.equals("dormant")) {
+		  SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		  Date date = new Date();
+	      String nowTime = form.format(date);
+		  member.setDormantMemberRegDate(nowTime);
+	  }
 		
 		memberMapper.modifyMember(member);
 		
@@ -466,5 +486,11 @@ public class AdminController {
 		return "admin/contractStandard_list";
 		}
 	
-	
+	@GetMapping("/mentorRegManageList")
+	public String mentorApplyList(Model model, String approveStatus) {
+		
+		
+		model.addAttribute("title", "멘토 신청 관리");
+		return "admin/mentor_reg_manage_list";
+	}
 }

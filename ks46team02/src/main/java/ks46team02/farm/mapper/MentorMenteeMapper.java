@@ -13,6 +13,7 @@ import ks46team02.farm.dto.EvaluationStandard;
 import ks46team02.farm.dto.MMContractInfo;
 import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
+import ks46team02.farm.dto.MentorFeedbackToken;
 import ks46team02.farm.dto.ResultHistory;
 import ks46team02.farm.dto.VisitHistory;
 
@@ -32,5 +33,14 @@ public interface MentorMenteeMapper {
 	public boolean hasNoMentorMenteeContract(String companyCode);
 	public List<EvaluationDetailCategory> getEvalDetailCateList();
 	public List<EvaluationLargeCategory> getEvalLargeCateList();
+	public List<MentorFeedbackToken> getMentorFeedbackTokenByCompanyCode(String companyCode);
+	public int addResultHistory(ResultHistory resultHistory);
+	public int modifyVisitHistory(VisitHistory visitHistoryParam);
+	public int modifyResultHistory(ResultHistory resultHistory);
+	public List<MentorFeedbackToken> getMentorFeedbackTokenListByCompanyCode(String companyCode);
+	public int removeTokenByTokenCode(String tokenCode);
+	public int addMentorFeedbackToken(MentorFeedbackToken token);
+	public MentorFeedbackToken getMentorFeedbackTokenByTokenCode(String tokenCode);
+	
 	
 }
