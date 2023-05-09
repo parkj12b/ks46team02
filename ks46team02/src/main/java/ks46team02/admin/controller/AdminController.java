@@ -317,11 +317,11 @@ public class AdminController {
 		String addrSeq = addr.getAddrSeq();
 		log.info("addrSeq:{}",addrSeq);
 		addrMapper.removeAddr(addrCode);
-		if(addrSeq.equals("primary")) {
+		int account = addrMapper.getAddrAmountList(memberId);
+		log.info("account:{}",account);
+		if(addrSeq.equals("primary") && !(addrSeq.equals(null) && account>1)) {
 			Addr addrList= addrService.getAddrInfoByMemberId(memberId);
-			log.info("addrList:{}",addrList);
 			addrList.setAddrSeq("primary");
-			log.info("addrList.setAddrSeq:{}",addrList);
 			addrMapper.modifyAddr(addrList);
 		}
 	}
