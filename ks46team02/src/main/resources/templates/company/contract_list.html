@@ -45,7 +45,7 @@
                                     <td th:text="${l.contracteeCompanyCode}"></td>
                                     <td th:text="${l.contractorCompanyCode}"></td>
                                     <td>
-                                        <a class="btn btn-secondary btn-sm" th:href="@{/company/contractInfo(contractCode=${l.contractCode})}">계약상세보기</a>
+                                        <a class="btn btn-secondary btn-sm" th:href="@{/contract/contractInfo(contractCode=${l.contractCode})}">계약상세보기</a>
                                     </td>
                                     </th:block>
                                     <th:block th:case="2" th:if="${l.contractType == 'mentormentee'||l.contractType == 'feed'}">
@@ -56,7 +56,7 @@
                                         <td th:text="${l.contracteeCompanyCode}"></td>
                                         <td th:text="${l.contractorCompanyCode}"></td>
                                         <td>
-                                            <a class="btn btn-secondary btn-sm" th:href="@{/company/contractInfo(contractCode=${l.contractCode})}">계약상세보기</a>
+                                            <a class="btn btn-secondary btn-sm" th:href="@{/contract/contractInfo(contractCode=${l.contractCode})}">계약상세보기</a>
                                         </td>
                                     </th:block>
                                     <th:block th:case="3" th:if="${l.contractType == 'feed'}">
@@ -67,7 +67,7 @@
                                         <td th:text="${l.contracteeCompanyCode}"></td>
                                         <td th:text="${l.contractorCompanyCode}"></td>
                                         <td>
-                                            <a class="btn btn-secondary btn-sm" th:href="@{/company/contractInfo(contractCode=${l.contractCode})}">계약상세보기</a>
+                                            <a class="btn btn-secondary btn-sm" th:href="@{/contract/contractInfo(contractCode=${l.contractCode})}">계약상세보기</a>
                                         </td>
                                     </th:block>
                                     <th:block th:case="*">
@@ -78,7 +78,7 @@
                                         <td th:text="${l.contracteeCompanyCode}"></td>
                                         <td th:text="${l.contractorCompanyCode}"></td>
                                         <td>
-                                            <a class="btn btn-secondary btn-sm" th:href="@{/company/contractInfo(contractCode=${l.contractCode})}">계약상세보기</a>
+                                            <a class="btn btn-secondary btn-sm" th:href="@{/contract/contractInfo(contractCode=${l.contractCode})}">계약상세보기</a>
                                         </td>
                                     </th:block>
                                 </tr>
