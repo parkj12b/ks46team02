@@ -41,6 +41,31 @@ public class CompanyController {
 
     }
 
+    @PostMapping("/regPassCheck")
+    @ResponseBody
+    public String regPassCheck(Model model
+                              ,HttpSession session
+                              ,@RequestParam(name="companyCode") String companyCode){
+        Company companyInfo = companyService.getCompanyInfoByCode(companyCode);
+        String regPassCheck = companyInfo.getRegPassword();
+        return regPassCheck;
+    }
+
+    @PostMapping("/addEmployee")
+    @ResponseBody
+    public void addEmployee(Member member){
+    int result = memberMapper.addEmployee(member);
+    }
+
+    @GetMapping("/addEmployee")
+    public String addEmployee(Model model){
+
+        List<Company> companyList = companyService.getCompanyList();
+        model.addAttribute("title", "사원등록");
+        model.addAttribute("companyList",companyList);
+        return "company/add_employee";
+    }
+
     @PostMapping("/companyApproval")
     @ResponseBody
     public void companyApproval(Company company
@@ -237,11 +262,11 @@ public class CompanyController {
     }
     @GetMapping("/companyInfo")
     public String getCompanyInfo(Model model
-                                ,@RequestParam(name="companyCode") String companyCode){
+                                ,@RequestParam(name="companyCode") String companyCode
+                                ){
         Company companyInfo = companyService.getCompanyInfoByCode(companyCode);
         model.addAttribute("title", "업체상세정보");
         model.addAttribute("companyInfo", companyInfo);
-
         return "company/company_info";
     }
 

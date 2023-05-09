@@ -18,6 +18,16 @@
 		<result column="member_level_name"						property="memberLevelName"/>
 </resultMap>
 
+		<update id="addEmployee" parameterType="String">
+			UPDATE member_info
+			SET
+				<if test="companyCode != null and companyCode != ''">
+					company_code = #{companyCode},
+				</if>
+				position_level_code = 'level_code_3'
+			WHERE
+			member_id = #{memberId};
+		</update>
 		<insert id="addMember" parameterType="Member">
 			/* 회원 등록 */
 			insert into member_info
@@ -81,6 +91,9 @@
 			</if>
 			<if test="memberStatus != null and memberStatus != ''">
 				member_status = #{memberStatus},
+			</if>
+			<if test="companyCode != null and companyCode != ''">
+				company_code = #{companyCode},
 			</if>
 		</trim>
 		WHERE
