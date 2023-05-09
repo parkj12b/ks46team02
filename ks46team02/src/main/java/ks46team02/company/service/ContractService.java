@@ -14,9 +14,20 @@ public class ContractService {
         this.contractMapper = contractMapper;
     }
 
+    /* 계약정보조회 */
+    public Contract getContractInfo(String contractCode){
+        Contract contractInfo = contractMapper.getContractInfo(contractCode);
+        return contractInfo;
+    }
+
     /* 계약조회 */
-    public List<Contract> getContractList(){
-        List<Contract> contractList = contractMapper.getContractList();
+    public List<Contract> getContractList(String sessionLevel){
+        List<Contract> contractList = null;
+        if(sessionLevel.equals("admin")) {
+            contractList = contractMapper.getContractList();
+        } else {
+            contractList = contractMapper.getContractList();
+        }
         return contractList;
     }
 
