@@ -41,6 +41,15 @@ public class FarmService {
 
 
     /**
+     * 사육장 수정
+     */
+    public int modifyFarm(FarmInfo farmInfo){
+        int result = farmMapper.modifyFarm(farmInfo);
+        return result;
+    }
+
+
+    /**
      * 생산량 등록
      */
     public int addProduction(Production production){

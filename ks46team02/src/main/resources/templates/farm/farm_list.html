@@ -56,7 +56,9 @@
                 <a th:href="@{/farm/farmStatusList(farmCode=${l.farmCode})}">상태보기</a>
               </td>
               <td th:text="${l.farmRegDate}"></td>
-              <td th:href="@{#}">수정</td>
+              <td>
+                <a th:href="@{/farm/modifyFarm(farmCode=${l.farmCode})}">수정</a>
+              </td>
               <td th:href="@{#}">삭제</td>
 
 

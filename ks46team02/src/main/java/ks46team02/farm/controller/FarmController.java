@@ -43,6 +43,8 @@ import ks46team02.farm.dto.VisitHistory;
 import ks46team02.farm.service.FarmService;
 import ks46team02.farm.service.MentorMenteeService;
 
+import javax.naming.Name;
+
 @Controller
 @RequestMapping("/farm")
 public class FarmController {
@@ -65,14 +67,39 @@ public class FarmController {
 		this.farmMapper = farmMapper;
 	}
 
+
+	/**
+	 * 사육장 수정
+	 */
+	@PostMapping("/modifyFarm")
+	public String modifyFarm(FarmInfo farmInfo
+							,HttpSession session){
+		String memberId = (String) session.getAttribute("sessionId");
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		farmInfo.setMemberId(memberId);
+		farmInfo.setCompanyCode(companyCode);
+		farmService.modifyFarm(farmInfo);
+		log.info("화면에서 전달받은 데이터 : {}", farmInfo);
+		return "redirect:/farm/farmList";
+	}
+	@GetMapping("/modifyFarm")
+	public String modifyFarm(Model model
+							,@RequestParam(name="farmCode")String farmCode){
+		FarmInfo farmInfo = farmService.getFarmInfoByCode(farmCode);
+		model.addAttribute("title","케이지 등록");
+		model.addAttribute("farmInfo",farmInfo);
+		return "farm/modify_farm";
+	}
 	/**
 	 * 모달창 싸이클 정보 가져오기
 	 */
 	@GetMapping("/getCycleInfo")
-	public ResponseEntity<Cycle> getCycleInfo(@RequestParam String cycleCode) {
+	@ResponseBody
+	public Cycle getCycleInfo(@RequestParam("cycleCode") String cycleCode) {
 		Cycle cycle = farmMapper.getCycleByCode(cycleCode);
-		return ResponseEntity.ok(cycle);
+		return cycle;
 	}
+
 
 
 	/**
