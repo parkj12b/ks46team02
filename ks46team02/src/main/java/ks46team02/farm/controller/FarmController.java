@@ -80,10 +80,20 @@ public class FarmController {
 	 */
 	@PostMapping("/addProduction")
 	public String addProduction(@RequestParam(name="cycleCode")String cycleCode
-								,@RequestParam(name="realProduction")String realProduction){
-		log.info("cycleCode  : {}", cycleCode);
-		log.info("realProduction: {}", realProduction);
-		return "redirect:/farm/production_list";
+								,@RequestParam(name="realProduction")double realProduction
+								,@RequestParam(name="realHarvestDay")String realHarvestDay
+								,HttpSession session){
+		String memberId = (String) session.getAttribute("sessionId");
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+
+		Production production = new Production();
+		production.setCompanyCode(companyCode);
+		production.setMemberId(memberId);
+		production.setRealProduction(realProduction);
+		production.setExpectedCageProductionCode(cycleCode);
+		production.setRealHarvestDay(realHarvestDay);
+		farmService.addProduction(production);
+		return "redirect:/farm/productionList";
 	}
 	/**
 	 * 케이지 등록
