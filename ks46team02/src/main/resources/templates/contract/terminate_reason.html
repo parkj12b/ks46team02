@@ -43,28 +43,28 @@
 												<th class="sorting" tabindex="0"
 													aria-controls="datatable-buttons" rowspan="1" colspan="1"
 													style="width: 255px;"
-													aria-label="Name: activate to sort column ascending">파기사유 유형
-												</th>
+													aria-label="Name: activate to sort column ascending">파기사유
+													유형</th>
 												<th class="sorting" tabindex="0"
 													aria-controls="datatable-buttons" rowspan="1" colspan="1"
 													style="width: 200px;"
-													aria-label="Position: activate to sort column ascending">파기 사유 세부사항
-												</th>
+													aria-label="Position: activate to sort column ascending">파기
+													사유 세부사항</th>
 												<th class="sorting" tabindex="0"
 													aria-controls="datatable-buttons" rowspan="1" colspan="1"
 													style="width: 200px;"
-													aria-label="Office: activate to sort column ascending">사유 등록일 
-												</th>
+													aria-label="Office: activate to sort column ascending">사유
+													등록일</th>
 												<th class="sorting_desc" tabindex="0"
 													aria-controls="datatable-buttons" rowspan="1" colspan="1"
 													style="width: 187px;"
 													aria-label="Start date: activate to sort column ascending"
-													aria-sort="descending">등록</th>
+													aria-sort="descending">사유 수정</th>
 												<th class="sorting_desc" tabindex="0"
 													aria-controls="datatable-buttons" rowspan="1" colspan="1"
 													style="width: 187px;"
 													aria-label="Start date: activate to sort column ascending"
-													aria-sort="descending">삭제</th>
+													aria-sort="descending">시유 삭제</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -74,17 +74,20 @@
 												<td th:text="${l.terminateReasonCode}"></td>
 												<td th:text="${l.terminateReason}"
 													style="text-align: center;"></td>
-												<td th:text="${l.terminateReasonDetail}" style="text-align: center;"></td>
+												<td th:text="${l.terminateReasonDetail}"
+													style="text-align: center;"></td>
 												<td th:text="${l.terminateReasonRegDate}"></td>
-												<td><a href="#">
-														<button class="btn btn-primary float-right" type="button">
-															등록</button>
-												</a></td>
+												<td><a href="#"><i class="fa fa-edit"></i>수정</a></td>
 												<td><a href="#" class="delete"><i
 														class="fa fa-close"></i>삭제</a></td>
 											</tr>
 										</tbody>
 									</table>
+								</div>
+								<div class="dataTables_paginate paging_simple_numbers"
+									style="margin: 20px;">
+									<button type="button" class="btn btn-secondary">파기사유유형등록
+									</button>
 								</div>
 							</div>
 						</div>

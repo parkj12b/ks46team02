@@ -3,6 +3,20 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/mypageLayout}">
 <head>
+<th:block layout:fragment="customJs">
+	<script>
+		$(document).ready(function() {
+			// 문의유형 등록 버튼 클릭 시 모달 창 띄우기
+			$('button[data-target="#myModal"]').click(function() {
+				$('#myModal').modal('show');
+			});
+
+			// 모달창에서 취소 버튼 클릭 시 모달창 닫기
+			$('#myModal button[data-dismiss="modal"]').click(function() {
+				$('#myModal').modal('hide');
+			});
+		});
+	</script>
 </head>
 
 <th:block layout:fragment="customContent">
@@ -96,9 +110,10 @@
 										</tbody>
 									</table>
 								</div>
-								<div class="dataTables_paginate paging_simple_numbers"style="margin: 20px;">
-									<button type="button" class="btn btn-secondary">문의유형등록
-									</button>
+								<div class="dataTables_paginate paging_simple_numbers"
+									style="margin: 20px;">
+									<button type="button" class="btn btn-secondary"
+										data-toggle="modal" data-target="#myModal">문의유형등록</button>
 								</div>
 							</div>
 						</div>
@@ -106,6 +121,62 @@
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<!-- 모달 창 -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-right modal-md" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">문의유형 등록</h4>
+
+				</div>
+
+				<div class="modal-body">
+					<!-- 모달 내용 -->
+					<div class="form-group row">
+						<div class="col-md-12 col-sm-12">
+							<form class="form-horizontal form-label-left"
+								th:action="@{/customerservice/questiontypelist}" method="get">
+
+								<div class="form-group row">
+									<label class="control-label col-md-4 col-sm-4">관리자</label>
+									<div class="col-md-8 col-sm-8">
+										<input type="text" class="form-control" id="adminId" readonly>
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="control-label col-md-4 col-sm-4">문의 유형 코드</label>
+									<div class="col-md-8 col-sm-8">
+										<input type="text" class="form-control" id="questionTypeCode"
+											name="cageNum">
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="control-label col-md-4 col-sm-4">문의 유형 이름</label>
+									<div class="col-md-8 col-sm-8">
+										<input type="text" class="form-control" id="questionTypeName">
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<a class="btn btn-default"
+						th:href="@{/customerservice/questiontypelist}"
+						style="float: left;">등록</a>
+					<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
 </th:block>
 
 </html>
