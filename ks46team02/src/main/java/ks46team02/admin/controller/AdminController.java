@@ -196,9 +196,8 @@ public class AdminController {
 	/* 관리자 삭제 */
 	@PostMapping("/removeAdmin")
 	@ResponseBody
-	public void removeAdmin(String adminId ){
-					 
-			 adminMapper.removeAdmin(adminId);
+	public void removeAdmin(String adminId ){			 
+		adminMapper.removeAdmin(adminId);
 		 }
 	/* 관리자 등록 */
 	@PostMapping("/addAdmin")
@@ -311,7 +310,20 @@ public class AdminController {
 	@PostMapping("/removeAddr")
 	@ResponseBody
 	public void removeAddr(String addrCode) {
+		Addr addr = addrService.getAddrInfoById(addrCode);
+		String memberId = addr.getMemberId();
+		log.info("addr:{}",addr);
+		log.info("memberId:{}",memberId);
+		String addrSeq = addr.getAddrSeq();
+		log.info("addrSeq:{}",addrSeq);
 		addrMapper.removeAddr(addrCode);
+		if(addrSeq.equals("primary")) {
+			Addr addrList= addrService.getAddrInfoByMemberId(memberId);
+			log.info("addrList:{}",addrList);
+			addrList.setAddrSeq("primary");
+			log.info("addrList.setAddrSeq:{}",addrList);
+			addrMapper.modifyAddr(addrList);
+		}
 	}
 	
 	/* 배송지 등록 */

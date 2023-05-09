@@ -23,5 +23,5 @@ public interface AddrMapper {
 	/* 회원별 배송지 숫자 조회 */
 	public int getAddrAmountList(String memberId);
 	/* 특정회원 배송지 조회 */
-	public List<Addr> getAddrMemberList(String memberId);
+	public Addr getAddrMemberList(String memberId);
 }
