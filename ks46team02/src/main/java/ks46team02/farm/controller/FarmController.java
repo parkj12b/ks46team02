@@ -67,6 +67,31 @@ public class FarmController {
 		this.farmMapper = farmMapper;
 	}
 
+	/**
+	 * 생산량 수정
+	 */
+	@PostMapping("/modifyProduction")
+	public String modifyProduction(Production production
+									,HttpSession session){
+		String memberId = (String) session.getAttribute("sessionId");
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		production.setCompanyCode(companyCode);
+		production.setMemberId(memberId);
+		farmService.modifyProduction(production);
+
+		return "redirect:/farm/productionList";
+	}
+	@GetMapping("/modifyProduction")
+	public String modifyProduction(Model model
+									,@RequestParam(name="productionCode")String productionCode){
+		log.info("productionCode : {}", productionCode);
+		Production production = farmMapper.getProductionByPCode(productionCode);
+		model.addAttribute("title","생산량 수정");
+		model.addAttribute("production",production);
+		return "farm/modify_production";
+
+	}
+
 
 	/**
 	 * 사육장 수정
@@ -86,7 +111,7 @@ public class FarmController {
 	public String modifyFarm(Model model
 							,@RequestParam(name="farmCode")String farmCode){
 		FarmInfo farmInfo = farmService.getFarmInfoByCode(farmCode);
-		model.addAttribute("title","케이지 등록");
+		model.addAttribute("title","사육장 수정");
 		model.addAttribute("farmInfo",farmInfo);
 		return "farm/modify_farm";
 	}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/mypageLayout}">
+<head>
+    <th:block layout:fragment="customJs">
+        <script>
+
+        </script>
+    </th:block>
+</head>
+<th:block layout:fragment="customContent">
+    <div class="page-title">
+        <div class="title">
+            <div class="col-md-6">
+
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>생산량 수정</h2>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="x_content">
+                        <br>
+                        <form class="form-horizontal form-label-left" id="modifyProduction" th:action="@{/farm/modifyProduction}"
+                              method="post">
+
+                            <div class="form-group row ">
+                                <label class="control-label col-md-3 col-sm-3 "> 생산량 코드
+                                </label>
+                                <div class="col-md-9 col-sm-9">
+                                    <input type="text" th:value="${production.productionCode}" id="productionCode" name="productionCode" class="form-control" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group row ">
+                                <label class="control-label col-md-3 col-sm-3 "> 사육장 코드
+                                </label>
+                                <div class="col-md-9 col-sm-9">
+                                    <input type="text" th:value="${production.farmCode}" id="farmCode" name="farmCode" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group row ">
+                                <label class="control-label col-md-3 col-sm-3 "> 싸이클 코드
+                                </label>
+                                <div class="col-md-9 col-sm-9">
+                                    <input type="text" th:value="${production.expectedCageProductionCode}" id="expectedCageProductionCode" name="expectedCageProductionCode" class="form-control" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group row ">
+                                <label class="control-label col-md-3 col-sm-3 "> 생산량
+                                </label>
+                                <div class="col-md-9 col-sm-9">
+                                    <input type="text" th:value="${production.realProduction}"  id="realProduction" name="realProduction" class="form-control" required="required">
+                                </div>
+                            </div>
+
+                            <div class=" form-group row">
+                                <label class="col-form-label col-md-3 col-sm-3 ">수확 날짜 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-9 col-sm-9 ">
+                                    <input name="realHarvestDay" th:value="${production.realHarvestDay}" id="realHarvestDay" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+                                    <script>
+                                        function timeFunctionLong(input) {
+                                            setTimeout(function() {
+                                                input.type = 'text';
+                                            }, 60000);
+                                        }
+                                    </script>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-md-9 col-sm-9  offset-md-3">
+                                    <button type="submit" class="btn btn-dark">수정</button>
+                                    <button type="button" class="btn btn-dark" id="cancelBtn">취소</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

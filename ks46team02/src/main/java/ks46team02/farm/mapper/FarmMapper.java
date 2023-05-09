@@ -16,6 +16,10 @@ import ks46team02.farm.dto.Production;
 @Mapper
 public interface FarmMapper {
 
+    // 생산량 수정 //
+    public int modifyProduction(Production production);
+    // 생산량 코드로 생산량 정보 조회 //
+    public Production getProductionByPCode(String productionCode);
     // 사육장 수정 //
     public int modifyFarm(FarmInfo farmInfo);
     // 생산량 등록 //
