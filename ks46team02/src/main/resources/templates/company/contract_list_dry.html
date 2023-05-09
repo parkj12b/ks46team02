@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{mypage}">
+<head>
+    <meta charset="UTF-8">
+    <title>BSFP</title>
+</head>
+<th:block layout:fragment="customJs">
+
+</th:block>
+
+<th:block layout:fragment="customContent">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>계약목록</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-box table-responsive">
+                            <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap"
+                                   cellspacing="0" width="100%">
+                                <thead>
+                                <tr role="row">
+                                    <th>건조계약공고코드</th>
+                                    <th>업체명</th>
+                                    <th>최소거래용량</th>
+                                    <th>최대거래용량</th>
+                                    <th>최소개월수</th>
+                                    <th>최대개월수</th>
+                                    <th>지역</th>
+                                    <th>등록일자</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr role="row" th:unless="${contractList == null}" th:each="l :${contractList}">
+                                    <td th:text="${l.contractRegCode}"></td>
+                                    <td th:text="${l.companyName}"></td>
+                                    <td th:text="${l.minAmount}"></td>
+                                    <td th:text="${l.maxAmount}"></td>
+                                    <td th:text="${l.minMonth}"></td>
+                                    <td th:text="${l.maxMonth}"></td>
+                                    <td th:text="${l.region}"></td>
+                                    <td th:text="${l.contractRegDate}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>
