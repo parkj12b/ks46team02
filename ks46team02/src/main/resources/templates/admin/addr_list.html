@@ -58,7 +58,7 @@ $(".delete").click(function () {
 	    const sessionId = "[[${session.sessionId}]]";
 	    var tr = $(this).closest('tr');
 	    console.log("tr     "+tr);
-	    var addrCode = tr.find('td:eq(0)').text(); 
+	    var addrCode = tr.find('td:eq(1)').text(); 
 	    console.log("addrCode     "+addrCode);
 	    
 	    console.log(sessionId);
@@ -115,6 +115,9 @@ $(".delete").click(function () {
 	    });
 	  })();
 	});
+
+
+
 </script>
 </th:block>
 <th:block layout:fragment="customContent">

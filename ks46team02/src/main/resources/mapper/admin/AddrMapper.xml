@@ -39,10 +39,10 @@
 	</select>
 	
 
-	<select id="getAddrAmountList" parameterType="String" resultMap="adminAddrResultMap">
+	<select id="getAddrAmountList" resultType="int">
 					/* 회원별 배송지 숫자 조회 */
-					SELECT 
-						count(*)
+					select 
+						count(1)
 					from
 						addr_manage
 					where 
