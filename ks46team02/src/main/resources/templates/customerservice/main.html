@@ -91,16 +91,72 @@
 			</th:block>
 		</tbody>
 	</table>
+
+	<div class="d-none d-md-block">
+		<ul class="pagination justify-content-center">
+			<th:if test="${pageDto.prevPage > 0}">
+				<li class="page-item">
+				<a th:href="@{/customerservice/main(questionTypeCode=${questionTypeCode}, page=${pageDto.prevPage})}"
+					class="page-link">이전</a>
+				</li>
+			</th:if>
+			
+			<th:each var="item" begin="${pageDto.min}" end="${pageDto.max}">
+				<th:choose>
+					<th:when test="${item == pageDto.currentPage}">
+						<li class="page-item active"><a
+							th:href="@{/customerservice/main(questionTypeCode=${questionTypeCode}, page=${item})}"
+							class="page-link" th:text="${item}"></a></li>
+					</th:when>
+					<th:otherwise>
+						<li class="page-item"><a th:href="@{/customerservice/main(questionTypeCode=${questionTypeCode}, page=${item})}"
+							class="page-link" th:text="${item}"></a></li>
+					</th:otherwise>
+				</th:choose>
+			</th:each>
+			
+			<th:if test="${pageDto.max < pageDto.totalPageCnt}">
+				<li class="page-item"><a th:href="@{/customerservice/main(questionTypeCode=${questionTypeCode}, page=${pageDto.nextPage})}"
+					class="page-link">다음</a></li>
+			</th:if>
+		</ul>
+	</div>
+
+	<div class="d-block d-md-none">
+		<ul class="pagination justify-content-center">
+		
+			<th:if test="${pageDto.prevPage > 0}">
+				<li class="page-item"><a th:href="@{/customerservice/main(questionTypeCode=${questionTypeCode}, page=${pageDto.prevPage})}"
+					class="page-link">이전</a></li>
+			</th:if>
+			
+			<th:each var="item" begin="${pageDto.min}" end="${pageDto.max}">
+				<th:choose>
+					<th:when test="${item == pageDto.currentPage}">
+						<li class="page-item active"><a
+							th:href="@{/customerservice/main(questionTypeCode=${questionTypeCode}, page=${item})}"
+							class="page-link" th:text="${item}"></a></li>
+					</th:when>
+					<th:otherwise>
+						<li class="page-item"><a th:href="@{/customerservice/main(questionTypeCode=${questionTypeCode}, page=${item})}"
+							class="page-link" th:text="${item}"></a></li>
+					</th:otherwise>
+				</th:choose>
+			</th:each>
+
+			<th:if test="${pageDto.max < pageDto.totalPageCnt}">
+				<li class="page-item"><a
+					th:href="@{/customerservice/main(questionTypeCode=${questionTypeCode}, page=${pageDto.nextPage})}"
+					class="page=link">다음</a></li>
+			</th:if>
+		</ul>
+	</div>
+
 	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 		<a
 			th:href="@{/customerservice/write(questionTypeCode=${questionTypeCode},page=${page})}"
 			class="btn btn-primary">글쓰기</a>
 	</div>
-</th:block>
-</div>
-</div>
-</div>
-</div>
 </th:block>
 </html>
 

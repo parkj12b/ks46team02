@@ -19,4 +19,7 @@ public interface CustomerServiceListMapper {
 
 	/* 문의 유형 조회 */
 	public List<QuestionTypeDto> getQuestionTypeList();
+	
+	/**/
+	public int writeQuestionType(QuestionTypeDto questionTypeDto);
 }
