@@ -10,6 +10,23 @@
 		<result column="member_id"  				property="memberId"/>
 		<result column="ipv4_address"  				property="ipv4Address"/>
 </resultMap>
+
+		<insert id="addLoginHistory" parameterType="LoginHistory">
+			/* 로그인 기록 등록 */
+			insert into login_history
+				( login_code
+				 ,login_date
+				 ,logout_date
+				 ,member_id
+				 ,ipv4_address)
+			VALUES
+				(#{loginCode}
+				,CURDATE()
+				,CURDATE()
+				,'1234'
+				,#{memberId});
+
+		</insert>
 		<delete id="removeLogin" parameterType="String" >
 		/* 로그인 기록 삭제 */
 		DELETE
