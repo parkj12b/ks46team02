@@ -501,6 +501,12 @@ public class AdminController {
 		model.addAttribute("contractStandardList", contractStandardList);
 		return "admin/contractStandard_list";
 		}
+	/* 승인 기준 수정   */
+	@PostMapping("/modifyContractStandard")
+	@ResponseBody
+	public void modifyContractStandard(ContractStandard contractStandard) {
+		contractStandardService.modifyContractStandard(contractStandard);
+	}
 	
 	@GetMapping("/mentorRegManageList")
 	public String mentorApplyList(Model model, String approveStatus) {
