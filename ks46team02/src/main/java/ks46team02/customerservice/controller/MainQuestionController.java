@@ -42,7 +42,7 @@ public class MainQuestionController {
 
 	@GetMapping("/main") // @RequestParam 어노테이션을 사용하여 요청 매개변수를 지정하고, 매개변수 이름과 매개변수 값의 형태로 요청 매개변수를 받는다.
 							// -> 이 메서드에서는 "questionTypeCode"와 "page"라는 두 개의 요청 매개변수.
-	public String main(@RequestParam(name = "questionTypeCode", defaultValue = "0") int questionTypeCode,
+	public String main(@RequestParam(name = "questionTypeCode", defaultValue = "0")int questionTypeCode,
 			@RequestParam(value = "page", defaultValue = "1") int page,HttpSession session, Model model) {
 
 		if (questionTypeCode == 5) {

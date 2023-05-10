@@ -32,13 +32,13 @@ public class CustomerServiceListService {
 		return AnswerList;
 	}
 	
-	public List<QuestionTypeDto> getQuestionTypeList(int questionTypeCode) {
+	public List<QuestionTypeDto> getQuestionTypeList() {
 		List<QuestionTypeDto> QuestionTypeList = customerserviceListMapper.getQuestionTypeList();
 		return QuestionTypeList;
 	}
 
 	public void writeQuestionType(QuestionTypeDto questionTypeDto) {
-		
+		customerserviceListMapper.writeQuestionType(questionTypeDto);
 		
 	}
 
