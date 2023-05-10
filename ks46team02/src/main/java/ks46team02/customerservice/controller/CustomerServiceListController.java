@@ -5,11 +5,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -29,7 +32,6 @@ public class CustomerServiceListController {
 	
 	private static final Logger log = LoggerFactory.getLogger(CustomerServiceListController.class);
 
-	
 	@GetMapping("/questionlist")
 	public String getQuestionList(Model model) {
 
@@ -56,26 +58,27 @@ public class CustomerServiceListController {
 		List<QuestionTypeDto> questionTypeList = customerserviceListService.getQuestionTypeList();
 		model.addAttribute("title", "문의 유형 조회");
 		model.addAttribute("questionTypeList", questionTypeList);
-		
-		
+
 		return "customerservice/questiontypelist";
 		
 	}
 	
-	@PostMapping("/questiontypelist_proc")
-	public String getquestionTypeList(@ModelAttribute("writeQuestionTypeDto") QuestionTypeDto questionTypeDto, 
-									   HttpSession session, 
-									   Model model ) {
+	@PostMapping("/questiontypelist/add_proc")
+	 public ResponseEntity<String> registerQuestionType(@RequestBody QuestionTypeDto questionTypeDto, HttpSession session) {
 		
-		int questionTypeCode = (int)session.getAttribute("sessionquestionTypeCode");
-		String adminId = (String) session.getAttribute("sessionId");
+		// 세션에서 adminId 가져오기
+	    String adminId = (String) session.getAttribute("adminId");
+
+	    // adminId와 자동증가되는 questionTypeCode를 questionType 객체에 세팅
+	    questionTypeDto.setAdminId(adminId);
+	    
+	    int questionTypeCode = customerserviceListService.getNextQuestionTypeCode();
+	    questionTypeDto.setQuestionTypeCode(questionTypeCode);
 		
-		questionTypeDto.setQuestionTypeCode(questionTypeCode);
-		questionTypeDto.setAdminId(adminId);
+	    // 질문 유형 등록
+	    customerserviceListService.writeQuestionType(questionTypeDto);
 		
-		customerserviceListService.writeQuestionType(questionTypeDto);
-		
-		return "/customerservice/questiontypelist_proc";
+	    return new ResponseEntity<>("success", HttpStatus.OK);
 	}
 	
 		

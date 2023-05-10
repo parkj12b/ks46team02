@@ -39,7 +39,31 @@
 						}
 					});
 				});
-			});
+			}); 
+			
+			 /*  $("#writeQuestionTypeBtn").click(function() {
+				    var questionTypeName = $("#questionTypeName").val();
+				    var questionType = {"questionTypeName": questionTypeName};
+				    $.ajax({
+				      type: "POST",
+				      url: "/questionType/register",
+				      contentType: "application/json",
+				      data: JSON.stringify(questionType),
+				      success: function(response) {
+				        if (response === "success") {
+				          $("#myModal").modal("hide");
+				          alert("문의유형이 등록되었습니다.");
+				          location.reload();
+				        } else {
+				          alert("문의유형 등록에 실패했습니다.");
+				        }
+				      },
+				      error: function(e) {
+				        console.log("error: ", e);
+				        alert("문의유형 등록에 실패했습니다.");
+				      }
+				    });
+				  }); */
 		});
 	</script>
 </head>
