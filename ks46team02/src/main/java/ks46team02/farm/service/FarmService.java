@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ks46team02.common.mapper.MainMapper;
 import org.slf4j.Logger;
@@ -38,6 +39,57 @@ public class FarmService {
     
 	private static final Logger log = LoggerFactory.getLogger(FarmService.class);
     final double standardEggWeight = 0.089;
+
+
+    /**
+     * 싸이클 수정
+     */
+    public int modifyCycle(Cycle cycle){
+        String standardCode = cycle.getCalculationStandardCode();
+        HashMap<String, Object> standard = farmMapper.getStandard(standardCode);
+        int standardPeriod = (int) standard.get("standard_period");
+        String harvestStartDate = cycle.getHarvestStartDate();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = LocalDate.parse(harvestStartDate, formatter);
+        LocalDate estimatedHarvestDate = startDate.plusDays(standardPeriod);
+        String estimatedHarvestDateString = estimatedHarvestDate.format(formatter);
+
+        double output = (double) standard.get("standard_output");
+        double inputEgg = cycle.getInputEgg();
+        double estimatedProduction = output*inputEgg;
+
+        cycle.setEstimatedProduction(estimatedProduction);
+        cycle.setEstimatedHarvestDate(estimatedHarvestDateString);
+        log.info("service cycle : {}", cycle);
+        int result = farmMapper.modifyCycle(cycle);
+        return result;
+    }
+
+    /**
+     * 생산량 수정
+     */
+    public int modifyProduction(Production production){
+        String cycleCode = production.getExpectedCageProductionCode();
+        Cycle cycle = farmMapper.getCycleByCode(cycleCode);
+
+        double realProduction = production.getRealProduction();
+        double estimatedProduction = cycle.getEstimatedProduction();
+        double lossLate = (realProduction/estimatedProduction)*100;
+        lossLate = Math.round(lossLate * 100.0) / 100.0;
+        production.setLossRate(lossLate);
+        log.info("service넘기기전 : {}", production);
+        int result = farmMapper.modifyProduction(production);
+        return result;
+    }
+
+    /**
+     * 사육장 수정
+     */
+    public int modifyFarm(FarmInfo farmInfo){
+        int result = farmMapper.modifyFarm(farmInfo);
+        return result;
+    }
 
 
     /**
@@ -163,7 +215,7 @@ public class FarmService {
                     searchKey = "cage_code";
                     break;
                 case "cageName":
-                    searchKey = "cage_ame";
+                    searchKey = "cage_name";
                     break;
                 case "cageVolume":
                     searchKey = "cage_volume";
@@ -215,7 +267,7 @@ public class FarmService {
                     searchKey = "p.farm_code";
                     break;
                 case "expectedCageProductionCode":
-                    searchKey = "ex.calculation_standard_code";
+                    searchKey = "ex.expected_cage_production_code";
                     break;
                 case "calculationStandardCode":
                     searchKey = "ex.calculation_standard_code";

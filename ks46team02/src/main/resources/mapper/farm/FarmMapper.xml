@@ -4,6 +4,82 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.farm.mapper.FarmMapper">
 
+
+    <!-- 싸이클 수정    -->
+    <update id="modifyCycle" parameterType="Cycle">
+        UPDATE
+            cage_cycle
+        SET
+            expected_cage_production_code = #{cycleCode},
+            company_code = #{companyCode},
+            farm_code = #{farmCode},
+            cage_code = #{cageCode},
+            harvest_start_date = #{harvestStartDate},
+            estimated_harvest_date = #{estimatedHarvestDate},
+            input_egg = #{inputEgg},
+            calculation_standard_code = #{calculationStandardCode},
+            estimated_production = #{estimatedProduction},
+            member_id = #{memberId},
+            estimated_production_reg_date = CURDATE()
+        WHERE
+            expected_cage_production_code = #{cycleCode}
+
+    </update>
+
+    <!-- 생산량 수정   -->
+    <update id="modifyProduction" parameterType="Production">
+        UPDATE
+            production
+        SET
+            company_code = #{companyCode},
+            farm_code = #{farmCode},
+            expected_cage_production_code = #{expectedCageProductionCode},
+            real_harvest_day = #{realHarvestDay},
+            real_production = #{realProduction},
+            loss_rate = #{lossRate},
+            member_id = #{memberId},
+            production_reg_date = CURDATE()
+        WHERE
+            production_code = #{productionCode};
+
+    </update>
+
+    <!-- 생산량 코드로 하나의 생산량 정보 조회    -->
+    <select id="getProductionByPCode" resultType="Production">
+        SELECT
+            production_code as productionCode,
+            company_code as companyCode,
+            farm_code as farmCode,
+            expected_cage_production_code as expectedCageProductionCode,
+            real_harvest_day as realHarvestDay,
+            real_production as realProduction,
+            loss_rate as lossRate,
+            member_id as memberId,
+            production_reg_date as productionRegDate
+        FROM
+            production
+        WHERE
+            production_code = #{productionCode}
+    </select>
+
+
+    <!-- 사육장 수정    -->
+    <update id="modifyFarm" parameterType="FarmInfo">
+        UPDATE
+            farm_info
+        SET
+            farm_name = #{farmName},
+            company_code = #{companyCode},
+            farm_reg_date = CURDATE(),
+            farm_detail = #{farmDetail},
+            member_id = #{memberId},
+            cage_amount = #{cageAmount},
+            total_capacity = #{totalCapacity},
+            farm_address = #{farmAddr}
+        WHERE
+            farm_code = #{farmCode};
+    </update>
+    <!-- 생산량 등록    -->
     <insert id="addProduction" parameterType="Production">
         INSERT INTO production (
             production_code,
@@ -29,12 +105,19 @@
 
     </insert>
 
+    <!-- 싸이이클 코드 싸이클 정보조회   -->
     <select id="getCycleByCode" resultType="Cycle">
         SELECT
-            c.expected_cage_production_code as cycleCode,
-            c.farm_code as farmCode,
-            c.calculation_standard_code as calculationStandardCode,
-            c.estimated_production as estimatedProduction
+            c.expected_cage_production_code AS cycleCode,
+            c.company_code AS companyCode,
+            c.farm_code AS farmCode,
+            c.cage_code AS cageCode,
+            DATE(c.harvest_start_date) AS harvestStartDate,
+            c.estimated_harvest_date AS estimatedHarvestDate,
+            c.input_egg AS inputEgg,
+            c.calculation_standard_code AS calculationStandardCode,
+            c.estimated_production AS estimatedProduction,
+            c.estimated_production_reg_date AS estimatedProductionRegDate
         FROM
             cage_cycle as c
         WHERE
