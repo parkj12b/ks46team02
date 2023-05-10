@@ -100,12 +100,16 @@ input[type="number"] {
 		      alert('성공했습니다.');
 		      currentValues[0] = contStandInfo; 
 		      currentValues[1] = contStandValue;
+		      currentValues[2] = adminId;
+		      
 
-		      tr.find('td:nth-child(n+3):nth-child(-n+4)').each(function(index) {
+		      tr.find('td:nth-child(n+3):nth-child(-n+4),td:nth-child(7)').each(function(index) {
 		        var value = currentValues[index];
 		        if ($(this).find('input').length > 0) {
 		          $(this).html(value);
 		        }
+		        else{$(this).text(value);}
+		        
 		      });
 			    var saveButton = tr.find('.save');
 			    saveButton.text('수정');
@@ -127,7 +131,7 @@ input[type="number"] {
         <div class="title">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>관리자 등급 조회</h2>
+                    <h2>계약 승인 기준 </h2>
 
                     <ul class="nav navbar-right panel_toolbox" style="flex-direction: row-reverse">
                         <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
