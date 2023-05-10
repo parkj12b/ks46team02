@@ -4,7 +4,25 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.farm.mapper.FarmMapper">
 
+    <!-- 케이지 수정   -->
+    <update id="modifyCage" parameterType="Cage">
+        UPDATE
+            cage
+        SET
+            cage_name = #{cageName},
+            company_code = #{companyCode},
+            farm_code = #{farmCode},
+            optimal_input_egg = #{optimalInputEgg},
+            member_id = #{memberId},
+            cage_reg_date = CURDATE(),
+            cage_num = #{cageNum},
+            cage_volume = #{cageVolume},
+            cage_volume_unit = 'L리터',
+            cage_total = #{cageTotal}
+        WHERE
+            cage_code = #{cageCode}
 
+    </update>
     <!-- 싸이클 수정    -->
     <update id="modifyCycle" parameterType="Cycle">
         UPDATE
@@ -113,7 +131,7 @@
             c.farm_code AS farmCode,
             c.cage_code AS cageCode,
             DATE(c.harvest_start_date) AS harvestStartDate,
-            c.estimated_harvest_date AS estimatedHarvestDate,
+            c.estimated_harvest_date AS estimatedHaFarvestDate,
             c.input_egg AS inputEgg,
             c.calculation_standard_code AS calculationStandardCode,
             c.estimated_production AS estimatedProduction,
@@ -194,7 +212,7 @@
             CURDATE(),
             #{cageNum},
             #{cageVolume},
-            'L',
+            'L리터',
             #{cageTotal}
         )
     </insert>
