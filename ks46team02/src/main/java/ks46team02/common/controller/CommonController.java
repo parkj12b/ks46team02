@@ -1,13 +1,11 @@
 package ks46team02.common.controller;
 
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
+import ks46team02.admin.service.AddrService;
+import ks46team02.common.dto.Addr;
 import ks46team02.common.dto.AdminMember;
 import ks46team02.common.dto.AllContractInfo;
 import ks46team02.common.dto.Member;
@@ -27,10 +27,9 @@ import ks46team02.common.dto.MemberLoginInfo;
 import ks46team02.common.emailTest.EmailService;
 import ks46team02.common.emailTest.EmailServiceImpl;
 import ks46team02.common.service.MainService;
-import ks46team02.customerservice.dto.QuestionTypeDto;
 import ks46team02.company.dto.Company;
 import ks46team02.company.service.CompanyService;
-import ks46team02.farm.dto.VisitHistory;
+import ks46team02.customerservice.dto.QuestionTypeDto;
 import ks46team02.farm.service.MentorMenteeService;
 import ks46team02.topmenu.service.TopMenuService;
 
@@ -44,13 +43,15 @@ public class CommonController {
 	MentorMenteeService mentorMenteeService;
 	TopMenuService topMenuService;
 	CompanyService companyService;
+	AddrService addrService; 
 
-	public CommonController(MainService mainService,TopMenuService topMenuService, EmailServiceImpl emailService, MentorMenteeService mentorMenteeService, CompanyService companyService){
+	public CommonController(MainService mainService,TopMenuService topMenuService, EmailServiceImpl emailService, MentorMenteeService mentorMenteeService, CompanyService companyService,AddrService addrService){
 		this.mainService = mainService;
 		this.emailService = emailService;
 		this.mentorMenteeService = mentorMenteeService;
 		this.topMenuService = topMenuService;
 		this.companyService = companyService;
+		this.addrService = addrService;
 
 	}
 	
@@ -198,5 +199,15 @@ public class CommonController {
 		
 		
 		return "contract_paper_mm";
+	}
+	/* 회원별 배송지 목록 조회 */
+	@GetMapping("/addrMemberList")
+	public String getAddrList(Model model
+							 ,HttpSession session) {
+		String memberId = (String) session.getAttribute("sessionId");
+		List<Addr> addrList = addrService.getAddrInfoByMemberId(memberId);
+		model.addAttribute("title", "배송지조회");
+		model.addAttribute("addrList", addrList);
+		return "addr_member_list";
 	}
 }
