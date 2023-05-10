@@ -4,6 +4,12 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.farm.mapper.FarmMapper">
 
+
+    <!-- 싸이클 수정    -->
+    <update id="modifyCycle" parameterType="Cycle">
+
+    </update>
+
     <!-- 생산량 수정   -->
     <update id="modifyProduction" parameterType="Production">
         UPDATE
@@ -86,10 +92,16 @@
     <!-- 싸이이클 코드 싸이클 정보조회   -->
     <select id="getCycleByCode" resultType="Cycle">
         SELECT
-            c.expected_cage_production_code as cycleCode,
-            c.farm_code as farmCode,
-            c.calculation_standard_code as calculationStandardCode,
-            c.estimated_production as estimatedProduction
+            c.expected_cage_production_code AS cycleCode,
+            c.company_code AS companyCode,
+            c.farm_code AS farmCode,
+            c.cage_code AS cageCode,
+            c.harvest_start_date AS harvestStartDate,
+            c.estimated_harvest_date AS estimatedHarvestDate,
+            c.input_egg AS inputEgg,
+            c.calculation_standard_code AS calculationStandardCode,
+            c.estimated_production AS estimatedProduction,
+            c.estimated_production_reg_date AS estimatedProductionRegDate
         FROM
             cage_cycle as c
         WHERE
