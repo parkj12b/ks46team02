@@ -7,6 +7,22 @@
 
     <!-- 싸이클 수정    -->
     <update id="modifyCycle" parameterType="Cycle">
+        UPDATE
+            cage_cycle
+        SET
+            expected_cage_production_code = #{cycleCode},
+            company_code = #{companyCode},
+            farm_code = #{farmCode},
+            cage_code = #{cageCode},
+            harvest_start_date = #{harvestStartDate},
+            estimated_harvest_date = #{estimatedHarvestDate},
+            input_egg = #{inputEgg},
+            calculation_standard_code = #{calculationStandardCode},
+            estimated_production = #{estimatedProduction},
+            member_id = #{memberId},
+            estimated_production_reg_date = CURDATE()
+        WHERE
+            expected_cage_production_code = #{cycleCode}
 
     </update>
 
@@ -96,7 +112,7 @@
             c.company_code AS companyCode,
             c.farm_code AS farmCode,
             c.cage_code AS cageCode,
-            c.harvest_start_date AS harvestStartDate,
+            DATE(c.harvest_start_date) AS harvestStartDate,
             c.estimated_harvest_date AS estimatedHarvestDate,
             c.input_egg AS inputEgg,
             c.calculation_standard_code AS calculationStandardCode,

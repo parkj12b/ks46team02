@@ -62,7 +62,7 @@ public class FarmService {
         cycle.setEstimatedProduction(estimatedProduction);
         cycle.setEstimatedHarvestDate(estimatedHarvestDateString);
         log.info("service cycle : {}", cycle);
-        int result = 0;
+        int result = farmMapper.modifyCycle(cycle);
         return result;
     }
 

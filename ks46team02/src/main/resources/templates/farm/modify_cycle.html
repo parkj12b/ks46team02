@@ -4,6 +4,16 @@
       layout:decorate="~{layout/mypageLayout}">
 <head>
     <th:block layout:fragment="customJs">
+        <script>
+            $("form").submit(function(e) {
+                let inputEggValue = $("input[name='inputEgg']").val();
+
+                if (!$.isNumeric(inputEggValue)) {
+                    e.preventDefault();
+                    alert("투입 알 값은 숫자여야 합니다. 제대로 입력해주세요.");
+                }
+            });
+        </script>
     </th:block>
 </head>
 <th:block layout:fragment="customContent">
@@ -75,7 +85,7 @@
                                 <div class="col-md-6 col-sm-6 ">
                                     <div id="state" class="btn-group" data-toggle="buttons">
                                         <label class="btn btn-danger" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-                                            <input type="radio" name="calculationStandardCode" value="Lava" class="join-btn"> 애벌레
+                                            <input type="radio" name="calculationStandardCode" value="Lava" class="join-btn" required="required"> 애벌레
                                         </label>
                                         <label class="btn btn-primary active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
                                             <input type="radio" name="calculationStandardCode" value="Puppa" class="join-btn"> 번데기
