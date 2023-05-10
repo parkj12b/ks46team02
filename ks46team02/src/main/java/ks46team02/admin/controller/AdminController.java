@@ -109,7 +109,7 @@ public class AdminController {
 	    this.companyService = companyService;
 	}
 
-	/* 관리자 아이디 중복 체크  */
+	/* 관리자 아이디 중복 체크 */
 	@PostMapping("/idCheckAdmin")
 	@ResponseBody
 	public boolean idCheckAdmin(@RequestParam(name="adminId") String adminId) {
