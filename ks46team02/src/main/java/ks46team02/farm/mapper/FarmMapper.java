@@ -16,6 +16,8 @@ import ks46team02.farm.dto.Production;
 @Mapper
 public interface FarmMapper {
 
+    // 케이지 수정 //
+    public int modifyCage(Cage cage);
     // 싸이클 수정 //
     public int modifyCycle(Cycle cycle);
     // 생산량 수정 //
