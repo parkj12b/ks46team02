@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
+import ks46team02.admin.mapper.AddrMapper;
 import ks46team02.admin.service.AddrService;
 import ks46team02.common.dto.Addr;
 import ks46team02.common.dto.AdminMember;
@@ -44,14 +45,16 @@ public class CommonController {
 	TopMenuService topMenuService;
 	CompanyService companyService;
 	AddrService addrService; 
+	AddrMapper addrMapper;
 
-	public CommonController(MainService mainService,TopMenuService topMenuService, EmailServiceImpl emailService, MentorMenteeService mentorMenteeService, CompanyService companyService,AddrService addrService){
+	public CommonController(MainService mainService,TopMenuService topMenuService, EmailServiceImpl emailService, MentorMenteeService mentorMenteeService, CompanyService companyService,AddrService addrService,AddrMapper addrMapper){
 		this.mainService = mainService;
 		this.emailService = emailService;
 		this.mentorMenteeService = mentorMenteeService;
 		this.topMenuService = topMenuService;
 		this.companyService = companyService;
 		this.addrService = addrService;
+		this.addrMapper = addrMapper;
 
 	}
 	
@@ -209,5 +212,25 @@ public class CommonController {
 		model.addAttribute("title", "배송지조회");
 		model.addAttribute("addrList", addrList);
 		return "addr_member_list";
+	}
+	/* 회원별 배송지 수정 */
+	@PostMapping("/modifyMemberAddr")
+	public String modifyAddr(Addr addr) {
+		
+		addrMapper.modifyAddr(addr);
+		
+		return "redirect:/admin/addrList";
+	}
+	/* 회원별 배송지 수정 */
+	
+	@GetMapping("/modifyMemberAddr")
+	public String modifyAddr(Model model
+							 ,@RequestParam(name="addrCode") String addrCode){
+		
+		Addr addrInfo = addrService.getAddrInfoById(addrCode);
+		log.info("log"+addrInfo );
+		model.addAttribute("title", "회원 수정");
+		model.addAttribute("addrInfo", addrInfo);
+		return "/modify_member_addr";
 	}
 }
