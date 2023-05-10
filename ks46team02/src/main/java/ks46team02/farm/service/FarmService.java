@@ -42,6 +42,22 @@ public class FarmService {
 
 
     /**
+     * 케이지 수정
+     */
+    public int modifyCage(Cage cage){
+        int cageNum = cage.getCageNum();
+        double CageVolume = cage.getCageVolume();
+        double cageTotal = cageNum*CageVolume;
+        double optimalInputEgg = cageTotal*standardEggWeight;
+
+        cage.setCageTotal(cageTotal);
+        cage.setOptimalInputEgg(optimalInputEgg);
+        log.info("입력값 : {}", cage);
+
+        int result = farmMapper.modifyCage(cage);
+        return result;
+    }
+    /**
      * 싸이클 수정
      */
     public int modifyCycle(Cycle cycle){
@@ -62,7 +78,7 @@ public class FarmService {
         cycle.setEstimatedProduction(estimatedProduction);
         cycle.setEstimatedHarvestDate(estimatedHarvestDateString);
         log.info("service cycle : {}", cycle);
-        int result = 0;
+        int result = farmMapper.modifyCycle(cycle);
         return result;
     }
 

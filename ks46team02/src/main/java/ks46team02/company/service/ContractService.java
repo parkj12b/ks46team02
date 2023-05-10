@@ -1,7 +1,6 @@
 package ks46team02.company.service;
 
 import ks46team02.company.dto.Contract;
-import ks46team02.company.dto.DryContract;
 import ks46team02.company.mapper.ContractMapper;
 import org.springframework.stereotype.Service;
 
@@ -22,18 +21,20 @@ public class ContractService {
     }
 
     /* 계약조회 */
-    public List<Contract> getContractList(String sessionLevel){
-        List<Contract> contractList = null;
-        if(sessionLevel.equals("admin")) {
-            contractList = contractMapper.getContractList();
-        } else {
-            contractList = contractMapper.getContractList();
-        }
+    public List<Contract> getContractList(){
+        List<Contract> contractList = contractMapper.getContractList();
         return contractList;
     }
+    /* 사육업체 계약 조회 */
+    public List<Contract> getContractListBreed(){
+        List<Contract> contractList = contractMapper.getContractListBreed();
+        return contractList;
+    }
+
+
     /* 건조업체 계약 조회 */
-    public List<DryContract> getContractListDry(){
-        List<DryContract> contractList = contractMapper.getContractListDry();
+    public List<Contract> getContractListDry(){
+        List<Contract> contractList = contractMapper.getContractListDry();
         return contractList;
     }
 
