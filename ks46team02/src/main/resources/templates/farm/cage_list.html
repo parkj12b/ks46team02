@@ -65,7 +65,7 @@
                                             <td th:text="${l.cageTotal}"></td>
                                             <td th:text="${l.optimalInputEgg}"></td>
                                             <td th:text="${l.cageRegDate}"></td>
-                                            <td><a href="#">수정</a></td>
+                                            <td><a th:href="@{/farm/modifyCage(cageCode =${l.cageCode})}">수정</a></td>
                                             <td><a href="#">삭제</a></td>
                                         </tr>
 

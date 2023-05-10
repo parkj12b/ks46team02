@@ -10,9 +10,9 @@
 		<div class="container px-4 px-lg-5 mt-1">
 			<div class="container" th:style="'margin-top:100px'">
 				<div class="row">
-				<h1>Q & A</h1>
+					<h1>Q & A</h1>
 					<div class="col-sm-3"></div>
-					 <div class="col-sm-6 col-lg-12"> 
+					<div class="col-sm-6 col-lg-12">
 						<div class="card shadow">
 							<div class="card-body">
 								<form th:action="@{/customerservice/write_proc}" method="post"
@@ -20,7 +20,7 @@
 									<div th:object="${writeQuestionDto}">
 										<input type="hidden" name="page" th:value="${page}" /> <input
 											type="hidden" th:value="${writeQuestionDto.questionTypeCode}" />
-											
+
 										<div class="form-group mb-3">
 											<label class="form-label" for="questionTitle" th:text="제목">제목</label>
 											<input type="text" id="questionTitle"
@@ -35,14 +35,16 @@
 													name="memberId" class="form-control" readonly="readonly" />
 											</div> -->
 											<div class="form-group mb-3">
-												<label class="form-label" for="questionTypeCode" >문의타입</label>
-												<input type="text" id="questionTypeCode" th:value="*{questionTypeCode}"
-													name="questionTypeCode" class="form-control" readonly="readonly" />
+												<label class="form-label" for="questionTypeCode">문의타입</label>
+												<input type="text" id="questionTypeCode"
+													th:value="*{questionTypeCode}" name="questionTypeCode"
+													class="form-control" readonly="readonly" />
 											</div>
 											<div class="form-group mb-3">
 												<label class="form-label" for="questionContent" th:text="내용">내용</label>
-												<textarea th:value="*{questionContent}" id="questionContent" name="questionContent"
-													class="form-control" rows="10" style="resize: none"></textarea>
+												<textarea th:value="*{questionContent}" id="questionContent"
+													name="questionContent" class="form-control" rows="10"
+													style="resize: none"></textarea>
 												<div th:if="${#fields.hasErrors('questionContent')}"
 													th:errors="*{questionContent}" style="color: red"></div>
 											</div>
@@ -72,3 +74,4 @@
 	</section>
 </th:block>
 </html>
+

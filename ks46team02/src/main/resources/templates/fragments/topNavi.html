@@ -43,7 +43,6 @@
 					<ul class="main-menu"
 						style="display: flex; flex-direction: row; list-style: none; align-content: center; margin: 0px; justify-content: space-between;">
 						<th:block th:fragment="top-menu-community">
-							<th:block th:each="item: ${session.topMenuList}">
 								<li><a href="#">#플랫폼 소개</a></li>
 
 								<li role="presentation" class="dropdown"><a id="drop4"
@@ -54,7 +53,7 @@
 									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton"
 										x-placement="top-start"
 										style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -129px, 0px);">
-										<th:block th:fragment="menu" th:each="item: ${topMenuList}">
+										<th:block th:fragment="menu" th:each="item: ${session.topMenuList}">
 											<a class="dropdown-item"
 												th:href="@{/customerservice/main(questionTypeCode=${item.questionTypeCode})}"
 												th:text="${item.questionTypeName}"></a>

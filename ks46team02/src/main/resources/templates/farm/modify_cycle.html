@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/mypageLayout}">
+<head>
+    <th:block layout:fragment="customJs">
+        <script>
+            $("form").submit(function(e) {
+                let inputEggValue = $("input[name='inputEgg']").val();
+
+                if (!$.isNumeric(inputEggValue)) {
+                    e.preventDefault();
+                    alert("투입 알 값은 숫자여야 합니다. 제대로 입력해주세요.");
+                }
+            });
+        </script>
+    </th:block>
+</head>
+<th:block layout:fragment="customContent">
+    <div class="page-title">
+        <div class="title">
+            <div class="col-md-6">
+
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>싸이클 수정</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <br>
+                        <form class="form-horizontal form-label-left" th:action="@{/farm/modifyCycle}" method="post">
+
+                            <div class="form-group row">
+                                <label class="control-label col-md-3 col-sm-3 "> 사육장 코드 </label>
+                                <div class="col-md-9 col-sm-9 ">
+                                    <input type="text" class="form-control" name="farmCode" th:value="${cycle.farmCode}" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="control-label col-md-3 col-sm-3 "> 싸이클 코드 </label>
+                                <div class="col-md-9 col-sm-9 ">
+                                    <input type="text" class="form-control" name="cycleCode" th:value="${cycle.cycleCode}" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="control-label col-md-3 col-sm-3 "> 케이지 코드 </label>
+                                <div class="col-md-7 col-sm-7 ">
+                                    <input type="text" class="form-control" name="cageCode" th:value="${cycle.cageCode}" readonly>
+                                </div>
+                                <div class="col-md-2 col-sm-2">
+                                    <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#cageInfo" aria-expanded="false" aria-controls="cageInfo">
+                                        정보 보기
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="collapse" id="cageInfo">
+                                <div class="card card-body">
+                                    <!-- 여기에 케이지 정보를 추가하세요 -->
+                                    <div class="form-group row">
+                                        <label class="control-label col-md-3 col-sm-3 "> 케이지 개수 </label>
+                                        <div class="col-md-9 col-sm-9 ">
+                                            <input type="text" class="form-control" name="cageNum" th:value="${cage.cageNum}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="control-label col-md-3 col-sm-3 "> 케이지 용량[L] </label>
+                                        <div class="col-md-9 col-sm-9 ">
+                                            <input type="text" class="form-control" name="cageVolume" th:value="${cage.cageVolume}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="control-label col-md-3 col-sm-3 "> 케이지 총량[L] </label>
+                                        <div class="col-md-9 col-sm-9 ">
+                                            <input type="text" class="form-control" name="cageTotal" th:value="${cage.cageTotal}" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3 col-sm-3 label-left">목표 상태</label>
+                                <div class="col-md-6 col-sm-6 ">
+                                    <div id="state" class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-danger" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
+                                            <input type="radio" name="calculationStandardCode" value="Lava" class="join-btn" required="required"> 애벌레
+                                        </label>
+                                        <label class="btn btn-primary active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
+                                            <input type="radio" name="calculationStandardCode" value="Puppa" class="join-btn"> 번데기
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="control-label col-md-3 col-sm-3 "> 투입 알[g] </label>
+                                <div class="col-md-9 col-sm-9 ">
+                                    <input type="text" class="form-control" name="inputEgg" th:value="${cycle.inputEgg}">
+                                </div>
+                            </div>
+
+                            <div class=" form-group row">
+                                <label class="col-form-label col-md-3 col-sm-3 ">싸이클 시작 날짜 <span class="required">*</span>
+                                </label>
+                                <div class="col-md-9 col-sm-9 ">
+                                    <input name="harvestStartDate" th:value="${cycle.harvestStartDate}" id="harvestStartDate" class="date-picker form-control" placeholder="dd-mm-yyyy" type="text" required="required" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+                                    <script>
+                                        function timeFunctionLong(input) {
+                                            setTimeout(function() {
+                                                input.type = 'text';
+                                            }, 60000);
+                                        }
+                                    </script>
+                                </div>
+                            </div>
+
+
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-9 col-sm-9  offset-md-3">
+                                    <button type="submit" class="btn btn-dark">수정</button>
+                                    <button type="button" class="btn btn-dark">취소</button>
+
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

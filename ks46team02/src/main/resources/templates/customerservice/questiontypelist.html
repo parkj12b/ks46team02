@@ -15,6 +15,31 @@
 			$('#myModal button[data-dismiss="modal"]').click(function() {
 				$('#myModal').modal('hide');
 			});
+
+			$(function() {
+				$('#myModal').on('click', '.btn-submit', function(e) {
+					e.preventDefault();
+
+					var data = {
+						adminId : $('#adminId').val(),
+						questionTypeCode : $('#questionTypeCode').val(),
+						questionTypeName : $('#questionTypeName').val()
+					};
+
+					$.ajax({
+						type : 'POST',
+						url : '/customerservice/questiontypelist/add_proc',
+						data : data,
+						success : function(response) {
+							$('#myModal').modal('hide'); // 모달 닫기
+							location.reload(); // 페이지 새로고침 // 등록 성공 시 처리
+						},
+						error : function(xhr, status, error) {
+							alert("오류 발생"); // 등록 실패 시 처리
+						}
+					});
+				});
+			});
 		});
 	</script>
 </head>
@@ -79,17 +104,11 @@
 													aria-controls="datatable-buttons" rowspan="1" colspan="1"
 													style="width: 187px;"
 													aria-label="Start date: activate to sort column ascending"
-													aria-sort="descending">문의유형삭제일</t자h>
-												<th class="sorting_desc" tabindex="0"
-													aria-controls="datatable-buttons" rowspan="1" colspan="1"
-													style="width: 187px;"
-													aria-label="Start date: activate to sort column ascending"
-													aria-sort="descending">문의 유형 수정</t자h>
-												<th class="sorting_desc" tabindex="0"
-													aria-controls="datatable-buttons" rowspan="1" colspan="1"
-													style="width: 187px;"
-													aria-label="Start date: activate to sort column ascending"
-													aria-sort="descending">문의 유형 삭제</t자h>
+													aria-sort="descending">문의유형삭제일</th>
+												<th class="" rowspan="1" colspan="1" style="width: 187px;">문의
+													유형 수정</th>
+												<th class="" rowspan="1" colspan="1" style="width: 187px;">문의
+													유형 삭제</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -138,45 +157,60 @@
 					<div class="form-group row">
 						<div class="col-md-12 col-sm-12">
 							<form class="form-horizontal form-label-left"
-								th:action="@{/customerservice/questiontypelist}" method="get">
+								th:action="@{/customerservice/questiontypelist/add_proc}"
+								method="post">
 
-								<div class="form-group row">
-									<label class="control-label col-md-4 col-sm-4">관리자</label>
-									<div class="col-md-8 col-sm-8">
-										<input type="text" class="form-control" id="adminId" readonly>
+								<div th:object="${writeQuestionTypeDto}">
+									<div class="form-group row">
+										<label class="control-label col-md-4 col-sm-4" for="adminId"
+											th:text="관리자">관리자</label>
+										<div class="col-md-8 col-sm-8">
+											<input type="text" class="form-control" id="adminId"
+												name="adminId" readonly="readonly" />
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="control-label col-md-4 col-sm-4"
+											for="questionTypeCode">문의 유형 코드</label>
+										<div class="col-md-8 col-sm-8">
+											<input type="text" class="form-control" id="questionTypeCode"
+												name="questionTypeCode" readonly="readonly" />
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label class="control-label col-md-4 col-sm-4"
+											for="questionTypeName">문의 유형 이름</label>
+										<div class="col-md-8 col-sm-8">
+											<input type="text" class="form-control" id="questionTypeName"
+												name="questionTypeName" />
+										</div>
 									</div>
 								</div>
+								<div class="modal-footer">
+									<a class="btn btn-submit"
+										th:href="@{/customerservice/questiontypelist}"
+										style="float: left;">등록</a>
+									<button type="button" class="btn btn-default"
+										data-dismiss="modal">취소</button>
 
-								<div class="form-group row">
-									<label class="control-label col-md-4 col-sm-4">문의 유형 코드</label>
-									<div class="col-md-8 col-sm-8">
-										<input type="text" class="form-control" id="questionTypeCode"
-											name="cageNum">
-									</div>
-								</div>
-
-								<div class="form-group row">
-									<label class="control-label col-md-4 col-sm-4">문의 유형 이름</label>
-									<div class="col-md-8 col-sm-8">
-										<input type="text" class="form-control" id="questionTypeName">
-									</div>
 								</div>
 							</form>
 						</div>
 					</div>
 				</div>
 
-				<div class="modal-footer">
-					<a class="btn btn-default"
+				<!-- 	<div class="modal-footer">
+					<a class="btn btn-submit"
 						th:href="@{/customerservice/questiontypelist}"
 						style="float: left;">등록</a>
 					<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
 
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>
-
 </th:block>
 
 </html>
