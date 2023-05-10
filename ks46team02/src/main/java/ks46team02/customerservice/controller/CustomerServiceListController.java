@@ -51,13 +51,12 @@ public class CustomerServiceListController {
 	}
 	
 	@GetMapping("/questiontypelist")
-	public String getQuestionTypeList(Model model, 
-									  HttpSession session) {
+	public String getQuestionTypeList(Model model) {
 		
-		int questionTypeCode = (int) session.getAttribute("sessionquestionTypeCode");
-		List<QuestionTypeDto> questionTypeList = customerserviceListService.getQuestionTypeList(questionTypeCode);
+		List<QuestionTypeDto> questionTypeList = customerserviceListService.getQuestionTypeList();
 		model.addAttribute("title", "문의 유형 조회");
 		model.addAttribute("questionTypeList", questionTypeList);
+		
 		
 		return "customerservice/questiontypelist";
 		
@@ -76,7 +75,7 @@ public class CustomerServiceListController {
 		
 		customerserviceListService.writeQuestionType(questionTypeDto);
 		
-		return "redirect:/customerservice/questiontypelist_proc";
+		return "/customerservice/questiontypelist_proc";
 	}
 	
 		
