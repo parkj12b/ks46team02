@@ -5,7 +5,18 @@
 <head>
     <th:block layout:fragment="customJs">
         <script>
+            $('#modifyProduction').on('submit', function(event) {
+                // 'realProduction' 필드의 값을 가져옵니다.
+                let realProduction = $('#realProduction').val();
 
+                // 입력된 값이 숫자인지 확인합니다.
+                if (isNaN(realProduction)) {
+                    // 숫자가 아니라면, 폼 제출을 중단하고 경고 메시지를 표시합니다.
+                    event.preventDefault();
+                    alert('생산량을 정확히 입력해야 합니다.');
+                }
+                // 숫자라면, 폼 제출을 그대로 진행합니다.
+            });
         </script>
     </th:block>
 </head>
