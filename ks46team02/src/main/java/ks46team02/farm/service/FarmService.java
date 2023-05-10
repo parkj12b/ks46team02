@@ -189,7 +189,7 @@ public class FarmService {
                     searchKey = "cage_code";
                     break;
                 case "cageName":
-                    searchKey = "cage_ame";
+                    searchKey = "cage_name";
                     break;
                 case "cageVolume":
                     searchKey = "cage_volume";
@@ -241,7 +241,7 @@ public class FarmService {
                     searchKey = "p.farm_code";
                     break;
                 case "expectedCageProductionCode":
-                    searchKey = "ex.calculation_standard_code";
+                    searchKey = "ex.expected_cage_production_code";
                     break;
                 case "calculationStandardCode":
                     searchKey = "ex.calculation_standard_code";
