@@ -4,6 +4,7 @@ package ks46team02.company.controller;
 import jakarta.servlet.http.HttpSession;
 import ks46team02.company.dto.Company;
 import ks46team02.company.dto.Contract;
+import ks46team02.company.dto.DryContract;
 import ks46team02.company.service.CompanyService;
 import ks46team02.company.service.ContractService;
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-@RequestMapping("/company")
+@RequestMapping("/contract")
 public class ContractController {
 
     private final ContractService contractService;
@@ -30,6 +31,14 @@ public class ContractController {
         this.contractService = contractService;
         this.companyService = companyService;
     }
+
+    /* 계약공고 등록 */
+    @GetMapping("/addContract")
+    public String addContract(){
+
+        return "company/add_contract";
+    }
+
 
     @GetMapping("/contractInfo")
     public String getContractInfo(Model model
@@ -55,5 +64,15 @@ public class ContractController {
         return "company/contract_list";
     }
 
+    /* 건조업체 계약공고 조회 */
+    @GetMapping("/contractListDry")
+    public String contractListDry(Model model){
+
+        List<DryContract> contractList = contractService.getContractListDry();
+        model.addAttribute("title","계약공고");
+        model.addAttribute("contractList",contractList);
+        log.info("건조계약목록 :{}",contractList);
+        return "/company/contract_list_dry";
+    }
 
 }

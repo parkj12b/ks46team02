@@ -1,6 +1,7 @@
 package ks46team02.company.service;
 
 import ks46team02.company.dto.Contract;
+import ks46team02.company.dto.DryContract;
 import ks46team02.company.mapper.ContractMapper;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,11 @@ public class ContractService {
         } else {
             contractList = contractMapper.getContractList();
         }
+        return contractList;
+    }
+    /* 건조업체 계약 조회 */
+    public List<DryContract> getContractListDry(){
+        List<DryContract> contractList = contractMapper.getContractListDry();
         return contractList;
     }
 

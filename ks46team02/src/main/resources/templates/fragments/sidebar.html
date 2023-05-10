@@ -27,8 +27,8 @@
 			<li><a><i class="fa fa-file-text-o"></i> 계약 관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a th:href="@{/company/contractList}">#최학준 건조음식물 계약 공고</a></li>
-					<li><a href="#">#최학준 건조음식물 계약 공고 등록</a></li>
+					<li><a th:href="@{/contract/contractListDry}">#최학준 건조음식물 계약 공고</a></li>
+					<li><a th:href="@{/contract/addContract}">#최학준 건조음식물 계약 공고 등록</a></li>
 					<li><a href="#">#최학준 신청한 계약 조회</a></li>
 				</ul></li>
 		</ul>
@@ -49,7 +49,6 @@
 				<ul class="nav child_menu">
 					<li><a th:href="@{/company/companyInfoUser}">!최학준 내 업체 정보</a></li>
 					<li><a th:href="@{/company/companyEmployeeList}">!최학준 직원 정보</a></li>
-					<li><a th:href="@{/company/companyEmployeeList}">!최학준 사원 조회</a></li>
 					<li th:if="${session.mmRegType == 1}"><a th:href="@{/company/mentorFeedbackToken}">멘토 피드백 토큰 관리</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-file-text-o"></i> 계약 관리 <span
@@ -144,7 +143,7 @@
 			<li><a><i class="fa fa-file-text-o"></i> 계약 관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a th:href="@{/company/contractList}">#최학준 계약조회</a></li>
+					<li><a th:href="@{/contract/contractList}">#최학준 계약조회</a></li>
 				</ul></li>
 		</ul>
 	</div>

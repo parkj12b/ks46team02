@@ -41,7 +41,9 @@
                                     <td th:text="${l.memberPhone}"></td>
                                     <td th:text="${l.memberEmail}"></td>
                                     <td th:if="${sessionIsOwner == true}">
-                                        <a th:href="@{/company/modifyEmployeeLevel(memberId=${l.memberId} ,memberName=${l.memberName})}">직원정보수정</a>
+                                        <div class="text-center">
+                                        <a class="btn btn-secondary btn-sm"  th:href="@{/company/modifyEmployeeLevel(memberId=${l.memberId} ,memberName=${l.memberName})}">직위수정</a>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr th:if="${employeeList == null}">

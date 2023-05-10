@@ -198,7 +198,7 @@
 																<td th:text="${c.estimatedHarvestDate}"></td>
 																<td th:text="${c.dayDiffHarvest}"></td>
 																<td><a th:href="@{/farm/feedList(cycleCode=${c.cycleCode})}">급여현황</a></td>
-																<td th:href="@{#}">수정</td>
+																<td><a th:href="@{/farm/modifyCycle(cycleCode=${c.cycleCode})}">수정</a></td>
 
 															</tr>
 															</tbody>
