@@ -16,6 +16,8 @@ import ks46team02.farm.dto.Production;
 @Mapper
 public interface FarmMapper {
 
+    // 생산량 그래프 //
+    public List<Production> getProductionGraph(String farmCode);
     // 먹이 급여 그래프 //
     public  List<Feed> getFeedGraph(String cycleCode);
     // 케이지 수정 //

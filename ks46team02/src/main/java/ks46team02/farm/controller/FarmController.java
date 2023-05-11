@@ -66,7 +66,12 @@ public class FarmController {
 		this.memberService = memberService;
 		this.farmMapper = farmMapper;
 	}
-
+	@GetMapping("/productionGraph")
+	@ResponseBody
+	public List<Production> getProductionGraph(String farmCode){
+		List<Production> Production = farmService.getProductionGraph(farmCode);
+		return Production;
+	}
 
 	/**
 	 * 먹이 급여 그래프

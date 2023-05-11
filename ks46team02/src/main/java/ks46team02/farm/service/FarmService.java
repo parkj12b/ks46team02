@@ -40,7 +40,13 @@ public class FarmService {
     private static final Logger log = LoggerFactory.getLogger(FarmService.class);
     final double standardEggWeight = 0.089;
 
-
+    /**
+     * 생산량 그래프
+     */
+    public List<Production> getProductionGraph(String farmCode){
+        List<Production> Production = farmMapper.getProductionGraph(farmCode);
+        return Production;
+    }
     /**
      * 먹이 급여 그래프
      */
