@@ -142,11 +142,14 @@ public class AdminController {
 	
     /* 승인 대기 업체 조회 */
 	@GetMapping("/applyCompanyRegList")
-	public String applyCompanyRegList(Model model) {
+	public String applyCompanyRegList(Model model
+									 ,HttpSession session) {
 
+		String sessionId = (String)session.getAttribute("sessionId");
 		List<Company> companyList = companyService.getCompanyList();
 		model.addAttribute("title", "승인 대기 업체 조회");
 		model.addAttribute("companyList",companyList);
+		model.addAttribute("sessionId",sessionId);
 		return "admin/apply_company_reg_list";
 	}
     /* 전체 관리자 목록 조회 */
