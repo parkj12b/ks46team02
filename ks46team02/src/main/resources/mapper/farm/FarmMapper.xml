@@ -4,6 +4,38 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.farm.mapper.FarmMapper">
 
+    <!-- 생산량 그래프    -->
+    <select id="getProductionGraph" resultType="Production">
+        SELECT
+            p.real_production AS realProduction,
+            ex.calculation_standard_code AS calculationStandardCode,
+            DATE_FORMAT(p.production_reg_date, '%Y-%m-%d') AS productionRegDate
+        FROM
+            production AS p
+        INNER JOIN
+            cage_cycle AS ex
+        ON
+            p.expected_cage_production_code = ex.expected_cage_production_code
+        WHERE
+            p.farm_code = #{farmCode}
+        ORDER BY
+            p.production_reg_date
+    </select>
+
+    <!-- 먹이 급여 그래프 그리기    -->
+    <select id="getFeedGraph" resultType="Feed">
+        SELECT
+            f.feeding_amount AS feedingAmount,
+            DATE_FORMAT(f.feeding_date, '%Y-%m-%d')  AS feedingDate
+        FROM
+            feeding AS f
+        WHERE
+            f.expected_cage_production_code = #{cycleCode}
+        ORDER  BY f.feeding_date
+
+
+    </select>
+
     <!-- 케이지 수정   -->
     <update id="modifyCage" parameterType="Cage">
         UPDATE
@@ -271,9 +303,9 @@
         	cage
         WHERE
         	cage_code = #{cageCode}
-        	
+
 	</select>
-	
+
 	<!-- 모달창 사육장 케이지 조회-->
 	<select id="getCageListByCode" resultType="Cage">
 	  	SELECT
@@ -292,7 +324,7 @@
         	cage
         WHERE
         	farm_code = #{farmCode}
-        	
+
 	</select>
 
 
