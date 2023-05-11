@@ -72,6 +72,41 @@
 	            }
 	        });
 	    });
+	$(document).ready(function() {
+	    $(".delete").on('click', function(event) {
+	        event.preventDefault(); // Prevent the default action (navigation)
+
+	        // Get the current row
+	        var currentRow = $(this).closest("tr");
+
+	        // Extract the questionTypeCode from the row
+	        var questionTypeCode = currentRow.find("td:eq(0)").text();
+
+	        // Ask the user to confirm the deletion
+	        var confirmDelete = confirm("정말 삭제하시겠습니까?");
+
+	        if (confirmDelete) {
+	            $.ajax({
+	                url: '/customerservice/delete_questionType_proc',
+	                type: 'POST',
+	                data: {
+	                    questionTypeCode: questionTypeCode,
+	                },
+	                success: function(response) {
+	                    if (response === 'success') {
+	                        alert('문의 유형이 성공적으로 삭제되었습니다.');
+	                        location.reload();
+	                    } else {
+	                        alert('문의 유형 삭제에 실패하였습니다.');
+	                    }
+	                },
+	                error: function() {
+	                    alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+	                }
+	            });
+	        }
+	    });
+	});
 		
 </script>
 </th:block>
