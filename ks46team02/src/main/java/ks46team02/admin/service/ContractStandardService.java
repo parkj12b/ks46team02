@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ks46team02.admin.dto.ContractStandard;
+import ks46team02.admin.dto.MemberLevel;
 import ks46team02.admin.mapper.ContractStandardMapper;
 @Service
 @Transactional
@@ -26,6 +27,10 @@ private final ContractStandardMapper contractStandardMapper;
 	public List<ContractStandard> getAdminLevelList(){
 		List<ContractStandard> ContractStandardList = contractStandardMapper.getContractStandardList();
 		return ContractStandardList;
+	}
+	public void modifyContractStandard(ContractStandard contractStandard) {
+		contractStandardMapper.modifyContractStandard(contractStandard);
+		
 	}
 	
 }

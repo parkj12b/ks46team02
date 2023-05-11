@@ -116,7 +116,6 @@ public class MainQuestionController {
 							 @RequestParam("page") int page, 
 							 Model model) {
 		
-	
 		model.addAttribute("page", page);
 		String memberId = (String) session.getAttribute("sessionId");
 		questiondto.setMemberId(memberId);
