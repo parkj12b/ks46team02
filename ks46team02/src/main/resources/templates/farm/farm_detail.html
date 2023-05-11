@@ -11,7 +11,13 @@
 
 	</style>
 	<th:block layout:fragment="customJs">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.0/chart.min.js" integrity="sha512-R60W3LgKdvvfwbGbqKusRu/434Snuvr9/Flhtoq9cj1LQ9P4HFKParULqOCAisHk/J4zyaEWWjiWIMuP13vXEg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<script>
+			$('#datatable').DataTable({
+			});
+			$('#datatable-responsive').DataTable({
+				searching: false // search 기능을 비활성화
+			});
 			$.ajax({
 				url: "/farm/productionGraph",
 				type: "GET",
