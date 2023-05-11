@@ -21,5 +21,7 @@ public interface CustomerServiceListMapper {
 	public List<QuestionTypeDto> getQuestionTypeList();
 	
 	/**/
-	public int writeQuestionType(QuestionTypeDto questionTypeDto);
+	public void writeQuestionType(QuestionTypeDto questionTypeDto);
+
+	public int getNextQuestionTypeCode();
 }

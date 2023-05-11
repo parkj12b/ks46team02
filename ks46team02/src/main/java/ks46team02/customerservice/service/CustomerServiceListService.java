@@ -39,7 +39,13 @@ public class CustomerServiceListService {
 
 	public void writeQuestionType(QuestionTypeDto questionTypeDto) {
 		customerserviceListMapper.writeQuestionType(questionTypeDto);
-		
+	
 	}
+
+	public int getNextQuestionTypeCode() {
+		return customerserviceListMapper.getNextQuestionTypeCode();
+	}
+
+	
 
 }

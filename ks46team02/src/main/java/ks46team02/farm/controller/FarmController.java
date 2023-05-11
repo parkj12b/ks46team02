@@ -68,6 +68,29 @@ public class FarmController {
 	}
 
 	/**
+	 * 케이지 수정
+	 */
+	@PostMapping("/modifyCage")
+	public String modifyCage(Cage cage
+							,HttpSession session){
+		String memberId = (String) session.getAttribute("sessionId");
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		cage.setCompanyCode(companyCode);
+		cage.setMemberId(memberId);
+		log.info("화면에서 전달받은 데이터 : {}", cage);
+		farmService.modifyCage(cage);
+		return "redirect:/farm/cageList";
+	}
+	@GetMapping("/modifyCage")
+	public String modifyCage(Model model
+							,@RequestParam(name="cageCode")String cageCode){
+		Cage cage = farmMapper.getCageByCode(cageCode);
+		model.addAttribute("title","케이지 수정");
+		model.addAttribute("cage",cage);
+
+		return "farm/modify_cage";
+	}
+	/**
 	 * 싸이클 수정
 	 */
 	@PostMapping("/modifyCycle")

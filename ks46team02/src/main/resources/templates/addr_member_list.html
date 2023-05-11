@@ -173,7 +173,7 @@ $(".delete").click(function () {
                                             <td th:text="${l.addrPhone}"></td>
                                             <td th:text="${l.addrSeq}"></td>
                                             <td>                                            
-                                           		<a class="btn btn-dark modify" th:href="@{/admin/modifyAddr(addrCode=*{l.addrCode})}">수정</a>
+                                           		<a class="btn btn-dark modify" th:href="@{/modifyMemberAddr(addrCode=*{l.addrCode})}">수정</a>
                                             </td>
                                             <td>
                                             	<button class="btn btn-dark delete" type="button">삭제</button>
