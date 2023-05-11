@@ -17,6 +17,13 @@
                 }
                 // 숫자라면, 폼 제출을 그대로 진행합니다.
             });
+            $('#cancelBtn').click(function (){
+                window.history.back();
+            });
+            $("#reset-btn").click(function(event) {
+                event.preventDefault();
+                $("form")[0].reset();
+            });
         </script>
     </th:block>
 </head>
@@ -28,6 +35,7 @@
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>생산량 수정</h2>
+                        <button type="reset" class="btn btn-white" style="float: right" id="reset-btn"> <i class="fa fa-repeat"></i></button>
                         <div class="clearfix"></div>
                     </div>
 

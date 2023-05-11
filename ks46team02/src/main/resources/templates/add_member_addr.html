@@ -101,7 +101,6 @@ $(document).on("keyup", "#addrTel", function() {
     /* 등록 + 유효성 검사 > sweat로 모달창 */
   $('.add').click(function() {
     var arr = [
-		{id: '#memberId',name: '아이디'},
         {id: '#sample4_postcode', name: '우편번호'},
         {id: '#sample4_roadAddress', name: '도로명주소'},
         {id: '#sample4_jibunAddress', name: '지번주소'},
@@ -138,39 +137,6 @@ $(document).on("keyup", "#addrTel", function() {
         addAddrForm.submit();
     }
 });
-  $("#memberId").on("change", function(){
-	  var memberId = $("#memberId").val();
-	  console.log(memberId);
-	  $.ajax({
-	    type: "POST",
-	    url: "/admin/AddrAmountList",
-	    data: {
-	      memberId: memberId,
-	    },
-	    success: function (result) {
-	      if (result >= 2) {
-	        Swal.fire({
-	          icon: 'warning',
-	          title: `${memberId} 회원은 더이상 배송지를 등록하실수 없습니다.`
-	        }).then((swalResult) => {
-	          if (swalResult.isConfirmed) {
-	            $("#memberId").val("");
-	            setTimeout(function(){
-	                $("#memberId").focus();
-	            }, 0); // 0ms 이후에 포커스 이동
-	            Swal.close();
-	          }
-	        });
-	      }
-	    },
-	    error: function () {
-	      Swal.fire({
-	        icon: 'error',
-	        title: '서버와의 통신 중 에러가 발생했습니다.'
-	      });
-	    }
-	  });
-	});
 
 
 
@@ -195,19 +161,6 @@ $(document).on("keyup", "#addrTel", function() {
 						<br>
 						<form class="form-horizontal form-label-left" id="addAddrForm" th:action="@{/admin/addAddr}"
                               method="post">
-							<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-3 ">아이디 선택</label>
-								<div class="col-md-9 col-sm-9 ">
-									<select class="form-control" id="memberId" name="memberId">
-										<option ></option>
-									<th:block th:if="${memberInfo != null}">
-										<option th:each="l : ${memberInfo}"
-										th:value="${l.memberId}" th:text="${l.memberId}"></option>
-									</th:block>
-									</select>
-								</div>
-							</div>
-						
 							<div class="form-group row ">
 								<label class="control-label col-md-3 col-sm-3" for="sample4_postcode">우편번호</label>
 								    <div class="col-md-9 col-sm-9">

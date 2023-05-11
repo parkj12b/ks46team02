@@ -89,25 +89,27 @@
 		question_type;
 	</select>
 
-	<!--  <insert id="writeQuestionType" parameterType="questionTypeDto">
-		insert into
-		question_type (question_type_code, admin_id, question_type_name,
-		question_type_reg_date)
-		VALUES (#{questionTypeCode}, #{adminId},
-		#{questionTypeName},
-		CURRENT_TIMESTAMP());
-	</insert>-->
-
-	<select id="getNextQuestionTypeCode" resultType="int"
-		resultMap="questiontypeListResultMap">
-		SELECT IFNULL(MAX(question_type_code), 0) + 1 FROM question_type;
+	<!--int타입으로 들어오면 resultMap을 resultType과 동시에 사용 X -->
+	<select id="getNextQuestionTypeCode" resultType="int">
+		SELECT
+		IFNULL(MAX(question_type_code)+1, 1) FROM question_type;
 	</select>
 
-	 <insert id="writeQuestionType" parameterType="String">
-		INSERT INTO question_type (question_type_code, question_type_name, admin_id,
+	<insert id="insertQuestionType" parameterType="QuestionTypeDto">
+		INSERT INTO
+		question_type (question_type_code, question_type_name, admin_id,
 		question_type_reg_date)
-		VALUES (#{questionTypeCode}, #{questionTypeName}, #{adminId}, 
+		VALUES (#{questionTypeCode},
+		#{questionTypeName}, #{adminId},
 		NOW());
-	</insert> 
+	</insert>
+
+	<update id="updateQuestionType" parameterType="QuestionTypeDto">
+		UPDATE question_type
+		SET
+		question_type_name = #{questionTypeName}
+		WHERE
+		question_type_code = #{questionTypeCode}
+	</update>
 
 </mapper>

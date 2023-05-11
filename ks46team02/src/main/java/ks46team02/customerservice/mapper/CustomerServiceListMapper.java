@@ -20,8 +20,11 @@ public interface CustomerServiceListMapper {
 	/* 문의 유형 조회 */
 	public List<QuestionTypeDto> getQuestionTypeList();
 	
-	/**/
-	public void writeQuestionType(QuestionTypeDto questionTypeDto);
-
 	public int getNextQuestionTypeCode();
+
+	public int insertQuestionType(QuestionTypeDto questionTypeDto);
+
+	public String updateQuestionType(QuestionTypeDto questionTypeDto);
+
+	
 }

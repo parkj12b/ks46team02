@@ -13,6 +13,13 @@
                     alert("투입 알 값은 숫자여야 합니다. 제대로 입력해주세요.");
                 }
             });
+            $('#cancelBtn').click(function (){
+                window.history.back();
+            });
+            $("#reset-btn").click(function(event) {
+                event.preventDefault();
+                $("form")[0].reset();
+            });
         </script>
     </th:block>
 </head>
@@ -24,6 +31,7 @@
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>싸이클 수정</h2>
+                        <button type="reset" class="btn btn-white" style="float: right" id="reset-btn"> <i class="fa fa-repeat"></i></button>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -121,7 +129,7 @@
                             <div class="form-group">
                                 <div class="col-md-9 col-sm-9  offset-md-3">
                                     <button type="submit" class="btn btn-dark">수정</button>
-                                    <button type="button" class="btn btn-dark">취소</button>
+                                    <button type="button" class="btn btn-dark" id="cancelBtn">취소</button>
 
                                 </div>
                             </div>

@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
+import ks46team02.admin.dto.LoginHistory;
 import ks46team02.admin.mapper.AddrMapper;
 import ks46team02.admin.service.AddrService;
+import ks46team02.admin.service.LoginHistoryService;
 import ks46team02.common.dto.Addr;
 import ks46team02.common.dto.AdminMember;
 import ks46team02.common.dto.AllContractInfo;
@@ -46,8 +48,10 @@ public class CommonController {
 	CompanyService companyService;
 	AddrService addrService; 
 	AddrMapper addrMapper;
+	LoginHistoryService loginHistoryService;
+	
 
-	public CommonController(MainService mainService,TopMenuService topMenuService, EmailServiceImpl emailService, MentorMenteeService mentorMenteeService, CompanyService companyService,AddrService addrService,AddrMapper addrMapper){
+	public CommonController(MainService mainService,TopMenuService topMenuService, EmailServiceImpl emailService, MentorMenteeService mentorMenteeService, CompanyService companyService,AddrService addrService,AddrMapper addrMapper, LoginHistoryService loginHistoryService){
 		this.mainService = mainService;
 		this.emailService = emailService;
 		this.mentorMenteeService = mentorMenteeService;
@@ -55,7 +59,7 @@ public class CommonController {
 		this.companyService = companyService;
 		this.addrService = addrService;
 		this.addrMapper = addrMapper;
-
+		this.loginHistoryService = loginHistoryService;
 	}
 	
 	
@@ -68,6 +72,7 @@ public class CommonController {
 	@PostMapping("/login")
 	public String login(MemberLoginInfo memberLoginInfo
 			           ,HttpSession session
+			           ,LoginHistory loginHistory
 					   ) {
 		String memberLevel = memberLoginInfo.getLoginLevel();
 
@@ -82,6 +87,13 @@ public class CommonController {
 			if(memberInfo.getCompanyCode() != null) {
 				mmRegType = mentorMenteeService.getMMRegType(memberInfo.getCompanyCode());
 			}
+//			/* 로그인 기록을 db로 저장 */
+//			String memberId = memberInfo.getMemberId();
+//			loginHistory.setMemberId(memberId);
+//			loginHistoryService.addLoginHistory(loginHistory);
+			
+			
+			
 			
 			if(memberInfo.isExist()) {
 				session.setAttribute("sessionId", memberInfo.getMemberId());
@@ -213,6 +225,7 @@ public class CommonController {
 		model.addAttribute("addrList", addrList);
 		return "addr_member_list";
 	}
+	
 	/* 회원별 배송지 수정 */
 	@PostMapping("/modifyMemberAddr")
 	public String modifyAddr(Addr addr) {
@@ -221,8 +234,8 @@ public class CommonController {
 		
 		return "redirect:/admin/addrList";
 	}
-	/* 회원별 배송지 수정 */
 	
+	/* 회원별 배송지 수정 */
 	@GetMapping("/modifyMemberAddr")
 	public String modifyAddr(Model model
 							 ,@RequestParam(name="addrCode") String addrCode){
@@ -232,5 +245,18 @@ public class CommonController {
 		model.addAttribute("title", "회원 수정");
 		model.addAttribute("addrInfo", addrInfo);
 		return "/modify_member_addr";
+	}
+	/* 배송지 등록 */
+	@PostMapping("/addMemberAddr")
+	public String addMemberAddr(Addr addr, Model model) {
+		addrService.addAddr(addr);
+		return "redirect:/addrList";
+	}
+
+	/* 배송지 등록 */
+	@GetMapping("/addMemberAddr")
+	public String addMemberAddr(Model model){
+		model.addAttribute("title", "배송지 등록");
+		return "/add_member_addr";
 	}
 }

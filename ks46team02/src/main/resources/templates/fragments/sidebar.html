@@ -7,7 +7,8 @@
 				class="fa fa-chevron-down"></span></a>
 			<ul class="nav child_menu">
 				<li><a href="#">#회원정보 수정</a></li>
-				<li><a th:href="@{/addrMemberList}">배송지 조회</a></li>
+				<li th:if="${session.sessionLevel!='admin'}" ><a th:href="@{/addrMemberList}" >배송지 조회</a></li>
+
 			</ul></li>
 	</ul>
 </div>
@@ -74,11 +75,9 @@
 			<li><a><i class="fa fa-bug"></i> !김유진 사육장 관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a th:href="@{/farm/test}">! 그래프</a></li>
 					<li><a th:href="@{/farm/farmList}">!김유진 사육장 조회</a></li>
 					<li><a th:href="@{/farm/productionList}">!김유진 생산량 조회</a></li>
 					<li><a th:href="@{/farm/cageList}">!김유진 케이지 조회</a></li>
-					<li><a th:href="@{/farm/feedList}">!김유진 급여량 조회</a></li>
 				</ul></li>
 		</ul>
 	</div>

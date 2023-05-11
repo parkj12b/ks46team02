@@ -55,7 +55,7 @@
 		q.question_del_yn =
 		'N'
 		ORDER BY
-		q.question_code DESC;
+		q.question_code asc;
 	</select>
 
 	<select id="selectQuestionInfo" parameterType="String"
