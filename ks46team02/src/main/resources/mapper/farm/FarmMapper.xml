@@ -373,10 +373,10 @@
                 AND DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d') BETWEEN #{fromDate} AND #{toDate}
             </if>
             <if test="fromDate != null and fromDate != '' and (toDate == null or toDate == '')">
-                AND DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d') >= #{fromDate}
+                AND DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d') &gt;= #{fromDate}
             </if>
             <if test="(fromDate == null or fromDate == '') and toDate != null and toDate != ''">
-                AND DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d') <= #{toDate}
+                AND DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d') &lt;= #{toDate}
             </if>
             <if test="searchKey != null and searchKey != ''">
                 AND (${searchKey} LIKE CONCAT('%', #{searchValue}, '%'))
@@ -508,10 +508,10 @@
             AND DATE_FORMAT(estimated_harvest_date, '%Y-%m-%d') BETWEEN #{fromDate} AND #{toDate}
         </if>
         <if test="fromDate != null and fromDate != '' and (toDate == null or toDate == '')">
-            AND DATE_FORMAT(estimated_harvest_date, '%Y-%m-%d') >= #{fromDate}
+            AND DATE_FORMAT(estimated_harvest_date, '%Y-%m-%d') &gt;= #{fromDate}
         </if>
         <if test="(fromDate == null or fromDate == '') and toDate != null and toDate != ''">
-            AND DATE_FORMAT(estimated_harvest_date, '%Y-%m-%d') <= #{toDate}
+            AND DATE_FORMAT(estimated_harvest_date, '%Y-%m-%d') &lt;= #{toDate}
         </if>
     </select>
 
