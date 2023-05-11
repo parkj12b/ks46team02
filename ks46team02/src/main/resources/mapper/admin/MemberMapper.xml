@@ -18,6 +18,7 @@
 		<result column="member_level_name"						property="memberLevelName"/>
 </resultMap>
 
+
 		<update id="addEmployee" parameterType="String">
 			UPDATE member_info
 			SET
@@ -130,7 +131,17 @@
 		        dormant_member_reg_date = null
 		    WHERE
 		        member_id = #{memberId};
-</update>
+	</update>
+
+	<update id="modifyMemberDormant" parameterType="String">
+		/* 일반회원을 휴면회원으로 */
+		UPDATE member_info
+		SET
+			member_status = 'dormant',
+			dormant_member_reg_date = now()
+		WHERE
+			member_id = #{memberId};
+	</update>
 
 	<update id="modifyEmployeeLevel" parameterType="Member">
 		/* 업체직위수정 */

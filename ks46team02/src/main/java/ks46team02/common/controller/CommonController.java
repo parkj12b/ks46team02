@@ -245,4 +245,17 @@ public class CommonController {
 		model.addAttribute("addrInfo", addrInfo);
 		return "/modify_member_addr";
 	}
+	/* 배송지 등록 */
+	@PostMapping("/addMemberAddr")
+	public String addMemberAddr(Addr addr, Model model) {
+		addrService.addAddr(addr);
+		return "redirect:/addrList";
+	}
+
+	/* 배송지 등록 */
+	@GetMapping("/addMemberAddr")
+	public String addMemberAddr(Model model){
+		model.addAttribute("title", "배송지 등록");
+		return "/add_member_addr";
+	}
 }

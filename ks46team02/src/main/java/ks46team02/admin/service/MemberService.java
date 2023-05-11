@@ -58,6 +58,13 @@ private static final Logger log = LoggerFactory.getLogger(AdminController.class)
 	}
 	/* 휴면 회원 돌리기 */
 	public void modifyDormantMember(String memberId) {
-	    memberMapper.modifyDormantMember(memberId);
+
+		memberMapper.modifyDormantMember(memberId);
 	}
+	/* 일반 회원 휴면회원으로 전환 */
+	public void modifyMemberDormant(String memberId){
+
+		memberMapper.modifyMemberDormant(memberId);
+	}
+
 }

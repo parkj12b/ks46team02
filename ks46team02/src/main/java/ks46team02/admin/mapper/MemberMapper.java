@@ -29,6 +29,8 @@ public interface MemberMapper {
 	public Member getMemberInfoById(String memberId);
 	/* 휴면 회원을 일반회원으로 */
 	public int modifyDormantMember(String memberId);
+	/* 일반 회원을 휴면회원으로*/
+	public int modifyMemberDormant(String memberId);
 	/* 회원 삭제 */
 	public int removeMember(String memberId);
 

@@ -10,6 +10,18 @@
 		<result column="member_id"  				property="memberId"/>
 		<result column="ipv4_address"  				property="ipv4Address"/>
 </resultMap>
+	<select id="getDormentLoginList" resultMap="loginHistoryResultMap">
+		/* 최근 로그인 기록이 90일 이상인 회원 조회 */
+		SELECT
+			member_id
+		FROM
+			login_history
+
+		WHERE
+			(SELECT DATEDIFF(NOW(),login_date))>90;
+
+
+	</select>
 
 		<insert id="addLoginHistory" parameterType="LoginHistory">
 			/* 로그인 기록 등록 */
