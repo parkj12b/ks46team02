@@ -213,6 +213,7 @@ public class CommonController {
 		model.addAttribute("addrList", addrList);
 		return "addr_member_list";
 	}
+	
 	/* 회원별 배송지 수정 */
 	@PostMapping("/modifyMemberAddr")
 	public String modifyAddr(Addr addr) {
@@ -221,8 +222,8 @@ public class CommonController {
 		
 		return "redirect:/admin/addrList";
 	}
-	/* 회원별 배송지 수정 */
 	
+	/* 회원별 배송지 수정 */
 	@GetMapping("/modifyMemberAddr")
 	public String modifyAddr(Model model
 							 ,@RequestParam(name="addrCode") String addrCode){

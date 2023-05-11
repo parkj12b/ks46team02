@@ -3,69 +3,78 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/mypageLayout}">
 <head>
+
 <th:block layout:fragment="customJs">
-	<script>
-		$(document).ready(function() {
-			// 문의유형 등록 버튼 클릭 시 모달 창 띄우기
-			$('button[data-target="#myModal"]').click(function() {
-				$('#myModal').modal('show');
-			});
+<script>
+	function registerQuestionType() {
+		var questionTypeName = $("#questionTypeName").val();
+		var adminId = $("#adminId").val();
+		var questionTypeCode = $("#questionTypeCode").val();
 
-			// 모달창에서 취소 버튼 클릭 시 모달창 닫기
-			$('#myModal button[data-dismiss="modal"]').click(function() {
-				$('#myModal').modal('hide');
-			});
+	    $.ajax({
+	        url: '/customerservice/add_questionType_proc',
+	        type: 'POST',
+	        data: {
+	            questionTypeCode: questionTypeCode,
+	            adminId: adminId,
+	            questionTypeName: questionTypeName
+	        },
+	        success: function(response) {
+	            if (response === 'success') {
+	                alert('문의 유형이 성공적으로 등록되었습니다.');
+	                $('#questionTypeRegisterModal').modal('hide');
+	                location.reload();
+	            } else {
+	                alert('문의 유형 등록에 실패하였습니다.');
+	            }
+	        },
+	        error: function() {
+	            alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+	        }
+	    });
+	}
+	$(document).ready(function() {
+	        $(".submit").on('click', function(event) {
+	            event.preventDefault(); 
+	            
+	            var currentRow = $(this).closest("tr");
 
-			$(function() {
-				$('#myModal').on('click', '.btn-submit', function(e) {
-					e.preventDefault();
+	            var questionTypeCode = currentRow.find("td:eq(0)").text();
+	            var questionTypeName = currentRow.find("td:eq(1)").text();
+	            var adminId = currentRow.find("td:eq(2)").text();
 
-					var data = {
-						adminId : $('#adminId').val(),
-						questionTypeCode : $('#questionTypeCode').val(),
-						questionTypeName : $('#questionTypeName').val()
-					};
+	      
+	            var newQuestionTypeName = prompt("새 문의유형 이름을 입력하세요.", questionTypeName);
 
-					$.ajax({
-						type : 'POST',
-						url : '/customerservice/questiontypelist/add_proc',
-						data : data,
-						success : function(response) {
-							$('#myModal').modal('hide'); // 모달 닫기
-							location.reload(); // 페이지 새로고침 // 등록 성공 시 처리
-						},
-						error : function(xhr, status, error) {
-							alert("오류 발생"); // 등록 실패 시 처리
-						}
-					});
-				});
-			}); 
-			
-			 /*  $("#writeQuestionTypeBtn").click(function() {
-				    var questionTypeName = $("#questionTypeName").val();
-				    var questionType = {"questionTypeName": questionTypeName};
-				    $.ajax({
-				      type: "POST",
-				      url: "/questionType/register",
-				      contentType: "application/json",
-				      data: JSON.stringify(questionType),
-				      success: function(response) {
-				        if (response === "success") {
-				          $("#myModal").modal("hide");
-				          alert("문의유형이 등록되었습니다.");
-				          location.reload();
-				        } else {
-				          alert("문의유형 등록에 실패했습니다.");
-				        }
-				      },
-				      error: function(e) {
-				        console.log("error: ", e);
-				        alert("문의유형 등록에 실패했습니다.");
-				      }
-				    });
-				  }); */
-		});
-	</script>
+	            if (newQuestionTypeName) {
+	                $.ajax({
+	                    url: '/customerservice/modify_questionType_proc',
+	                    type: 'POST',
+	                    data: {
+	                        questionTypeCode: questionTypeCode,
+	                        questionTypeName: newQuestionTypeName,
+	                        adminId: adminId
+	                    },
+	                    success: function(response) {
+	                    	if (response === 'success') {
+	                    		alert('문의 유형이 성공적으로 수정되었습니다.');
+	                    		location.reload();
+	                    	} else if(response === 'empty') {
+	                    		alert('문의 유형 이름은 공백일 수 없습니다.');
+	                    	} else {
+	                    		alert('문의 유형 수정에 실패하였습니다.');
+	                    	}
+	                    },
+	                    error: function() {
+	                        alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+	                    }
+	                });
+	            }
+	        });
+	    });
+		
+</script>
+</th:block>
 </head>
 
 <th:block layout:fragment="customContent">
@@ -146,17 +155,20 @@
 												<td th:text="${l.questionTypeRegDate}"></td>
 												<td th:text="${l.questionTypeModifyDate}"></td>
 												<td th:text="${l.questionTypeDelDate}"></td>
-												<td><a href="#"><i class="fa fa-edit"></i>수정</a></td>
+												<td><button type="submit" class="submit">수정</button></td>
 												<td><a href="#" class="delete"><i
 														class="fa fa-close"></i> 삭제</a></td>
 											</tr>
 										</tbody>
 									</table>
 								</div>
+
+								<!-- 문의유형 등록 버튼 -->
 								<div class="dataTables_paginate paging_simple_numbers"
 									style="margin: 20px;">
-									<button type="button" class="btn btn-secondary"
-										data-toggle="modal" data-target="#myModal">문의유형등록</button>
+									<button type="submit" class="btn btn-primary"
+										data-toggle="modal" data-target="#questionTypeRegisterModal">
+										문의유형등록</button>
 								</div>
 							</div>
 						</div>
@@ -166,72 +178,42 @@
 		</div>
 	</div>
 
-	<!-- 모달 창 -->
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-right modal-md" role="document">
+	<!-- 문의유형 등록 모달창 -->
+	<div class="modal fade" id="questionTypeRegisterModal" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="myModalLabel">문의유형 등록</h4>
-
+					<h5 class="modal-title" id="exampleModalLabel">문의유형 등록</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
-
 				<div class="modal-body">
-					<!-- 모달 내용 -->
-					<div class="form-group row">
-						<div class="col-md-12 col-sm-12">
-							<form class="form-horizontal form-label-left"
-								th:action="@{/customerservice/questiontypelist/add_proc}"
-								method="post">
-
-								<div th:object="${writeQuestionTypeDto}">
-									<div class="form-group row">
-										<label class="control-label col-md-4 col-sm-4" for="adminId"
-											th:text="관리자">관리자</label>
-										<div class="col-md-8 col-sm-8">
-											<input type="text" class="form-control" id="adminId"
-												name="adminId" readonly="readonly" />
-										</div>
-									</div>
-
-									<div class="form-group row">
-										<label class="control-label col-md-4 col-sm-4"
-											for="questionTypeCode">문의 유형 코드</label>
-										<div class="col-md-8 col-sm-8">
-											<input type="text" class="form-control" id="questionTypeCode"
-												name="questionTypeCode" readonly="readonly" />
-										</div>
-									</div>
-
-									<div class="form-group row">
-										<label class="control-label col-md-4 col-sm-4"
-											for="questionTypeName">문의 유형 이름</label>
-										<div class="col-md-8 col-sm-8">
-											<input type="text" class="form-control" id="questionTypeName"
-												name="questionTypeName" />
-										</div>
-									</div>
-								</div>
-								<div class="modal-footer">
-									<a class="btn btn-submit"
-										th:href="@{/customerservice/questiontypelist}"
-										style="float: left;">등록</a>
-									<button type="button" class="btn btn-default"
-										data-dismiss="modal">취소</button>
-
-								</div>
-							</form>
+					<form>
+						<div class="form-group">
+							<label for="questionTypeCode">문의유형코드: </label> <input type="text"
+								class="form-control" id="questionTypeCode"
+								th:value="${questionTypeCode}" readonly>
 						</div>
-					</div>
+						<div class="form-group">
+							<label for="adminId">관리자아이디:</label> <input type="text"
+								class="form-control" id="adminId"
+								th:value="${session.sessionId}" readonly>
+						</div>
+						<div class="form-group">
+							<label for="questionTypeName">문의유형이름:</label> <input type="text"
+								class="form-control" id="questionTypeName">
+						</div>
+					</form>
 				</div>
-
-				<!-- 	<div class="modal-footer">
-					<a class="btn btn-submit"
-						th:href="@{/customerservice/questiontypelist}"
-						style="float: left;">등록</a>
-					<button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
-
-				</div> -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">닫기</button>
+					<button type="button" class="btn btn-primary" 
+						onclick="registerQuestionType()">등록</button>
+				</div>
 			</div>
 		</div>
 	</div>
