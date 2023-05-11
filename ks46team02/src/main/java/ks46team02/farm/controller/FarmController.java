@@ -66,6 +66,22 @@ public class FarmController {
 		this.memberService = memberService;
 		this.farmMapper = farmMapper;
 	}
+	@GetMapping("/productionGraph")
+	@ResponseBody
+	public List<Production> getProductionGraph(String farmCode){
+		List<Production> Production = farmService.getProductionGraph(farmCode);
+		return Production;
+	}
+
+	/**
+	 * 먹이 급여 그래프
+	 */
+	@GetMapping("/feedGraph")
+	@ResponseBody
+	public List<Feed> getFeedGraph(String cycleCode){
+		List<Feed> feed = farmService.getFeedGraph(cycleCode);
+		return feed;
+	}
 
 	/**
 	 * 케이지 수정
@@ -344,6 +360,7 @@ public class FarmController {
 		List<Feed> feedList = farmService.getFeedListByCycleCode(cycleCode);
 		model.addAttribute("title", "먹이 조회");
 		model.addAttribute("feedList", feedList);
+		model.addAttribute("cycleCode", cycleCode);
 		return "farm/feed_list";
 	}
 

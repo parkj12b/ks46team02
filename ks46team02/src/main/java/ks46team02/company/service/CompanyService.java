@@ -1,11 +1,15 @@
 package ks46team02.company.service;
 
+import ks46team02.admin.controller.AdminController;
 import ks46team02.common.dto.Member;
+import ks46team02.common.mapper.MainMapper;
 import ks46team02.company.dto.Company;
 import ks46team02.company.dto.CompanyPositionLevel;
 import ks46team02.company.dto.CompanyType;
 import ks46team02.company.dto.FarmProductCategory;
 import ks46team02.company.mapper.CompanyMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,14 +18,20 @@ import java.util.List;
 @Service
 public class CompanyService {
     private final CompanyMapper companyMapper;
+    private final MainMapper mainMapper;
 
-    public CompanyService(CompanyMapper companyMapper){
+    private static final Logger log = LoggerFactory.getLogger(AdminController.class);
+    public CompanyService(CompanyMapper companyMapper
+                         ,MainMapper mainMapper){
         this.companyMapper = companyMapper;
+        this.mainMapper = mainMapper;
     }
 
     /* 업체승인 */
     public int updateApprovalCompany(Company company){
+        String companyCode = company.getCompanyCode();
         int result = companyMapper.updateApprovalCompany(company);
+
         return result;
     }
     /* 업체정보수정(관리자) */
@@ -64,14 +74,20 @@ public class CompanyService {
     }
 
     /* 업체등록 조회 */
-    public int addCompany(Company company){
-        int result = companyMapper.addCompany(company);
-        return result;
+    public boolean addCompany(Company company){
+        String column = "company_code";
+        String table = "company_info";
+        String companyCode =  mainMapper.autoIncrement(table, column);
+        company.setCompanyCode(companyCode);
+        boolean addCompanyResult = companyMapper.addCompany(company);
+        log.info("addCompany result : {}",addCompanyResult);
+        return true;
     }
 
     /* 회원테이블에 업체코드 업데이트 */
-    public int addCompanyCode(Member member){
-        int result = companyMapper.addCompanyCode(member);
+    public boolean addCompanyCode(Member member){
+        boolean result = companyMapper.addCompanyCode(member);
+        log.info("addCompanyCode result : {}", result);
         return result;
     }
 

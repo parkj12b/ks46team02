@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import ks46team02.customerservice.service.CustomerServiceListService;
 import ks46team02.customerservice.dto.AnswerDto;
@@ -27,9 +29,8 @@ import ks46team02.customerservice.dto.QuestionTypeDto;
 public class CustomerServiceListController {
 
 	@Autowired
-	private CustomerServiceListService  customerserviceListService;
-	
-	
+	private CustomerServiceListService customerserviceListService;
+
 	private static final Logger log = LoggerFactory.getLogger(CustomerServiceListController.class);
 
 	@GetMapping("/questionlist")
@@ -40,10 +41,10 @@ public class CustomerServiceListController {
 		model.addAttribute("title", "문의목록 조회");
 
 		model.addAttribute("questionList", questionList);
-		
+
 		return "customerservice/questionlist";
 	}
-	
+
 	@GetMapping("/answerlist")
 	public String getAnswerList(Model model) {
 		List<AnswerDto> answerList = customerserviceListService.getAnswerList();
@@ -51,35 +52,54 @@ public class CustomerServiceListController {
 		model.addAttribute("answerList", answerList);
 		return "customerservice/answerlist";
 	}
-	
+
 	@GetMapping("/questiontypelist")
-	public String getQuestionTypeList(Model model) {
-		
+	public String getQuestionTypeList(Model model, QuestionTypeDto questionTypeDto) {
+
 		List<QuestionTypeDto> questionTypeList = customerserviceListService.getQuestionTypeList();
+
+		// 자동증가되는 questionTypeCode 가져오기
+		int questionTypeCode = customerserviceListService.getNextQuestionTypeCode();
+
 		model.addAttribute("title", "문의 유형 조회");
 		model.addAttribute("questionTypeList", questionTypeList);
 
-		return "customerservice/questiontypelist";
-		
-	}
-	
-	@PostMapping("/questiontypelist/add_proc")
-	 public ResponseEntity<String> registerQuestionType(@RequestBody QuestionTypeDto questionTypeDto, HttpSession session) {
-		
-		// 세션에서 adminId 가져오기
-	    String adminId = (String) session.getAttribute("adminId");
+		// 모달창에 전달할 데이터 설정
+		model.addAttribute("questionTypeCode", questionTypeCode);
 
-	    // adminId와 자동증가되는 questionTypeCode를 questionType 객체에 세팅
-	    questionTypeDto.setAdminId(adminId);
-	    
-	    int questionTypeCode = customerserviceListService.getNextQuestionTypeCode();
-	    questionTypeDto.setQuestionTypeCode(questionTypeCode);
-		
-	    // 질문 유형 등록
-	    customerserviceListService.writeQuestionType(questionTypeDto);
-		
-	    return new ResponseEntity<>("success", HttpStatus.OK);
+		questionTypeDto.setQuestionTypeCode(questionTypeCode);
+
+		return "customerservice/questiontypelist";
+
 	}
-	
-		
+
+	@PostMapping("/add_questionType_proc")
+	@ResponseBody
+	public String registerQuestionType(QuestionTypeDto questionTypeDto) {
+		String msg = "fail";
+		int result = customerserviceListService.registerQuestionType(questionTypeDto);
+		if (result > 0)
+			msg = "success";
+		return msg;
+	}
+
+
+	@PostMapping("/modify_questionType_proc")
+	@ResponseBody
+	public String updateQuestionTypeName(QuestionTypeDto questionTypeDto) {
+		String msg = "fail";
+
+		// questionTypeName이 공백인 경우를 검사
+		if (questionTypeDto.getQuestionTypeName().trim().isEmpty()) {
+			msg = "empty";
+			return msg;
+		}
+
+		String result = customerserviceListService.updateQuestionTypeName(questionTypeDto);
+		if (result == null || result.trim().isEmpty())
+			msg = "success";
+
+		return msg;
+	}
+
 }

@@ -88,6 +88,13 @@
 				}
 				return true;
 			}
+			$('#cancelBtn').click(function (){
+				window.history.back();
+			});
+			$("#reset-btn").click(function(event) {
+				event.preventDefault();
+				$("form")[0].reset();
+			});
 
 
 		</script>
@@ -103,7 +110,9 @@
 				<div class="x_panel">
 					<div class="x_title">
 						<h2>싸이클 등록</h2>
+						<button type="reset" class="btn btn-white" style="float: right" id="reset-btn"> <i class="fa fa-repeat"></i></button>
 						<div class="clearfix"></div>
+
 					</div>
 					<div class="x_content">
 						<br>
@@ -176,7 +185,7 @@
 											<input type="radio" name="calculationStandardCode" value="Lava" class="join-btn"> 애벌레
 										</label>
 										<label class="btn btn-primary active" data-toggle-class="btn-primary" data-toggle-passive-class="btn-secondary">
-											<input type="radio" name="calculationStandardCode" value="Puppa" class="join-btn"> 번데기
+											<input type="radio" name="calculationStandardCode" value="Pupa" class="join-btn"> 번데기
 										</label>
 									</div>
 								</div>
@@ -186,7 +195,7 @@
 							<div class="form-group">
 								<div class="col-md-9 col-sm-9  offset-md-3">
 									<button type="submit" class="btn btn-dark">등록</button>
-									<button type="button" class="btn btn-dark">취소</button>
+									<button type="button" class="btn btn-dark" id="cancelBtn">취소</button>
 
 								</div>
 							</div>

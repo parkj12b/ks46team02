@@ -35,11 +35,25 @@ public class FarmService {
         this.farmMapper = farmMapper;
         this.mainMapper = mainMapper;
     }
-    
-    
-	private static final Logger log = LoggerFactory.getLogger(FarmService.class);
+
+
+    private static final Logger log = LoggerFactory.getLogger(FarmService.class);
     final double standardEggWeight = 0.089;
 
+    /**
+     * 생산량 그래프
+     */
+    public List<Production> getProductionGraph(String farmCode){
+        List<Production> Production = farmMapper.getProductionGraph(farmCode);
+        return Production;
+    }
+    /**
+     * 먹이 급여 그래프
+     */
+    public List<Feed> getFeedGraph(String cycleCode){
+        List<Feed> feed = farmMapper.getFeedGraph(cycleCode);
+        return feed;
+    }
 
     /**
      * 케이지 수정
@@ -200,21 +214,21 @@ public class FarmService {
     }
 
 
-	/*
+    /*
 	 * 케이지 코드로 하나의 케이지 정보 조회
 	 */
-	public Cage getCageByCode(String cageCode) {
-		Cage cage = farmMapper.getCageByCode(cageCode);
-		return cage;
-	}
-	
-	/**
-	 * 하나의 사육장 케이지 조회
-	 */
-	public List<Cage> getCageListByCode(String farmCode) {
-		List<Cage> cageList = farmMapper.getCageListByCode(farmCode);
-		return cageList;
-	}
+    public Cage getCageByCode(String cageCode) {
+        Cage cage = farmMapper.getCageByCode(cageCode);
+        return cage;
+    }
+
+    /**
+     * 하나의 사육장 케이지 조회
+     */
+    public List<Cage> getCageListByCode(String farmCode) {
+        List<Cage> cageList = farmMapper.getCageListByCode(farmCode);
+        return cageList;
+    }
 
     /**
      * 전체 사육장 케이지 조회

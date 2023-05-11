@@ -8,6 +8,7 @@
 </head>
 <th:block layout:fragment="customJs">
     <script>
+
         $(document).ready(function () {
             $('#datatable-responsive1').DataTable({
                 searching: false // search 기능을 비활성화
@@ -21,7 +22,33 @@
             $('#datatable-responsive4').DataTable({
                 searching: false
             });
+
+
+            var companyTypeNumber = "[[${companyTypeNum}]]";
+
+            if(companyTypeNumber == 1) {
+                // 건조업체계약공고 이외의 탭 숨기기
+                $('#breed-tab').hide();
+                $('#mentor-tab').hide();
+                $('#all-tab').hide();
+                // 건조업체계약공고 탭 활성화
+                $('#myTab a[href="#dry"]').tab('show');
+            } else if(companyTypeNumber == 2) {
+                $('#dry-tab').hide();
+                $('#all-tab').hide();
+                // 건조업체계약공고 탭 활성화
+                $('#myTab a[href="#breed"]').tab('show');
+            } else if(companyTypeNumber == 3) {
+                $('#dry-tab').hide();
+                $('#mentor-tab').hide();
+                $('#all-tab').hide();
+                // 건조업체계약공고 탭 활성화
+                $('#myTab a[href="#breed"]').tab('show');
+            }
         });
+
+
+
     </script>
 </th:block>
 
@@ -32,22 +59,21 @@
             <div class="clearfix"></div>
         </div>
         <div class="x_content">
-
-            <ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="dry-tab" data-toggle="tab" href="#dry" role="tab"
-                       aria-selected="true">건조업체계약공고</a>
+            <ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist" >
+                <li class="nav-item" id="dry-tab">
+                    <a class="nav-link active"  data-toggle="tab" href="#dry" role="tab"
+                       >건조업체계약공고</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="breed-tab" data-toggle="tab" href="#breed" role="tab" aria-selected="false">사육업체계약공고</a>
+                <li class="nav-item" id="breed-tab">
+                    <a class="nav-link"  data-toggle="tab" href="#breed" role="tab" >사육업체계약공고</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="mentor-tab" data-toggle="tab" href="#mentor" role="tab"
-                       aria-selected="false">멘토멘티계약공고</a>
+                <li class="nav-item" id="mentor-tab" >
+                    <a class="nav-link" data-toggle="tab" href="#mentor" role="tab"
+                       >멘토멘티계약공고</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="all-tab" data-toggle="tab" href="#all" role="tab"
-                       aria-selected="false">모든계약</a>
+                <li class="nav-item" id="all-tab">
+                    <a class="nav-link"  data-toggle="tab" href="#all" role="tab"
+                       >모든계약</a>
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
@@ -108,7 +134,7 @@
                                     <div class="col-sm-12">
                                         <div class="card-box table-responsive">
                                             <table id="datatable-responsive2"
-                                                   class="table table-striped table-bordered dt-responsive nowrap"
+                                                   class="table table-striped table-bordered text-center dt-responsive nowrap"
                                                    cellspacing="0" width="100%">
                                                 <thead>
                                                 <tr role="row">
@@ -247,18 +273,20 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr role="row" th:unless="${contractList == null}" th:each="l :${contractList}"
+                                                <tr role="row" th:unless="${contractList == null}"
+                                                    th:each="l :${contractList}"
                                                     th:switch="${companyTypeNum}">
 
-                                                        <td th:text="${l.contractCode}"></td>
-                                                        <td th:text="${l.contractType}"></td>
-                                                        <td th:text="${l.memberId}"></td>
-                                                        <td th:text="${l.contractApproval}"></td>
-                                                        <td th:text="${l.contracteeCompanyCode}"></td>
-                                                        <td th:text="${l.contractorCompanyCode}"></td>
-                                                        <td>
-                                                            <a class="btn btn-secondary btn-sm" th:href="@{/contract/contractInfo(contractCode=${l.contractCode})}">계약상세보기</a>
-                                                        </td>
+                                                    <td th:text="${l.contractCode}"></td>
+                                                    <td th:text="${l.contractType}"></td>
+                                                    <td th:text="${l.memberId}"></td>
+                                                    <td th:text="${l.contractApproval}"></td>
+                                                    <td th:text="${l.contracteeCompanyCode}"></td>
+                                                    <td th:text="${l.contractorCompanyCode}"></td>
+                                                    <td>
+                                                        <a class="btn btn-secondary btn-sm"
+                                                           th:href="@{/contract/contractInfo(contractCode=${l.contractCode})}">계약상세보기</a>
+                                                    </td>
                                                 </tr>
                                                 </tbody>
                                             </table>
