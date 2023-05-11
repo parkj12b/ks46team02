@@ -29,8 +29,8 @@ private final MainMapper mainMapper;
 	}
 	/* 로그인 기록 등록 */
 	public int addLoginHistory(LoginHistory loginHistory) {
-		 String column = "shipping_addr_code";
-	     String table = "login_code";
+		 String column = "login_code";
+	     String table = "login_history";
 	     String loginCode = mainMapper.autoIncrement(table, column);
 	     loginHistory.setLoginCode(loginCode);
 	     int result =loginHistoryMapper.addLoginHistory(loginHistory);

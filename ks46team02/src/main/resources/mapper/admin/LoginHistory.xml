@@ -23,8 +23,8 @@
 				(#{loginCode}
 				,CURDATE()
 				,CURDATE()
-				,'1234'
-				,#{memberId});
+				,#{memberId}
+				,'1234');
 
 		</insert>
 		<delete id="removeLogin" parameterType="String" >
