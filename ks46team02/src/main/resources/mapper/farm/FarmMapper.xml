@@ -369,29 +369,17 @@
         ON p.expected_cage_production_code = ex.expected_cage_production_code
         <where>
             p.company_code = #{companyCode}
-
             <if test="fromDate != null and fromDate != '' and toDate != null and toDate != ''">
                 AND DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d') BETWEEN #{fromDate} AND #{toDate}
-                <if test="searchKey != null and searchKey != ''">
-                    AND (${searchKey} LIKE CONCAT('%', #{searchValue}, '%'))
-                </if>
             </if>
             <if test="fromDate != null and fromDate != '' and (toDate == null or toDate == '')">
-                AND DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d') &gt;= #{fromDate}
-                <if test="searchKey != null and searchKey != ''">
-                    AND (${searchKey} LIKE CONCAT('%', #{searchValue}, '%'))
-                </if>
+                AND DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d') >= #{fromDate}
             </if>
             <if test="(fromDate == null or fromDate == '') and toDate != null and toDate != ''">
-                AND DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d') &lt;= #{toDate}
-                <if test="searchKey != null and searchKey != ''">
-                    AND (${searchKey} LIKE CONCAT('%', #{searchValue}, '%'))
-                </if>
+                AND DATE_FORMAT(p.real_harvest_day, '%Y-%m-%d') <= #{toDate}
             </if>
-            <if test="fromDate ==''and toDate ==''">
-                <if test="searchKey != null and searchKey != ''">
-                    AND (${searchKey} LIKE CONCAT('%', #{searchValue}, '%'))
-                </if>
+            <if test="searchKey != null and searchKey != ''">
+                AND (${searchKey} LIKE CONCAT('%', #{searchValue}, '%'))
             </if>
         </where>
         ORDER BY real_harvest_day  DESC;
@@ -483,11 +471,11 @@
     </select>
 
     <!-- 한 사육장 싸이클 검색 -->
-    <select id="getSearchCycle" resultType = "Cycle">
+    <select id="getSearchCycle" resultType="Cycle">
         SELECT
         c.cage_volume as cageVolume,
         c.cage_num as cageNum,
-        c.cage_total cageTotal,
+        c.cage_total as cageTotal,
         cy.expected_cage_production_code AS cycleCode,
         cy.company_code AS companyCode,
         cy.farm_code AS farmCode,
@@ -497,7 +485,7 @@
         input_egg AS inputEgg,
         calculation_standard_code AS calculationStandardCode,
         estimated_production AS estimatedProduction,
-        cy. member_id AS memberId,
+        cy.member_id AS memberId,
         estimated_production_reg_date AS estimatedProductionRegDate,
         DATEDIFF(estimated_harvest_date, NOW()) AS dayDiffHarvest
         FROM
@@ -505,29 +493,30 @@
         INNER JOIN
         cage AS c
         ON cy.cage_code = c.cage_code
-        <where>
-            cy.farm_code = #{farmCode}
-            <if test="searchKey != null and searchKey != ''">
-                <choose>
-                    <when test="searchKey == 'dayDiffHarvest'">
-                        AND DATEDIFF(estimated_harvest_date, NOW()) = #{searchValue}
-                    </when>
-                    <otherwise>
-                        AND (${searchKey} LIKE CONCAT('%', #{searchValue}, '%'))
-                    </otherwise>
-                </choose>
-            </if>
-            <if test="fromDate != null and fromDate != '' and toDate != null and toDate != ''">
-                AND DATE_FORMAT(estimated_harvest_date, '%Y-%m-%d') BETWEEN #{fromDate} AND #{toDate}
-            </if>
-            <if test="fromDate != null and fromDate != '' and (toDate == null or toDate == '')">
-                AND DATE_FORMAT(estimated_harvest_date, '%Y-%m-%d') &gt;= #{fromDate}
-            </if>
-            <if test="(fromDate == null or fromDate == '') and toDate != null and toDate != ''">
-                AND DATE_FORMAT(estimated_harvest_date, '%Y-%m-%d') &lt;= #{toDate}
-            </if>
-        </where>
+        WHERE cy.farm_code = #{farmCode}
+        <if test="searchKey != null and searchKey != ''">
+            <choose>
+                <when test="searchKey == 'dayDiffHarvest'">
+                    AND DATEDIFF(estimated_harvest_date, NOW()) >= #{searchValue}
+                </when>
+                <otherwise>
+                    AND (cy.${searchKey} LIKE CONCAT('%', #{searchValue}, '%'))
+                </otherwise>
+            </choose>
+        </if>
+        <if test="fromDate != null and fromDate != '' and toDate != null and toDate != ''">
+            AND DATE_FORMAT(estimated_harvest_date, '%Y-%m-%d') BETWEEN #{fromDate} AND #{toDate}
+        </if>
+        <if test="fromDate != null and fromDate != '' and (toDate == null or toDate == '')">
+            AND DATE_FORMAT(estimated_harvest_date, '%Y-%m-%d') >= #{fromDate}
+        </if>
+        <if test="(fromDate == null or fromDate == '') and toDate != null and toDate != ''">
+            AND DATE_FORMAT(estimated_harvest_date, '%Y-%m-%d') <= #{toDate}
+        </if>
     </select>
+
+
+
 
 
 </mapper>
