@@ -100,10 +100,10 @@ public class CompanyController {
         company.setCompanyCode(companyCode);
         company.setMemberId(memberId);
         company.setAdminId(sessionId);
-        member.setMemberId(memberId);
         member.setCompanyCode(companyCode);
+        member.setMemberId(memberId);
+        member.setPositionLevelCode("level_code_1");
         log.info("ajax로 전달받은 데이터:{}",company);
-
         companyService.updateApprovalCompany(company);
         companyService.addCompanyCode(member);
     }
@@ -216,15 +216,11 @@ public class CompanyController {
     /* 업체등록 */
     @PostMapping("/addCompany")
     public String addCompany(Company company
-                            ,HttpSession session
-                            ,Member member){
+                            ,HttpSession session){
         String sessionId = (String)session.getAttribute("sessionId");
         company.setMemberId(sessionId);
-        member.setMemberId(sessionId);
-        log.info("화면에서 전달받은 데이터 : {}", company);
         companyService.addCompany(company);
-//        companyService.addCompanyCode(member);
-        return "redirect:/admin/applyCompanyRegList";
+        return "redirect:/company/companyInfoUser";
     }
 
     /* 업체등록 */
@@ -232,7 +228,6 @@ public class CompanyController {
     public String addCompany(Model model){
 
         List<CompanyType> companyTypeList = companyService.getCompanyTypeList();
-
         model.addAttribute("title","업체등록");
         model.addAttribute("companyTypeList",companyTypeList);
         return "company/add_company";
@@ -286,7 +281,7 @@ public class CompanyController {
         String sessionLevel = (String)session.getAttribute("sessionLevel");
         String sessionCompanyCode = (String)session.getAttribute("sessionCompanyCode");
         Company companyInfo = null;
-        if(sessionLevel != null && sessionLevel.equals("level_code_1")) {
+        if(sessionLevel != null && sessionLevel.equals("level_code_1") || sessionLevel != null && sessionLevel.equals("level_code_4")) {
             companyInfo = companyService.getCompanyInfoById(sessionId);
         } else {
             companyInfo = companyService.getCompanyInfoByCode(sessionCompanyCode);
