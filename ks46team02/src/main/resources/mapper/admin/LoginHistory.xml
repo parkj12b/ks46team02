@@ -13,12 +13,14 @@
 	<select id="getDormentLoginList" resultMap="loginHistoryResultMap">
 		/* 최근 로그인 기록이 90일 이상인 회원 조회 */
 		SELECT
-			member_id
+			max(member_id)
 		FROM
-			login_history
+			login_history as l
 
 		WHERE
-			(SELECT DATEDIFF(NOW(),login_date))>90;
+			DATEDIFF(NOW(),login_date)>90
+		GROUP by member_id;
+
 
 
 	</select>

@@ -20,96 +20,105 @@ input[type="checkbox"] {
 <th:block layout:fragment="customContent">
 	<div class="page-title">
 		<div class="title">
-			<div class="col-md-6">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>관리자 등급 등록</h2>
 
-				<div class="x_panel">
-					<div class="x_title">
-						<h2>관리자 등급 등록</h2>
-						<div class="clearfix"></div>
-					</div>
-					<div class="x_content">
-						<br>
-						<form class="form-horizontal form-label-left">					
-							<div class="form-group row ">
-								<label class="control-label col-md-3 col-sm-3 "> 관리자 직위 </label>
-								<div class="col-md-3 col-sm-3">
-									<input type="text" class="form-control" id="adminLevel" >
-								</div>
+					<ul class="nav navbar-right panel_toolbox" style="flex-direction: row-reverse">
+						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+						<li class="dropdown">
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 							</div>
-							
-						<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-9 ">회원 관리</label>
-								<div class="col-md-9 col-sm-9 ">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox" class="checkbox flat" > 
-										</label>
-									</div>
-								</div>
-							</div>
-						<div class="form-group row">
-							<label class="control-label col-md-3 col-sm-3 ">계약 관리</label>
-							<div class="col-md-9 col-sm-9 ">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox" class="checkbox flat" > 
-										</label>
-									</div>
-								</div>
-						</div>
-						<div class="form-group row">
-							<label class="control-label col-md-3 col-sm-3 ">동애등에 사육장 관리</label>
-							<div class="col-md-9 col-sm-9 ">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox" class="checkbox flat" > 
-										</label>
-									</div>
-								</div>
-						</div>
-						<div class="form-group row">
-							<label class="control-label col-md-3 col-sm-3 ">고객 문의 관리</label>
-							<div class="col-md-9 col-sm-9 ">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox" class="checkbox flat" > 
-										</label>
-									</div>
-								</div>
-						</div>
-						<div class="form-group row">
-							<label class="control-label col-md-3 col-sm-3 ">플랫폼 설정 관리</label>
-							<div class="col-md-9 col-sm-9 ">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox" class="checkbox flat" >
-										</label>
-									</div>
-								</div>
-						</div>
-						<div class="form-group row">
-							<label class="control-label col-md-3 col-sm-3 ">결제관리</label>
-							<div class="col-md-9 col-sm-9 ">
-									<div class="checkbox">
-										<label>
-											<input type="checkbox" class="checkbox flat" > 
-										</label>
-									</div>
-								</div>
-						</div>
-							<div class="ln_solid"></div>
-							<div class="form-group">
-								<div class="col-md-9 col-sm-9  offset-md-5">
-									<button type="button" class="btn btn-dark">등록</button>
-									<button type="reset" class="btn btn-dark cancel">취소</button>
-								</div>
-							</div>
+						</li>
+					</ul>
 
-						</form>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<div class="row">
+						<div class="col-sm-8">
+							<div class="card-box table-responsive">
+								<div class="col-sm-8">
+									<!-- <div th:include="~{admin/search/search :: memberSearch}"></div> -->
+
+
+									<table id="datatable1"  class="table table-hover">
+										<thead>
+										<tr>
+											<th></th>
+											<th></th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr>
+											<td>관리자 직위</td>
+											<td>
+												<input type=text">
+											</td>
+										</tr>
+										<tr>
+											<td>회원관리</td>
+											<td>
+												<label class="checkbox-inline">
+													<input type="checkbox" id="check" onclick="chkClicked()" value="">
+												</label>
+											</td>
+										</tr>
+										<tr>
+											<td>계약관리</td>
+											<td>
+												<label class="checkbox-inline">
+													<input type="checkbox" onclick="chkClicked()" value="">
+												</label>
+											</td>
+										</tr>
+										<tr>
+											<td>동에등애 사육장관리</td>
+											<td>
+												<label class="checkbox-inline">
+													<input type="checkbox" onclick="chkClicked()" value="">
+												</label>
+											</td>
+										</tr>
+										<tr>
+											<td>고객 문의 관리</td>
+											<td>
+												<label class="checkbox-inline">
+													<input type="checkbox" onclick="chkClicked()" value="">
+												</label>
+											</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>
+												<label class="checkbox-inline">
+													<input type="checkbox" onclick="chkClicked()" value="">
+												</label>
+											</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>
+												<label class="checkbox-inline">
+													<input type="checkbox" onclick="chkClicked()" value="">
+												</label>
+											</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="col-md-12 text-right">
+									<button class="btn btn-primary float-right" type="button">관리자 등급 등록</button>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
+
 </th:block>
 </html>

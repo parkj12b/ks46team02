@@ -87,10 +87,10 @@ public class CommonController {
 			if(memberInfo.getCompanyCode() != null) {
 				mmRegType = mentorMenteeService.getMMRegType(memberInfo.getCompanyCode());
 			}
-			/* 로그인 기록을 db로 저장 */
-			String memberId = memberInfo.getMemberId();
-			loginHistory.setMemberId(memberId);
-			loginHistoryService.addLoginHistory(loginHistory);
+//			/* 로그인 기록을 db로 저장 */
+//			String memberId = memberInfo.getMemberId();
+//			loginHistory.setMemberId(memberId);
+//			loginHistoryService.addLoginHistory(loginHistory);
 			
 			
 			
