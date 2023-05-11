@@ -16,4 +16,6 @@ public interface LoginHistoryMapper {
 	public int removeLogin(String loginCode);
 	/* 로그인 기록 등록 */
 	public int addLoginHistory(LoginHistory loginHistory);
+	/* 로그인 기록이 90인 회원 조회 */
+	public List<LoginHistory> getDormentLoginList();
 }

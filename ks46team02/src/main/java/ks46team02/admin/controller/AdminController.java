@@ -223,7 +223,9 @@ public class AdminController {
 	/* 관리자 등급 등록 */
 	@GetMapping("/addAdminLevel")
 	public String addAdminLevel(Model model){
+		List<AdminLevel>adminLevelList =adminLevelService.getAdminLevelList();
 		model.addAttribute("title", "관리자 등급 등록");
+		model.addAttribute("adminLevelList", adminLevelList);
 		return "admin/add_adminLevel";
 	}
 	/* 관리자등급 수정   */
