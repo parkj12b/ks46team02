@@ -61,10 +61,11 @@
 		<script>
 			$(function() {
 				
-				$('datatable-custom').DataTable({
+				$('#datatable-custom').DataTable({
 					searching: true,
 					length: true,
-					paginate: true
+					paginate: true,
+					language: lang_ko
 				})
 
 				/* tr클릭시 해당계약으로 등록신청페이지로 */
@@ -168,7 +169,7 @@
 																<td th:text=${l.deposit}></td>
 																<td th:text=${l.contracteeCompanyCode}></td>
 																<td class="link"><a
-																	th:href="@{/contractPaper(contractCode=*{contractCode})}">계약서
+																	th:href="@{/contractPaper(contractCode=${l.contractCode})}">계약서
 																		바로가기</a></td>
 															</tr>
 

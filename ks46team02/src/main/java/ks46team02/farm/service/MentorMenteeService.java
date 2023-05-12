@@ -288,6 +288,9 @@ public class MentorMenteeService {
 			
 			//map to pass to mapper
 			String resultCode = mainMapper.autoIncrement("result_history", "result_code");
+			if(resultCode == null) {
+				resultCode = "survey_num_1";
+			}
 			ResultHistory resultHistory = new ResultHistory();
 			resultHistory.setResultCode(resultCode);
 			resultHistory.setEvaluationUnitCode(evaluationUnitCode);
@@ -340,6 +343,9 @@ public class MentorMenteeService {
 	public MentorFeedbackToken addMentorFeedbackToken(MentorFeedbackToken token) {
 		// TODO Auto-generated method stub
 		String tokenCode = mainMapper.autoIncrement("mentor_feedback_token","mentor_feedback_token_code");
+		if(tokenCode == null) {
+			tokenCode = "token_code_1";
+		}
 		token.setMentorFeedbackTokenCode(tokenCode);
 		
 		byte[] randomBytes = new byte[24];
@@ -359,5 +365,12 @@ public class MentorMenteeService {
 		return tokenInfo;
 	}
 
+	public List<EvaluationLargeCategory> getEvaluationLargeCategoryNoDetailCate() {
+		// TODO Auto-generated method stub
+		List<EvaluationLargeCategory> list = mentorMenteeMapper.getEvaluationLargeCategoryNoDetailCate();
+		
+		return list;
+	}
 
+	
 }

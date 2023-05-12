@@ -8,8 +8,11 @@
 </head>
 
 <th:block layout:fragment="customJs">
-    <!-- jQuery Smart Wizard -->
-    <script th:src="@{/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js}"></script>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 </th:block>
 
 <th:block layout:fragment="customContent">
@@ -18,187 +21,178 @@
         <div class="col-md-12 col-sm-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>계약 등록</h2>
+                    <h2>계약 공고 등록</h2>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <div id="wizard_verticle" class="form_wizard wizard_verticle">
-                        <ul class="list-unstyled wizard_steps">
-                            <li>
-                                <a href="#step-11">
-                                    <span class="step_no">1</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#step-22">
-                                    <span class="step_no">2</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#step-33">
-                                    <span class="step_no">3</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#step-44">
-                                    <span class="step_no">4</span>
-                                </a>
-                            </li>
-                        </ul>
-
-                        <div id="step-11">
-                            <h2 class="StepTitle">Step 1 Content</h2>
-                            <form class="form-horizontal form-label-left">
-
-                                <span class="section">Personal Info</span>
-
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">First
-                                        Name <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6">
-                                        <input type="text" id="first-name2" required="required" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name">Last
-                                        Name <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6">
-                                        <input type="text" id="last-name2" name="last-name" required="required"
-                                               class="form-control">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Middle
-                                        Name / Initial</label>
-                                    <div class="col-md-6 col-sm-6">
-                                        <input id="middle-name2" class="form-control " type="text" name="middle-name">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-3 col-sm-3 label-align">Gender</label>
-                                    <div class="col-md-6 col-sm-6">
-                                        <div id="gender2" class="btn-group" data-toggle="buttons">
-                                            <label class="btn btn-secondary" data-toggle-class="btn-primary"
-                                                   data-toggle-passive-class="btn-secondary">
-                                                <input type="radio" name="gender" value="male" class="join-btn"> &nbsp;
-                                                Male &nbsp;
-                                            </label>
-                                            <label class="btn btn-primary" data-toggle-class="btn-primary"
-                                                   data-toggle-passive-class="btn-secondary">
-                                                <input type="radio" name="gender" value="female" class="join-btn"
-                                                       checked=""> Female
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-form-label col-md-3 col-sm-3 label-align">Date Of Birth <span
-                                            class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6">
-                                        <input id="birthday2" class="date-picker form-control" required="required"
-                                               type="text">
-                                    </div>
-                                </div>
-
-                            </form>
+                    <br>
+                    <form id="dryContractRegForm" method="post"
+                          class="form-horizontal form-label-left"
+                          th:action="@{/contract/addContract}" th:if="${sessionCompanyTypeNum == '1'}">
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   for="companyName">업체명</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="text" id="companyName"
+                                       name="companyName"
+                                       required="required"
+                                       class="form-control"
+                                       readonly="readonly"
+                                       th:value="${companyName}">
+                            </div>
                         </div>
-                        <div id="step-22">
-                            <h2 class="StepTitle">Step 2 Content</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                officia deserunt mollit anim id est laborum.
-                            </p>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                                dolor
-                                in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                mollit anim id est laborum.
-                            </p>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                                dolor
-                                in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                mollit anim id est laborum.
-                            </p>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                                dolor
-                                in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                mollit anim id est laborum.
-                            </p>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                                dolor
-                                in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                mollit anim id est laborum.
-                            </p>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   for="minAmount" >최소거래용량(톤)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number" id="minAmount"
+                                       name="minAmount"
+                                       class="form-control" required="required">
+                            </div>
                         </div>
-                        <div id="step-33">
-                            <h2 class="StepTitle">Step 3 Content</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                officia deserunt mollit anim id est laborum.
-                            </p>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                                dolor
-                                in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                mollit anim id est laborum.
-                            </p>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   for="maxAmount">최대거래용량(톤)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number" id="maxAmount"
+                                       name="maxAmount"
+                                       required="required" class="form-control">
+                            </div>
                         </div>
-                        <div id="step-44">
-                            <h2 class="StepTitle">Step 4 Content</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                officia deserunt mollit anim id est laborum.
-                            </p>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                                dolor
-                                in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                mollit anim id est laborum.
-                            </p>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                                dolor
-                                in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-                                mollit anim id est laborum.
-                            </p>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   for="minMonth">최소계약기간(월)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number" id="minMonth"
+                                       name="minMonth"
+                                       class="form-control" required="required">
+                            </div>
                         </div>
-                    </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   for="maxMonth">최대계약기간(월)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number" id="maxMonth"
+                                       name="maxMonth"
+                                       class="form-control" required="required">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   for="region">지역</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="text" id="region"
+                                       name="region" class="form-control" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-9 col-sm-9  offset-md-3">
+                                <button type="button" class="btn btn-dark" onclick="goBack()">취소</button>
+                                <button type="submit" class="btn btn-dark">등록</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form id="feedContractRegForm" method="post"
+                          class="form-horizontal form-label-left"
+                          th:action="@{/contract/addContract}"
+                          th:unless="${sessionCompanyTypeNum == '1'}">
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   >업체명 </label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="text"
+                                       name="companyName"
+                                       required="required"
+                                       class="form-control"
+                                       th:value="${companyName}"
+                                       readonly>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   >제품종류</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <select id="productCategoryCode" name="productCategoryCode" class="form-control">
+                                    <option value="">제품선택</option>
+                                    <th:block th:unless="${farmProductCategoryList == null}" th:each="l : ${farmProductCategoryList}">
+                                        <option th:value="${l.productCategoryCode}">[[${l.productName}]]</option>
+                                    </th:block>
+                                    <th:block th:if="${farmProductCategoryList == null}">
+                                        <option>등록된 제품이 없습니다</option>
+                                    </th:block>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                            >최소계약량(kg)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number"
+                                       name="minAmount"
+                                       required="required" class="form-control">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                            >최대계약량(kg)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number"
+                                       name="maxAmount"
+                                       required="required" class="form-control">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                            >최소계약기간(월)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number"
+                                       name="minDate"
+                                       required="required" class="form-control">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                            >최대계약기간(월)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number"
+                                       name="maxDate"
+                                       required="required" class="form-control">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                            >지역</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="text"
+                                       name="breedLocal" required="required" class="form-control" >
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   >월계약단가(만원)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number" name="monthPrice"
+                                       required="required" class="form-control"
+                                >
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   >업체규모-생산량(톤)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number" name="breedCompanySize"
+                                       required="required" class="form-control"
+                                >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-9 col-sm-9  offset-md-3">
+                                <button type="button" class="btn btn-dark" onclick="goBack()">취소</button>
+                                <button type="submit" class="btn btn-dark">등록</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

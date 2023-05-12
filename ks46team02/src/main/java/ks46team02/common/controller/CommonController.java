@@ -176,15 +176,12 @@ public class CommonController {
 	public String getContractPaperDetail(Model model, HttpSession session, @RequestParam(name="contractCode") String contractCode) {
 		Map<String,String> keyValue = new HashMap<String,String>();
 		String companyCode = (String) session.getAttribute("sessionCompanyCode");
-		if(companyCode == null) {
-			return "redirect:/";
-		}
+		
 		List<Map<String, Object>> searchList = new ArrayList<>();
 		
 		
 		
 		keyValue.put("contract_code", contractCode);
-		keyValue.put("contractor_company_code", companyCode);
 
 		Set<String> keySet = keyValue.keySet();
 		

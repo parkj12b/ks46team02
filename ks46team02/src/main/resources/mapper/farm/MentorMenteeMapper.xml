@@ -93,6 +93,13 @@
 		<result column="expiry_date" property="expiryDate"></result>
 		<result column="token_name" property="tokenName"></result>
 	</resultMap>
+	<resultMap type="EvaluationLargeCategory" id="evaluationLargeCategoryNoCollectionMap">
+		<id column="large_category_code" property="largeCategoryCode"></id>
+		<result column="evaluation_item" property="evaluationItem"></result>
+		<result column="evaluation_item_reg_date" property="evaluationItemRegDate"></result>
+		<result column="admin_id" property="adminId"></result>
+		<result column="large_category_num" property="largeCategoryNum"></result>
+	</resultMap>
 	<resultMap type="EvaluationLargeCategory" id="evaluationLargeCategoryMap">
 		<id column="large_category_code" property="largeCategoryCode"></id>
 		<result column="evaluation_item" property="evaluationItem"></result>
@@ -315,5 +322,23 @@
 			mentor_feedback_token
 		where
 			mentor_feedback_token_code = #{tokenCode}
+	</select>
+	<select id="getVisitHistoryList" resultMap="visitHistoryMap">
+		select
+			*
+		from
+			visit_history
+	</select>
+	<select id="getEvaluationLargeCategoryNoDetailCate" resultMap="evaluationLargeCategoryNoCollectionMap">
+		select
+			*
+		from
+			evaluation_large_category
+	</select>
+	<select id="getEvalDetailCateList" resultMap="evaluationDetailCategoryMap">
+		select
+			*
+		from
+			evaluation_detail_category
 	</select>
 </mapper>
