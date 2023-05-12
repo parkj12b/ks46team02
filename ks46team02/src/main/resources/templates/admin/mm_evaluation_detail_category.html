@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mypageLayout}">
+<head>
+<meta charset="UTF-8">
+<title th:text="${title}"></title>
+<style>
+#contract-info {
+	margin-bottom: 35px;
+	padding-bottom: 40px;
+	border-bottom: 2px solid #E6E9ED;
+}
+
+.table-striped tbody tr:nth-of-type(odd):hover {
+	background-color: rgba(0, 0, 0, .1);
+}
+
+.table-striped tbody tr:nth-of-type(even):hover {
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
+#no-item-msg {
+	text-align: center;
+}
+
+.progress-container {
+	display: flex;
+	align-items: center;
+}
+
+.progress {
+	width: 80%;
+	height: 30px;
+}
+
+.progress-title {
+	width: 20%;
+}
+
+.like-h2 {
+	font-size: 18px;
+}
+
+.category-div {
+	margin: 10px 0;
+}
+
+.progress-bar-blocks {
+	border: 1px solid #fff;
+	border-radius: 5px;
+}
+
+#feedback-open {
+	float: right;
+	margin-top: 20px;
+}
+
+#info-container {
+	padding-bottom: 40px;
+	border-bottom: 2px solid #E6E9ED;
+}
+
+#datatable_wrapper {
+	padding: 0px;
+}
+
+.title {
+	margin: 30px 0;
+}
+
+#search-container {
+	border: 2px solid #E6E9ED;
+	margin: 0 15px;
+	margin-bottom: 30px;
+}
+
+#search-container-inner {
+	display: flex;
+	margin: 15px;
+	justify-content: space-around;
+}
+
+.input-container {
+	display: flex;
+}
+
+.search-label {
+	width: 150px;
+}
+
+.button-td {
+	text-align: center;
+}
+
+#add-category {
+	float: right;
+	margin-top: 30px;
+}
+
+.form-element {
+	display: flex;
+	font-size: 18px;
+}
+</style>
+</head>
+<body>
+	<th:block layout:fragment="customJs">
+		<script>
+		
+				const modifyDetailCategory= function(evaluationUnitCode, largeCategoryCode, questionContentSmall) {
+					
+			Swal.fire({
+				template: '#modifyDetailCategory',
+				allowOutsideClick: false,
+				preConfirm: () => {
+					return {
+						largeCategoryCode: $('#largeCategoryCode-modify').val(),
+						questionContentSmall: $('#questionContentSmall-modify').val(),
+						evaluationUnitCode: evaluationUnitCode,
+						adminId : `[[${session.sessionId}]]`
+					}
+				}
+			}).then(result => {
+				console.log(result.value);
+				if(result.isConfirmed){
+					$.ajax({
+						url: `/admin/modifyDetailCategory`,
+						method: "post",
+						dataType: "json",
+						data: result.value
+					}).done(data => {
+						if(data.isSuccess){
+							Swal.fire({
+								icon: 'success',
+								title: data.msg,
+								showConfirmButton: true,
+								confirmButtonText: '확인'
+							}).then(function(){
+								location.reload();
+							})
+						}else {
+							Swal.fire({
+								icon: 'error',
+								title: data.msg,
+								showConfirmButton: true,
+								confirmButtonText: '확인'
+							})
+						}
+						
+					})
+				}
+			})
+			//비동기라 이렇게 해도 가능
+			$('#largeCategoryCode-modify option').each(function(){
+					if($(this).val() == largeCategoryCode){
+						$(this).attr('selected', 'true');
+					}
+			})
+			
+			let InputWidth = $('#largeCategoryCode-modify').width();
+			$('#questionContentSmall-modify').val(questionContentSmall);
+			$('#questionContentSmall-modify').width(InputWidth);
+			
+				}
+				
+				const deleteDetailCategory= function(evaluationUnitCode, largeCategoryCode, questionContentSmall) {
+					Swal.fire({
+						icon : 'question',
+						title : `${evaluationUnitCode} : ${questionContentSmall}`,
+						text : '위 세부항목을 삭제하시겠습니까?',
+						showConfirmButton : true,
+						showCancelButton : true,
+						confirmButtonText : '삭제',
+						cancelButtonText : '취소'
+					}).then(result => {
+						if(result.isConfirmed){
+							console.log(result);
+							$.ajax({
+								url: `/admin/deleteDetailCategory`,
+								method: "post",
+								dataType: "json",
+								data: {
+									evaluationUnitCode: evaluationUnitCode
+								}
+							}).done(data => {
+								if(data.isSuccess){
+									Swal.fire({
+										icon: 'success',
+										title: data.msg,
+										showConfirmButton: true,
+										confirmButtonText: '확인'
+									}).then(function(){
+										location.reload();
+									})
+								}else {
+									Swal.fire({
+										icon: 'error',
+										title: data.msg,
+										showConfirmButton: true,
+										confirmButtonText: '확인'
+									})
+								}
+								
+							})
+						}
+					})
+				}
+			$(function() {
+				$('#add-category').click(function(){
+					Swal.fire({
+						icon : 'question',
+						title : `새로 추가할 평가항목의 이름을 입력해주세요`,
+						input: 'text',
+						allowOutsideClick: false,
+						showConfirmButton : true,
+						showCancelButton : true,
+						confirmButtonText : '추가',
+						cancelButtonText : '취소'
+					}).then(result => {
+						if(result.isConfirmed){
+							console.log(result);
+							$.ajax({
+								url: `/admin/addLargeCategory`,
+								method: "post",
+								dataType: "json",
+								data: {
+									evaluationItem: result.value,
+									adminId: `[[${session.sessionId}]]`
+								}
+							}).done(data => {
+								if(data.isSuccess){
+									Swal.fire({
+										icon: 'success',
+										title: data.msg,
+										showConfirmButton: true,
+										confirmButtonText: '확인'
+									}).then(function(){
+										location.reload();
+									})
+								}else {
+									Swal.fire({
+										icon: 'error',
+										title: data.msg,
+										showConfirmButton: true,
+										confirmButtonText: '확인'
+									})
+								}
+								
+							})
+						}
+					})
+				})
+				
+				const table = $('#datatable-custom').DataTable({
+					length : true,
+					paginate : true,
+					info : true,
+					searching : true,
+					language: lang_ko
+				})
+
+				$('#large-category-code').on('keyup change clear',function(){
+					table.columns(1).search(this.value).draw();
+				})
+				
+				$('#question-content-small').on('keyup change clear', function(){
+					table.columns(2).search(this.value).draw();
+				})
+		
+			});
+		</script>
+
+	</th:block>
+	<th:block layout:fragment="customContent">
+		<template id="modifyDetailCategory">
+			<swal-title> 수정 </swal-title>
+			<swal-icon type="question"></swal-icon>
+			<swal-button type="confirm"> 수정 </swal-button>
+			<swal-button type="cancel"> 취소 </swal-button>
+			<swal-html> 
+			<div>
+				<select class="swal2-input"
+				name="largeCategoryCode" id="largeCategoryCode-modify">
+				<th:block th:each="l : ${largeCategoryList}">
+					<option th:value="${l.largeCategoryCode}"
+						th:text="${l.largeCategoryCode + ':' + l.evaluationItem}"></option>
+				</th:block>
+			</select> 
+			<input class="swal2-input" name="questionContentSmall"
+				id="questionContentSmall-modify" type="text" placeholder="세부항목 이름" />
+			
+			</div>
+			</swal-html>
+		</template>
+		<div class="row">
+			<div class="col-md-12 col-sm-12">
+				<div class="x_panel">
+					<div class="x_title">
+						<h2>멘토멘티 방문 기록 관리</h2>
+						<div class="clearfix"></div>
+					</div>
+					<div class="x_content">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="card-box table-responsive">
+									<div id="datatable-checkbox_wrapper"
+										class="dataTables_wrapper container-fluid dt-bootstrap no-footer">
+										<div class="row">
+
+											<div class="col-sm-12 col-md-12">
+												<h2>상세검색:</h2>
+												<div id="search-container">
+													<div id="search-container-inner">
+														<div class="input-container">
+															<label class="search-label"> 대분류코드: </label> <input
+																id="large-category-code" type="text"
+																class="form-control" />
+														</div>
+														<div class="input-container">
+															<label class="search-label"> 세부항목 이름: </label> <input
+																id="question-content-small" type="text"
+																class="form-control search-input" />
+														</div>
+
+
+													</div>
+
+												</div>
+												<div>
+													<table id="datatable-custom"
+														class="table table-striped table-bordered dataTable no-footer"
+														style="width: 100%;" role="grid"
+														aria-describedby="datatable_info">
+														<thead>
+															<tr role="row">
+																<th>평가 세부항목 코드</th>
+																<th>대분류 코드</th>
+																<th>세부항목 이름</th>
+																<th>등록일</th>
+																<th>관리자 아이디</th>
+																<th>수정</th>
+																<th>삭제</th>
+															</tr>
+														</thead>
+														<tbody>
+															<th:block th:unless="${detailCategoryList == null}">
+																<th:block th:each="l: ${detailCategoryList}">
+																	<tr>
+																		<td th:text="${l.evaluationUnitCode}"></td>
+																		<td th:text="${l.largeCategoryCode}"></td>
+																		<td th:text="${l.questionContentSmall}"></td>
+																		<td th:text="${l.questionContentRegDate}"></td>
+																		<td th:text="${l.adminId}"></td>
+																		<td class="button-td"><button
+																				th:attr="onclick=|modifyDetailCategory('${l.evaluationUnitCode}','${l.largeCategoryCode}','${l.questionContentSmall}','${largeCategoryList}')|"
+																				class="btn btn-warning" type="button">수정</button></td>
+																		<td class="button-td"><button
+																				th:attr="onclick=|deleteDetailCategory('${l.evaluationUnitCode}','${l.largeCategoryCode}','${l.questionContentSmall}')|"
+																				class="btn btn-danger" type="button">삭제</button></td>
+																	</tr>
+																</th:block>
+
+															</th:block>
+															<tr role="row" class="odd"
+																th:if="${detailCategoryList == null}">
+																<td colspan="6">멘토멘티 신청여부가 존재하지 않습니다.</td>
+															</tr>
+														</tbody>
+													</table>
+													<button id="add-category" class="btn btn-info">평가 세부항목 추가하기</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</th:block>
+</body>
+</html>
