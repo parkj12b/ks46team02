@@ -10,6 +10,76 @@
 		}
 
 	</style>
+	<th:block layout:fragment="customJs">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.0/chart.min.js" integrity="sha512-R60W3LgKdvvfwbGbqKusRu/434Snuvr9/Flhtoq9cj1LQ9P4HFKParULqOCAisHk/J4zyaEWWjiWIMuP13vXEg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script>
+			$('#datatable').DataTable({
+			});
+			$('#datatable-responsive').DataTable({
+				searching: false // search 기능을 비활성화
+			});
+			$.ajax({
+				url: "/farm/productionGraph",
+				type: "GET",
+				dataType: "json",
+				data: { farmCode: "[[${farmCode}]]" },  // farmCode에 실제 값을 넣으세요
+				success: function(response) {
+					let labels = Array.from(new Set(response.map(e => e.productionRegDate)));
+
+					let pupaData = labels.map(date => {
+						let production = response.find(e => e.productionRegDate === date && e.calculationStandardCode.toLowerCase() === 'pupa');
+						return production ? production.realProduction : 0;
+					});
+
+					let lavaData = labels.map(date => {
+						let production = response.find(e => e.productionRegDate === date && e.calculationStandardCode.toLowerCase() === 'lava');
+						return production ? production.realProduction : 0;
+					});
+
+					let ctx = document.getElementById('myChart').getContext('2d');
+					let myChart = new Chart(ctx, {
+						type: 'bar',
+						data: {
+							labels: labels,
+							datasets: [
+								{
+									label: 'Pupa',
+									data: pupaData,
+									backgroundColor: 'rgba(255, 99, 132, 0.2)',
+									borderColor: 'rgba(255, 99, 132, 1)',
+									borderWidth: 1
+								},
+								{
+									label: 'Lava',
+									data: lavaData,
+									backgroundColor: 'rgba(75, 192, 192, 0.2)',
+									borderColor: 'rgba(75, 192, 192, 1)',
+									borderWidth: 1
+								}
+							]
+						},
+						options: {
+							scales: {
+								y: {
+									beginAtZero: true
+								}
+							},
+							plugins: {
+								legend: {
+									display: true
+								}
+							}
+						}
+					});
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+
+		</script>
+	</th:block>
+
 </head>
 
 
@@ -59,49 +129,12 @@
 									<div class="col-md-8 col-sm-8 ">
 										<div class="x_panel">
 											<div class="x_title">
-												<h2>Bar Graph</h2>
-												<ul class="nav navbar-right panel_toolbox">
-													<li><a class="collapse-link"> <i
-															class="fa fa-chevron-up"></i>
-													</a></li>
-													<li class="dropdown"><a href="#"
-																			class="dropdown-toggle" data-toggle="dropdown"
-																			role="button" aria-expanded="false"> <i
-															class="fa fa-wrench"></i>
-													</a>
-														<div class="dropdown-menu"
-															 aria-labelledby="dropdownMenuButton">
-															<a class="dropdown-item" href="#">Settings 1</a> <a
-																class="dropdown-item" href="#">Settings 2</a>
-														</div></li>
-													<li><a class="close-link"> <i class="fa fa-close"></i>
-													</a></li>
-												</ul>
-												<div class="x_content">
-													<div id="mainb"
-														 style="height: 350px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative; background-color: transparent;"
-														 _echarts_instance_="ec_1681457143019">
-														<div
-																style="position: relative; overflow: hidden; width: 1040px; height: 350px; cursor: default;">
-															<canvas width="1040" height="350" data-zr-dom-id="zr_0"
-																	style="position: absolute; left: 0px; top: 0px; width: 1040px; height: 350px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+												<h2>생산량 그래프</h2>
 
-															</canvas>
-														</div>
-														<div
-																style="position: absolute; display: none; border-style: solid; white-space: nowrap; z-index: 9999999; transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgba(0, 0, 0, 0.5); border-width: 0px; border-color: rgb(51, 51, 51); border-radius: 4px; color: rgb(255, 255, 255); font: 14px/21px Arial, Verdana, sans-serif; padding: 5px; left: 761.333px; top: 185.406px;">
-															12? <br> <span
-																style="display: inline-block; margin-right: 5px; border-radius: 10px; width: 9px; height: 9px; background-color: #26B99A">
-
-															</span>sales : 3.3<br> <span
-																style="display: inline-block; margin-right: 5px; border-radius: 10px; width: 9px; height: 9px; background-color: #34495E">
-
-															</span>purchases : 2.3
-														</div>
-													</div>
-
-
-												</div>
+												<div class="clearfix"></div>
+											</div>
+											<div class="x_content">
+												<canvas id="myChart"></canvas>
 											</div>
 										</div>
 									</div>
@@ -176,6 +209,7 @@
 																<th>목표 상태</th>
 																<th>케이지 용량[L]</th>
 																<th>케이지 개수</th>
+																<th>투입 알[g]</th>
 																<th>목표 생산량[g]</th>
 																<th>싸이클 시작일</th>
 																<th>예상 수확일</th>
@@ -193,12 +227,13 @@
 																<td th:text="${c.calculationStandardCode}"></td>
 																<td th:text="${c.cageVolume}"></td>
 																<td th:text="${c.cageNum}"></td>
+																<td th:text="${c.inputEgg}"></td>
 																<td th:text="${c.estimatedProduction}"></td>
 																<td th:text="${c.harvestStartDate}"></td>
 																<td th:text="${c.estimatedHarvestDate}"></td>
 																<td th:text="${c.dayDiffHarvest}"></td>
 																<td><a th:href="@{/farm/feedList(cycleCode=${c.cycleCode})}">급여현황</a></td>
-																<td th:href="@{#}">수정</td>
+																<td><a th:href="@{/farm/modifyCycle(cycleCode=${c.cycleCode})}">수정</a></td>
 
 															</tr>
 															</tbody>

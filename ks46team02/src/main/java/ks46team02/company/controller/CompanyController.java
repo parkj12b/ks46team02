@@ -27,7 +27,6 @@ import ks46team02.company.dto.FarmProductCategory;
 import ks46team02.company.mapper.CompanyMapper;
 import ks46team02.company.service.CompanyService;
 import ks46team02.farm.dto.MentorFeedbackToken;
-import ks46team02.farm.mapper.MentorMenteeMapper;
 import ks46team02.farm.service.MentorMenteeService;
 
 @Controller
@@ -54,6 +53,38 @@ public class CompanyController {
         this.mentorMenteeService = mentorMenteeService;
     }
 
+
+
+    /* 업체직원등록암호체크 */
+    @PostMapping("/regPassCheck")
+    @ResponseBody
+    public String regPassCheck(Model model
+                              ,HttpSession session
+                              ,@RequestParam(name="companyCode") String companyCode){
+        Company companyInfo = companyService.getCompanyInfoByCode(companyCode);
+        String regPassCheck = companyInfo.getRegPassword();
+        return regPassCheck;
+    }
+
+    /* 업체직원등록 */
+    @PostMapping("/addEmployee")
+    @ResponseBody
+    public void addEmployee(Member member){
+
+        int result = memberMapper.addEmployee(member);
+    }
+
+    /* 업체직원등록 */
+    @GetMapping("/addEmployee")
+    public String addEmployee(Model model){
+
+        List<Company> companyList = companyService.getCompanyList();
+        model.addAttribute("title", "사원등록");
+        model.addAttribute("companyList",companyList);
+        return "company/add_employee";
+    }
+
+    /* 업체승인 */
     @PostMapping("/companyApproval")
     @ResponseBody
     public void companyApproval(Company company
@@ -69,19 +100,22 @@ public class CompanyController {
         company.setCompanyCode(companyCode);
         company.setMemberId(memberId);
         company.setAdminId(sessionId);
-        member.setMemberId(memberId);
         member.setCompanyCode(companyCode);
+        member.setMemberId(memberId);
+        member.setPositionLevelCode("level_code_1");
         log.info("ajax로 전달받은 데이터:{}",company);
-
         companyService.updateApprovalCompany(company);
         companyService.addCompanyCode(member);
     }
+
+    /* 업체 직원 직위 수정*/
     @PostMapping("/modifyEmployeeLevel")
     public String modifyEmployeeLevel(Member member){
         memberService.modifyEmployeeLevel(member);
         return "redirect:/company/companyEmployeeList";
     }
 
+    /* 업체 직원 직위 수정*/
     @GetMapping("/modifyEmployeeLevel")
     public String modifyEmployeeLevel(Model model
                                      ,@RequestParam(name="memberId") String memberId
@@ -95,6 +129,7 @@ public class CompanyController {
         return "company/modify_employee_level";
     }
 
+    /* 업체직원목록 */
     @GetMapping("/companyEmployeeList")
     public String getCompanyEmployeeList(Model model,
                                          HttpSession session){
@@ -107,14 +142,15 @@ public class CompanyController {
         return "company/company_employee_list";
     }
 
-
+    /* 업체 삭제 */
     @PostMapping("/deleteCompany")
     public String deleteCompany(){
+
         String redirectURI = "redirect:/company/company_delete/deleteCompany?";
         return redirectURI;
     }
 
-
+    /* 업체직원지위 */
     @GetMapping("/companyEmployeeLevel")
     public String getCompanyEmployeeLevel(Model model){
         List<CompanyPositionLevel> companyPositionLevelList = companyService.getCompanyPositionList();
@@ -123,6 +159,7 @@ public class CompanyController {
         return "company/company_employee_level";
     }
 
+    /* 업체상품카테고리 수정 */
     @GetMapping("/modifyCompanyProductCategory")
     public String modifyProductCategory(Model model){
 
@@ -130,6 +167,7 @@ public class CompanyController {
         return "company/modify_company_product_category";
     }
 
+    /* 업체상품 카테고리 등록 */
     @PostMapping("/insertCompanyProduct")
     public String insertCompanyProduct(FarmProductCategory farmProductCategory
                                       ,HttpSession session
@@ -140,14 +178,16 @@ public class CompanyController {
         return "redirect:/company/companyProductCategory";
     };
 
-    @GetMapping("/insertCompanyProduct")
+    /* 업체상품 카테고리 등록 */
+    @GetMapping("/addCompanyProduct")
     public String companyProductInsert(Model model
                                       ){
 
         model.addAttribute("title","제품카테고리등록");
-        return "company/insert_company_product";
+        return "/company/add_company_product";
     }
 
+    /* 동애등에업체 상품 카테고리 */
     @GetMapping("/companyProductCategory")
     public String getCompanyProductCategory(Model model){
         List<FarmProductCategory> farmProductCategoryList = companyService.getFarmProductCategoryList();
@@ -156,13 +196,15 @@ public class CompanyController {
         return "company/company_product_category";
     }
 
-    @GetMapping("/insertCompanyType")
+    /* 업체종류등록 */
+    @GetMapping("/addCompanyType")
     public String companyTypeInsert(Model model){
 
         model.addAttribute("title","업체종류추가");
-        return "company/insert_company_type";
+        return "/company/add_company_type";
     }
 
+    /* 업체종류목록 */
     @GetMapping("/companyTypeList")
     public String getCompanyType(Model model){
         List<CompanyType> companyTypeList = companyService.getCompanyTypeList();
@@ -170,29 +212,28 @@ public class CompanyController {
         model.addAttribute("companyTypeList", companyTypeList);
         return "company/company_type_list";
     }
+
+    /* 업체등록 */
     @PostMapping("/addCompany")
     public String addCompany(Company company
-                            ,HttpSession session
-                            ,Member member){
+                            ,HttpSession session){
         String sessionId = (String)session.getAttribute("sessionId");
         company.setMemberId(sessionId);
-        member.setMemberId(sessionId);
-        log.info("화면에서 전달받은 데이터 : {}", company);
         companyService.addCompany(company);
-//        companyService.addCompanyCode(member);
-        return "redirect:/admin/applyCompanyRegList";
+        return "redirect:/company/companyInfoUser";
     }
 
+    /* 업체등록 */
     @GetMapping("/addCompany")
     public String addCompany(Model model){
 
         List<CompanyType> companyTypeList = companyService.getCompanyTypeList();
-
         model.addAttribute("title","업체등록");
         model.addAttribute("companyTypeList",companyTypeList);
         return "company/add_company";
     }
 
+    /* 업체등록 초기화면 */
     @GetMapping("/addCompanyIntro")
     public String addCompanyIntro(Model model
                                  ,HttpSession session){
@@ -201,6 +242,8 @@ public class CompanyController {
         model.addAttribute("companyIsExist",companyInfo.isExist());
         return "company/add_company_intro";
     }
+
+    /* 업체정보 수정 */
     @PostMapping("/modifyCompany")
     public String modifyCompany(Company company
                                ,HttpSession session){
@@ -217,6 +260,7 @@ public class CompanyController {
         }
         return redirect;
     }
+    /* 업체정보 수정 */
     @GetMapping("/modifyCompany")
     public String modifyCompany(Model model
                                ,@RequestParam(name="companyCode") String companyCode
@@ -229,28 +273,38 @@ public class CompanyController {
         return "company/modify_company";
     }
 
+    /* 자신의 업체 상세정보 */
     @GetMapping("/companyInfoUser")
     public String getCompanyInfoUser(Model model
                                     ,HttpSession session){
         String sessionId = (String)session.getAttribute("sessionId");
         String sessionLevel = (String)session.getAttribute("sessionLevel");
-        Company companyInfo = companyService.getCompanyInfoById(sessionId);
+        String sessionCompanyCode = (String)session.getAttribute("sessionCompanyCode");
+        Company companyInfo = null;
+        if(sessionLevel != null && sessionLevel.equals("level_code_1") || sessionLevel != null && sessionLevel.equals("level_code_4")) {
+            companyInfo = companyService.getCompanyInfoById(sessionId);
+        } else {
+            companyInfo = companyService.getCompanyInfoByCode(sessionCompanyCode);
+        }
         model.addAttribute("title", "업체상세정보");
         model.addAttribute("companyInfo", companyInfo);
         model.addAttribute("sessionLevel",sessionLevel);
 
         return "company/company_info_user";
     }
+
+    /* 업체 상세정보 */
     @GetMapping("/companyInfo")
     public String getCompanyInfo(Model model
-                                ,@RequestParam(name="companyCode") String companyCode){
+                                ,@RequestParam(name="companyCode") String companyCode
+                                ){
         Company companyInfo = companyService.getCompanyInfoByCode(companyCode);
         model.addAttribute("title", "업체상세정보");
         model.addAttribute("companyInfo", companyInfo);
-
         return "company/company_info";
     }
 
+    /* 업체목록 조회*/
     @GetMapping("/companyList")
     public String getCompanyList(Model model){
 

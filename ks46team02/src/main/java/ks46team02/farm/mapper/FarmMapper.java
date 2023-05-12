@@ -15,6 +15,27 @@ import ks46team02.farm.dto.Production;
 
 @Mapper
 public interface FarmMapper {
+
+    // 생산량 그래프 //
+    public List<Production> getProductionGraph(String farmCode);
+    // 먹이 급여 그래프 //
+    public  List<Feed> getFeedGraph(String cycleCode);
+    // 케이지 수정 //
+    public int modifyCage(Cage cage);
+    // 싸이클 수정 //
+    public int modifyCycle(Cycle cycle);
+    // 생산량 수정 //
+    public int modifyProduction(Production production);
+    // 생산량 코드로 생산량 정보 조회 //
+    public Production getProductionByPCode(String productionCode);
+    // 사육장 수정 //
+    public int modifyFarm(FarmInfo farmInfo);
+    // 생산량 등록 //
+    public int addProduction(Production production);
+    // 모달창 싸이클 조회 //
+    public Cycle getCycleByCode(String cycleCode);
+    // 사육장 코드에 따른 싸이클 조회 //
+    public List<Cycle> getCycleListByCompanyCode(String companyCode);
     // 싸이클 등록 //
     public int addCycle(Cycle cycle);
     // 케이지 등록 //

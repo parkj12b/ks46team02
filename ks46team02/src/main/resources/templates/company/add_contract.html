@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/mypage}">
+<head>
+    <meta charset="UTF-8">
+    <title>BSFP</title>
+</head>
+
+<th:block layout:fragment="customJs">
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</th:block>
+
+<th:block layout:fragment="customContent">
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>계약 공고 등록</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <br>
+                    <form id="dryContractRegForm" method="post"
+                          class="form-horizontal form-label-left"
+                          th:action="@{/contract/addContract}" th:if="${sessionCompanyTypeNum == '1'}">
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   for="companyName">업체명</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="text" id="companyName"
+                                       name="companyName"
+                                       required="required"
+                                       class="form-control"
+                                       readonly="readonly"
+                                       th:value="${companyName}">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   for="minAmount" >최소거래용량(톤)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number" id="minAmount"
+                                       name="minAmount"
+                                       class="form-control" required="required">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   for="maxAmount">최대거래용량(톤)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number" id="maxAmount"
+                                       name="maxAmount"
+                                       required="required" class="form-control">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   for="minMonth">최소계약기간(월)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number" id="minMonth"
+                                       name="minMonth"
+                                       class="form-control" required="required">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   for="maxMonth">최대계약기간(월)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number" id="maxMonth"
+                                       name="maxMonth"
+                                       class="form-control" required="required">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   for="region">지역</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="text" id="region"
+                                       name="region" class="form-control" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-9 col-sm-9  offset-md-3">
+                                <button type="button" class="btn btn-dark" onclick="goBack()">취소</button>
+                                <button type="submit" class="btn btn-dark">등록</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form id="feedContractRegForm" method="post"
+                          class="form-horizontal form-label-left"
+                          th:action="@{/contract/addContract}"
+                          th:unless="${sessionCompanyTypeNum == '1'}">
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   >업체명 </label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="text"
+                                       name="companyName"
+                                       required="required"
+                                       class="form-control"
+                                       th:value="${companyName}"
+                                       readonly>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   >제품종류</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <select id="productCategoryCode" name="productCategoryCode" class="form-control">
+                                    <option value="">제품선택</option>
+                                    <th:block th:unless="${farmProductCategoryList == null}" th:each="l : ${farmProductCategoryList}">
+                                        <option th:value="${l.productCategoryCode}">[[${l.productName}]]</option>
+                                    </th:block>
+                                    <th:block th:if="${farmProductCategoryList == null}">
+                                        <option>등록된 제품이 없습니다</option>
+                                    </th:block>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                            >최소계약량(kg)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number"
+                                       name="minAmount"
+                                       required="required" class="form-control">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                            >최대계약량(kg)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number"
+                                       name="maxAmount"
+                                       required="required" class="form-control">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                            >최소계약기간(월)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number"
+                                       name="minDate"
+                                       required="required" class="form-control">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                            >최대계약기간(월)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number"
+                                       name="maxDate"
+                                       required="required" class="form-control">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                            >지역</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="text"
+                                       name="breedLocal" required="required" class="form-control" >
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   >월계약단가(만원)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number" name="monthPrice"
+                                       required="required" class="form-control"
+                                >
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   >업체규모-생산량(톤)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number" name="breedCompanySize"
+                                       required="required" class="form-control"
+                                >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-9 col-sm-9  offset-md-3">
+                                <button type="button" class="btn btn-dark" onclick="goBack()">취소</button>
+                                <button type="submit" class="btn btn-dark">등록</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

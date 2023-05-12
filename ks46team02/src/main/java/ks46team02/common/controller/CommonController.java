@@ -1,13 +1,11 @@
 package ks46team02.common.controller;
 
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
+import ks46team02.admin.dto.LoginHistory;
+import ks46team02.admin.mapper.AddrMapper;
+import ks46team02.admin.service.AddrService;
+import ks46team02.admin.service.LoginHistoryService;
+import ks46team02.common.dto.Addr;
 import ks46team02.common.dto.AdminMember;
 import ks46team02.common.dto.AllContractInfo;
 import ks46team02.common.dto.Member;
@@ -27,10 +30,9 @@ import ks46team02.common.dto.MemberLoginInfo;
 import ks46team02.common.emailTest.EmailService;
 import ks46team02.common.emailTest.EmailServiceImpl;
 import ks46team02.common.service.MainService;
-import ks46team02.customerservice.dto.QuestionTypeDto;
 import ks46team02.company.dto.Company;
 import ks46team02.company.service.CompanyService;
-import ks46team02.farm.dto.VisitHistory;
+import ks46team02.customerservice.dto.QuestionTypeDto;
 import ks46team02.farm.service.MentorMenteeService;
 import ks46team02.topmenu.service.TopMenuService;
 
@@ -44,14 +46,20 @@ public class CommonController {
 	MentorMenteeService mentorMenteeService;
 	TopMenuService topMenuService;
 	CompanyService companyService;
+	AddrService addrService; 
+	AddrMapper addrMapper;
+	LoginHistoryService loginHistoryService;
+	
 
-	public CommonController(MainService mainService,TopMenuService topMenuService, EmailServiceImpl emailService, MentorMenteeService mentorMenteeService, CompanyService companyService){
+	public CommonController(MainService mainService,TopMenuService topMenuService, EmailServiceImpl emailService, MentorMenteeService mentorMenteeService, CompanyService companyService,AddrService addrService,AddrMapper addrMapper, LoginHistoryService loginHistoryService){
 		this.mainService = mainService;
 		this.emailService = emailService;
 		this.mentorMenteeService = mentorMenteeService;
 		this.topMenuService = topMenuService;
 		this.companyService = companyService;
-
+		this.addrService = addrService;
+		this.addrMapper = addrMapper;
+		this.loginHistoryService = loginHistoryService;
 	}
 	
 	
@@ -64,6 +72,7 @@ public class CommonController {
 	@PostMapping("/login")
 	public String login(MemberLoginInfo memberLoginInfo
 			           ,HttpSession session
+			           ,LoginHistory loginHistory
 					   ) {
 		String memberLevel = memberLoginInfo.getLoginLevel();
 
@@ -78,6 +87,13 @@ public class CommonController {
 			if(memberInfo.getCompanyCode() != null) {
 				mmRegType = mentorMenteeService.getMMRegType(memberInfo.getCompanyCode());
 			}
+//			/* 로그인 기록을 db로 저장 */
+//			String memberId = memberInfo.getMemberId();
+//			loginHistory.setMemberId(memberId);
+//			loginHistoryService.addLoginHistory(loginHistory);
+			
+			
+			
 			
 			if(memberInfo.isExist()) {
 				session.setAttribute("sessionId", memberInfo.getMemberId());
@@ -195,5 +211,49 @@ public class CommonController {
 		
 		
 		return "contract_paper_mm";
+	}
+	/* 회원별 배송지 목록 조회 */
+	@GetMapping("/addrMemberList")
+	public String getAddrList(Model model
+							 ,HttpSession session) {
+		String memberId = (String) session.getAttribute("sessionId");
+		List<Addr> addrList = addrService.getAddrInfoByMemberId(memberId);
+		model.addAttribute("title", "배송지조회");
+		model.addAttribute("addrList", addrList);
+		return "addr_member_list";
+	}
+	
+	/* 회원별 배송지 수정 */
+	@PostMapping("/modifyMemberAddr")
+	public String modifyAddr(Addr addr) {
+		
+		addrMapper.modifyAddr(addr);
+		
+		return "redirect:/admin/addrList";
+	}
+	
+	/* 회원별 배송지 수정 */
+	@GetMapping("/modifyMemberAddr")
+	public String modifyAddr(Model model
+							 ,@RequestParam(name="addrCode") String addrCode){
+		
+		Addr addrInfo = addrService.getAddrInfoById(addrCode);
+		log.info("log"+addrInfo );
+		model.addAttribute("title", "회원 수정");
+		model.addAttribute("addrInfo", addrInfo);
+		return "/modify_member_addr";
+	}
+	/* 배송지 등록 */
+	@PostMapping("/addMemberAddr")
+	public String addMemberAddr(Addr addr, Model model) {
+		addrService.addAddr(addr);
+		return "redirect:/addrList";
+	}
+
+	/* 배송지 등록 */
+	@GetMapping("/addMemberAddr")
+	public String addMemberAddr(Model model){
+		model.addAttribute("title", "배송지 등록");
+		return "/add_member_addr";
 	}
 }

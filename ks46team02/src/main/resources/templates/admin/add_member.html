@@ -7,54 +7,22 @@
 <th:block layout:fragment="customJs">
 	<script>
 	
-	function validationCheck(ele){
-		let data = $(ele).val();
-		let isValid = true;
-		if(typeof data == 'undefined' || data == null || data == ''){
-			isValid = false;	
-		}
-		return isValid;
-	}
-
 	// 취소버튼
     $('.cancel').click(function(){
     	history.go(-1);
     });
-	// 등록버튼
-    $('.add').click(function(){
-		const addMemberForm = $('#addMemberForm');
-		const inputGroup = $('#addMemberForm input');
-		const selectGrop = $('#addMemberForm select');
-		console.log(inputGroup);
-		console.log(selectGrop);
-		
-		let isSubmit = true;
-		inputGroup.each(function(idx, item){
-			isSubmit = validationCheck(item);
-			isSubmit2 = validationCheck(item); 
-			if(!isSubmit) {
-				if(!isSubmit2){
-				let msg = $(item).parents('tr').find('label').text();
-				alert(msg + '입력해주세요.');
-				$(item).focus();
-				return false;
-				}
-			}
-		});
-		if(isSubmit) addMemberForm.submit();
-	});
     /* 아이디 중복 체크 */
     $('.checkId').click(function(){
         const memberIdEle = $('#memberId'); // 아이디를 입력하는 input 요소를 찾아옵니다.
         let memberId = memberIdEle.val(); // 입력된 아이디 값을 가져옵니다.
-        console.log(memberId);
-
-        if(typeof memberId === 'undefined' || memberId == null || memberId === ''){
-            alert('아이디를 입력해주세요');
-            memberIdEle.focus();
-            return false;
+        if (typeof memberId == 'undefined' || memberId == null || memberId == '') {
+        	 Swal.fire({
+                 icon: 'error',                         // Alert 타입
+                 title: '아이디 값을 입력해주세요.',         // Alert 제목
+             });
+       	  	memberIdEle.focus(); // 아이디를 입력하는 input 요소에 포커스를 줍니다.
+       	  	return;
         }
-
         $.ajax({
             type: 'POST', // POST 방식으로 요청을 보냅니다.
             url: '/isDuplicateId', // 아이디 중복 체크를 위한 URL을 지정합니다.
@@ -70,12 +38,69 @@
                 	  memberIdEle.val(''); // 입력된 아이디 값을 지웁니다.
                 	  memberIdEle.focus(); // 아이디를 입력하는 input 요소에 포커스를 줍니다.
                 }
+               
                 else{
-                	  alert('사용가능한 아이디입니다.');
+                	const Toast = Swal.mixin({
+                	    toast: true,
+                	    position: 'center-center',
+                	    showConfirmButton: false,
+                	    timer: 1000,
+                	    timerProgressBar: true,
+                	    didOpen: (toast) => {
+                	        toast.addEventListener('mouseenter', Swal.stopTimer)
+                	        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                	    }
+                	})
+
+                	Toast.fire({
+                	    icon: 'success',
+                	    title: '등록 가능한 아이디 입니다.'
+                	})
+                	$('#addMemberForm input').prop('disabled', false);
+					$('#addMemberForm button').prop('disabled', false);
+					$('#addMemberForm select').prop('disabled', false);
                 }
             }
         });
     });
+    
+    /* 등록버튼 + 유효성 검사  */
+    $('.add').click(function() {
+
+  	  var arr = [
+  		    {id: '#memberId', 			name: '아이디', value: $('#memberId').val()},
+  		    {id: '#memberPw', 			name: '비밀번호', value: $('#memberPw').val()},
+  		    {id: '#memberName', 		name: '이름', value: $('#memberName').val()},
+  		    {id: '#memberPhone', 		name: '휴대폰번호', value: $('#memberPhone').val()},
+  		    {id: '#memberEmail', 		name: '이메일', value: $('#memberEmail').val()},
+  		    {id: '#positionLevelCode', 	name: '직원별권한코드', value: $('#positionLevelCode').val()}
+  		  ];
+  	  console.log(arr);
+		  var isValid = true;
+		  $.each(arr, function(index, item) {
+		    var data = $(item.id).val();
+		    if (typeof data == 'undefined' || data == null || data == '') {
+		      Swal.fire({
+		        icon: 'warning',  // 여기다가 아이콘 종류를 쓰면 됩니다.                     
+		        title: `${item.name}를 입력해주세요.` 
+		      }).then((result) => {
+		        if (result.isConfirmed) { // 모달창에서 확인을 누르면 true가 되는 속성
+		          $(item.id).focus();
+		          Swal.close(); // 모달창이 닫힐 때까지 기다림
+		        }
+		      });
+		      isValid = false;
+		      return false; // each()를 중단합니다.
+		    }
+		  });
+		
+		  if (!isValid) {
+		    return false; // form 전송을 막습니다.
+		  }
+		  if(isValid){
+			addMemberForm.submit();
+		  }
+		});
 </script>
 </th:block>
 <body>
@@ -107,32 +132,32 @@
 						</label>
 						<div class="col-md-3 col-sm-3 ">
 							<input type="password" class="form-control"
-								id="memberPw" name="memberPw" placeholder="">
+								id="memberPw" name="memberPw" placeholder="" disabled="disabled">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3 col-sm-3  "> 이름 </label>
 						<div class="col-md-3 col-sm-3 ">
 							<input type="text" class="form-control"
-								id="MemberName" name="MemberName" placeholder="">
+								id="memberName" name="memberName" placeholder="" disabled="disabled">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3 col-sm-3 "> 전화번호</label>
 						<div class="col-md-3 col-sm-3 ">
-							<input type="text" class="form-control" id="memberPhone" name="memberPhone" value="">
+							<input type="text" class="form-control" id="memberPhone" name="memberPhone" disabled="disabled">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3 col-sm-3 ">이메일</label>
 						<div class="col-md-3 col-sm-3 ">
-								<input type="text" class="form-control" id="memberEmail" name="memberEmail" value="">
+								<input type="email" class="form-control" id="memberEmail" name="memberEmail" disabled="disabled">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3 col-sm-3 "> 직원별 권한코드</label>
 						<div class="col-md-3 col-sm-3 ">
-							<select class="form-control" id="positionLevelCode" name="positionLevelCode">
+							<select class="form-control" id="positionLevelCode" name="positionLevelCode" disabled="disabled">
 							<option></option>
 								<th:block th:if="${memberLevelList != null}">
 									<option th:each="l : ${memberLevelList}"
@@ -144,7 +169,7 @@
 					<div class="form-group row">
 						<label class="control-label col-md-3 col-sm-3 "> 업체코드</label>
 						<div class="col-md-3 col-sm-3 ">
-							<select class="form-control" id="companyCode" name="companyCode">
+							<select class="form-control" id="companyCode" name="companyCode" disabled="disabled">
 							<option></option>
 								<th:block th:if="${companyList != null}">
 									<option th:each="l : ${companyList}"
@@ -156,7 +181,7 @@
 					<div class="ln_solid"></div>
 					<div class="form-group">
 						<div class="col-md-9 col-sm-9  offset-md-5">
-							<button type="button" class="btn btn-dark add">등록</button>
+							<button type="button" class="btn btn-dark add" disabled="disabled">등록</button>
 							<button type="reset" class="btn btn-dark cancel">취소</button>
 						</div>
 					</div>

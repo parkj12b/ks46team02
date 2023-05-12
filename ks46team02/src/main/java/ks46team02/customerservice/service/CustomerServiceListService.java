@@ -36,4 +36,39 @@ public class CustomerServiceListService {
 		List<QuestionTypeDto> QuestionTypeList = customerserviceListMapper.getQuestionTypeList();
 		return QuestionTypeList;
 	}
+
+
+	public int getNextQuestionTypeCode() {
+		return customerserviceListMapper.getNextQuestionTypeCode();
+	}
+
+	public int registerQuestionType(QuestionTypeDto questionTypeDto) {
+		return customerserviceListMapper.insertQuestionType(questionTypeDto);
+		
+	}
+
+	public String updateQuestionTypeName(QuestionTypeDto questionTypeDto) {
+		return customerserviceListMapper.updateQuestionType(questionTypeDto);
+		
+	}
+
+
+
+
+		
+	
+
+
+
+
+
+	
+
+
+	
 }
+	
+
+	
+
+
