@@ -10,10 +10,10 @@ public class MMRegInfoMentor {
 	private String adminId;
 	private String previousYear;
 	private String previousYearSales;
-	private String salesSuitability;
+	private boolean salesSuitability;
 	private String careerYear;
 	private String careerMonth;
-	private String careerSuitability;
+	private boolean careerSuitability;
 	private String documentaryEvidence;
 	public String getMentorAppCode() {
 		return mentorAppCode;
@@ -69,10 +69,11 @@ public class MMRegInfoMentor {
 	public void setPreviousYearSales(String previousYearSales) {
 		this.previousYearSales = previousYearSales;
 	}
-	public String getSalesSuitability() {
+	
+	public boolean isSalesSuitability() {
 		return salesSuitability;
 	}
-	public void setSalesSuitability(String salesSuitability) {
+	public void setSalesSuitability(boolean salesSuitability) {
 		this.salesSuitability = salesSuitability;
 	}
 	public String getCareerYear() {
@@ -87,10 +88,11 @@ public class MMRegInfoMentor {
 	public void setCareerMonth(String careerMonth) {
 		this.careerMonth = careerMonth;
 	}
-	public String getCareerSuitability() {
+	
+	public boolean isCareerSuitability() {
 		return careerSuitability;
 	}
-	public void setCareerSuitability(String careerSuitability) {
+	public void setCareerSuitability(boolean careerSuitability) {
 		this.careerSuitability = careerSuitability;
 	}
 	public String getDocumentaryEvidence() {

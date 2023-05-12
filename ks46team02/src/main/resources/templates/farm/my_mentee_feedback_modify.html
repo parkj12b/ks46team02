@@ -57,6 +57,9 @@
 			})
 			
 		})
+		$('.token-manage-btn').click(function(){
+			location.href = '/company/mentorFeedbackToken';
+		})
 	})
 		
 	</script>
@@ -90,7 +93,7 @@
 										
 										<h2 th:if="${mentorFeedbackToken.size() > 0}">피드백 작성 링크: <a class="link" target="_blank" th:href="@{https://docs.google.com/forms/d/e/1FAIpQLScdTFDAwh7JSx3KKcXqApZvuW916EpItrC_fWUS3jOtQRn8YA/viewform(usp=${'pp_url'},entry.1991955189=${visitHistory.visitCode},entry.1917567292=${session.sessionId},entry.124651778=${visitHistory.contractCode})}">평가 작성/수정 바로가기</a></h2>
 										<h2 th:unless="${mentorFeedbackToken.size() > 0}">피드백 토큰이 없습니다.</h2>
-										<h2 th:unless="${mentorFeedbackToken.size() > 0}"><button>피드백 토큰관리 바로가기 </button></h2>
+										<h2 th:unless="${mentorFeedbackToken.size() > 0}"><button type="button" class="btn btn-info token-manage-btn">피드백 토큰관리 바로가기 </button></h2>
 									</div>
 									<h2 style="margin-bottom: 30px;">멘토멘티 평가항목</h2>
 										<th:block th:each="l : ${evalLargeCateList}">

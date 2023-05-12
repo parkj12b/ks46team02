@@ -32,21 +32,121 @@
 		<result column="career_suitability" property="careerSuitability"></result>
 		<result column="documentary_evidence" property="documentaryEvidence"></result>
 	</resultMap>
-	<select id="getMentorRegList" parameterType="String" resultMap="RegInfoMentorResultMap">
+	<select id="getMentorRegListOr" parameterType="List" resultMap="RegInfoMentorResultMap">
 		select
 			*
 		from
 			mentor_apply
-		where
-			mentor_approval = #{status};
+		<where>
+			<foreach collection="searchList" item="item">
+	                or ${item.key} = #{item.value}
+	        </foreach>
+		</where>
+		
 	</select>
-	<select id="getMenteeRegList" parameterType="String" resultMap="RegInfoMenteeResultMap">
+	<select id="getMenteeRegListOr" parameterType="List" resultMap="RegInfoMenteeResultMap">
 		select
 			*
 		from
 			mentee_apply
-		where
-			mentee_approval = #{status};
+		<where>
+			<foreach collection="searchList" item="item">
+	                or ${item.key} = #{item.value}
+	        </foreach>
+		</where>
 	</select>
-	
+	<update id="modifyMentorRegStatus" parameterType="MMRegInfoMentor">
+		update 
+			mentor_apply
+		set
+			mentor_approval_date = now(),
+			mentor_approval = #{mentorApproval},
+			admin_id = #{adminId}
+		where
+			mentor_app_code = #{mentorAppCode}
+	</update>
+	<delete id="removeMentorRegHistory">
+		delete
+		from
+			mentor_apply
+		where
+			mentor_app_code = #{mentorAppCode}
+	</delete>
+	<update id="modifyMenteeRegStatus" parameterType="MMRegInfoMentee">
+		update
+			mentee_apply
+		set
+			mentee_approval_date = now(),
+			mentee_approval = #{menteeApproval},
+			admin_id = #{adminId}
+		where
+			mentee_app_code = #{menteeAppCode}
+	</update>
+	<delete id="removeMenteeRegHistory">
+		delete
+		from
+			mentee_apply
+		where
+			mentee_app_code = #{menteeAppCode}
+	</delete>
+	<delete id="removeResultHistory" parameterType="ResultHistory">
+		delete
+		from
+			result_history
+		where
+			visit_code = #{visitCode}
+	</delete>
+	<update id="resetVisitHistory" parameterType="VisitHistory">
+		update
+			visit_history
+		set
+			visit_complete = 'in_progress',
+			total_score_visit = NULL,
+			total_detail_item_num = NULL
+		where
+			visit_code = #{visitCode}
+	</update>
+	<delete id="removeEvaluationLargeCategory" parameterType="EvaluationLargeCategory">
+		delete
+		from
+			evaluation_large_category
+		where
+			large_category_code = #{largeCategoryCode}
+	</delete>
+	<update id="modifyEvaluationLargeCategory" parameterType="EvaluationLargeCategory">
+		update
+			evaluation_large_category
+		set
+			evaluation_item = #{evaluationItem},
+			admin_id = #{adminId},
+			evaluation_item_reg_date = now()
+		where
+			large_category_code = #{largeCategoryCode}
+	</update>
+	<insert id="addEvaluationLargeCategory" parameterType="EvaluationLargeCategory">
+		insert
+		into
+			evaluation_large_category(
+				large_category_code, evaluation_item, evaluation_item_reg_date, admin_id
+			) values (
+				#{largeCategoryCode}, #{evaluationItem}, now(), #{adminId}
+			)
+	</insert>
+	<update id="modifyEvaluationDetailCategory" parameterType="EvaluationDetailCategory">
+		update
+			evaluation_detail_category
+		set
+			large_category_code = #{largeCategoryCode},
+			question_content_small = #{questionContentSmall}
+			admin_id = #{adminId}
+		where
+			evaluation_unit_code = #{evaluationUnitCode}
+	</update>
+	<delete id="removeEvaluationDetailCategory">
+		delete
+		from
+			evaluation_detail_category
+		where
+			evaluation_unit_code = #{evaluationUnitCode}
+	</delete>
 </mapper>
