@@ -10,6 +10,7 @@
         }
 
     </style>
+</head>
     <th:block layout:fragment="customJs">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.0/chart.min.js"
                 integrity="sha512-R60W3LgKdvvfwbGbqKusRu/434Snuvr9/Flhtoq9cj1LQ9P4HFKParULqOCAisHk/J4zyaEWWjiWIMuP13vXEg=="
@@ -18,38 +19,41 @@
             $('#datatable-responsive').DataTable({
                 searching: false // search 기능을 비활성화
             });
-            $.ajax({
-                url: '/farm/feedGraph',
-                method: 'GET',
-                data: {cycleCode: "[[${cycleCode}]]"},  // 실제 cycleCode 값으로 교체해야 합니다.
-                success: function (data) {
-                    var ctx = document.getElementById('lineChart').getContext('2d');
-                    new Chart(ctx, {
-                        type: 'line',
-                        data: {
-                            labels: data.map(feed => feed.feedingDate),
-                            datasets: [{
-                                label: 'Feeding Amount',
-                                data: data.map(feed => feed.feedingAmount),
-                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                borderColor: 'rgba(84, 123, 136, 1)',
-                                borderWidth: 3,
-                                tension: 0.4,  // Add this line to make the line smoother
-                                fill: true
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                yAxes: [{
-                                    ticks: {
-                                        beginAtZero: true
-                                    }
+                let lineChart;
+                $.ajax({
+                    url: '/farm/feedGraph',
+                    method: 'GET',
+                    async: true,
+                    data: {cycleCode: "[[${cycleCode}]]"},  // 실제 cycleCode 값으로 교체해야 합니다.
+                    success: function (data) {
+                        var ctx = document.getElementById('lineChart').getContext('2d');
+                        lineChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: data.map(feed => feed.feedingDate),
+                                datasets: [{
+                                    label: 'Feeding Amount',
+                                    data: data.map(feed => feed.feedingAmount),
+                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                    borderColor: 'rgba(84, 123, 136, 1)',
+                                    borderWidth: 3,
+                                    tension: 0.4,  // Add this line to make the line smoother
+                                    fill: true
                                 }]
+                            },
+                            options: {
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true
+                                        }
+                                    }]
+                                }
                             }
-                        }
-                    });
-                }
-            });
+                        });
+                    }
+                });
+
             $('form').on('submit', function (event) {
                 event.preventDefault(); // prevent form from reloading the page
                 var formValues = $(this).serialize();
@@ -66,6 +70,7 @@
                         newRow.append(cols);
                         $("table").append(newRow);
 
+
                         // Update the graph with new data
                         // You need to access your Chart object and update it. Assume your chart object is '
                         lineChart.data.labels.push(data.feedingDate);
@@ -73,13 +78,14 @@
                             dataset.data.push(data.feedingAmount);
                         });
                         lineChart.update();
+
                     }
                 });
             });
 
         </script>
     </th:block>
-</head>
+
 <th:block layout:fragment="customContent">
     <div class="x_panel">
         <div class="x_title">
