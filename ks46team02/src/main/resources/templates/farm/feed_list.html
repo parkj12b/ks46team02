@@ -30,8 +30,10 @@
 								label: 'Feeding Amount',
 								data: data.map(feed => feed.feedingAmount),
 								backgroundColor: 'rgba(75, 192, 192, 0.2)',
-								borderColor: 'rgba(75, 192, 192, 1)',
-								borderWidth: 1
+								borderColor: 'rgba(84, 123, 136, 1)',
+								borderWidth: 3,
+								tension: 0.4,  // Add this line to make the line smoother
+								fill: true
 							}]
 						},
 						options: {
