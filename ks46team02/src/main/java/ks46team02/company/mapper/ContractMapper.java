@@ -7,6 +7,10 @@ import java.util.List;
 
 @Mapper
 public interface ContractMapper {
+    //사육업체계약등록
+    public boolean addBreedContract(Contract contract);
+    //건조업체계약등록
+    public boolean addDryContract(Contract contract);
     //계약상세정보
     public Contract getContractInfo(String contractCode);
     // 계약조회

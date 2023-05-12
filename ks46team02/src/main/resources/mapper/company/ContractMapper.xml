@@ -4,69 +4,123 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.company.mapper.ContractMapper">
     <resultMap type="Contract" id="contractResultMap">
-        <id     column="contract_code"               property="contractCode"/>
-        <result column="contract_registration_code"  property="contractRegCode"/>
-        <result column="contract_type"               property="contractType"/>
-        <result column="member_id"                   property="memberId"/>
-        <result column="contract_apply_date"         property="contractApplyDate"/>
-        <result column="contract_start_date"         property="contractStartDate"/>
-        <result column="contract_end_date"           property="contractEndDate"/>
-        <result column="contract_paper"              property="contractPaper"/>
-        <result column="admin_id"                    property="adminId"/>
-        <result column="contract_approval_date"      property="contractApprovalDate"/>
-        <result column="contract_approval"           property="contractApproval"/>
-        <result column="deposit"                     property="deposit"/>
-        <result column="delivery_cycle"              property="deliveryCycle"/>
-        <result column="contract_amount"             property="contractAmount"/>
-        <result column="total_amount"                property="totalAmount"/>
-        <result column="contractee_company_code"     property="contracteeCompanyCode"/>
-        <result column="contractor_company_code"     property="contractorCompanyCode"/>
+        <id column="contract_code" property="contractCode"/>
+        <result column="contract_registration_code" property="contractRegCode"/>
+        <result column="contract_type" property="contractType"/>
+        <result column="member_id" property="memberId"/>
+        <result column="contract_apply_date" property="contractApplyDate"/>
+        <result column="contract_start_date" property="contractStartDate"/>
+        <result column="contract_end_date" property="contractEndDate"/>
+        <result column="contract_paper" property="contractPaper"/>
+        <result column="admin_id" property="adminId"/>
+        <result column="contract_approval_date" property="contractApprovalDate"/>
+        <result column="contract_approval" property="contractApproval"/>
+        <result column="deposit" property="deposit"/>
+        <result column="delivery_cycle" property="deliveryCycle"/>
+        <result column="contract_amount" property="contractAmount"/>
+        <result column="total_amount" property="totalAmount"/>
+        <result column="contractee_company_code" property="contracteeCompanyCode"/>
+        <result column="contractor_company_code" property="contractorCompanyCode"/>
     </resultMap>
     <resultMap type="DryContract" id="DryContractResultMap">
-        <id     column="contract_reg_code"     property="contractRegCode"/>
-        <result column="company_code"          property="companyCode"/>
-        <result column="member_id"             property="memberId"/>
-        <result column="min_amount"            property="minAmount"/>
-        <result column="max_amount"            property="maxAmount"/>
-        <result column="min_month"             property="minMonth"/>
-        <result column="max_month"             property="maxMonth"/>
-        <result column="contract_reg_date"     property="contractRegDate"/>
-        <result column="region"                property="region"/>
-        <result column="company_name"          property="companyName"/>
+        <id column="contract_reg_code" property="contractRegCode"/>
+        <result column="company_code" property="companyCode"/>
+        <result column="member_id" property="memberId"/>
+        <result column="min_amount" property="minAmount"/>
+        <result column="max_amount" property="maxAmount"/>
+        <result column="min_month" property="minMonth"/>
+        <result column="max_month" property="maxMonth"/>
+        <result column="contract_reg_date" property="contractRegDate"/>
+        <result column="region" property="region"/>
+        <result column="company_name" property="companyName"/>
     </resultMap>
 
-<select id="getContractInfo" parameterType="String" resultMap="contractResultMap">
-    SELECT
-        *
-    FROM
-        all_contract
-    WHERE
-        contract_code = #{contractCode};
-</select>
 
-<select id="getContractList" resultMap="contractResultMap">
-    SELECT
-    *
-    FROM
-    all_contract;
-</select>
+    <insert id="addBreedContract" parameterType="Contract">
+        INSERT into breed_contract_registraion
+        (breed_reg_code
+        ,company_code
+        ,member_id
+        ,breed_reg_date
+        ,min_amount
+        ,max_amount
+        ,min_date
+        ,max_date
+        ,product_category_code
+        ,month_price
+        ,breed_local
+        ,breed_company_size)
+        values
+        (#{breedRegCode}
+        ,#{companyCode}
+        ,#{memberId}
+        ,curdate()
+        ,#{minAmount}
+        ,#{maxAmount}
+        ,#{minDate}
+        ,#{maxDate}
+        ,#{productCategoryCode}
+        ,#{monthPrice}
+        ,#{breedLocal}
+        ,#{breedCompanySize})
+        ;
+    </insert>
+    <insert id="addDryContract" parameterType="Contract">
+        INSERT into dry_contract_registraion
+        (contract_reg_code
+        ,company_code
+        ,member_id
+        ,min_amount
+        ,max_amount
+        ,min_month
+        ,max_month
+        ,contract_reg_date
+        ,region)
+        values
+        (#{contractRegCode}
+        ,#{companyCode}
+        ,#{memberId}
+        ,#{minAmount}
+        ,#{maxAmount}
+        ,#{minMonth}
+        ,#{maxMonth}
+        ,curdate()
+        ,#{region})
+        ;
+    </insert>
+
+    <select id="getContractInfo" parameterType="String" resultMap="contractResultMap">
+        SELECT
+        *
+        FROM
+        all_contract
+        WHERE
+        contract_code = #{contractCode};
+    </select>
+
+    <select id="getContractList" resultMap="contractResultMap">
+        SELECT
+        *
+        FROM
+        all_contract;
+    </select>
 
     <select id="getContractListBreed" resultType="Contract">
         SELECT
-            bcr.breed_reg_code          as breedRegCode
-            ,bcr.company_code           as companyCode
-            ,bcr.member_id              as memberId
-            ,bcr.breed_reg_date         as breedRegDate
-            ,bcr.min_amount             as minAmount
-            ,bcr.max_amount             as maxAmount
-            ,bcr.min_date               as minDate
-            ,bcr.max_date               as Maxdate
-            ,bcr.product_category_code  as productCategoryCode
-            ,bcr.month_price            as monthPrice
-            ,bcr.breed_local            as breedLocal
-            ,bcr.breed_company_size     as breedCompanySize
-            ,ci.company_name            as companyName
-            ,fpc.product_name           as productName
+        bcr.breed_reg_code as breedRegCode
+        ,bcr.company_code as companyCode
+        ,bcr.member_id as memberId
+        ,bcr.breed_reg_date as breedRegDate
+        ,bcr.min_amount as minAmount
+        ,bcr.max_amount as maxAmount
+        ,bcr.min_date as minDate
+        ,bcr.max_date as Maxdate
+        ,bcr.product_category_code as productCategoryCode
+        ,bcr.month_price as monthPrice
+        ,bcr.breed_local as breedLocal
+        ,bcr.breed_company_size as breedCompanySize
+        ,ci.company_name as companyName
+        ,fpc.product_name as productName
         FROM
         breed_contract_registraion as bcr
         inner join
@@ -79,23 +133,23 @@
         bcr.product_category_code = fpc.product_category_code;
     </select>
 
-<select id="getContractListDry" resultType="Contract">
-    SELECT
-        dcr.contract_reg_code   as contractRegCode
-        ,dcr.company_code	    as companyCode
-        ,dcr.member_id	        as memberId
-        ,dcr.min_amount         as minAmount
-        ,dcr.max_amount         as maxAmount
-        ,dcr.min_month          as minMonth
-        ,dcr.max_month          as maxMonth
-        ,dcr.contract_reg_date  as contractRegDate
-        ,dcr.region             as region
-        ,ci.company_name        as companyName
-    FROM
+    <select id="getContractListDry" resultType="Contract">
+        SELECT
+        dcr.contract_reg_code as contractRegCode
+        ,dcr.company_code as companyCode
+        ,dcr.member_id as memberId
+        ,dcr.min_amount as minAmount
+        ,dcr.max_amount as maxAmount
+        ,dcr.min_month as minMonth
+        ,dcr.max_month as maxMonth
+        ,dcr.contract_reg_date as contractRegDate
+        ,dcr.region as region
+        ,ci.company_name as companyName
+        FROM
         dry_contract_registraion as dcr
         inner join
         company_info as ci
         on
         dcr.company_code = ci.company_code;
-</select>
+    </select>
 </mapper>

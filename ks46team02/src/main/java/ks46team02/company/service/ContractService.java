@@ -1,5 +1,7 @@
 package ks46team02.company.service;
 
+import com.sun.tools.javac.Main;
+import ks46team02.common.mapper.MainMapper;
 import ks46team02.company.dto.Contract;
 import ks46team02.company.mapper.ContractMapper;
 import org.springframework.stereotype.Service;
@@ -9,9 +11,37 @@ import java.util.List;
 @Service
 public class ContractService {
     private final ContractMapper contractMapper;
+    private final MainMapper mainMapper;
 
-    public ContractService(ContractMapper contractMapper){
+    public ContractService(ContractMapper contractMapper
+                          ,MainMapper mainMapper){
         this.contractMapper = contractMapper;
+        this.mainMapper = mainMapper;
+    }
+
+    /* 계약등록 */
+    public boolean addContract(Contract contract
+                              ,String companyTypeNum){
+        String column = "";
+        String table = "";
+        String contractRegCode = "";
+        String breedRegCode = "";
+        if(companyTypeNum.equals("1")){
+            column = "contract_reg_code";
+            table = "dry_contract_registraion";
+            contractRegCode = mainMapper.autoIncrement(table, column);
+            contract.setContractRegCode(contractRegCode);
+            contractMapper.addDryContract(contract);
+        } else if(companyTypeNum.equals("2")) {
+            column = "breed_reg_code";
+            table = "breed_contract_registraion";
+            breedRegCode = mainMapper.autoIncrement(table, column);
+            contract.setBreedRegCode(breedRegCode);
+            contractMapper.addBreedContract(contract);
+        };
+
+
+        return true;
     }
 
     /* 계약정보조회 */
