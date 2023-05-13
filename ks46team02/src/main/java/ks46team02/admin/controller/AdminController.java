@@ -149,6 +149,16 @@ public class AdminController {
 		model.addAttribute("companyList",companyList);
 		return "admin/apply_company_reg_list";
 	}
+	/* 등급별 관리자 목록 조회*/
+	@PostMapping("/adminLevelCheck")
+	@ResponseBody
+	public List<AdminMember> getAdminLevelSearchList(@RequestParam(name="adminLevel") String adminLevel){
+		List<AdminMember> levelInfo = adminService.getAdminLevelSearchList(adminLevel);
+
+		return levelInfo;
+	}
+
+
     /* 전체 관리자 목록 조회 */
 	@GetMapping("/adminList")
 	public String getAdminList(Model model) {
@@ -220,9 +230,7 @@ public class AdminController {
 	/* 관리자 등급 등록 */
 	@GetMapping("/addAdminLevel")
 	public String addAdminLevel(Model model){
-		List<AdminLevel>adminLevelList =adminLevelService.getAdminLevelList();
-		model.addAttribute("title", "관리자 등급 등록");
-		model.addAttribute("adminLevelList", adminLevelList);
+		model.addAttribute("title","관리자 등급 등록");
 		return "admin/add_adminLevel";
 	}
 	/* 관리자등급 수정   */

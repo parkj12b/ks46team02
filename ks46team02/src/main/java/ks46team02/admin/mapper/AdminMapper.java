@@ -24,4 +24,6 @@ public interface AdminMapper {
 	public boolean idCheckAdmin(String adminId);
 	/* 관리자 등록 */
 	public int addAdmin(AdminMember adminMember);
+	/* 등급별 관리자 조회*/
+	public List<AdminMember> getAdminLevelSearchList(String adminLevel);
 }
