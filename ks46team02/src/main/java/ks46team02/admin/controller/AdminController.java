@@ -227,13 +227,19 @@ public class AdminController {
 		model.addAttribute("adminLevelList1", adminLevelList1);
 		return "admin/add_admin";
 	}
+	/* 관리자 등급 등록*/
+	@PostMapping("/addAdminLevel")
+	public String addAdminLevel(AdminLevel adminLevel) {
+		adminLevelService.addAdminLevel(adminLevel);
+		return "redirect:/admin/adminLevelList";
+	}
 	/* 관리자 등급 등록 */
 	@GetMapping("/addAdminLevel")
 	public String addAdminLevel(Model model){
 		model.addAttribute("title","관리자 등급 등록");
 		return "admin/add_adminLevel";
 	}
-	/* 관리자등급 수정   */
+	/* 관리자 등급 수정   */
 	@PostMapping("/modifyAdminLevel")
 	@ResponseBody
 	public void modifyAdminLevel(AdminLevel adminLevel) {

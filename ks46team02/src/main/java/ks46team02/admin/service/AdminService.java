@@ -43,4 +43,6 @@ private final AdminMapper adminMapper;
 		int result = adminMapper.addAdmin(adminMember);
 		return result;
 	}
+
+
 }

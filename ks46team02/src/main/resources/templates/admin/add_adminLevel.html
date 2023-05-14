@@ -1,101 +1,131 @@
-<!DOCTYPE html>
+`<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="http://www.w3.org/1999/html"
-	  layout:decorate="~{/mypage}">
-
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/mypageLayout}">
 <head>
-<style>
-	.checkbox label {
-		font-size: 16px;
-		padding-left: 5px; /* 들여쓰기에 사용할 패딩 값 */
-		display: flex;
-		align-items: center;
-	}
+	<style>
+		input.form-control {
+			width: 200px;
+		}
 
-	.checkbox input[type="checkbox"] {
-		transform: scale(1.8);
-	}
-
-	.checkbox {
-		margin-bottom: 10px;
-	}
-
-</style>
+		input {
+			width: 80px; /* 원하는 크기로 조정 가능 */
+			height: 20px;
+		}
+		input[type=checkbox] {
+			transform: scale(1.5);
+		}
+	</style>
 </head>
 <th:block layout:fragment="customJs">
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
-	
-	
-
-	// 취소버튼
-    $('.cancel').click(function(){
-    	history.go(-1);
-    });
-
-</script>
+		// 취소버튼
+		$('.cancel').click(function(){
+			history.go(-1);
+		});
+		$('form').submit(function(event) {
+			let adminPosition = $('input[name="adminPosition"]').val();
+			if (typeof adminPosition == 'undefined' || adminPosition == null || adminPosition == '') {
+				Swal.fire({
+					icon: 'warning',
+					title: `${adminPosition}를 입력해주세요.`
+				}).then((result) => {
+					if (result.isConfirmed) {
+						$('input[name="adminPosition"]').focus();
+						Swal.close();
+					}
+				})
+			}
+		});
+		function updateHiddenField(checkbox, hiddenFieldId) {
+			document.getElementById(hiddenFieldId).value = checkbox.checked ? '1' : '0';}
+	</script>
 </th:block>
-<body>
-	<th:block layout:fragment="customContent">
-		<div class="x_panel">
-			<div class="x_title">
-				<h1>관리자 등급 등록</h1>
-				<div class="clearfix"></div>
-			</div>
-			<div class="x_content">
-				<br />
-				<form id="addAdminLevelForm" class="form-horizontal form-label-left"
-					th:action="@{/admin/addAdminLevel}" method="post">
-					<div class="form-group row">
-						<label class="control-label col-md-3 col-sm-3 "> 관리자 권한 이름 </label>
-						<div class="col-md-3 col-sm-3 ">
-							<input type="text" class="form-control">
-						</div>
+
+<th:block layout:fragment="customContent">
+	<div class="page-title">
+		<div class="title">
+			<div class="col-md-6">
+
+				<div class="x_panel">
+					<div class="x_title">
+						<h2>관리자 등급 등록</h2>
+						<button type="reset" class="btn btn-white" style="float: right"> <i class="fa fa-repeat"></i></button>
+						<div class="clearfix"></div>
 					</div>
 
-					<div class="form-group row">
-						<label class="col-md-3 col-sm-3  control-label">원하시는 권한을 체크를 해주세요
-						</label>
-					<div class="col-md-9 col-sm-9 ">
-						<div class="checkbox">
-							<label>
-								Unchec11ked
-								<input type="checkbox" class="check-self">
-							</label>
-						</div>
-						<div class="checkbox">
-							<label>
-								Unchec11ked
-								<input type="checkbox" class="check-self">
-							</label>
-						</div>
-						<div class="checkbox">
-							<label>
-								Unchec11ked
-								<input type="checkbox" class="check-self">
-							</label>
-						</div>
-						<div class="checkbox">
-							<label>
-								Unchec11ked
-								<input type="checkbox" class="check-self">
-							</label>
-						</div>
-						<div class="checkbox">
-							<label>
-								Unchec11ked
-								<input type="checkbox" class="check-self">
-							</label>
-						</div>
+					<div class="x_content">
+						<br>
+						<form id="addAdminLevelForm" class="form-horizontal form-label-left"
+							  th:action="@{/admin/addAdminLevel}" method="post">
+							<table class="table table-hover">
+								<thead>
+								<tr>
+									<th ></th>
+									<th> </th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+									<td>관리자 권한 이름</td>
+									<td><input type="text" class="form-control" id ="adminPosition" name="adminPosition"> </td>
+								</tr>
+								<tr>
+									<td>회원관리</td>
+									<td>
+										<input type="hidden" id="hiddenAdminMember" name="adminMember" value="0" />
+										<input type="checkbox" class="check-self" id="adminMember" onchange="updateHiddenField(this, 'hiddenAdminMember')">
+									</td>
+								</tr>
+								<tr>
+									<td>계약관리</td>
+									<td>
+										<input type="hidden" id="hiddenAdminContract" name="adminContract" value="0" />
+										<input type="checkbox" class="check-self" id="adminContract" onchange="updateHiddenField(this, 'hiddenAdminContract')">
+									</td>
+								</tr>
+								<tr>
+									<td>사육장관리</td>
+									<td>
+										<input type="hidden" id="hiddenAdminFarm" name="adminFarm" value="0" />
+										<input type="checkbox" class="check-self" id="adminFarm" onchange="updateHiddenField(this, 'hiddenAdminFarm')">
+									</td>
+								</tr>
+								<tr>
+									<td>고객문의</td>
+									<td>
+										<input type="hidden" id="hiddenAdminQuestion" name="adminQuestion" value="0" />
+										<input type="checkbox" class="check-self" id="adminQuestion" onchange="updateHiddenField(this, 'hiddenAdminQuestion')">
+									</td>
+								</tr>
+								<tr>
+									<td>플랫폼설정</td>
+									<td>
+										<input type="hidden" id="hiddenAdminSetting" name="adminSetting" value="0" />
+										<input type="checkbox" class="check-self" id="adminSetting" onchange="updateHiddenField(this, 'hiddenAdminSetting')">
+									</td>
+								</tr>
+								<tr>
+									<td>결졔관리</td>
+									<td>
+										<input type="hidden" id="hiddenAdminPayment" name="adminPayment" value="0" />
+										<input type="checkbox" class="check-self" id="adminPayment" onchange="updateHiddenField(this, 'hiddenAdminPayment')">
+									</td>
+								</tr>
+								</tbody>
+							</table>
 
-						<div class="col-md-9 col-sm-9  offset-md-5">
-							<button type="button" class="btn btn-dark add" disabled="disabled">등록</button>
-							<button type="reset" class="btn btn-dark cancel">취소</button>
-						</div>
+							<div class="col-md-9 col-sm-9  offset-md-5">
+								<button type="submit" class="btn btn-dark add" >등록</button>
+								<button type="reset" class="btn btn-dark cancel">취소</button>
+							</div>
 					</div>
-				</form>
+					</form>
+					</div>
+				</div>
 			</div>
 		</div>
-	</th:block>
-
-</body>
-</html>
+	</div>
+</th:block>
+</html>`
