@@ -60,6 +60,7 @@ public class ContractController {
         Company companyInfo = companyService.getCompanyInfoByCode(companyCode);
         String companyName = companyInfo.getCompanyName();
         List<FarmProductCategory> farmProductCategoryList = companyService.getFarmProductCategoryList();
+        model.addAttribute("title", "계약공고등록");
         model.addAttribute("sessionCompanyTypeNum", sessionCompanyTypeNum);
         model.addAttribute("companyName", companyName);
         model.addAttribute("farmProductCategoryList",farmProductCategoryList);
