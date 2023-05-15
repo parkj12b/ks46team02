@@ -1,13 +1,19 @@
 package ks46team02.admin.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,8 +48,13 @@ import ks46team02.common.dto.AdminMember;
 import ks46team02.common.dto.Member;
 import ks46team02.company.dto.Company;
 import ks46team02.company.service.CompanyService;
+import ks46team02.farm.dto.EvaluationDetailCategory;
+import ks46team02.farm.dto.EvaluationDetailCategory;
+import ks46team02.farm.dto.EvaluationLargeCategory;
 import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
+import ks46team02.farm.dto.VisitHistory;
+import ks46team02.farm.mapper.MentorMenteeMapper;
 import ks46team02.farm.service.MentorMenteeService;
 
 @Controller
@@ -69,6 +80,7 @@ public class AdminController {
 	private final LoginHistoryMapper loginHistoryMapper;
 	private final WithdrawalMemberMapper withdrawalMemberMapper;
 	private final MentorMenteeService mentorMenteeService;
+	private final MentorMenteeMapper mentorMenteeMapper;
 	
 	private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
@@ -90,7 +102,9 @@ public class AdminController {
     					  ,LoginHistoryMapper loginHistoryMapper
     					  ,WithdrawalMemberMapper withdrawalMemberMapper
 						  ,CompanyService companyService
-						  ,MentorMenteeService mentorMenteeService) {
+						  ,MentorMenteeService mentorMenteeService
+						  ,MentorMenteeMapper mentorMenteeMapper) {
+		this.mentorMenteeMapper = mentorMenteeMapper;
 		this.mentorMenteeService = mentorMenteeService;
 		this.addrService = addrService;
 		this.adminService = adminService;
@@ -142,11 +156,14 @@ public class AdminController {
 	
     /* 승인 대기 업체 조회 */
 	@GetMapping("/applyCompanyRegList")
-	public String applyCompanyRegList(Model model) {
+	public String applyCompanyRegList(Model model
+									 ,HttpSession session) {
 
+		String sessionId = (String)session.getAttribute("sessionId");
 		List<Company> companyList = companyService.getCompanyList();
 		model.addAttribute("title", "승인 대기 업체 조회");
 		model.addAttribute("companyList",companyList);
+		model.addAttribute("sessionId",sessionId);
 		return "admin/apply_company_reg_list";
 	}
 	/* 등급별 관리자 목록 조회*/
@@ -379,19 +396,6 @@ public class AdminController {
 			
 		 }
 	
-	@GetMapping("/mentorRegList")
-	public String getMentorRegManageList(Model model) {
-		List<MMRegInfoMentor> mentorRegList = mMService.getMentorRegList("under review");
-		model.addAttribute("mentorRegList", mentorRegList);
-		return "admin/mentorReg_list";
-	}
-	
-	@GetMapping("/menteeRegList")
-	public String getMenteeRegManageList(Model model) {
-		List<MMRegInfoMentee> menteeRegList = mMService.getMenteeRegList("under review");
-		model.addAttribute("menteeRegList",menteeRegList);
-		return "admin/menteeReg_list";
-	}
 	
 	/* 관리자 레벨 목록 조회 */
 	@GetMapping("/adminLevelList")
@@ -524,11 +528,288 @@ public class AdminController {
 		contractStandardService.modifyContractStandard(contractStandard);
 	}
 	
-	@GetMapping("/mentorRegManageList")
-	public String mentorApplyList(Model model, String approveStatus) {
+	@PostMapping("/mentorRegApprove")
+	@ResponseBody
+	public Map<String,Object> mentorRegApprove(Model model, MMRegInfoMentor mentorRegInfo) {
 		
+		String msg = "";
+		boolean isSuccess = false;
+		int result = mMService.approveMentorRegStatus(mentorRegInfo);
+		Map<String,Object> returnMap = new HashMap<>();
+		if(result == 1) {
+			msg = "승인되었습니다.";
+			isSuccess = true;
+		} else {
+			msg = "승인을 처리하지 못하였습니다.";
+		}
 		
-		model.addAttribute("title", "멘토 신청 관리");
-		return "admin/mentor_reg_manage_list";
+		returnMap.put("msg", msg);
+		returnMap.put("isSuccess", isSuccess);
+		return returnMap;
+	}
+	
+	@PostMapping("/mentorRegDeny")
+	@ResponseBody
+	public Map<String,Object> mentorRegDeny(Model model, MMRegInfoMentor mentorRegInfo) {
+		
+		String msg = "";
+		boolean isSuccess = false;
+		int result = mMService.denyMentorRegStatus(mentorRegInfo);
+		Map<String,Object> returnMap = new HashMap<>();
+		if(result == 1) {
+			msg = "승인거부 되었습니다.";
+			isSuccess = true;
+		} else {
+			msg = "승인거부를 처리하지 못하였습니다.";
+		}
+		
+		returnMap.put("msg", msg);
+		returnMap.put("isSuccess", isSuccess);
+		return returnMap;
+	}
+	@GetMapping("/mentorRegList")
+	public String getMentorRegManageList(Model model) {
+		Map<String,String> paramMap = new HashMap<>();
+		List<Map<String,Object>> searchList = new ArrayList<>();
+		paramMap.put("mentor_approval", "under review");
+		Set<String> keySet = paramMap.keySet();
+		for(String key: keySet) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("key", key);
+			map.put("value", paramMap.get(key));
+			searchList.add(map);
+		}
+		
+		MultiValueMap<String,String> paramMap2 = new LinkedMultiValueMap<>();
+		List<Map<String,Object>> searchList2 = new ArrayList<>();
+		paramMap2.add("mentor_approval", "denied");
+		paramMap2.add("mentor_approval", "approved");
+		Set<String> keySet2 = paramMap2.keySet();
+		for(String key: keySet2) {
+			List<String> list = paramMap2.get(key);
+			for(String value: list) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("key", key);
+				map.put("value", value);
+				searchList2.add(map);				
+			}
+		}
+		log.info("List{}",searchList2);
+		List<MMRegInfoMentor> mentorRegList = mMService.getMentorRegListOr(searchList);
+		List<MMRegInfoMentor> mentorList = mMService.getMentorRegListOr(searchList2);
+		model.addAttribute("title","멘토 신청 관리");
+		model.addAttribute("mentorRegList",mentorRegList);
+		model.addAttribute("mentorList",mentorList);
+		log.info("mentorList={}", mentorList);
+		return "admin/mentor_reg_list";
+	}
+	
+	@GetMapping("/menteeRegList")
+	public String getMenteeRegManageList(Model model) {
+		Map<String,String> paramMap = new HashMap<>();
+		List<Map<String,Object>> searchList = new ArrayList<>();
+		paramMap.put("mentee_approval", "under review");
+		Set<String> keySet = paramMap.keySet();
+		for(String key: keySet) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("key", key);
+			map.put("value", paramMap.get(key));
+			searchList.add(map);
+		}
+		
+		MultiValueMap<String,String> paramMap2 = new LinkedMultiValueMap<>();
+		List<Map<String,Object>> searchList2 = new ArrayList<>();
+		paramMap2.add("mentee_approval", "denied");
+		paramMap2.add("mentee_approval", "approved");
+		Set<String> keySet2 = paramMap2.keySet();
+		for(String key: keySet2) {
+			List<String> list = paramMap2.get(key);
+			for(String value: list) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("key", key);
+				map.put("value", value);
+				searchList2.add(map);				
+			}
+		}
+		
+		List<MMRegInfoMentee> menteeRegList = mMService.getMenteeRegListOr(searchList);
+		List<MMRegInfoMentee> menteeList = mMService.getMenteeRegListOr(searchList2);
+		model.addAttribute("title","멘티 신청 관리");
+		model.addAttribute("menteeRegList",menteeRegList);
+		model.addAttribute("menteeList",menteeList);
+		return "admin/mentee_reg_list";
+	}
+	
+	@PostMapping("/mentorRegDelete")
+	@ResponseBody
+	public Map<String, Object> removeMentorRegHistory(MMRegInfoMentor mentorRegInfo){
+		
+		Map<String, Object> returnMap = new HashMap<>();
+		boolean isSuccess = false;
+		String msg;
+		int result = mMService.removeMentorRegHistory(mentorRegInfo);
+		if(result == 1) {
+			msg = "삭제되었습니다.";
+			isSuccess = true;
+		} else {
+			msg = "삭제 처리하지 못하였습니다.";
+		}
+		
+		returnMap.put("msg", msg);
+		returnMap.put("isSuccess", isSuccess);
+
+		return returnMap;
+	}
+	@PostMapping("/menteeRegApprove")
+	@ResponseBody
+	public Map<String,Object> menteeRegApprove(Model model, MMRegInfoMentee menteeRegInfo) {
+		
+		String msg = "";
+		boolean isSuccess = false;
+		int result = mMService.approveMenteeRegStatus(menteeRegInfo);
+		Map<String,Object> returnMap = new HashMap<>();
+		if(result == 1) {
+			msg = "승인되었습니다.";
+			isSuccess = true;
+		} else {
+			msg = "승인을 처리하지 못하였습니다.";
+		}
+		
+		returnMap.put("msg", msg);
+		returnMap.put("isSuccess", isSuccess);
+		return returnMap;
+	}
+	
+	@PostMapping("/menteeRegDeny")
+	@ResponseBody
+	public Map<String,Object> menteeRegDeny(Model model, MMRegInfoMentee menteeRegInfo) {
+		
+		String msg = "";
+		boolean isSuccess = false;
+		int result = mMService.denyMenteeRegStatus(menteeRegInfo);
+		Map<String,Object> returnMap = new HashMap<>();
+		if(result == 1) {
+			msg = "승인거부 되었습니다.";
+			isSuccess = true;
+		} else {
+			msg = "승인거부를 처리하지 못하였습니다.";
+		}
+		
+		returnMap.put("msg", msg);
+		returnMap.put("isSuccess", isSuccess);
+		return returnMap;
+	}
+	
+	@PostMapping("/menteeRegDelete")
+	@ResponseBody
+	public Map<String, Object> removeMenteeRegHistory(MMRegInfoMentee menteeRegInfo){
+		
+		Map<String, Object> returnMap = new HashMap<>();
+		boolean isSuccess = false;
+		String msg;
+		int result = mMService.removeMenteeRegHistory(menteeRegInfo);
+		if(result == 1) {
+			msg = "삭제되었습니다.";
+			isSuccess = true;
+		} else {
+			msg = "삭제 처리하지 못하였습니다.";
+		}
+		
+		returnMap.put("msg", msg);
+		returnMap.put("isSuccess", isSuccess);
+
+		return returnMap;
+	}
+	
+	@GetMapping("/mentorVisitHistory")
+	public String getMentorVisitHistoryList(Model model) {
+		Map<String, String> paramMap = new HashMap<String,String>();
+		
+		List<VisitHistory> visitHistoryList = mentorMenteeMapper.getVisitHistoryList();
+		model.addAttribute("title","멘토 방문기록 관리");
+		model.addAttribute("visitHistoryList",visitHistoryList);
+		return "admin/mm_contract_visit_history";
+	}
+	
+	@PostMapping("/removeVisitHistory")
+	@ResponseBody
+	public Map<String, Object> removeVisitHistory(VisitHistory visitHistory){
+		
+		Map<String, Object> returnMap = mMService.resetVisitHistory(visitHistory);
+		
+		return returnMap;
+	}
+	
+	@GetMapping("/mentorResultHistory")
+	public String getMentorResultHistoryList(Model model) {
+		model.addAttribute("title", "멘토 평가결과 기록 관리");
+		
+		return "admin/mm_contract_result_history";
+	}
+	
+	@GetMapping("/mentorEvaluationLargeCategory")
+	public String getEvaluationLargeCategoryList (Model model) {
+		model.addAttribute("title", "멘토멘티 평가 대분류 관리");
+		List<EvaluationLargeCategory> largeCategoryList = mentorMenteeService.getEvaluationLargeCategoryNoDetailCate();
+		
+		log.info("eval={}",largeCategoryList);
+		
+		model.addAttribute("largeCategoryList",largeCategoryList);
+		return "admin/mm_evaluation_large_category";
+	}
+	
+	@PostMapping("/removeLargeCategory")
+	@ResponseBody
+	public Map<String, Object> removeVisitHistory(EvaluationLargeCategory evalLargeCate){
+		
+		Map<String, Object> returnMap = mMService.removeEvaluationLargeCategory(evalLargeCate);
+		
+		return returnMap;
+	}
+	
+	@PostMapping("/modifyLargeCategory")
+	@ResponseBody
+	public Map<String, Object> modifyLargeCategory(EvaluationLargeCategory evalLargeCate){
+		Map<String, Object> returnMap = mMService.modifyLargeCategory(evalLargeCate);
+		
+		return returnMap;
+	}
+	
+	@PostMapping("/addLargeCategory")
+	@ResponseBody
+	public Map<String, Object> addLargeCategory(EvaluationLargeCategory evalLargeCate) {
+		
+		Map<String, Object> returnMap = mMService.addEvaluationLargeCategory(evalLargeCate);
+		
+		return returnMap;
+	}
+	
+	@GetMapping("/mentorEvaluationDetailCategory")
+	public String mentorEvaluationDetailCategory(Model model) {
+		
+		List<EvaluationDetailCategory> detailCategoryList = mentorMenteeService.getEvalDetailCateList();
+		List<EvaluationLargeCategory> largeCategoryList = mentorMenteeService.getEvaluationLargeCategoryNoDetailCate();
+		
+		model.addAttribute("title", "멘토멘티 평가 세부항목 관리");
+		model.addAttribute("detailCategoryList",detailCategoryList);
+		model.addAttribute("largeCategoryList",largeCategoryList);
+		
+		return "admin/mm_evaluation_detail_category";
+	}
+	
+	@PostMapping("/modifyDetailCategory")
+	@ResponseBody
+	public Map<String, Object> modifyDetailCategory(EvaluationDetailCategory evalDetailCate){
+		Map<String,Object> returnMap = mMService.modifyDetailCategory(evalDetailCate);
+		
+		return returnMap;
+	}
+
+	@PostMapping("/deleteDetailCategory")
+	@ResponseBody
+	public Map<String, Object> deleteDetailCategory(EvaluationDetailCategory evalDetailCate){
+		Map<String,Object> returnMap = mMService.deleteDetailCategory(evalDetailCate);
+		
+		return returnMap;
 	}
 }

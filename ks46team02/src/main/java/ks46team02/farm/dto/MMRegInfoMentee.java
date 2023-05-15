@@ -10,7 +10,7 @@ public class MMRegInfoMentee {
 	private String adminId;
 	private String previousYear;
 	private String previousYearSales;
-	private String salesSuitability;
+	private boolean salesSuitability;
 	private String documentaryEvidence;
 	public String getMenteeAppCode() {
 		return menteeAppCode;
@@ -66,10 +66,10 @@ public class MMRegInfoMentee {
 	public void setPreviousYearSales(String previousYearSales) {
 		this.previousYearSales = previousYearSales;
 	}
-	public String getSalesSuitability() {
+	public boolean isSalesSuitability() {
 		return salesSuitability;
 	}
-	public void setSalesSuitability(String salesSuitability) {
+	public void setSalesSuitability(boolean salesSuitability) {
 		this.salesSuitability = salesSuitability;
 	}
 	public String getDocumentaryEvidence() {

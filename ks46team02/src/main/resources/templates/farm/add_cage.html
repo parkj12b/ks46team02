@@ -21,6 +21,10 @@
 			$('#cancelBtn').click(function (){
 				window.history.back();
 			});
+			$("#reset-btn").click(function(event) {
+				event.preventDefault();
+				$("form")[0].reset();
+			});
 		</script>
 	</th:block>
 </head>
@@ -34,6 +38,7 @@
 				<div class="x_panel">
 					<div class="x_title">
 						<h2>케이지 등록</h2>
+						<button type="reset" class="btn btn-white" style="float: right" id="reset-btn"> <i class="fa fa-repeat"></i></button>
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">

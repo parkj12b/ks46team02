@@ -37,15 +37,38 @@ public class CustomerServiceListService {
 		return QuestionTypeList;
 	}
 
-	public void writeQuestionType(QuestionTypeDto questionTypeDto) {
-		customerserviceListMapper.writeQuestionType(questionTypeDto);
-	
-	}
 
 	public int getNextQuestionTypeCode() {
 		return customerserviceListMapper.getNextQuestionTypeCode();
 	}
 
+	public int registerQuestionType(QuestionTypeDto questionTypeDto) {
+		return customerserviceListMapper.insertQuestionType(questionTypeDto);
+		
+	}
+
+	public String updateQuestionTypeName(QuestionTypeDto questionTypeDto) {
+		return customerserviceListMapper.updateQuestionType(questionTypeDto);
+		
+	}
+
+
+
+
+		
 	
 
+
+
+
+
+	
+
+
+	
 }
+	
+
+	
+
+

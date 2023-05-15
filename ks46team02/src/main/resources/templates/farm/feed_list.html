@@ -1,217 +1,198 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/mypageLayout}">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/mypageLayout}">
 
 <head>
-<style type="text/css">
-.dataTables_length {
-  display: none;
-}
-</style>
+    <style type="text/css">
+        .dataTables_length {
+            display: none;
+        }
+
+    </style>
 </head>
+    <th:block layout:fragment="customJs">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.0/chart.min.js"
+                integrity="sha512-R60W3LgKdvvfwbGbqKusRu/434Snuvr9/Flhtoq9cj1LQ9P4HFKParULqOCAisHk/J4zyaEWWjiWIMuP13vXEg=="
+                crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+            $('#datatable-responsive').DataTable({
+                searching: false // search 기능을 비활성화
+            });
+                let lineChart;
+                $.ajax({
+                    url: '/farm/feedGraph',
+                    method: 'GET',
+                    async: true,
+                    data: {cycleCode: "[[${cycleCode}]]"},  // 실제 cycleCode 값으로 교체해야 합니다.
+                    success: function (data) {
+                        var ctx = document.getElementById('lineChart').getContext('2d');
+                        lineChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: data.map(feed => feed.feedingDate),
+                                datasets: [{
+                                    label: 'Feeding Amount',
+                                    data: data.map(feed => feed.feedingAmount),
+                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                    borderColor: 'rgba(84, 123, 136, 1)',
+                                    borderWidth: 3,
+                                    tension: 0.4,  // Add this line to make the line smoother
+                                    fill: true
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true
+                                        }
+                                    }]
+                                }
+                            }
+                        });
+                    }
+                });
+
+            $('form').on('submit', function (event) {
+                event.preventDefault(); // prevent form from reloading the page
+                var formValues = $(this).serialize();
+                $.ajax({
+                    url: '/farm/addFeed',  // replace with your URL
+                    method: 'POST',
+                    data: formValues,
+                    success: function (data) {
+                        // Update the table with new data
+                        var newRow = $("<tr>");
+                        var cols = "";
+                        cols += '<td>' + data.feedingDate + '</td>';  // replace 'data.feedingDate' with your actual data key
+                        cols += '<td>' + data.feedingAmount + '</td>';  // replace 'data.feedingAmount' with your actual data key
+                        newRow.append(cols);
+                        $("table").append(newRow);
+
+
+                        // Update the graph with new data
+                        // You need to access your Chart object and update it. Assume your chart object is '
+                        lineChart.data.labels.push(data.feedingDate);
+                        lineChart.data.datasets.forEach((dataset) => {
+                            dataset.data.push(data.feedingAmount);
+                        });
+                        lineChart.update();
+
+                    }
+                });
+            });
+
+        </script>
+    </th:block>
+
 <th:block layout:fragment="customContent">
-	<div class="page-title">
-		<div class="title">
-			<div class="x_panel">
-				<div class="x_title">
-					<h2>먹이 급여 조회</h2>
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>먹이 급여 조회</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6  ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>먹이 급여 그래프</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <!--		그래프		-->
+                        <iframe class="chartjs-hidden-iframe"
+                                style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; inset: 0px;"></iframe>
+                        <canvas id="lineChart" width="765" height="382" style="width: 765px; height: 382px;"></canvas>
+                    </div>
+                </div>
 
-					<ul class="nav navbar-right panel_toolbox"
-						style="flex-direction: row-reverse">
-						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-						</li>
-						<li class="dropdown">
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-							</div>
-						</li>
-					</ul>
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>먹이 급여 등록</h2>
+                        <button type="reset" class="btn btn-white" style="float: right" id="reset-btn"><i
+                                class="fa fa-repeat"></i></button>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <form class="form-horizontal form-label-left" method="post">
 
-					<div class="clearfix"></div>
-				</div>
-				<div class="x_content">
-					<div class="row">
-						<div class="col-sm-12">
-							<div class="card-box table-responsive">
-								<div class="col-sm-6">
-									<div class="x_panel">
-										<div class="x_title">
-											<h2>
-												Line Graph <small>Sessions</small>
-											</h2>
-											<ul class="nav navbar-right panel_toolbox">
-												<li><a class="collapse-link"><i
-														class="fa fa-chevron-up"></i></a></li>
-												<li class="dropdown"><a href="#"
-													class="dropdown-toggle" data-toggle="dropdown"
-													role="button" aria-expanded="false"><i
-														class="fa fa-wrench"></i></a>
-													<div class="dropdown-menu"
-														aria-labelledby="dropdownMenuButton">
-														<a class="dropdown-item" href="#">Settings 1</a> <a
-															class="dropdown-item" href="#">Settings 2</a>
-													</div></li>
-												<li><a class="close-link"><i class="fa fa-close"></i></a>
-												</li>
-											</ul>
-											<div class="clearfix"></div>
-										</div>
-										<div class="x_content2">
-											<div id="graph_line"
-												style="width: 100%; height: 300px; position: relative; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
-												<svg height="300" version="1.1" width="502"
-													xmlns="http://www.w3.org/2000/svg"
-													xmlns:xlink="http://www.w3.org/1999/xlink"
-													style="overflow: hidden; position: relative; top: -0.375px;">
-													<desc
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël @@VERSION</desc>
-													<defs
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs>
-													<text x="26.109375" y="259" text-anchor="end"
-														font-family="sans-serif" font-size="12px" stroke="none"
-														fill="#888888"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;"
-														font-weight="normal">
-													<tspan dy="4"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">0</tspan></text>
-													<path fill="none" stroke="#aaaaaa" d="M38.609375,259H477"
-														stroke-width="0.5"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-													<text x="26.109375" y="200.5" text-anchor="end"
-														font-family="sans-serif" font-size="12px" stroke="none"
-														fill="#888888"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;"
-														font-weight="normal">
-													<tspan dy="4"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">5</tspan></text>
-													<path fill="none" stroke="#aaaaaa" d="M38.609375,200.5H477"
-														stroke-width="0.5"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-													<text x="26.109375" y="142" text-anchor="end"
-														font-family="sans-serif" font-size="12px" stroke="none"
-														fill="#888888"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;"
-														font-weight="normal">
-													<tspan dy="4"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">10</tspan></text>
-													<path fill="none" stroke="#aaaaaa" d="M38.609375,142H477"
-														stroke-width="0.5"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-													<text x="26.109375" y="83.5" text-anchor="end"
-														font-family="sans-serif" font-size="12px" stroke="none"
-														fill="#888888"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;"
-														font-weight="normal">
-													<tspan dy="4"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">15</tspan></text>
-													<path fill="none" stroke="#aaaaaa" d="M38.609375,83.5H477"
-														stroke-width="0.5"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-													<text x="26.109375" y="25" text-anchor="end"
-														font-family="sans-serif" font-size="12px" stroke="none"
-														fill="#888888"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: sans-serif; font-size: 12px; font-weight: normal;"
-														font-weight="normal">
-													<tspan dy="4"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">20</tspan></text>
-													<path fill="none" stroke="#aaaaaa" d="M38.609375,25H477"
-														stroke-width="0.5"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-													<text x="477" y="271.5" text-anchor="middle"
-														font-family="sans-serif" font-size="12px" stroke="none"
-														fill="#888888"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;"
-														font-weight="normal" transform="matrix(1,0,0,1,0,8)">
-													<tspan dy="4"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2016</tspan></text>
-													<text x="367.477359257358" y="271.5" text-anchor="middle"
-														font-family="sans-serif" font-size="12px" stroke="none"
-														fill="#888888"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;"
-														font-weight="normal" transform="matrix(1,0,0,1,0,8)">
-													<tspan dy="4"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2015</tspan></text>
-													<text x="257.954718514716" y="271.5" text-anchor="middle"
-														font-family="sans-serif" font-size="12px" stroke="none"
-														fill="#888888"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;"
-														font-weight="normal" transform="matrix(1,0,0,1,0,8)">
-													<tspan dy="4"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2014</tspan></text>
-													<text x="148.4320777720739" y="271.5" text-anchor="middle"
-														font-family="sans-serif" font-size="12px" stroke="none"
-														fill="#888888"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;"
-														font-weight="normal" transform="matrix(1,0,0,1,0,8)">
-													<tspan dy="4"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2013</tspan></text>
-													<text x="38.609375" y="271.5" text-anchor="middle"
-														font-family="sans-serif" font-size="12px" stroke="none"
-														fill="#888888"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: sans-serif; font-size: 12px; font-weight: normal;"
-														font-weight="normal" transform="matrix(1,0,0,1,0,8)">
-													<tspan dy="4"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2012</tspan></text>
-													<path fill="none" stroke="#26b99a"
-														d="M38.609375,25C66.06505069301848,54.25,120.97640207905543,120.03248974008208,148.4320777720739,142C175.81273795773444,163.9074897400821,230.57405832905545,193.1875,257.954718514716,200.5C285.3353787003765,207.8125,340.09669907169746,222.4375,367.477359257358,200.5C394.8580194430185,178.5625,449.61933981433947,68.875,477,25"
-														stroke-width="3"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-													<circle cx="38.609375" cy="25" r="4" fill="#26b99a"
-														stroke="#ffffff" stroke-width="1"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-													<circle cx="148.4320777720739" cy="142" r="4"
-														fill="#26b99a" stroke="#ffffff" stroke-width="1"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-													<circle cx="257.954718514716" cy="200.5" r="4"
-														fill="#26b99a" stroke="#ffffff" stroke-width="1"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-													<circle cx="367.477359257358" cy="200.5" r="4"
-														fill="#26b99a" stroke="#ffffff" stroke-width="1"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-													<circle cx="477" cy="25" r="4" fill="#26b99a"
-														stroke="#ffffff" stroke-width="1"
-														style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle></svg>
-												<div class="morris-hover morris-default-style"
-													style="left: 437px; top: 35px; display: none;">
-													<div class="morris-hover-row-label">2016</div>
-													<div class="morris-hover-point" style="color: #26B99A">
-														Value: 20</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-6">
+                            <div class="form-group row ">
+                                <label class="control-label col-md-3 col-sm-3 ">싸이클 코드
+                                </label>
+                                <div class="col-md-9 col-sm-9 ">
+                                    <input type="text" class="form-control" name="expectedCageProductionCode"
+                                           th:value="${cycleCode}">
+                                </div>
+                            </div>
+                            <div class="item form-group">
+                                <label class="col-form-label col-md-3 col-sm-3 label-left">급여 날짜
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="col-md-9 col-sm-9 ">
+                                    <input name="feedingDate" class="date-picker form-control"
+                                           placeholder="dd-mm-yyyy" type="date" required="required"
+                                           onfocus="this.type='date'" onmouseover="this.type='date'"
+                                           onclick="this.type='date'" onblur="this.type='text'"
+                                           onmouseout="timeFunctionLong(this)">
+                                    <script>
+                                        function timeFunctionLong(input) {
+                                            setTimeout(function () {
+                                                input.type = 'text';
+                                            }, 60000);
+                                        }
+                                    </script>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="control-label col-md-3 col-sm-3 "> 급여량 </label>
+                                <div class="col-md-9 col-sm-9 ">
+                                    <input type="text" class="form-control" name="feedingAmount" required="required">
+                                </div>
+                            </div>
+
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-9 col-sm-9  offset-md-3">
+                                    <button type="submit" class="btn btn-dark">등록</button>
+                                    <button type="button" class="btn btn-dark" id="cancelBtn">취소</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-sm-6  ">
+                <!--급여 테이블-->
+                <table id="datatable-responsive"
+                       class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline"
+                       cellspacing="0" width="100%" role="grid"
+                       aria-describedby="datatable-responsive_info"
+                       style="width: 100%;">
+                    <thead>
+                    <tr role="row">
+                        <th>투입날짜</th>
+                        <th>급여량(kg)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:unless="${feedList == null}" th:each="l : ${feedList}">
+                        <td th:text="${l.feedingDate}"></td>
+                        <td th:text="${l.feedingAmount}"></td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
 
 
-									<table id="datatable-responsive"
-										class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline"
-										cellspacing="0" width="100%" role="grid"
-										aria-describedby="datatable-responsive_info"
-										style="width: 100%;">
-										<thead>
-											<tr role="row">
-												<th>투입날짜</th>
-												<th>급여량(kg)</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr th:unless="${feedList == null}" th:each="l : ${feedList}">
-												<td th:text="${l.feedingDate}"></td>
-												<td th:text="${l.feedingAmount}"></td>
-											</tr>
-
-										</tbody>
-									</table>
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    </div>
 
 
 </th:block>

@@ -41,6 +41,8 @@ public interface MentorMenteeMapper {
 	public int removeTokenByTokenCode(String tokenCode);
 	public int addMentorFeedbackToken(MentorFeedbackToken token);
 	public MentorFeedbackToken getMentorFeedbackTokenByTokenCode(String tokenCode);
+	public List<VisitHistory> getVisitHistoryList();
+	public List<EvaluationLargeCategory> getEvaluationLargeCategoryNoDetailCate();
 	
 	
 }

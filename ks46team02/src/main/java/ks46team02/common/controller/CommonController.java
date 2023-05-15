@@ -176,15 +176,12 @@ public class CommonController {
 	public String getContractPaperDetail(Model model, HttpSession session, @RequestParam(name="contractCode") String contractCode) {
 		Map<String,String> keyValue = new HashMap<String,String>();
 		String companyCode = (String) session.getAttribute("sessionCompanyCode");
-		if(companyCode == null) {
-			return "redirect:/";
-		}
+		
 		List<Map<String, Object>> searchList = new ArrayList<>();
 		
 		
 		
 		keyValue.put("contract_code", contractCode);
-		keyValue.put("contractor_company_code", companyCode);
 
 		Set<String> keySet = keyValue.keySet();
 		
@@ -225,6 +222,7 @@ public class CommonController {
 		model.addAttribute("addrList", addrList);
 		return "addr_member_list";
 	}
+	
 	/* 회원별 배송지 수정 */
 	@PostMapping("/modifyMemberAddr")
 	public String modifyAddr(Addr addr) {
@@ -233,8 +231,8 @@ public class CommonController {
 		
 		return "redirect:/admin/addrList";
 	}
-	/* 회원별 배송지 수정 */
 	
+	/* 회원별 배송지 수정 */
 	@GetMapping("/modifyMemberAddr")
 	public String modifyAddr(Model model
 							 ,@RequestParam(name="addrCode") String addrCode){
