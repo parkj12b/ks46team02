@@ -7,6 +7,21 @@ public class MentorFeedbackToken {
 	private String registerDate;
 	private String expiryDate;
 	private String mentorFeedbackTokenCode;
+	private String tokenName;
+	private String validDate;
+	
+	public String getValidDate() {
+		return validDate;
+	}
+	public void setValidDate(String validDate) {
+		this.validDate = validDate;
+	}
+	public String getTokenName() {
+		return tokenName;
+	}
+	public void setTokenName(String tokenName) {
+		this.tokenName = tokenName;
+	}
 	public String getCompanyCode() {
 		return companyCode;
 	}
@@ -47,7 +62,8 @@ public class MentorFeedbackToken {
 	public String toString() {
 		return "MentorFeedbackToken [companyCode=" + companyCode + ", mentorFeedbackToken=" + mentorFeedbackToken
 				+ ", memberId=" + memberId + ", registerDate=" + registerDate + ", expiryDate=" + expiryDate
-				+ ", mentorFeedbackTokenCode=" + mentorFeedbackTokenCode + "]";
+				+ ", mentorFeedbackTokenCode=" + mentorFeedbackTokenCode + ", tokenName=" + tokenName + ", validDate="
+				+ validDate + "]";
 	}
 	
 	

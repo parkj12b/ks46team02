@@ -1,8 +1,10 @@
 package ks46team02.farm.service;
 
+import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +24,7 @@ import ks46team02.farm.dto.EvaluationLargeCategory;
 import ks46team02.farm.dto.EvaluationStandard;
 import ks46team02.farm.dto.GoogleFormResult;
 import ks46team02.farm.dto.MMContractInfo;
+import ks46team02.farm.dto.MMRegInfoMentor;
 import ks46team02.farm.dto.MentorFeedbackToken;
 import ks46team02.farm.dto.ResultHistory;
 import ks46team02.farm.dto.VisitHistory;
@@ -32,7 +35,8 @@ public class MentorMenteeService {
 
 	private final MentorMenteeMapper mentorMenteeMapper;
 	private final MainMapper mainMapper;
-
+	private static final SecureRandom secureRandom = new SecureRandom(); //threadsafe
+	private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder(); //threadsafe
 	
 	private static final Logger log = LoggerFactory.getLogger(MentorMenteeService.class);
 
@@ -284,6 +288,9 @@ public class MentorMenteeService {
 			
 			//map to pass to mapper
 			String resultCode = mainMapper.autoIncrement("result_history", "result_code");
+			if(resultCode == null) {
+				resultCode = "survey_num_1";
+			}
 			ResultHistory resultHistory = new ResultHistory();
 			resultHistory.setResultCode(resultCode);
 			resultHistory.setEvaluationUnitCode(evaluationUnitCode);
@@ -318,4 +325,52 @@ public class MentorMenteeService {
 		int result = mentorMenteeMapper.modifyVisitHistory(visitHistoryParam);
 	}
 
+	public List<MentorFeedbackToken> getMentorFeedbackTokenList(String companyCode) {
+		// TODO Auto-generated method stub
+		List<MentorFeedbackToken> mentorFeedbackToken = mentorMenteeMapper.getMentorFeedbackTokenListByCompanyCode(companyCode);
+		
+		
+		return mentorFeedbackToken;
+	}
+
+	public int removeTokenByTokenCode(String tokenCode) {
+		// TODO Auto-generated method stub
+		int result = mentorMenteeMapper.removeTokenByTokenCode(tokenCode);
+		
+		return result;
+	}
+
+	public MentorFeedbackToken addMentorFeedbackToken(MentorFeedbackToken token) {
+		// TODO Auto-generated method stub
+		String tokenCode = mainMapper.autoIncrement("mentor_feedback_token","mentor_feedback_token_code");
+		if(tokenCode == null) {
+			tokenCode = "token_code_1";
+		}
+		token.setMentorFeedbackTokenCode(tokenCode);
+		
+		byte[] randomBytes = new byte[24];
+	    secureRandom.nextBytes(randomBytes);
+	    String tokenNum = base64Encoder.encodeToString(randomBytes);
+		token.setMentorFeedbackToken(tokenNum);
+	    
+		int result = mentorMenteeMapper.addMentorFeedbackToken(token);
+		MentorFeedbackToken tokenInfo = mentorMenteeMapper.getMentorFeedbackTokenByTokenCode(tokenCode);
+		
+		return tokenInfo;
+	}
+
+	public MentorFeedbackToken getMentorFeedbackTokenByTokenCode(String tokenCode) {
+		// TODO Auto-generated method stub
+		MentorFeedbackToken tokenInfo = mentorMenteeMapper.getMentorFeedbackTokenByTokenCode(tokenCode);
+		return tokenInfo;
+	}
+
+	public List<EvaluationLargeCategory> getEvaluationLargeCategoryNoDetailCate() {
+		// TODO Auto-generated method stub
+		List<EvaluationLargeCategory> list = mentorMenteeMapper.getEvaluationLargeCategoryNoDetailCate();
+		
+		return list;
+	}
+
+	
 }

@@ -2,9 +2,12 @@ package ks46team02.admin.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ks46team02.admin.controller.AdminController;
 import ks46team02.admin.mapper.MemberMapper;
 import ks46team02.common.dto.Member;
 @Service
@@ -12,6 +15,8 @@ import ks46team02.common.dto.Member;
 public class MemberService {
 	
 private final MemberMapper memberMapper;
+
+private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 	
 	public MemberService(MemberMapper memberMapper) {
 		this.memberMapper = memberMapper;
@@ -40,6 +45,9 @@ private final MemberMapper memberMapper;
 	}
 	/* 회원 등록 */
 	public int addMember(Member member) {
+		
+		 if(member.getCompanyCode().equals("")) { 
+			 member.setCompanyCode(null);}		 
 		int result = memberMapper.addMember(member);
 		return result;
 	}
@@ -50,6 +58,13 @@ private final MemberMapper memberMapper;
 	}
 	/* 휴면 회원 돌리기 */
 	public void modifyDormantMember(String memberId) {
-	    memberMapper.modifyDormantMember(memberId);
+
+		memberMapper.modifyDormantMember(memberId);
 	}
+	/* 일반 회원 휴면회원으로 전환 */
+	public void modifyMemberDormant(String memberId){
+
+		memberMapper.modifyMemberDormant(memberId);
+	}
+
 }

@@ -2,8 +2,12 @@ package ks46team02.farm.service;
 
 
 
+import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ks46team02.common.mapper.MainMapper;
 import org.slf4j.Logger;
@@ -31,10 +35,164 @@ public class FarmService {
         this.farmMapper = farmMapper;
         this.mainMapper = mainMapper;
     }
-    
-    
-	private static final Logger log = LoggerFactory.getLogger(FarmService.class);
+
+
+    private static final Logger log = LoggerFactory.getLogger(FarmService.class);
     final double standardEggWeight = 0.089;
+
+
+    /**
+     * 급여량 등록
+     */
+    public Feed addFeed(Feed feed){
+        String column = "feeding_num";
+        String table = "feeding";
+        String feedingNum = mainMapper.autoIncrement(table, column);
+        String cycleCode = feed.getExpectedCageProductionCode();
+        Cycle cycle = farmMapper.getCycleByCode(cycleCode);
+        String farmCode = cycle.getFarmCode();
+        feed.setFarmCode(farmCode);
+        feed.setFeedingNum(feedingNum);
+        farmMapper.addFeed(feed);
+        return feed;
+    }
+    /**
+     * 생산량 그래프
+     */
+    public List<Production> getProductionGraph(String farmCode){
+        List<Production> Production = farmMapper.getProductionGraph(farmCode);
+        return Production;
+    }
+    /**
+     * 먹이 급여 그래프
+     */
+    public List<Feed> getFeedGraph(String cycleCode){
+        List<Feed> feed = farmMapper.getFeedGraph(cycleCode);
+        return feed;
+    }
+
+    /**
+     * 케이지 수정
+     */
+    public int modifyCage(Cage cage){
+        int cageNum = cage.getCageNum();
+        double CageVolume = cage.getCageVolume();
+        double cageTotal = cageNum*CageVolume;
+        double optimalInputEgg = cageTotal*standardEggWeight;
+
+        cage.setCageTotal(cageTotal);
+        cage.setOptimalInputEgg(optimalInputEgg);
+        log.info("입력값 : {}", cage);
+
+        int result = farmMapper.modifyCage(cage);
+        return result;
+    }
+    /**
+     * 싸이클 수정
+     */
+    public int modifyCycle(Cycle cycle){
+        String standardCode = cycle.getCalculationStandardCode();
+        HashMap<String, Object> standard = farmMapper.getStandard(standardCode);
+        int standardPeriod = (int) standard.get("standard_period");
+        String harvestStartDate = cycle.getHarvestStartDate();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = LocalDate.parse(harvestStartDate, formatter);
+        LocalDate estimatedHarvestDate = startDate.plusDays(standardPeriod);
+        String estimatedHarvestDateString = estimatedHarvestDate.format(formatter);
+
+        double output = (double) standard.get("standard_output");
+        double inputEgg = cycle.getInputEgg();
+        double estimatedProduction = output*inputEgg;
+
+        cycle.setEstimatedProduction(estimatedProduction);
+        cycle.setEstimatedHarvestDate(estimatedHarvestDateString);
+        log.info("service cycle : {}", cycle);
+        int result = farmMapper.modifyCycle(cycle);
+        return result;
+    }
+
+    /**
+     * 생산량 수정
+     */
+    public int modifyProduction(Production production){
+        String cycleCode = production.getExpectedCageProductionCode();
+        Cycle cycle = farmMapper.getCycleByCode(cycleCode);
+
+        double realProduction = production.getRealProduction();
+        double estimatedProduction = cycle.getEstimatedProduction();
+        double lossLate = (realProduction/estimatedProduction)*100;
+        lossLate = Math.round(lossLate * 100.0) / 100.0;
+        production.setLossRate(lossLate);
+        log.info("service넘기기전 : {}", production);
+        int result = farmMapper.modifyProduction(production);
+        return result;
+    }
+
+    /**
+     * 사육장 수정
+     */
+    public int modifyFarm(FarmInfo farmInfo){
+        int result = farmMapper.modifyFarm(farmInfo);
+        return result;
+    }
+
+
+    /**
+     * 생산량 등록
+     */
+    public int addProduction(Production production){
+        String column = "production_code";
+        String table = "production";
+        String productionCode = mainMapper.autoIncrement(table, column);
+        String cycleCode = production.getExpectedCageProductionCode();
+        Cycle cycle = farmMapper.getCycleByCode(cycleCode);
+        String farmCode =  cycle.getFarmCode();
+        double realProduction = production.getRealProduction();
+        double estimatedProduction = cycle.getEstimatedProduction();
+        double lossLate = (realProduction/estimatedProduction)*100;
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        lossLate = Double.valueOf(df.format(lossLate));
+
+        production.setFarmCode(farmCode);
+        production.setProductionCode(productionCode);
+        production.setLossRate(lossLate);
+        log.info("controller에서 넘어온 데이터 : {}", production);
+        int result = farmMapper.addProduction(production);
+        return result;
+    }
+
+    /**
+     * 싸이클 등록
+     */
+    public int addCycle(Cycle cycle){
+        String standardCode = cycle.getCalculationStandardCode();
+        String column = "expected_cage_production_code";
+        String table = "cage_cycle";
+        String cycleCode = mainMapper.autoIncrement(table, column);
+
+
+        HashMap<String, Object> standard = farmMapper.getStandard(standardCode);
+        int standardPeriod = (int) standard.get("standard_period");
+        String harvestStartDate = cycle.getHarvestStartDate();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = LocalDate.parse(harvestStartDate, formatter);
+        LocalDate estimatedHarvestDate = startDate.plusDays(standardPeriod);
+        String estimatedHarvestDateString = estimatedHarvestDate.format(formatter);
+
+        double output = (double) standard.get("standard_output");
+        double inputEgg = cycle.getInputEgg();
+        double estimatedProduction = output*inputEgg;
+
+        cycle.setEstimatedProduction(estimatedProduction);
+        cycle.setEstimatedHarvestDate(estimatedHarvestDateString);
+        cycle.setCycleCode(cycleCode);
+        log.info("화면에서 전달받은 데이터 : {}", cycle);
+        int result = farmMapper.addCycle(cycle);
+        return result;
+    }
 
     /**
      * 케이지 등록
@@ -72,23 +230,21 @@ public class FarmService {
     }
 
 
-	/*
+    /*
 	 * 케이지 코드로 하나의 케이지 정보 조회
 	 */
-	public Cage getCageByCode(String cageCode) {
-		Cage cage = farmMapper.getCageByCode(cageCode);
-		return cage;
-	}
-	
-	/**
-	 * 하나의 사육장 케이지 조회
-	 */
-	public List<Cage> getCageListByCode(String farmCode) {
-		List<Cage> cageList = farmMapper.getCageListByCode(farmCode);
-		return cageList;
-	}
+    public Cage getCageByCode(String cageCode) {
+        Cage cage = farmMapper.getCageByCode(cageCode);
+        return cage;
+    }
 
-
+    /**
+     * 하나의 사육장 케이지 조회
+     */
+    public List<Cage> getCageListByCode(String farmCode) {
+        List<Cage> cageList = farmMapper.getCageListByCode(farmCode);
+        return cageList;
+    }
 
     /**
      * 전체 사육장 케이지 조회
@@ -105,7 +261,7 @@ public class FarmService {
                     searchKey = "cage_code";
                     break;
                 case "cageName":
-                    searchKey = "cage_ame";
+                    searchKey = "cage_name";
                     break;
                 case "cageVolume":
                     searchKey = "cage_volume";
@@ -157,7 +313,7 @@ public class FarmService {
                     searchKey = "p.farm_code";
                     break;
                 case "expectedCageProductionCode":
-                    searchKey = "ex.calculation_standard_code";
+                    searchKey = "ex.expected_cage_production_code";
                     break;
                 case "calculationStandardCode":
                     searchKey = "ex.calculation_standard_code";

@@ -6,8 +6,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script layout:fragment="customJs">
-	alert("삭제되었습니다");
-	location.href="/customerservice/main?questionTypeCode=[[${questionTypeCode}]]&page=[[${page}]]";
+if (confirm('정말 삭제 하시겠습니까?')) {
+	// 삭제를 수행하는 코드
+	alert('삭제되었습니다.');
+	location.href = "/customerservice/main?questionTypeCode=[[${questionTypeCode}]]&page=[[${page}]]";
+} else {
+	 window.history.back(); // 아니오 버튼을 누를 경우 이전 페이지로 돌아감
+}
 </script>
 </head>
 <body>

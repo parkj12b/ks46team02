@@ -60,30 +60,31 @@
 	<th:block layout:fragment="customJs">
 		<script>
 			$(function() {
-				$('#feedback-open').click(function(){
-					location.href="/farm/mentorMenteeFeedbackMentee";
-				})
 				
-				
-				$('datatable-custom').DataTable({
+				$('#datatable-custom').DataTable({
 					searching: true,
 					length: true,
-					paginate: true
+					paginate: true,
+					language: lang_ko
 				})
 
 				/* tr클릭시 해당계약으로 등록신청페이지로 */
 				$('table td').each(function(idx,item){
-					$(item).css('cursor', 'pointer');
 					
-					$(item).click(function(e) {
-						let link = $(item).parents('tr').attr('href');
-						if(e.ctrlKey){
-							window.open(link,'_blank');
-						} else {
-							location.href = link;
-						}
-						return false;
-					});
+					if(!$(this).hasClass('link')){
+						$(item).css('cursor', 'pointer');
+						
+						$(item).click(function(e) {
+							let link = $(item).parents('tr').attr('href');
+							if(e.ctrlKey){
+								window.open(link,'_blank');
+							} else {
+								location.href = link;
+							}
+							return false;
+						});
+					}
+					
 				})
 
 			});
@@ -157,7 +158,7 @@
 
 															<tr role="row" class="odd" th:each="l : ${mmContractInfo}" th:href="@{/farm/myMenteeListDetail(companyCode=${l.contracteeCompanyCode})}">
 																<td th:text=${l.contractCode}></td>
-																<td><a th:text=${l.contractRegistrationCode}
+																<td class="link"><a th:text=${l.contractRegistrationCode}
 																	th:href="@{/farm/mentorMenteeContractDetail(mentorContractRegCode=${l.contractRegistrationCode})}"
 																	style="text-decoration: underline;"></a></td>
 																<td th:text=${l.memberId}></td>
@@ -167,8 +168,8 @@
 																<td th:text=${l.contractApproval}></td>
 																<td th:text=${l.deposit}></td>
 																<td th:text=${l.contracteeCompanyCode}></td>
-																<td><a
-																	th:href="@{/contractPaper(contractCode=*{contractCode})}">계약서
+																<td class="link"><a
+																	th:href="@{/contractPaper(contractCode=${l.contractCode})}">계약서
 																		바로가기</a></td>
 															</tr>
 

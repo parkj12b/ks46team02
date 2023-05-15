@@ -10,6 +10,48 @@
 		<result column="member_id"  				property="memberId"/>
 		<result column="ipv4_address"  				property="ipv4Address"/>
 </resultMap>
+	<select id="getDormentLoginList" resultType="LoginHistory">
+		/* 자동으로 휴면처리될 회원 조회*/
+		SELECT
+			max(member_id) as memberId
+		FROM
+			login_history as l
+
+		WHERE
+			DATEDIFF(NOW(),login_date)>90
+		GROUP by member_id
+		union
+		SELECT
+		m.member_id as memberId
+		FROM
+		member_info as m
+		left join
+		login_history as l
+		on m.member_id = l.member_id
+		WHERE
+		DATEDIFF(now(), member_reg_date )> 90
+		and m.member_status = "normal";
+
+	</select>
+
+
+
+		<insert id="addLoginHistory" parameterType="LoginHistory">
+			/* 로그인 기록 등록 */
+			insert into login_history
+				( login_code
+				 ,login_date
+				 ,logout_date
+				 ,member_id
+				 ,ipv4_address)
+			VALUES
+				(#{loginCode}
+				,CURDATE()
+				,CURDATE()
+				,#{memberId}
+				,'1234');
+
+		</insert>
 		<delete id="removeLogin" parameterType="String" >
 		/* 로그인 기록 삭제 */
 		DELETE

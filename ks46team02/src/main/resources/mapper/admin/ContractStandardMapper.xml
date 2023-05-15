@@ -11,7 +11,29 @@
 		<result column="cont_app_stand_unit"  					property="contStandUnit"/>
 		<result column="cont_app_stand_reg_date"  				property="contStandRegDate"/>
 		<result column="admin_id"  								property="adminId"/>
+		<result column="standard_description"  					property="standardDescription"/>
 </resultMap>
+
+	<update id="modifyContractStandard" parameterType="String">
+			/* 계약 기준 수정  */
+		    UPDATE contract_approval_standard
+		    <set>
+		        <if test="contStandInfo != null and contStandInfo != ''">
+		            cont_app_stand_info = #{contStandInfo},
+		        </if>
+		            cont_app_stand_value = #{contStandValue},
+
+					standard_description = #{standardDescription},
+
+			        cont_app_stand_reg_date =NOW(),
+			        
+		        <if test="adminId != null and adminId != ''">
+		            admin_id = #{adminId}
+		        </if>
+		     
+		    </set>
+		    WHERE cont_app_stand_code = #{contStandCode};
+		</update>
 			
 	<select id="getContractStandardList" parameterType="String" resultMap="contStandMemberResultMap">
 				/* 계약 승인 기준 조회 */
@@ -22,7 +44,8 @@
 				,cont_app_stand_value 
 				,cont_app_stand_unit 
 				,cont_app_stand_reg_date 
-				,admin_id 
+				,admin_id
+				,standard_description
 			FROM 	
 				contract_approval_standard;
 	</select>

@@ -89,14 +89,13 @@
 					  text: '위계약을 접수하시겠습니까?',
 					  showCancelButton: true,
 					  confirmButtonText: '접수',
-					  cancelButtonText: '취소',
-					  closeOnCancel: true
+					  cancelButtonText: '취소'
 					}).then((result) => {
 						if(result.isConfirmed){
 							$.ajax({
 								url: "/farm/mmRegisterAction",
 								method: "post",
-								dataType: 'json'							
+								dataType: 'json'						
 							}).done(data => {
 								console.log(data);
 								if(data.isValid){

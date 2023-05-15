@@ -7,42 +7,12 @@
 <th:block layout:fragment="customJs">
 	<script>
 	
-	function validationCheck(ele){
-		let data = $(ele).val();
-		let isValid = true;
-		if(typeof data == 'undefined' || data == null || data == ''){
-			isValid = false;	
-		}
-		return isValid;
-	}
+	
 
 	// 취소버튼
     $('.cancel').click(function(){
     	history.go(-1);
     });
-	// 등록버튼
-    $('.add').click(function(){
-		const addMemberForm = $('#addAdminForm');
-		const inputGroup = $('#addAdminForm input');
-		const selectGrop = $('#addAdminForm select');
-		console.log(inputGroup);
-		console.log(selectGrop);
-		
-		let isSubmit = true;
-		inputGroup.each(function(idx, item){
-			isSubmit = validationCheck(item);
-			isSubmit2 = validationCheck(item); 
-			if(!isSubmit) {
-				if(!isSubmit2){
-				let msg = $(item).parents('tr').find('label').text();
-				alert(msg + '입력해주세요.');
-				$(item).focus();
-				return false;
-				}
-			}
-		});
-		if(isSubmit) addAdminForm.submit();
-	});
     /* 아이디 중복 체크 */
     $('.checkId').click(function(){
         const adminIdEle = $('#adminId'); // 아이디를 입력하는 input 요소를 찾아옵니다.
@@ -70,11 +40,67 @@
                     adminIdEle.focus(); // 아이디를 입력하는 input 요소에 포커스를 줍니다.
                 }
                 else{
-                	  alert('사용가능한 아이디입니다.');
+                	const Toast = Swal.mixin({
+                	    toast: true,
+                	    position: 'center-center',
+                	    showConfirmButton: false,
+                	    timer: 1000,
+                	    timerProgressBar: true,
+                	    didOpen: (toast) => {
+                	        toast.addEventListener('mouseenter', Swal.stopTimer)
+                	        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                	    }
+                	})
+
+                	Toast.fire({
+                	    icon: 'success',
+                	    title: '등록 가능한 아이디 입니다.'
+                	})
+                	$('#addAdminForm input').prop('disabled', false);
+					$('#addAdminForm button').prop('disabled', false);
+					$('#addAdminForm select').prop('disabled', false);
                 }
             }
         });
     });
+    $('.add').click(function() {
+        var arr = [
+            {id: '#adminId', name: '아이디'},
+            {id: '#adminPw', name: '비밀번호'},
+            {id: '#adminName', name: '이름'},
+            {id: '#adminEmail', name: '이메일'},
+            {id: '#adminLevel', name: '관리자등급'},
+            {id: '#adminPhone', name: '휴대폰번호'}
+        ];
+
+        console.log(arr);
+      
+        var isValid = true;
+        $.each(arr, function(index, item) {
+            var data = $(item.id).val();
+            if (typeof data == 'undefined' || data == null || data == '') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: `${item.name}를 입력해주세요.`
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $(item.id).focus();
+                        Swal.close();
+                    }
+                });
+                isValid = false;
+                return false;
+            }
+        });
+
+        if (!isValid) {
+            return false;
+        }
+        if (isValid) {
+        	addAdminForm.submit();
+        }
+    });
+
 </script>
 </th:block>
 <body>
@@ -101,93 +127,35 @@
 							</div>
 						</div>
 					</div>
-<<<<<<< HEAD
-					<div class="x_content">
-						<br>
-						<div class="form-group row ">
-								<label class="control-label col-md-3 col-sm-3" for="sample4_postcode">관리자 아이디</label>
-								    <div class="col-md-9 col-sm-9">
-								        <div class="input-group">
-								            <input type="text" class="form-control" id="sample4_postcode" placeholder="아이디">
-								            <span class="input-group-btn">
-								                <input type="button" class="btn btn-dark" onclick="sample4_execDaumPostcode()" value="아이디 중복체크">
-								            </span>
-								        </div>
-								    </div>
-								</div>
-							<div class="form-group row ">
-								<label class="control-label col-md-3 col-sm-3 "> 관리자 비밀번호 </label>
-								<div class="col-md-9 col-sm-9 ">
-									<input type="password" class="form-control" id="sample4_jibunAddress" placeholder="">
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-3 "> 관리자 이름 </label>
-								<div class="col-md-9 col-sm-9 ">
-								<input type="text" class="form-control" id="sample4_detailAddress" placeholder="">
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-3 "> 이메일</label>
-								<div class="col-md-9 col-sm-9 ">
-									<input type="text" class="form-control" value="이메일">
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-3 ">관리자 등급</label>
-								<div class="col-md-9 col-sm-9 ">
-									<select class="form-control">
-										<option></option>
-										<th:block th:if="${adminLevelList1 != null}">
-  										<option th:each="l : ${adminLevelList1}" th:value="${l.adminLevel}" th:text="${l.adminPosition}"></option>
-										</th:block>
-									</select>								</div>
-							</div>
-							<div class="form-group row">
-								<label class="control-label col-md-3 col-sm-3 "> 전화 번호</label>
-								<div class="col-md-9 col-sm-9 ">
-									<input type="text" class="form-control" value="">
-								</div>
-							</div>
-							<div class="ln_solid"></div>
-							<div class="form-group">
-								<div class="col-md-9 col-sm-9  offset-md-5">
-									<button type="button" class="btn btn-dark">등록</button>
-									<button type="reset" class="btn btn-dark cancel">취소</button>
-								</div>
-							</div>
-						</form>
-=======
 					<div class="form-group row ">
 						<label class="control-label col-md-3 col-sm-3 "> 관리자 비밀번호
 						</label>
 						<div class="col-md-3 col-sm-3 ">
 							<input type="password" class="form-control"
-								id="adminPw" name="adminPw" placeholder="">
+								id="adminPw" name="adminPw" placeholder="" disabled="disabled">
 						</div>
->>>>>>> refs/heads/develop
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3 col-sm-3  "> 관리자 이름 </label>
 						<div class="col-md-3 col-sm-3 ">
 							<input type="text" class="form-control"
-								id="adminName" name="adminName" placeholder="">
+								id="adminName" name="adminName" placeholder="" disabled="disabled">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3 col-sm-3 "> 이메일</label>
 						<div class="col-md-3 col-sm-3 ">
-							<input type="text" class="form-control" id="adminEmail" name="adminEmail" value="">
+							<input type="email" class="form-control" id="adminEmail" name="adminEmail" disabled="disabled">
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3 col-sm-3 ">관리자 등급</label>
 						<div class="col-md-3 col-sm-3 ">
-							<select class="form-control" id="adminLevel" name="adminLevel">
+							<select class="form-control" id="adminLevel" name="adminLevel" disabled="disabled">
 								<option></option>
 								<th:block th:if="${adminLevelList1 != null}">
 									<option th:each="l : ${adminLevelList1}"
-										th:value="${l.adminLevel}" th:text="${l.adminPosition}"></option>
+										th:unless="${l.adminLevel=='0'}" th:value="${l.adminLevel}" th:text="${l.adminPosition}"></option>
 								</th:block>
 							</select>
 						</div>
@@ -195,14 +163,14 @@
 					<div class="form-group row">
 						<label class="control-label col-md-3 col-sm-3 "> 전화 번호</label>
 						<div class="col-md-3 col-sm-3 ">
-							<input type="text" class="form-control" id="adminPhone" name="adminPhone" value="">
+							<input type="text" class="form-control" id="adminPhone" name="adminPhone"  disabled="disabled">
 							
 						</div>
 					</div>
 					<div class="ln_solid"></div>
 					<div class="form-group">
 						<div class="col-md-9 col-sm-9  offset-md-5">
-							<button type="button" class="btn btn-dark add">등록</button>
+							<button type="button" class="btn btn-dark add" disabled="disabled">등록</button>
 							<button type="reset" class="btn btn-dark cancel">취소</button>
 						</div>
 					</div>

@@ -1,14 +1,19 @@
 package ks46team02.admin.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import jakarta.servlet.http.HttpSession;
-import ks46team02.company.dto.Company;
-import ks46team02.company.service.CompanyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import groovy.util.logging.Slf4j;
+import jakarta.servlet.http.HttpSession;
 import ks46team02.admin.dto.AdminLevel;
 import ks46team02.admin.dto.ContractStandard;
 import ks46team02.admin.dto.LoginHistory;
@@ -42,8 +48,14 @@ import ks46team02.common.dto.AdminMember;
 import ks46team02.common.dto.Member;
 import ks46team02.company.dto.Company;
 import ks46team02.company.service.CompanyService;
+import ks46team02.farm.dto.EvaluationDetailCategory;
+import ks46team02.farm.dto.EvaluationDetailCategory;
+import ks46team02.farm.dto.EvaluationLargeCategory;
 import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
+import ks46team02.farm.dto.VisitHistory;
+import ks46team02.farm.mapper.MentorMenteeMapper;
+import ks46team02.farm.service.MentorMenteeService;
 
 @Controller
 @RequestMapping("/admin")
@@ -67,7 +79,8 @@ public class AdminController {
 	private final AdminLevelMapper adminLevelMapper;
 	private final LoginHistoryMapper loginHistoryMapper;
 	private final WithdrawalMemberMapper withdrawalMemberMapper;
-	
+	private final MentorMenteeService mentorMenteeService;
+	private final MentorMenteeMapper mentorMenteeMapper;
 	
 	private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
@@ -88,7 +101,11 @@ public class AdminController {
     					  ,AdminLevelMapper adminLevelMapper
     					  ,LoginHistoryMapper loginHistoryMapper
     					  ,WithdrawalMemberMapper withdrawalMemberMapper
-						  ,CompanyService companyService) {
+						  ,CompanyService companyService
+						  ,MentorMenteeService mentorMenteeService
+						  ,MentorMenteeMapper mentorMenteeMapper) {
+		this.mentorMenteeMapper = mentorMenteeMapper;
+		this.mentorMenteeService = mentorMenteeService;
 		this.addrService = addrService;
 		this.adminService = adminService;
 		this.withdrawalMemberService = withdrawalMemberService;
@@ -106,17 +123,7 @@ public class AdminController {
 	    this.withdrawalMemberMapper = withdrawalMemberMapper;
 	    this.companyService = companyService;
 	}
-	/* 회원별 배송지 조회 */
-	@GetMapping("/addrMemberList")
-	public String addrMemberList( Model model
-							     ,@RequestParam(name="memberId") String memberId){
-		List<Addr> addrMemberInfo = addrService.getAddrList();		
-		 log.info("addrMemberInfo >>>>>>>>>>>>>>>>>"+addrMemberInfo );
-		model.addAttribute("title", "회원별 배송지 조회");
-		model.addAttribute("addrMemberInfo", addrMemberInfo);
 
-		return "admin/addr_member_list";
-	}
 	/* 관리자 아이디 중복 체크 */
 	@PostMapping("/idCheckAdmin")
 	@ResponseBody
@@ -129,7 +136,7 @@ public class AdminController {
 	
 	
 	
-	/* 탈퇴한 관리자 조회  */
+	/* 탈퇴한 관리자 조회 */
 	@GetMapping("/withdrawalAdminList")
 	public String getWithdrawalAdminList(Model model) {
 		List<AdminMember> withdrawalAdminList = adminService.getWithdrawalAdminList();
@@ -149,13 +156,26 @@ public class AdminController {
 	
     /* 승인 대기 업체 조회 */
 	@GetMapping("/applyCompanyRegList")
-	public String applyCompanyRegList(Model model) {
+	public String applyCompanyRegList(Model model
+									 ,HttpSession session) {
 
+		String sessionId = (String)session.getAttribute("sessionId");
 		List<Company> companyList = companyService.getCompanyList();
 		model.addAttribute("title", "승인 대기 업체 조회");
 		model.addAttribute("companyList",companyList);
+		model.addAttribute("sessionId",sessionId);
 		return "admin/apply_company_reg_list";
 	}
+	/* 등급별 관리자 목록 조회*/
+	@PostMapping("/adminLevelCheck")
+	@ResponseBody
+	public List<AdminMember> getAdminLevelSearchList(@RequestParam(name="adminLevel") String adminLevel){
+		List<AdminMember> levelInfo = adminService.getAdminLevelSearchList(adminLevel);
+
+		return levelInfo;
+	}
+
+
     /* 전체 관리자 목록 조회 */
 	@GetMapping("/adminList")
 	public String getAdminList(Model model) {
@@ -166,6 +186,7 @@ public class AdminController {
 
 		return "admin/admin_list";
 	}
+	
 	
 	/* 관리자 수정 */
 	@PostMapping("/modifyAdmin")
@@ -192,20 +213,22 @@ public class AdminController {
 	/* 관리자 비밀번호 확인 */
 	@PostMapping("/pwCheckAdmin")
 	@ResponseBody
-	public String pwCheckAdmin( @RequestParam(name="adminId") String adminId
-							    ) {
-		AdminMember adminInfo = adminService.getAdminInfoById(adminId);
-		String adminPw = adminInfo.getAdminPw();
-		 log.info("adminInfo     "+adminInfo );
-		  return adminPw; 
+	public Boolean pwCheckAdmin(@RequestParam(name="adminPw") String adminPw
+			    			    ,HttpSession session) {
+		String adminIdCheck = (String) session.getAttribute("sessionId");
+		AdminMember adminInfo = adminService.getAdminInfoById(adminIdCheck);
+		String adminPwCheck = adminInfo.getAdminPw();
+		Boolean pwCheck = adminPwCheck.equals(adminPw);
+		
+		return pwCheck; 
 		
 	}
+	
 	/* 관리자 삭제 */
 	@PostMapping("/removeAdmin")
 	@ResponseBody
-	public void removeAdmin(String adminId ){
-					 
-			 adminMapper.removeAdmin(adminId);
+	public void removeAdmin(String adminId ){			 
+		adminMapper.removeAdmin(adminId);
 		 }
 	/* 관리자 등록 */
 	@PostMapping("/addAdmin")
@@ -221,13 +244,19 @@ public class AdminController {
 		model.addAttribute("adminLevelList1", adminLevelList1);
 		return "admin/add_admin";
 	}
+	/* 관리자 등급 등록*/
+	@PostMapping("/addAdminLevel")
+	public String addAdminLevel(AdminLevel adminLevel) {
+		adminLevelService.addAdminLevel(adminLevel);
+		return "redirect:/admin/adminLevelList";
+	}
 	/* 관리자 등급 등록 */
 	@GetMapping("/addAdminLevel")
 	public String addAdminLevel(Model model){
-		model.addAttribute("title", "관리자 등급 등록");
+		model.addAttribute("title","관리자 등급 등록");
 		return "admin/add_adminLevel";
 	}
-	/* 관리자등급 수정 */
+	/* 관리자 등급 수정   */
 	@PostMapping("/modifyAdminLevel")
 	@ResponseBody
 	public void modifyAdminLevel(AdminLevel adminLevel) {
@@ -271,16 +300,28 @@ public class AdminController {
 
 		return "admin/memberLevel_list";
 	}
+	/* 회원별 배송지 숫자 조회 */
+	@PostMapping("/AddrAmountList")
+	@ResponseBody
+	public int getAddrAmountList(String memberId ){
+		int result = addrMapper.getAddrAmountList(memberId);
+		return result;
+	}
 	/* 전체 회원 배송지 목록 조회 */
 	@GetMapping("/addrList")
-	public String getAddrList(Model model
-							 ) {
+	public String getAddrList(Model model) {
 		List<Addr> addrList = addrService.getAddrList();
-
-
 		model.addAttribute("title", "배송지조회");
 		model.addAttribute("addrList", addrList);
 		return "admin/addr_list";
+	}
+	
+	/* 배송지 세부 조회 */
+	@GetMapping("/addrMemberList")
+	@ResponseBody
+	public Addr getAddrMemberList(@RequestParam(name="addrCode")String addrCode) {
+	    Addr addr = addrService.getAddrInfoById(addrCode);
+	    return addr;
 	}
 	
 	/* 배송지 수정 */
@@ -307,15 +348,29 @@ public class AdminController {
 	@PostMapping("/removeAddr")
 	@ResponseBody
 	public void removeAddr(String addrCode) {
+		Addr addr = addrService.getAddrInfoById(addrCode);
+		String memberId = addr.getMemberId();
+		List<Addr> addrList= addrService.getAddrInfoByMemberId(memberId);
+		String addrSeq = addr.getAddrSeq();
 		addrMapper.removeAddr(addrCode);
+		 if ("primary".equals(addrSeq) && addrList != null) {
+		        for (Addr a : addrList) {
+		            if ("primary".equals(a.getAddrSeq())) {
+		                a.setAddrSeq("primary");
+		                addrMapper.modifyAddr(a);
+		                break;
+		            }
+		        }
+		    }
 	}
 	
 	/* 배송지 등록 */
 	@PostMapping("/addAddr")
-	public String addAddr(Addr addr) {
-		addrService.addAddr(addr);
-		return "redirect:/admin/addrList";
+	public String addAddr(Addr addr, Model model) {
+	    addrService.addAddr(addr);
+	    return "redirect:/admin/addrList";
 	}
+
 	/* 배송지 등록 */
 	@GetMapping("/addAddr")
 	public String addAddr(Model model){
@@ -342,19 +397,6 @@ public class AdminController {
 			
 		 }
 	
-	@GetMapping("/mentorRegList")
-	public String getMentorRegManageList(Model model) {
-		List<MMRegInfoMentor> mentorRegList = mMService.getMentorRegList("under review");
-		model.addAttribute("mentorRegList", mentorRegList);
-		return "admin/mentorReg_list";
-	}
-	
-	@GetMapping("/menteeRegList")
-	public String getMenteeRegManageList(Model model) {
-		List<MMRegInfoMentee> menteeRegList = mMService.getMenteeRegList("under review");
-		model.addAttribute("menteeRegList",menteeRegList);
-		return "admin/menteeReg_list";
-	}
 	
 	/* 관리자 레벨 목록 조회 */
 	@GetMapping("/adminLevelList")
@@ -385,7 +427,15 @@ public class AdminController {
 
 	/* 회원 수정 */
 	@PostMapping("/modifyMember")
-	public String modifyMember(Member member) {
+	public String modifyMember(Member member
+							  ,@RequestParam (name="memberStatus")String memberStatus) {
+		
+	  if(memberStatus.equals("dormant")) {
+		  SimpleDateFormat form = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		  Date date = new Date();
+	      String nowTime = form.format(date);
+		  member.setDormantMemberRegDate(nowTime);
+	  }
 		
 		memberMapper.modifyMember(member);
 		
@@ -472,6 +522,295 @@ public class AdminController {
 		model.addAttribute("contractStandardList", contractStandardList);
 		return "admin/contractStandard_list";
 		}
+	/* 승인 기준 수정   */
+	@PostMapping("/modifyContractStandard")
+	@ResponseBody
+	public void modifyContractStandard(ContractStandard contractStandard) {
+		contractStandardService.modifyContractStandard(contractStandard);
+	}
 	
+	@PostMapping("/mentorRegApprove")
+	@ResponseBody
+	public Map<String,Object> mentorRegApprove(Model model, MMRegInfoMentor mentorRegInfo) {
+		
+		String msg = "";
+		boolean isSuccess = false;
+		int result = mMService.approveMentorRegStatus(mentorRegInfo);
+		Map<String,Object> returnMap = new HashMap<>();
+		if(result == 1) {
+			msg = "승인되었습니다.";
+			isSuccess = true;
+		} else {
+			msg = "승인을 처리하지 못하였습니다.";
+		}
+		
+		returnMap.put("msg", msg);
+		returnMap.put("isSuccess", isSuccess);
+		return returnMap;
+	}
 	
+	@PostMapping("/mentorRegDeny")
+	@ResponseBody
+	public Map<String,Object> mentorRegDeny(Model model, MMRegInfoMentor mentorRegInfo) {
+		
+		String msg = "";
+		boolean isSuccess = false;
+		int result = mMService.denyMentorRegStatus(mentorRegInfo);
+		Map<String,Object> returnMap = new HashMap<>();
+		if(result == 1) {
+			msg = "승인거부 되었습니다.";
+			isSuccess = true;
+		} else {
+			msg = "승인거부를 처리하지 못하였습니다.";
+		}
+		
+		returnMap.put("msg", msg);
+		returnMap.put("isSuccess", isSuccess);
+		return returnMap;
+	}
+	@GetMapping("/mentorRegList")
+	public String getMentorRegManageList(Model model) {
+		Map<String,String> paramMap = new HashMap<>();
+		List<Map<String,Object>> searchList = new ArrayList<>();
+		paramMap.put("mentor_approval", "under review");
+		Set<String> keySet = paramMap.keySet();
+		for(String key: keySet) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("key", key);
+			map.put("value", paramMap.get(key));
+			searchList.add(map);
+		}
+		
+		MultiValueMap<String,String> paramMap2 = new LinkedMultiValueMap<>();
+		List<Map<String,Object>> searchList2 = new ArrayList<>();
+		paramMap2.add("mentor_approval", "denied");
+		paramMap2.add("mentor_approval", "approved");
+		Set<String> keySet2 = paramMap2.keySet();
+		for(String key: keySet2) {
+			List<String> list = paramMap2.get(key);
+			for(String value: list) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("key", key);
+				map.put("value", value);
+				searchList2.add(map);				
+			}
+		}
+		log.info("List{}",searchList2);
+		List<MMRegInfoMentor> mentorRegList = mMService.getMentorRegListOr(searchList);
+		List<MMRegInfoMentor> mentorList = mMService.getMentorRegListOr(searchList2);
+		model.addAttribute("title","멘토 신청 관리");
+		model.addAttribute("mentorRegList",mentorRegList);
+		model.addAttribute("mentorList",mentorList);
+		log.info("mentorList={}", mentorList);
+		return "admin/mentor_reg_list";
+	}
+	
+	@GetMapping("/menteeRegList")
+	public String getMenteeRegManageList(Model model) {
+		Map<String,String> paramMap = new HashMap<>();
+		List<Map<String,Object>> searchList = new ArrayList<>();
+		paramMap.put("mentee_approval", "under review");
+		Set<String> keySet = paramMap.keySet();
+		for(String key: keySet) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("key", key);
+			map.put("value", paramMap.get(key));
+			searchList.add(map);
+		}
+		
+		MultiValueMap<String,String> paramMap2 = new LinkedMultiValueMap<>();
+		List<Map<String,Object>> searchList2 = new ArrayList<>();
+		paramMap2.add("mentee_approval", "denied");
+		paramMap2.add("mentee_approval", "approved");
+		Set<String> keySet2 = paramMap2.keySet();
+		for(String key: keySet2) {
+			List<String> list = paramMap2.get(key);
+			for(String value: list) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("key", key);
+				map.put("value", value);
+				searchList2.add(map);				
+			}
+		}
+		
+		List<MMRegInfoMentee> menteeRegList = mMService.getMenteeRegListOr(searchList);
+		List<MMRegInfoMentee> menteeList = mMService.getMenteeRegListOr(searchList2);
+		model.addAttribute("title","멘티 신청 관리");
+		model.addAttribute("menteeRegList",menteeRegList);
+		model.addAttribute("menteeList",menteeList);
+		return "admin/mentee_reg_list";
+	}
+	
+	@PostMapping("/mentorRegDelete")
+	@ResponseBody
+	public Map<String, Object> removeMentorRegHistory(MMRegInfoMentor mentorRegInfo){
+		
+		Map<String, Object> returnMap = new HashMap<>();
+		boolean isSuccess = false;
+		String msg;
+		int result = mMService.removeMentorRegHistory(mentorRegInfo);
+		if(result == 1) {
+			msg = "삭제되었습니다.";
+			isSuccess = true;
+		} else {
+			msg = "삭제 처리하지 못하였습니다.";
+		}
+		
+		returnMap.put("msg", msg);
+		returnMap.put("isSuccess", isSuccess);
+
+		return returnMap;
+	}
+	@PostMapping("/menteeRegApprove")
+	@ResponseBody
+	public Map<String,Object> menteeRegApprove(Model model, MMRegInfoMentee menteeRegInfo) {
+		
+		String msg = "";
+		boolean isSuccess = false;
+		int result = mMService.approveMenteeRegStatus(menteeRegInfo);
+		Map<String,Object> returnMap = new HashMap<>();
+		if(result == 1) {
+			msg = "승인되었습니다.";
+			isSuccess = true;
+		} else {
+			msg = "승인을 처리하지 못하였습니다.";
+		}
+		
+		returnMap.put("msg", msg);
+		returnMap.put("isSuccess", isSuccess);
+		return returnMap;
+	}
+	
+	@PostMapping("/menteeRegDeny")
+	@ResponseBody
+	public Map<String,Object> menteeRegDeny(Model model, MMRegInfoMentee menteeRegInfo) {
+		
+		String msg = "";
+		boolean isSuccess = false;
+		int result = mMService.denyMenteeRegStatus(menteeRegInfo);
+		Map<String,Object> returnMap = new HashMap<>();
+		if(result == 1) {
+			msg = "승인거부 되었습니다.";
+			isSuccess = true;
+		} else {
+			msg = "승인거부를 처리하지 못하였습니다.";
+		}
+		
+		returnMap.put("msg", msg);
+		returnMap.put("isSuccess", isSuccess);
+		return returnMap;
+	}
+	
+	@PostMapping("/menteeRegDelete")
+	@ResponseBody
+	public Map<String, Object> removeMenteeRegHistory(MMRegInfoMentee menteeRegInfo){
+		
+		Map<String, Object> returnMap = new HashMap<>();
+		boolean isSuccess = false;
+		String msg;
+		int result = mMService.removeMenteeRegHistory(menteeRegInfo);
+		if(result == 1) {
+			msg = "삭제되었습니다.";
+			isSuccess = true;
+		} else {
+			msg = "삭제 처리하지 못하였습니다.";
+		}
+		
+		returnMap.put("msg", msg);
+		returnMap.put("isSuccess", isSuccess);
+
+		return returnMap;
+	}
+	
+	@GetMapping("/mentorVisitHistory")
+	public String getMentorVisitHistoryList(Model model) {
+		Map<String, String> paramMap = new HashMap<String,String>();
+		
+		List<VisitHistory> visitHistoryList = mentorMenteeMapper.getVisitHistoryList();
+		model.addAttribute("title","멘토 방문기록 관리");
+		model.addAttribute("visitHistoryList",visitHistoryList);
+		return "admin/mm_contract_visit_history";
+	}
+	
+	@PostMapping("/removeVisitHistory")
+	@ResponseBody
+	public Map<String, Object> removeVisitHistory(VisitHistory visitHistory){
+		
+		Map<String, Object> returnMap = mMService.resetVisitHistory(visitHistory);
+		
+		return returnMap;
+	}
+	
+	@GetMapping("/mentorResultHistory")
+	public String getMentorResultHistoryList(Model model) {
+		model.addAttribute("title", "멘토 평가결과 기록 관리");
+		
+		return "admin/mm_contract_result_history";
+	}
+	
+	@GetMapping("/mentorEvaluationLargeCategory")
+	public String getEvaluationLargeCategoryList (Model model) {
+		model.addAttribute("title", "멘토멘티 평가 대분류 관리");
+		List<EvaluationLargeCategory> largeCategoryList = mentorMenteeService.getEvaluationLargeCategoryNoDetailCate();
+		
+		log.info("eval={}",largeCategoryList);
+		
+		model.addAttribute("largeCategoryList",largeCategoryList);
+		return "admin/mm_evaluation_large_category";
+	}
+	
+	@PostMapping("/removeLargeCategory")
+	@ResponseBody
+	public Map<String, Object> removeVisitHistory(EvaluationLargeCategory evalLargeCate){
+		
+		Map<String, Object> returnMap = mMService.removeEvaluationLargeCategory(evalLargeCate);
+		
+		return returnMap;
+	}
+	
+	@PostMapping("/modifyLargeCategory")
+	@ResponseBody
+	public Map<String, Object> modifyLargeCategory(EvaluationLargeCategory evalLargeCate){
+		Map<String, Object> returnMap = mMService.modifyLargeCategory(evalLargeCate);
+		
+		return returnMap;
+	}
+	
+	@PostMapping("/addLargeCategory")
+	@ResponseBody
+	public Map<String, Object> addLargeCategory(EvaluationLargeCategory evalLargeCate) {
+		
+		Map<String, Object> returnMap = mMService.addEvaluationLargeCategory(evalLargeCate);
+		
+		return returnMap;
+	}
+	
+	@GetMapping("/mentorEvaluationDetailCategory")
+	public String mentorEvaluationDetailCategory(Model model) {
+		
+		List<EvaluationDetailCategory> detailCategoryList = mentorMenteeService.getEvalDetailCateList();
+		List<EvaluationLargeCategory> largeCategoryList = mentorMenteeService.getEvaluationLargeCategoryNoDetailCate();
+		
+		model.addAttribute("title", "멘토멘티 평가 세부항목 관리");
+		model.addAttribute("detailCategoryList",detailCategoryList);
+		model.addAttribute("largeCategoryList",largeCategoryList);
+		
+		return "admin/mm_evaluation_detail_category";
+	}
+	
+	@PostMapping("/modifyDetailCategory")
+	@ResponseBody
+	public Map<String, Object> modifyDetailCategory(EvaluationDetailCategory evalDetailCate){
+		Map<String,Object> returnMap = mMService.modifyDetailCategory(evalDetailCate);
+		
+		return returnMap;
+	}
+
+	@PostMapping("/deleteDetailCategory")
+	@ResponseBody
+	public Map<String, Object> deleteDetailCategory(EvaluationDetailCategory evalDetailCate){
+		Map<String,Object> returnMap = mMService.deleteDetailCategory(evalDetailCate);
+		
+		return returnMap;
+	}
 }

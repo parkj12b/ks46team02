@@ -3,6 +3,113 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/mypageLayout}">
 <head>
+
+<th:block layout:fragment="customJs">
+<script>
+	function registerQuestionType() {
+		var questionTypeName = $("#questionTypeName").val();
+		var adminId = $("#adminId").val();
+		var questionTypeCode = $("#questionTypeCode").val();
+
+	    $.ajax({
+	        url: '/customerservice/add_questionType_proc',
+	        type: 'POST',
+	        data: {
+	            questionTypeCode: questionTypeCode,
+	            adminId: adminId,
+	            questionTypeName: questionTypeName
+	        },
+	        success: function(response) {
+	            if (response === 'success') {
+	                alert('문의 유형이 성공적으로 등록되었습니다.');
+	                $('#questionTypeRegisterModal').modal('hide');
+	                location.reload();
+	            } else {
+	                alert('문의 유형 등록에 실패하였습니다.');
+	            }
+	        },
+	        error: function() {
+	            alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+	        }
+	    });
+	}
+	$(document).ready(function() {
+	        $(".submit").on('click', function(event) {
+	            event.preventDefault(); 
+	            
+	            var currentRow = $(this).closest("tr");
+
+	            var questionTypeCode = currentRow.find("td:eq(0)").text();
+	            var questionTypeName = currentRow.find("td:eq(1)").text();
+	            var adminId = currentRow.find("td:eq(2)").text();
+
+	      
+	            var newQuestionTypeName = prompt("새 문의유형 이름을 입력하세요.", questionTypeName);
+
+	            if (newQuestionTypeName) {
+	                $.ajax({
+	                    url: '/customerservice/modify_questionType_proc',
+	                    type: 'POST',
+	                    data: {
+	                        questionTypeCode: questionTypeCode,
+	                        questionTypeName: newQuestionTypeName,
+	                        adminId: adminId
+	                    },
+	                    success: function(response) {
+	                    	if (response === 'success') {
+	                    		alert('문의 유형이 성공적으로 수정되었습니다.');
+	                    		location.reload();
+	                    	} else if(response === 'empty') {
+	                    		alert('문의 유형 이름은 공백일 수 없습니다.');
+	                    	} else {
+	                    		alert('문의 유형 수정에 실패하였습니다.');
+	                    	}
+	                    },
+	                    error: function() {
+	                        alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+	                    }
+	                });
+	            }
+	        });
+	    });
+	$(document).ready(function() {
+	    $(".delete").on('click', function(event) {
+	        event.preventDefault(); // Prevent the default action (navigation)
+
+	        // Get the current row
+	        var currentRow = $(this).closest("tr");
+
+	        // Extract the questionTypeCode from the row
+	        var questionTypeCode = currentRow.find("td:eq(0)").text();
+
+	        // Ask the user to confirm the deletion
+	        var confirmDelete = confirm("정말 삭제하시겠습니까?");
+
+	        if (confirmDelete) {
+	            $.ajax({
+	                url: '/customerservice/delete_questionType_proc',
+	                type: 'POST',
+	                data: {
+	                    questionTypeCode: questionTypeCode,
+	                },
+	                success: function(response) {
+	                    if (response === 'success') {
+	                        alert('문의 유형이 성공적으로 삭제되었습니다.');
+	                        location.reload();
+	                    } else {
+	                        alert('문의 유형 삭제에 실패하였습니다.');
+	                    }
+	                },
+	                error: function() {
+	                    alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+	                }
+	            });
+	        }
+	    });
+	});
+		
+</script>
+</th:block>
 </head>
 
 <th:block layout:fragment="customContent">
@@ -61,21 +168,11 @@
 													style="width: 120px;"
 													aria-label="Age: activate to sort column ascending">문의유형수정일
 												</th>
-												<th class="sorting_desc" tabindex="0"
-													aria-controls="datatable-buttons" rowspan="1" colspan="1"
-													style="width: 187px;"
-													aria-label="Start date: activate to sort column ascending"
-													aria-sort="descending">문의유형삭제일</t자h>
-												<th class="sorting_desc" tabindex="0"
-													aria-controls="datatable-buttons" rowspan="1" colspan="1"
-													style="width: 187px;"
-													aria-label="Start date: activate to sort column ascending"
-													aria-sort="descending">문의 유형 수정</t자h>
-												<th class="sorting_desc" tabindex="0"
-													aria-controls="datatable-buttons" rowspan="1" colspan="1"
-													style="width: 187px;"
-													aria-label="Start date: activate to sort column ascending"
-													aria-sort="descending">문의 유형 삭제</t자h>
+												
+												<th class="" rowspan="1" colspan="1" style="width: 187px;">문의
+													유형 수정</th>
+												<th class="" rowspan="1" colspan="1" style="width: 187px;">문의
+													유형 삭제</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -88,17 +185,20 @@
 												<td th:text="${l.adminId}" style="text-align: center;"></td>
 												<td th:text="${l.questionTypeRegDate}"></td>
 												<td th:text="${l.questionTypeModifyDate}"></td>
-												<td th:text="${l.questionTypeDelDate}"></td>
-												<td><a href="#"><i class="fa fa-edit"></i>수정</a></td>
+												<td><button type="submit" class="submit">수정</button></td>
 												<td><a href="#" class="delete"><i
 														class="fa fa-close"></i> 삭제</a></td>
 											</tr>
 										</tbody>
 									</table>
 								</div>
-								<div class="dataTables_paginate paging_simple_numbers"style="margin: 20px;">
-									<button type="button" class="btn btn-secondary">문의유형등록
-									</button>
+
+								<!-- 문의유형 등록 버튼 -->
+								<div class="dataTables_paginate paging_simple_numbers"
+									style="margin: 20px;">
+									<button type="submit" class="btn btn-primary"
+										data-toggle="modal" data-target="#questionTypeRegisterModal">
+										문의유형등록</button>
 								</div>
 							</div>
 						</div>
@@ -106,6 +206,47 @@
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<!-- 문의유형 등록 모달창 -->
+	<div class="modal fade" id="questionTypeRegisterModal" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">문의유형 등록</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label for="questionTypeCode">문의유형코드: </label> <input type="text"
+								class="form-control" id="questionTypeCode"
+								th:value="${questionTypeCode}" readonly>
+						</div>
+						<div class="form-group">
+							<label for="adminId">관리자아이디:</label> <input type="text"
+								class="form-control" id="adminId"
+								th:value="${session.sessionId}" readonly>
+						</div>
+						<div class="form-group">
+							<label for="questionTypeName">문의유형이름:</label> <input type="text"
+								class="form-control" id="questionTypeName">
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">닫기</button>
+					<button type="button" class="btn btn-primary" 
+						onclick="registerQuestionType()">등록</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </th:block>
 
 </html>

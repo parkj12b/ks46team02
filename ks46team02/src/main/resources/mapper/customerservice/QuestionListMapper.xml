@@ -21,66 +21,159 @@
 	<resultMap type="AnswerDto" id="answerListResultMap">
 		<id column="answer_code" property="answerCode" />
 		<result column="question_code" property="questionCode" />
-		<result column="answer_title" property="answerTitle"/>
+		<result column="answer_title" property="answerTitle" />
 		<result column="answer_content" property="answerContent" />
 		<result column="answer_file" property="answerFile" />
+		<result column="question_status" property="questionStatus" />
 		<result column="admin_id" property="adminId" />
 		<result column="answer_reg_date" property="answerRegDate" />
 		<result column="answer_modify_date" property="answerModityDate" />
 		<result column="answer_del_date" property="answerDelDate" />
 		<result column="answer_del_yn" property="answerDelYN" />
 	</resultMap>
-	<resultMap type="QuestionTypeDto" id="questiontypeListResultMap">
+	<resultMap type="QuestionTypeDto"
+		id="questiontypeListResultMap">
 		<id column="question_type_code" property="questionTypeCode" />
 		<result column="question_type_name" property="questionTypeName" />
 		<result column="admin_id" property="adminId" />
-		<result column="question_type_reg_date" property="questionTypeRegDate" />
-		<result column="quesiton_type_modify_date" property="questionTypeModifyDate" />
-		<result column="question_type_del_date" property="questionTypeDelDate" />
+		<result column="question_type_reg_date"
+			property="questionTypeRegDate" />
+		<result column="quesiton_type_modify_date"
+			property="questionTypeModifyDate" />
+		<result column="question_type_del_date"
+			property="questionTypeDelDate" />
 	</resultMap>
 
 	<select id="getQuestionList" resultMap="questionListResultMap">
 		/* 문의 조회 */
 		SELECT
-			question_code
-			,question_type_code
-			,question_title
-			,question_content
-			,question_file
-			,member_id
-			,question_reg_date
-			,question_status
+		question_code
+		,question_type_code
+		,question_title
+		,question_content
+		,question_file
+		,member_id
+		,question_reg_date
+		,question_status
 		FROM
-			question;
+		question;
 	</select>
 
 	<select id="getAnswerList" resultMap="answerListResultMap">
 		/* 문의에 대한 답변 조회 */
 		SELECT
-			answer_code
-			,question_code
-			,answer_title
-			,answer_content
-			,answer_file
-			,admin_id
-			,answer_reg_date
-			,answer_modify_date
-			,answer_del_yn
-			,answer_del_date
+		a.answer_code
+		,a.question_code
+		,a.answer_title ,a.answer_content
+		,a.answer_file
+		,a.admin_id
+		,a.answer_reg_date
+		,a.answer_modify_date
+		,a.answer_del_yn
+		,a.answer_del_date
+		,q.question_status
 		FROM
-			answer;
+		answer a
+		JOIN
+		question q ON a.question_code = q.question_code
+		GROUP BY
+		a.answer_code;
+	</select>
+
+	<select id="getAnswerByCode" parameterType="String"
+		resultMap="answerListResultMap">
+		/* 답변 세부내용 조회 */
+		select DISTINCT
+		a.answer_code,
+		a.answer_title,
+		a.answer_content,
+		a.answer_file,
+		a.admin_id,
+		q.question_status,
+		a.answer_reg_date
+		from
+		answer a
+		inner join
+		question q
+		on a.question_code = q.question_code
+		where
+		a.answer_code = #{answerCode};
 	</select>
 	
-	<select id="getQuestionTypeList" resultMap="questiontypeListResultMap">
+<!-- 	<delete id="removeAnswer" parameterType="String">
+		DELETE FROM
+		answer
+		WHERE answer_code = #{answerCode}
+	</delete> -->
+	
+	<update id="modifyAnswerList" parameterType="AnswerDto">
+		UPDATE answer
+		<set>
+			<if test="questionStatus != null and questionStatus != ''">
+				question_status = #{questionStatus},
+			</if>
+			<if test="answerTitle != null">
+				answer_title = #{answerTitle},
+			</if>
+			<if test="answerContent != null">
+				answer_content = #{answerContent},
+			</if>
+			<if test="answerFile != null">
+				answer_file = #{answerFile}
+			</if>
+			<if test="answerModifyDate != null">
+				answer_modify_date = CURRENT_TIMESTAMP()
+			</if>
+		</set>
+		WHERE answer_code = #{answerCode} and answer_del_yn ='N';
+	</update>
+
+	<select id="getQuestionTypeList"
+		resultMap="questiontypeListResultMap">
 		/* 문의 유형 조회 */
 		SELECT
-			 question_type_code
-			,question_type_name
-			,admin_id
-			,question_type_reg_date
-			,question_type_modify_date
-			,question_type_del_date
+		question_type_code
+		,question_type_name
+		,admin_id
+		,question_type_reg_date
+		,question_type_modify_date
 		FROM
-			question_type;
+		question_type
+		where question_type_del_yn ='N';
 	</select>
+
+	<!--int타입으로 들어오면 resultMap을 resultType과 동시에 사용 X -->
+	<select id="getNextQuestionTypeCode" resultType="int">
+		SELECT
+		IFNULL(MAX(question_type_code)+1, 1) FROM question_type
+		where
+		question_type_del_yn='N';
+	</select>
+
+	<insert id="insertQuestionType" parameterType="QuestionTypeDto">
+		INSERT INTO
+		question_type (question_type_code, question_type_name, admin_id,
+		question_type_reg_date)
+		VALUES (#{questionTypeCode},
+		#{questionTypeName}, #{adminId},
+		NOW());
+	</insert>
+
+	<update id="updateQuestionType" parameterType="QuestionTypeDto">
+		UPDATE
+		question_type
+		SET
+		question_type_name = #{questionTypeName},
+		question_type_modify_date = CURRENT_TIMESTAMP()
+		WHERE
+		question_type_code = #{questionTypeCode}
+		AND question_type_del_yn ='N';
+	</update>
+
+	<delete id="deleteQuestionType" parameterType="int">
+		DELETE FROM
+		question_type
+		WHERE question_type_code = #{questionTypeCode}
+	</delete>
+
 </mapper>

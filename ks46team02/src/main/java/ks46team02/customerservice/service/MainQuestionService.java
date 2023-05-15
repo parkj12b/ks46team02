@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import jakarta.annotation.Resource;
 import ks46team02.customerservice.mapper.MainQuestionMapper;
 import ks46team02.common.dto.Member;
+import ks46team02.common.mapper.MainMapper;
 import ks46team02.customerservice.dto.PageDto;
 import ks46team02.customerservice.dto.QuestionDto;
 import ks46team02.customerservice.dto.QuestionTypeDto;
@@ -27,10 +27,12 @@ public class MainQuestionService {
 
 	@Autowired
 	private MainQuestionMapper mainquestionmapper;
+	@Autowired
+	private MainMapper mainMapper;
 
-	@Resource(name = "loginMemberDto")
+	@Resource(name="loginMemberBean")
 	@Lazy
-	private Member loginMemberDto;
+	private Member loginMemberBean;
 
 	@Value("${page.listcnt}")
 	private int pagelistcnt;
@@ -48,6 +50,9 @@ public class MainQuestionService {
 	}
 
 	public void writeQuestion(QuestionDto questiondto) {
+		
+		/* questiondto.setMemberId(loginMemberBean.getMemberId()); */
+		
 		mainquestionmapper.writeQuestion(questiondto);
 	}
 
