@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import ks46team02.farm.dto.EvaluationDetailCategory;
 import ks46team02.farm.dto.EvaluationLargeCategory;
+import ks46team02.farm.dto.EvaluationStandard;
 import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
 import ks46team02.farm.dto.ResultHistory;
@@ -29,7 +30,7 @@ public interface MMmapper {
 
 	public int resetVisitHistory(VisitHistory visitHistory);
 
-	public int removeResultHistory(ResultHistory resultHistory);
+	public int removeResultHistoryByVisitCode(ResultHistory resultHistory);
 
 	public int removeEvaluationLargeCategory(EvaluationLargeCategory evalLargeCate);
 
@@ -40,6 +41,20 @@ public interface MMmapper {
 	public int modifyEvaluationDetailCategory(EvaluationDetailCategory evalDetailCate);
 
 	public int removeEvaluationDetailCategory(EvaluationDetailCategory evalDetailCate);
+
+	public int addEvaluationDetailCategory(EvaluationDetailCategory evalDetailCate);
+
+	public int modifyEvaluationStandard(EvaluationStandard evaluationStandard);
+
+	public int removeEvaluationStandard(EvaluationStandard evaluationStandard);
+
+	public int addEvaluationStandard(EvaluationStandard evaluationStandard);
+
+	public List<ResultHistory> getResultHistoryList();
+
+	public int modifyResultHistory(ResultHistory resultHistory);
+
+	public int removeResultHistory(ResultHistory resultHistory);
 
 	
 }

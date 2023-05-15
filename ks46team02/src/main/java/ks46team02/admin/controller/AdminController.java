@@ -49,10 +49,11 @@ import ks46team02.common.dto.Member;
 import ks46team02.company.dto.Company;
 import ks46team02.company.service.CompanyService;
 import ks46team02.farm.dto.EvaluationDetailCategory;
-import ks46team02.farm.dto.EvaluationDetailCategory;
 import ks46team02.farm.dto.EvaluationLargeCategory;
+import ks46team02.farm.dto.EvaluationStandard;
 import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
+import ks46team02.farm.dto.ResultHistory;
 import ks46team02.farm.dto.VisitHistory;
 import ks46team02.farm.mapper.MentorMenteeMapper;
 import ks46team02.farm.service.MentorMenteeService;
@@ -728,8 +729,9 @@ public class AdminController {
 	
 	@GetMapping("/mentorResultHistory")
 	public String getMentorResultHistoryList(Model model) {
+		List<ResultHistory> resultHistoryList = mentorMenteeMapper.getResultHistoryList();
 		model.addAttribute("title", "멘토 평가결과 기록 관리");
-		
+		model.addAttribute("resultHistoryList",resultHistoryList);
 		return "admin/mm_contract_result_history";
 	}
 	
@@ -795,6 +797,64 @@ public class AdminController {
 	@ResponseBody
 	public Map<String, Object> deleteDetailCategory(EvaluationDetailCategory evalDetailCate){
 		Map<String,Object> returnMap = mMService.deleteDetailCategory(evalDetailCate);
+		
+		return returnMap;
+	}
+
+	@PostMapping("/addDetailCategory")
+	@ResponseBody
+	public Map<String, Object> addDetailCategory(EvaluationDetailCategory evalDetailCate){
+		Map<String,Object> returnMap = mMService.addDetailCategory(evalDetailCate);
+		
+		return returnMap;
+	}
+	
+	@GetMapping("/mentorEvaluationStandard")
+	public String mentorEvaluationStandard(Model model) {
+		
+		List<EvaluationStandard> evaluationStandardList = mentorMenteeService.getEvaluationStandardList();
+		model.addAttribute("title", "멘토 평가기준 관리");
+		model.addAttribute("evaluationStandardList",evaluationStandardList);
+		log.info("{}",evaluationStandardList);
+		return "admin/mm_evaluation_standard";
+	}
+	
+	@PostMapping("/modifyEvaluationStandard")
+	@ResponseBody
+	public Map<String, Object> modifyEvaluationStandard(EvaluationStandard evaluationStandard){
+		Map<String,Object> returnMap = mMService.modifyEvaluationStandard(evaluationStandard);
+		
+		return returnMap;
+	}
+	
+	@PostMapping("/removeEvaluationStandard")
+	@ResponseBody
+	public Map<String, Object> removeEvaluationStandard(EvaluationStandard evaluationStandard){
+		Map<String,Object> returnMap = mMService.removeEvaluationStandard(evaluationStandard);
+		
+		return returnMap;
+	}
+	
+	@PostMapping("/addEvaluationStandard")
+	@ResponseBody
+	public Map<String, Object> addEvaluationStandard(EvaluationStandard evaluationStandard){
+		Map<String,Object> returnMap = mMService.addEvaluationStandard(evaluationStandard);
+		
+		return returnMap;
+	}
+	
+	@PostMapping("/modifyResultHistory")
+	@ResponseBody
+	public Map<String, Object> modifyResultHistory(ResultHistory resultHistory){
+		Map<String,Object> returnMap = mMService.modifyResultHistory(resultHistory);
+		
+		return returnMap;
+	}
+	
+	@PostMapping("/removeResultHistory")
+	@ResponseBody
+	public Map<String, Object> removeResultHistory(ResultHistory resultHistory){
+		Map<String,Object> returnMap = mMService.removeResultHistory(resultHistory);
 		
 		return returnMap;
 	}

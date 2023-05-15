@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
 
 import ks46team02.common.dto.AllContractInfo;
+import ks46team02.common.dto.ContractApprovalStandard;
 import ks46team02.farm.dto.EvaluationDetailCategory;
 import ks46team02.farm.dto.EvaluationLargeCategory;
 import ks46team02.farm.dto.EvaluationStandard;
@@ -43,6 +44,8 @@ public interface MentorMenteeMapper {
 	public MentorFeedbackToken getMentorFeedbackTokenByTokenCode(String tokenCode);
 	public List<VisitHistory> getVisitHistoryList();
 	public List<EvaluationLargeCategory> getEvaluationLargeCategoryNoDetailCate();
+	public List<ResultHistory> getResultHistoryList();
+	public int addMenteeApply(MMRegInfoMentee menteeRegInfo);
 	
 	
 }

@@ -13,6 +13,7 @@ import ks46team02.admin.mapper.MMmapper;
 import ks46team02.common.mapper.MainMapper;
 import ks46team02.farm.dto.EvaluationDetailCategory;
 import ks46team02.farm.dto.EvaluationLargeCategory;
+import ks46team02.farm.dto.EvaluationStandard;
 import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
 import ks46team02.farm.dto.ResultHistory;
@@ -96,7 +97,7 @@ public class AdminMMservice {
 		
 		ResultHistory resultHistory = new ResultHistory();
 		resultHistory.setVisitCode(visitCode);
-		int result1 = mMMapper.removeResultHistory(resultHistory);
+		int result1 = mMMapper.removeResultHistoryByVisitCode(resultHistory);
 		int result2 = 0;
 		if(result1 == 1) {
 			result2 = mMMapper.resetVisitHistory(visitHistory);
@@ -112,7 +113,6 @@ public class AdminMMservice {
 	}
 
 	public Map<String, Object> removeEvaluationLargeCategory(EvaluationLargeCategory evalLargeCate) {
-		// TODO Auto-generated method stub
 		
 		String msg = "대분류 카테고리가 삭제되지 않았습니다.";
 		boolean isSuccess = false;
@@ -129,7 +129,6 @@ public class AdminMMservice {
 	}
 
 	public Map<String, Object> modifyLargeCategory(EvaluationLargeCategory evalLargeCate) {
-		// TODO Auto-generated method stub
 		
 		String msg = "대분류 카테고리가 수정되지 않았습니다.";
 		boolean isSuccess = false;
@@ -146,7 +145,6 @@ public class AdminMMservice {
 	}
 
 	public Map<String, Object> addEvaluationLargeCategory(EvaluationLargeCategory evalLargeCate) {
-		// TODO Auto-generated method stub
 		String msg = "대분류 카테고리가 추가되지 않았습니다.";
 		boolean isSuccess = false;
 		Map<String, Object> returnMap = new HashMap<>();
@@ -168,7 +166,6 @@ public class AdminMMservice {
 	}
 
 	public Map<String, Object> modifyDetailCategory(EvaluationDetailCategory evalDetailCate) {
-		// TODO Auto-generated method stub
 		String msg = "평가 세부항목이 수정되지 않았습니다.";
 		boolean isSuccess = false;
 		Map<String, Object> returnMap = new HashMap<>();
@@ -184,7 +181,6 @@ public class AdminMMservice {
 	}
 
 	public Map<String, Object> deleteDetailCategory(EvaluationDetailCategory evalDetailCate) {
-		// TODO Auto-generated method stub
 		String msg = "평가 세부항목이 삭제되지 않았습니다.";
 		boolean isSuccess = false;
 		Map<String, Object> returnMap = new HashMap<>();
@@ -198,5 +194,110 @@ public class AdminMMservice {
 		returnMap.put("isSuccess", isSuccess);
 		return returnMap;
 	}
+
+	public Map<String, Object> addDetailCategory(EvaluationDetailCategory evalDetailCate) {
+		String msg = "평가 세부항목이 추가되지 않았습니다.";
+		boolean isSuccess = false;
+		Map<String, Object> returnMap = new HashMap<>();
+		
+		String evaluationUnitCode = mainMapper.autoIncrement("evaluation_detail_category", "evaluation_unit_code");
+		if(evaluationUnitCode == null) {
+			evaluationUnitCode = "unit_1";
+		}
+		evalDetailCate.setEvaluationUnitCode(evaluationUnitCode);
+		int result = mMMapper.addEvaluationDetailCategory(evalDetailCate);
+		if(result > 0) {
+			isSuccess = true;
+			msg = "평가 세부항목이 추가되었습니다.";
+		}
+		
+		returnMap.put("msg", msg);
+		returnMap.put("isSuccess", isSuccess);
+		return returnMap;
+	}
+
+	public Map<String, Object> modifyEvaluationStandard(EvaluationStandard evaluationStandard) {
+		String msg = "멘토멘티 평가 기준이 수정되지 않았습니다.";
+		boolean isSuccess = false;
+		Map<String, Object> returnMap = new HashMap<>();
+		int result = mMMapper.modifyEvaluationStandard(evaluationStandard);
+		if(result > 0) {
+			isSuccess = true;
+			msg = "멘토멘티 평가 기준이 수정되었습니다.";
+		}
+		
+		returnMap.put("msg", msg);
+		returnMap.put("isSuccess", isSuccess);
+		return returnMap;
+	}
+
+	public Map<String, Object> removeEvaluationStandard(EvaluationStandard evaluationStandard) {
+		String msg = "멘토멘티 평가 기준이 삭제되지 않았습니다.";
+		boolean isSuccess = false;
+		Map<String, Object> returnMap = new HashMap<>();
+		int result = mMMapper.removeEvaluationStandard(evaluationStandard);
+		if(result > 0) {
+			isSuccess = true;
+			msg = "멘토멘티 평가 기준이 삭제되었습니다.";
+		}
+		
+		returnMap.put("msg", msg);
+		returnMap.put("isSuccess", isSuccess);
+		return returnMap;
+	}
+
+	public Map<String, Object> addEvaluationStandard(EvaluationStandard evaluationStandard) {
+		String msg = "멘토멘티 평가 기준이 추가되지 않았습니다.";
+		boolean isSuccess = false;
+		Map<String, Object> returnMap = new HashMap<>();
+		
+		String evaluationStandardCode = mainMapper.autoIncrement("evaluation_standard", "evaluation_standard_code");
+		if(evaluationStandardCode == null) {
+			evaluationStandardCode = "es_5";
+		}
+		evaluationStandard.setEvaluationStandardCode(evaluationStandardCode);
+		int result = mMMapper.addEvaluationStandard(evaluationStandard);
+		if(result > 0) {
+			isSuccess = true;
+			msg = "멘토멘티 평가 기준이 추가되었습니다.";
+		}
+		
+		returnMap.put("msg", msg);
+		returnMap.put("isSuccess", isSuccess);
+		return returnMap;
+	}
+
+	public Map<String, Object> modifyResultHistory(ResultHistory resultHistory) {
+		String msg = "멘토 평가결과 기록이 추가되지 않았습니다.";
+		boolean isSuccess = false;
+		Map<String, Object> returnMap = new HashMap<>();
+		
+		int result = mMMapper.modifyResultHistory(resultHistory);
+		if(result > 0) {
+			isSuccess = true;
+			msg = "멘토 평가결과 기록이 추가되었습니다.";
+		}
+		
+		returnMap.put("msg", msg);
+		returnMap.put("isSuccess", isSuccess);
+		return returnMap;
+	}
+
+	public Map<String, Object> removeResultHistory(ResultHistory resultHistory) {
+		String msg = "멘토 평가결과 기록이 삭제되지 않았습니다.";
+		boolean isSuccess = false;
+		Map<String, Object> returnMap = new HashMap<>();
+		
+		int result = mMMapper.removeResultHistory(resultHistory);
+		if(result > 0) {
+			isSuccess = true;
+			msg = "멘토 평가결과 기록이 삭제되었습니다.";
+		}
+		
+		returnMap.put("msg", msg);
+		returnMap.put("isSuccess", isSuccess);
+		return returnMap;
+	}
+
 
 }

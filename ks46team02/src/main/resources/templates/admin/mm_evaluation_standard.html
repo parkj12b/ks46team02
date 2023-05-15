@@ -20,6 +20,18 @@
 	background-color: rgba(0, 0, 0, 0.05);
 }
 
+#no-item-msg {
+	text-align: center;
+}
+
+.like-h2 {
+	font-size: 18px;
+}
+
+.category-div {
+	margin: 10px 0;
+}
+
 #info-container {
 	padding-bottom: 40px;
 	border-bottom: 2px solid #E6E9ED;
@@ -66,47 +78,35 @@
 	display: flex;
 	font-size: 18px;
 }
-
-.resultFeedback{
-	text-decoration: underline;
-}
-.resultFeedback:hover{
-	cursor: pointer;
-}
 </style>
 </head>
 <body>
 	<th:block layout:fragment="customJs">
 		<script>
 		
-				const resultFeedback = function(resultFeedback){
-					Swal.fire({
-						title: '피드백 내용',
-						text: resultFeedback,
-						confirmButtonText : '확인'
-					})
-				}
-		
-				const modifyResultHistory= function(resultCode, resultFeedback) {
+				const modifyEvaluationStandard = function(evaluationStandardCode, evaluationStandardExp, evaluationLevel, evaluationGradeScore) {
 					
 			Swal.fire({
-				title: `${resultCode} 수정`,
+				title: `${evaluationStandardCode} 수정`,
 				icon: 'question',
 				confirmButtonText : '수정',
 				cancelButtonText : '취소',
 				showConfirmButton : true,
 				showCancelButton : true,
+				template: '#evaluationStandardTemplate',
 				allowOutsideClick: false,
-				template: '#resultHistoryTemplate',
 				preConfirm: () => {
 					$('swal2-input').each(function(idx,item){
 						if($(item).val() == ''){
 							Swal.showValidationMessage('입력은 비어있을수 없습니다!');							
 						}
 					})
+			
 					return {
-						resultFeedback : $('#feedbackResult').val(),
-						resultCode : resultCode,
+						evaluationStandardCode: evaluationStandardCode,
+						evaluationStandardExp: $('#evaluationStandardExp').val(),
+						evaluationLevel: $('#evaluationLevel').val(),
+						evaluationGradeScore: $('#evaluationGradeScore').val(),
 						adminId : `[[${session.sessionId}]]`
 					}
 				}
@@ -114,7 +114,7 @@
 				console.log(result.value);
 				if(result.isConfirmed){
 					$.ajax({
-						url: `/admin/modifyResultHistory`,
+						url: `/admin/modifyEvaluationStandard`,
 						method: "post",
 						dataType: "json",
 						data: result.value
@@ -141,16 +141,21 @@
 				}
 			})
 			//비동기라 이렇게 해도 가능
+			$('#evaluationStandardExp').val(evaluationStandardExp);
+			$('#evaluationLevel').val(evaluationLevel);
+			$('#evaluationGradeScore').val(evaluationGradeScore);
 			
-			$('#feedbackResult').val(resultFeedback);
+			let InputWidth = $('#evaluationLevel').width();
+			$('#evaluationStandardExp').width(InputWidth);
+					
 			
 				}
 				
-				const deleteResultHistory= function(resultCode) {
+				const deleteEvaluationStandard= function(evaluationStandardCode) {
 					Swal.fire({
 						icon : 'question',
-						title : `${resultCode}`,
-						text : '위 멘토 평가결과 기록을 삭제하시겠습니까?',
+						title : `${evaluationStandardCode}`,
+						text : '위 멘토멘티 평가 기준을 삭제하시겠습니까?',
 						showConfirmButton : true,
 						showCancelButton : true,
 						confirmButtonText : '삭제',
@@ -159,11 +164,11 @@
 						if(result.isConfirmed){
 							console.log(result);
 							$.ajax({
-								url: `/admin/removeResultHistory`,
+								url: `/admin/removeEvaluationStandard`,
 								method: "post",
 								dataType: "json",
 								data: {
-									resultCode: resultCode
+									evaluationStandardCode: evaluationStandardCode
 								}
 							}).done(data => {
 								if(data.isSuccess){
@@ -189,6 +194,62 @@
 					})
 				}
 			$(function() {
+				$('#add-category').click(function(){
+					Swal.fire({
+						icon : 'question',
+						title : `새로 추가할 멘토 피드백 평가기준을 입력해주세요`,
+						allowOutsideClick: false,
+						showConfirmButton : true,
+						showCancelButton : true,
+						confirmButtonText : '추가',
+						cancelButtonText : '취소',
+						template: '#evaluationStandardTemplate',
+						preConfirm: () => {
+							$('swal2-input').each(function(idx,item){
+								if($(item).val() == ''){
+									Swal.showValidationMessage('입력은 비어있을수 없습니다!');							
+								}
+							})
+							return {
+								evaluationStandardExp: $('#evaluationStandardExp').val(),
+								evaluationLevel: $('#evaluationLevel').val(),
+								evaluationGradeScore: $('#evaluationGradeScore').val(),
+								adminId : `[[${session.sessionId}]]`
+							}
+						}
+					}).then(result => {
+						if(result.isConfirmed){
+							console.log(result);
+							$.ajax({
+								url: `/admin/addEvaluationStandard`,
+								method: "post",
+								dataType: "json",
+								data: result.value
+							}).done(data => {
+								if(data.isSuccess){
+									Swal.fire({
+										icon: 'success',
+										title: data.msg,
+										showConfirmButton: true,
+										confirmButtonText: '확인'
+									}).then(function(){
+										location.reload();
+									})
+								}else {
+									Swal.fire({
+										icon: 'error',
+										title: data.msg,
+										showConfirmButton: true,
+										confirmButtonText: '확인'
+									})
+								}
+								
+							})
+						}
+					})
+					let InputWidth = $('#evaluationLevel').width();
+					$('#evaluationStandardExp').width(InputWidth);
+				})
 				
 				const table = $('#datatable-custom').DataTable({
 					length : true,
@@ -198,12 +259,12 @@
 					language: lang_ko
 				})
 
-				$('#contract-code').on('keyup change clear',function(){
-					table.columns(1).search(this.value).draw();
+				$('#evaluation-level').on('keyup change clear',function(){
+					table.columns(2).search(this.value).draw();
 				})
 				
-				$('#visit-code').on('keyup change clear', function(){
-					table.columns(4).search(this.value).draw();
+				$('#evaluation-grade-score').on('keyup change clear', function(){
+					table.columns(3).search(this.value).draw();
 				})
 		
 			});
@@ -211,14 +272,20 @@
 
 	</th:block>
 	<th:block layout:fragment="customContent">
-		<template id="resultHistoryTemplate">
+		<template id="evaluationStandardTemplate">
 			<!-- <swal-title> 수정 </swal-title>
 			<swal-icon type="question"></swal-icon>
 			<swal-button type="confirm"> 수정 </swal-button>
 			<swal-button type="cancel"> 취소 </swal-button> -->
-			<swal-html> 
+			<swal-html>
 			<div>
-				<textarea class="swal2-input" id="feedbackResult"></textarea>
+				<input class="swal2-input" id="evaluationLevel" placeholder="평가등급"
+					type="text" /> <input class="swal2-input" id="evaluationGradeScore"
+					placeholder="평가등급 점수" type="number" />
+				<textarea class="swal2-input" id="evaluationStandardExp"
+					placeholder="평가기준 설명"></textarea>
+
+
 			</div>
 			</swal-html>
 		</template>
@@ -226,7 +293,7 @@
 			<div class="col-md-12 col-sm-12">
 				<div class="x_panel">
 					<div class="x_title">
-						<h2>멘토멘티 방문 기록 관리</h2>
+						<h2>멘토멘티 평가 기준 관리</h2>
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">
@@ -242,13 +309,12 @@
 												<div id="search-container">
 													<div id="search-container-inner">
 														<div class="input-container">
-															<label class="search-label"> 계약코드: </label> <input
-																id="contract-code" type="text"
-																class="form-control" />
+															<label class="search-label"> 평가등급: </label> <input
+																id="evaluation-level" type="text" class="form-control" />
 														</div>
 														<div class="input-container">
-															<label class="search-label"> 방문코드: </label> <input
-																id="visit-code" type="text"
+															<label class="search-label"> 평가 등급 점수: </label> <input
+																id="evaluation-grade-score" type="text"
 																class="form-control search-input" />
 														</div>
 
@@ -263,46 +329,44 @@
 														aria-describedby="datatable_info">
 														<thead>
 															<tr role="row">
-																<th>평가결과 고유 코드</th>
-																<th>계약코드</th>
-																<th>단원별 평가점수</th>
-																<th>등록시간</th>
-																<th>방문코드</th>
-																<th>평가 단원 코드</th>
-																<th>피드백 내용</th>
-																<th>회원아이디</th>
+																<th>평가 기준</th>
+																<th>평가기준 설명</th>
+																<th>평가 등급</th>
+																<th>평가 등급 점수</th>
+																<th>관리자 아이디</th>
+																<th>등록일자</th>
 																<th>수정</th>
 																<th>삭제</th>
 															</tr>
 														</thead>
 														<tbody>
-															<th:block th:unless="${resultHistoryList == null}">
-																<th:block th:each="l: ${resultHistoryList}">
+															<th:block th:unless="${evaluationStandardList == null}">
+																<th:block th:each="l: ${evaluationStandardList}">
 																	<tr>
-																		<td th:text="${l.resultCode}"></td>
-																		<td th:text="${l.contractCode}"></td>
-																		<td th:text="${l.resultEvaluationPoint}"></td>
-																		<td th:text="${l.resultRegDate}"></td>
-																		<td th:text="${l.visitCode}"></td>
-																		<td th:text="${l.evaluationUnitCode}"></td>
-																		<td><span class="resultFeedback" th:attr="onclick=|resultFeedback('${l.resultFeedback}')|">피드백 내용</span></td>
-																		<td th:text="${l.memberId}"></td>
+																		<td th:text="${l.evaluationStandardCode}"></td>
+																		<td th:text="${l.evaluationStandardExp}"></td>
+																		<td th:text="${l.evaluationLevel}"></td>
+																		<td th:text="${l.evaluationGradeScore}"></td>
+																		<td th:text="${l.adminId}"></td>
+																		<td th:text="${l.evaluationRegDate}"></td>
 																		<td class="button-td"><button
-																				th:attr="onclick=|modifyResultHistory('${l.resultCode}','${l.resultFeedback}')|"
+																				th:attr="onclick=|modifyEvaluationStandard('${l.evaluationStandardCode}','${l.evaluationStandardExp}','${l.evaluationLevel}','${l.evaluationGradeScore}')|"
 																				class="btn btn-warning" type="button">수정</button></td>
 																		<td class="button-td"><button
-																				th:attr="onclick=|deleteResultHistory('${l.resultCode}')|"
+																				th:attr="onclick=|deleteEvaluationStandard('${l.evaluationStandardCode}','${l.evaluationStandardExp}','${l.evaluationLevel}')|"
 																				class="btn btn-danger" type="button">삭제</button></td>
 																	</tr>
 																</th:block>
 
 															</th:block>
 															<tr role="row" class="odd"
-																th:if="${resultHistoryList == null}">
-																<td colspan="10">멘토 평가기록이 존재하지 않습니다.</td>
+																th:if="${evaluationStandardList == null}">
+																<td colspan="6">멘토 피드백 평가 기준이 존재하지 않습니다.</td>
 															</tr>
 														</tbody>
 													</table>
+													<button id="add-category" class="btn btn-info">멘토
+														피드백 평가기준 추가하기</button>
 												</div>
 											</div>
 										</div>

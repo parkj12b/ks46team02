@@ -57,8 +57,18 @@
                 property="contractDays"></result>
         <result column="days_left"
                 property="daysLeft"></result>
-    </resultMap>
 
+	</resultMap>
+	<resultMap type="ContractApprovalStandard" id="contractApprovalStandardMap">
+		<id column="cont_app_stand_code" property="contAppStandCode"></id>
+        <result column="cont_app_stand" property="contAppStand"></result>
+        <result column="cont_app_stand_info" property="contAppStandInfo"></result>
+        <result column="cont_app_stand_value" property="contAppStandValue"></result>
+        <result column="cont_app_stand_unit" property="contAppStandUnit"></result>
+        <result column="cont_app_stand_reg_date" property="contAppStandRegDate"></result>
+        <result column="admin_id" property="adminId"></result>
+        <result column="standard_description" property="standardDescription"></result>
+	</resultMap>
     <!-- 비밀번호 체크    -->
     <select id="getMemberInfoById" resultMap="memberResultMap">
         SELECT
@@ -141,6 +151,22 @@
                 or ${item.key} = #{item.value}
             </foreach>
         </where>
-
     </select>
+    <select id="getContractApprovalStandard" resultMap="contractApprovalStandardMap">
+    	select
+    		*
+    	from
+    		contract_approval_standard
+    	<where>
+    		cont_app_stand = #{contAppStand} and
+    		standard_description = #{standardDescription}    	
+    	</where>
+    </select>
+    <insert id="addFileRelation" parameterType="FileRelation">
+    	insert into file_relation(
+    		file_associate_key, table_name, table_primary_key
+    	) values (
+    		#{fileAssociateKey}, #{tableName}, #{tablePrimaryKey}
+    	)
+    </insert>
 </mapper>

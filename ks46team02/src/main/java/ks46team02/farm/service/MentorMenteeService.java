@@ -15,8 +15,12 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import jakarta.servlet.http.HttpSession;
 import ks46team02.common.dto.AllContractInfo;
+import ks46team02.common.dto.ContractApprovalStandard;
+import ks46team02.common.dto.FileRelation;
 import ks46team02.common.dto.Member;
 import ks46team02.common.mapper.MainMapper;
 import ks46team02.farm.dto.EvaluationDetailCategory;
@@ -24,6 +28,7 @@ import ks46team02.farm.dto.EvaluationLargeCategory;
 import ks46team02.farm.dto.EvaluationStandard;
 import ks46team02.farm.dto.GoogleFormResult;
 import ks46team02.farm.dto.MMContractInfo;
+import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
 import ks46team02.farm.dto.MentorFeedbackToken;
 import ks46team02.farm.dto.ResultHistory;
@@ -31,6 +36,7 @@ import ks46team02.farm.dto.VisitHistory;
 import ks46team02.farm.mapper.MentorMenteeMapper;
 
 @Service
+@Transactional
 public class MentorMenteeService {
 
 	private final MentorMenteeMapper mentorMenteeMapper;
@@ -48,17 +54,23 @@ public class MentorMenteeService {
 
 	public Map<String, Object> getMentorMenteeRegisterStatus(String companyCode) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		int mmRegType = mentorMenteeMapper.getMMRegType(companyCode);
-		Object mmRegInfo;
-		if (mmRegType == 1) {
-			mmRegInfo = mentorMenteeMapper.getMMRegStatMentor(companyCode);
-		} else if (mmRegType == 2) {
-			mmRegInfo = mentorMenteeMapper.getMMRegStatMentee(companyCode);
-		} else {
-			return null;
-		}
-		map.put("mmRegInfo", mmRegInfo);
-		map.put("mmRegType", mmRegType);
+		MMRegInfoMentee mmRegInfoMentee;
+		MMRegInfoMentor mmRegInfoMentor;
+
+		mmRegInfoMentor = mentorMenteeMapper.getMMRegStatMentor(companyCode);
+		mmRegInfoMentee = mentorMenteeMapper.getMMRegStatMentee(companyCode);
+		
+		map.put("mmRegType", 0);
+		if(mmRegInfoMentee != null) {
+			map.put("mmRegInfo", mmRegInfoMentee);
+			map.put("mmRegType", 2);
+			
+		} 
+		if(mmRegInfoMentor != null) {
+			map.put("mmRegInfo", mmRegInfoMentor);
+			map.put("mmRegType", 1);
+			
+		}	
 
 		return map;
 
@@ -370,6 +382,57 @@ public class MentorMenteeService {
 		List<EvaluationLargeCategory> list = mentorMenteeMapper.getEvaluationLargeCategoryNoDetailCate();
 		
 		return list;
+	}
+
+	public Map<String, Object> addMenteeApply(MMRegInfoMentee menteeRegInfo, HttpSession session) {
+		Map<String,Object> returnMap = new HashMap<>();
+		FileRelation fileRelation = new FileRelation();
+		ContractApprovalStandard contApprStand = new ContractApprovalStandard();
+		
+		contApprStand.setContAppStand("멘티승인기준");
+		contApprStand.setStandardDescription("last_year_sales_lower");
+		
+		//menteeRegInfo에 들어갈 정보들
+		String sessionCompanyCode = (String) session.getAttribute("sessionCompanyCode");
+		String memberId = (String) session.getAttribute("sessionId");
+		ContractApprovalStandard menteeApprovalStandard = mainMapper.getContractApprovalStandard(contApprStand);
+		int salesStandard = menteeApprovalStandard.getContAppStandValue();
+		
+		boolean salesSuitability = menteeRegInfo.getPreviousYearSales() <= salesStandard;
+		
+		
+		String fileAssociateKey = mainMapper.autoIncrement("file_relation", "file_associate_key");
+		if(fileAssociateKey == null) {fileAssociateKey = "file_relation_1";}
+		
+		fileRelation.setFileAssociateKey(fileAssociateKey);
+		fileRelation.setTableName("mentee_apply");
+	
+		String menteeAppCode = mainMapper.autoIncrement("mentee_apply", "mentee_app_code");
+		if(menteeAppCode == null) {menteeAppCode = "mentee_app_code_1";}
+		
+		fileRelation.setTablePrimaryKey(menteeAppCode);
+		mainMapper.addFileRelation(fileRelation);
+		
+		menteeRegInfo.setMenteeAppCode(menteeAppCode);
+		menteeRegInfo.setDocumentaryEvidence(fileAssociateKey);
+		menteeRegInfo.setCompanyCode(sessionCompanyCode);
+		menteeRegInfo.setMemberId(memberId);
+		menteeRegInfo.setSalesSuitability(salesSuitability);
+		
+		boolean isSuccess = false;
+		String msg = "멘티 신청에 실패하였습니다.";
+		
+		int result = mentorMenteeMapper.addMenteeApply(menteeRegInfo);
+		if(result > 0) {
+			isSuccess = true;
+			msg = "멘티 신청에 성공하였습니다.";
+		}
+		
+		returnMap.put("msg", msg);
+		returnMap.put("isSuccess", isSuccess);
+		returnMap.put("fileAssociateKey", fileAssociateKey);
+		
+		return returnMap;
 	}
 
 	

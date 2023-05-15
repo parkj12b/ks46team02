@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import ks46team02.farm.mapper.FarmMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,12 +17,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import ks46team02.admin.service.MemberService;
 import ks46team02.common.dto.AllContractInfo;
+import ks46team02.common.dto.FileRelation;
 import ks46team02.common.dto.Member;
+import ks46team02.common.service.FileService;
 import ks46team02.farm.dto.Cage;
 import ks46team02.farm.dto.Cycle;
 import ks46team02.farm.dto.EvaluationLargeCategory;
@@ -40,31 +42,36 @@ import ks46team02.farm.dto.MentorFeedbackToken;
 import ks46team02.farm.dto.Production;
 import ks46team02.farm.dto.ResultHistory;
 import ks46team02.farm.dto.VisitHistory;
+import ks46team02.farm.mapper.FarmMapper;
 import ks46team02.farm.service.FarmService;
 import ks46team02.farm.service.MentorMenteeService;
-
-import javax.naming.Name;
 
 @Controller
 @RequestMapping("/farm")
 public class FarmController {
 
+	@Value("${files.path}")
+	private String filePath;
+	
 	MentorMenteeService mentorMenteeService;
 	private final FarmService farmService;
 	private final MemberService memberService;
 	private final FarmMapper farmMapper;
-
+	private FileService fileService;
+	
 	private static final Logger log = LoggerFactory.getLogger(FarmController.class);
 
 
 	public FarmController(MentorMenteeService mentorMenteeService
 						,FarmService farmService
 						,MemberService memberService
-						,FarmMapper farmMapper){
+						,FarmMapper farmMapper
+						,FileService fileService){
 		this.mentorMenteeService = mentorMenteeService;
 		this.farmService = farmService;
 		this.memberService = memberService;
 		this.farmMapper = farmMapper;
+		this.fileService = fileService;
 	}
 	@GetMapping("/productionGraph")
 	@ResponseBody
@@ -450,7 +457,8 @@ public class FarmController {
 	}
 
 	@GetMapping("/menteeSignUp")
-	public String getMenteeSignUpForm(){
+	public String getMenteeSignUpForm(Model model){
+		model.addAttribute("title", "멘토멘티 멘티 신청");
 		return "farm/mentee_sign_up";
 	}
 
@@ -458,17 +466,18 @@ public class FarmController {
 	public String getMentorMenteeRegisterStatus(HttpSession session, Model model) {
 		String companyCode = (String) session.getAttribute("sessionCompanyCode");
 		Map<String,Object> mmRegInfoMap = mentorMenteeService.getMentorMenteeRegisterStatus(companyCode);
-		int mmRegType = mentorMenteeService.getMMRegType(companyCode);
+		int mmRegType = (int) mmRegInfoMap.get("mmRegType");
+		
 		if(mmRegType == 1) {
-			MMRegInfoMentor mmRegInfo = (MMRegInfoMentor) mmRegInfoMap.get("mmRegInfo");
+			MMRegInfoMentor mmRegInfo = (MMRegInfoMentor) mmRegInfoMap.get("mmRegInfo");			
 			model.addAttribute("mmRegInfo", mmRegInfo);
-			log.info("{}", mmRegInfo);
 		} else if(mmRegType == 2) {
-			MMRegInfoMentee mmRegInfo = (MMRegInfoMentee) mmRegInfoMap.get("mmRegInfo");
+			MMRegInfoMentee mmRegInfo = (MMRegInfoMentee) mmRegInfoMap.get("mmRegInfo");			
 			model.addAttribute("mmRegInfo", mmRegInfo);
-			log.info("{}", mmRegInfo);
 		}
+		
 		model.addAttribute("mmRegType", mmRegType);
+		
 
 		return "farm/mentor_mentee_register_status";
 	}
@@ -847,5 +856,17 @@ public class FarmController {
 
 
 		return "Success";
+	}
+	
+	@PostMapping("/menteeApply")
+	@ResponseBody
+	public Map<String, Object> addMenteeApply(MMRegInfoMentee menteeRegInfo, HttpSession session, @RequestParam(name="file[0]", required=false) MultipartFile[] uploadFile){
+		log.info("1");
+		Map<String, Object> returnMap = mentorMenteeService.addMenteeApply(menteeRegInfo, session);
+		String fileAssociateKey = (String) returnMap.get("fileAssociateKey");
+		Map<String, Object> returnMap1 = fileService.uploadMenteeDocument(uploadFile, filePath, fileAssociateKey);
+		log.info("2");
+		
+		return returnMap1;
 	}
 }

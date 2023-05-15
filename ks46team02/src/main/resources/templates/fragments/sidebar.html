@@ -79,18 +79,17 @@
 					<li><a th:href="@{/farm/productionList}">!김유진 생산량 조회</a></li>
 					<li><a th:href="@{/farm/cageList}">!김유진 케이지 조회</a></li>
 				</ul></li>
-		</ul>
-	</div>
-	<div class="menu_section">
-		<h3>멘토멘티 (멘토) 나중에 조건문으로 처리</h3>
-		<ul class="nav side-menu">
 			<li><a><i class="fa fa-user-plus"></i> 멘토멘티 신청 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-
 					<li><a th:href="@{/farm/mentorMentee}">!박민서 멘토멘티 신청</a></li>
 					<li><a href="/farm/mentorMenteeRegisterStatus">!박민서 승인 여부조회</a></li>
 				</ul></li>
+		</ul>
+	</div>
+	<div class="menu_section" th:if="${session.mmRegType == 1}">
+		<h3>멘토멘티 (멘토)</h3>
+		<ul class="nav side-menu">
 			<li><a><i class="fa fa-users"></i> 멘토멘티 관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
@@ -106,15 +105,9 @@
 				</ul></li>
 		</ul>
 	</div>
-	<div class="menu_section">
+	<div class="menu_section" th:if="${session.mmRegType == 2}">
 		<h3>멘토멘티 (멘티)</h3>
 		<ul class="nav side-menu">
-			<li><a><i class="fa fa-user-plus"></i> 멘토멘티 신청 <span
-					class="fa fa-chevron-down"></span></a>
-				<ul class="nav child_menu">
-					<li><a th:href="@{/farm/mentorMentee}">!박민서 멘토멘티 신청</a></li>
-					<li><a href="/farm/mentorMenteeRegisterStatus">!박민서 승인 여부조회</a></li>
-				</ul></li>
 			<li><a><i class="fa fa-users"></i> 멘토멘티 관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
@@ -234,7 +227,7 @@
 					<li><a href="/admin/mentorResultHistory">!멘토 평가 결과 기록 관리</a></li>
 					<li><a href="/admin/mentorEvaluationLargeCategory">!멘토 멘티 평가 대분류 관리</a></li>
 					<li><a href="/admin/mentorEvaluationDetailCategory">!멘토 평가 세부항목 관리</a></li>
-					<li><a href="#">#멘토 평가 평가 기준관리</a></li>
+					<li><a href="/admin/mentorEvaluationStandard">!멘토멘티 평가 기준관리</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-bug"></i> 사육장 <span
 					class="fa fa-chevron-down"></span></a>
