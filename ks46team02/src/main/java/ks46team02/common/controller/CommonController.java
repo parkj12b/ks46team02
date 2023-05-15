@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ks46team02.admin.mapper.MemberMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -49,9 +50,10 @@ public class CommonController {
 	AddrService addrService; 
 	AddrMapper addrMapper;
 	LoginHistoryService loginHistoryService;
+	MemberMapper memberMapper;
 	
 
-	public CommonController(MainService mainService,TopMenuService topMenuService, EmailServiceImpl emailService, MentorMenteeService mentorMenteeService, CompanyService companyService,AddrService addrService,AddrMapper addrMapper, LoginHistoryService loginHistoryService){
+	public CommonController(MainService mainService,TopMenuService topMenuService, EmailServiceImpl emailService, MentorMenteeService mentorMenteeService, CompanyService companyService,AddrService addrService,AddrMapper addrMapper, LoginHistoryService loginHistoryService,MemberMapper memberMapper){
 		this.mainService = mainService;
 		this.emailService = emailService;
 		this.mentorMenteeService = mentorMenteeService;
@@ -60,6 +62,7 @@ public class CommonController {
 		this.addrService = addrService;
 		this.addrMapper = addrMapper;
 		this.loginHistoryService = loginHistoryService;
+		this.memberMapper = memberMapper;
 	}
 	
 	
@@ -255,5 +258,23 @@ public class CommonController {
 	public String addMemberAddr(Model model){
 		model.addAttribute("title", "배송지 등록");
 		return "/add_member_addr";
+	}
+	/* 회원 정보 수정 */
+	@PostMapping("/modifyMember")
+	public String modifyMember(Member member) {
+
+		memberMapper.modifyMember(member);
+		return "redirect:/mypage";
+	}
+
+	/* 회원 정보 수정 */
+	@GetMapping("/modifyMember")
+	public String modifyMember(Model model
+							  ,HttpSession session){
+		String memberId = (String)session.getAttribute("sessionId");
+		Member memberInfo = mainService.getMemberInfoById(memberId);
+		model.addAttribute("title", "회원 수정");
+		model.addAttribute("memberInfo", memberInfo);
+		return "/modify_member";
 	}
 }

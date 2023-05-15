@@ -77,10 +77,8 @@ $(document).ready(function() {
 	    var cancelButton = tr.find('.cancel'); // 클래스 변경
 	    saveButton.text('수정');
 	    saveButton.removeClass('save').addClass('modify');
-	    console.log(saveButton);
 	    cancelButton.text('삭제');
 	    cancelButton.removeClass('cancel').addClass('delete'); // cancel 클래스 제거하고 delete 클래스 추가
-	  	console.log(cancelButton);
 	  });
 	  $('table tbody').on('click', '.save', function(){
 		  var tr = $(this).closest('tr');

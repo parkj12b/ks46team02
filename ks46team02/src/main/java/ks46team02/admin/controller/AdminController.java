@@ -271,6 +271,12 @@ public class AdminController {
 		adminLevelMapper.removeAdminLevel(adminLevel);
 		
 	}
+	/* 회원 등급 등록*/
+	@PostMapping("/addMemberLevel")
+	public String addMemberLevel(MemberLevel memberLevel,HttpSession session) {
+		memberLevelService.addMemberLevel(memberLevel,session);
+		return "redirect:/admin/memberLevelList";
+	}
 	/* 회원 등급 등록 */
 	@GetMapping("/addMemberLevel")
 	public String addMemberLevel(Model model){
