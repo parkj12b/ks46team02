@@ -100,6 +100,7 @@
                                                     <th>최대개월수</th>
                                                     <th>지역</th>
                                                     <th>등록일자</th>
+                                                    <th></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -112,6 +113,11 @@
                                                     <td th:text="${l.maxMonth}"></td>
                                                     <td th:text="${l.region}"></td>
                                                     <td th:text="${l.contractRegDate}"></td>
+                                                    <td>
+                                                        <a th:href="@{/contract/addApplyContract(contractRegCode=${l.contractRegCode})}" class="btn btn-secondary btn-sm" style="color: white">
+                                                            계약신청
+                                                        </a>
+                                                    </td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -146,6 +152,7 @@
                                                     <th>제품종류</th>
                                                     <th>계약단가(월)</th>
                                                     <th>업체지역</th>
+                                                    <th></th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -159,6 +166,7 @@
                                                     <td th:text="${l.productName}"></td>
                                                     <td th:text="${l.monthPrice}"></td>
                                                     <td th:text="${l.breedLocal}"></td>
+                                                    <td><a class="btn btn-secondary btn-sm" style="color: white">계약신청</a></td>
                                                 </tr>
                                                 </tbody>
                                             </table>

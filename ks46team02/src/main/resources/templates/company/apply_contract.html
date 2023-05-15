@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/mypage}">
+<head>
+    <meta charset="UTF-8">
+    <title>BSFP</title>
+</head>
+
+<th:block layout:fragment="customJs">
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</th:block>
+
+<th:block layout:fragment="customContent">
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>계약신청</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <br>
+                    <form id="dryContractRegForm" method="post"
+                          class="form-horizontal form-label-left"
+                          th:action="@{/contract/addApplyContract}"
+                          th:object="${contractInfo}"
+                          >
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   for="companyCode">업체코드</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="text" id="companyCode"
+                                       name="companyCode"
+                                       required="required"
+                                       class="form-control"
+                                       readonly="readonly"
+                                       th:value="*{companyCode}"
+                                       >
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   for="contractAmount" >회당 거래량(kg)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number" id="contractAmount"
+                                       name="contractAmount"
+                                       class="form-control" required="required">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   for="deliveryCycle">배송주기(주별)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number" id="deliveryCycle"
+                                       name="deliveryCycle"
+                                       required="required" class="form-control">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                            for="totalAmount">총 거래량(kg)</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="number" id="totalAmount"
+                                       name="totalAmount"
+                                       required="required" class="form-control">
+                            </div>
+                        </div>
+                        <div class="item form-group">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align"
+                                   for="region">지역</label>
+                            <div class="col-md-6 col-sm-6 ">
+                                <input type="text" id="region"
+                                       name="region" class="form-control" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-9 col-sm-9  offset-md-3">
+                                <button type="button" class="btn btn-dark" onclick="goBack()">취소</button>
+                                <button type="submit" class="btn btn-dark">등록</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>
