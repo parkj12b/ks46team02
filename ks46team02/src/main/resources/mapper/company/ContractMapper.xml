@@ -4,36 +4,25 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.company.mapper.ContractMapper">
     <resultMap type="Contract" id="contractResultMap">
-        <id column="contract_code" property="contractCode"/>
+        <id column="contract_code"                  property="contractCode"/>
         <result column="contract_registration_code" property="contractRegCode"/>
-        <result column="contract_type" property="contractType"/>
-        <result column="member_id" property="memberId"/>
-        <result column="contract_apply_date" property="contractApplyDate"/>
-        <result column="contract_start_date" property="contractStartDate"/>
-        <result column="contract_end_date" property="contractEndDate"/>
-        <result column="contract_paper" property="contractPaper"/>
-        <result column="admin_id" property="adminId"/>
-        <result column="contract_approval_date" property="contractApprovalDate"/>
-        <result column="contract_approval" property="contractApproval"/>
-        <result column="deposit" property="deposit"/>
-        <result column="delivery_cycle" property="deliveryCycle"/>
-        <result column="contract_amount" property="contractAmount"/>
-        <result column="total_amount" property="totalAmount"/>
-        <result column="contractee_company_code" property="contracteeCompanyCode"/>
-        <result column="contractor_company_code" property="contractorCompanyCode"/>
+        <result column="contract_type"              property="contractType"/>
+        <result column="member_id"                  property="memberId"/>
+        <result column="contract_apply_date"        property="contractApplyDate"/>
+        <result column="contract_start_date"        property="contractStartDate"/>
+        <result column="contract_end_date"          property="contractEndDate"/>
+        <result column="contract_paper"             property="contractPaper"/>
+        <result column="admin_id"                   property="adminId"/>
+        <result column="contract_approval_date"     property="contractApprovalDate"/>
+        <result column="contract_approval"          property="contractApproval"/>
+        <result column="deposit"                    property="deposit"/>
+        <result column="delivery_cycle"             property="deliveryCycle"/>
+        <result column="contract_amount"            property="contractAmount"/>
+        <result column="total_amount"               property="totalAmount"/>
+        <result column="contractee_company_code"    property="contracteeCompanyCode"/>
+        <result column="contractor_company_code"    property="contractorCompanyCode"/>
     </resultMap>
-    <resultMap type="DryContract" id="DryContractResultMap">
-        <id column="contract_reg_code" property="contractRegCode"/>
-        <result column="company_code" property="companyCode"/>
-        <result column="member_id" property="memberId"/>
-        <result column="min_amount" property="minAmount"/>
-        <result column="max_amount" property="maxAmount"/>
-        <result column="min_month" property="minMonth"/>
-        <result column="max_month" property="maxMonth"/>
-        <result column="contract_reg_date" property="contractRegDate"/>
-        <result column="region" property="region"/>
-        <result column="company_name" property="companyName"/>
-    </resultMap>
+
 
 
     <insert id="addBreedContract" parameterType="Contract">
@@ -88,6 +77,42 @@
         ,#{region})
         ;
     </insert>
+
+<!--    <select id="getBreedContractInfo" parameterType="String" resultMap="Contract">-->
+<!--        SELECT-->
+<!--        bcr.breed_reg_code as breedRegCode-->
+<!--        ,bcr.company_code as companyCode-->
+<!--        ,bcr.member_id as memberId-->
+<!--        ,bcr.min_amount as minAmount-->
+<!--        ,bcr.max_amount as maxAmount-->
+<!--        ,bcr.min_date as minDate-->
+<!--        ,bcr.max_date as maxDate-->
+<!--        ,bcr.product_category_code as productCategoryCode-->
+<!--        ,bcr.month_price as monthPrice-->
+<!--        ,bcr.breed_local as breedLocal-->
+<!--        ,fpc.product_name as productName-->
+<!--        from-->
+<!--        breed_contract_registraion as bcr-->
+<!--        inner join-->
+<!--        farm_product_category as fpc-->
+<!--        ON-->
+<!--        bcr.product_category_code = fpc.product_category_code-->
+<!--        WHERE-->
+<!--        breed_reg_code = #{};-->
+<!--    </select>-->
+    <select id="getDryContractInfo" parameterType="String" resultType="Contract">
+        SELECT
+            contract_reg_code as contractRegCode
+            ,company_code as companyCode
+            ,member_id as memberId
+            ,min_amount as minAmount
+            ,max_amount as maxAmount
+            ,region as region
+        from
+            dry_contract_registraion
+        WHERE
+            contract_reg_code = #{contractCode};
+    </select>
 
     <select id="getContractInfo" parameterType="String" resultMap="contractResultMap">
         SELECT
