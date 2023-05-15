@@ -40,6 +40,22 @@ public class FarmService {
     private static final Logger log = LoggerFactory.getLogger(FarmService.class);
     final double standardEggWeight = 0.089;
 
+
+    /**
+     * 급여량 등록
+     */
+    public Feed addFeed(Feed feed){
+        String column = "feeding_num";
+        String table = "feeding";
+        String feedingNum = mainMapper.autoIncrement(table, column);
+        String cycleCode = feed.getExpectedCageProductionCode();
+        Cycle cycle = farmMapper.getCycleByCode(cycleCode);
+        String farmCode = cycle.getFarmCode();
+        feed.setFarmCode(farmCode);
+        feed.setFeedingNum(feedingNum);
+        farmMapper.addFeed(feed);
+        return feed;
+    }
     /**
      * 생산량 그래프
      */
