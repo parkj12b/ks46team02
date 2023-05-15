@@ -2,6 +2,7 @@ package ks46team02.admin.service;
 
 import java.util.List;
 
+import ks46team02.admin.dto.AdminLevel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,11 @@ private final AdminMapper adminMapper;
 		AdminMember adminInfo =adminMapper.getAdminInfoById(adminId);
 		return adminInfo;
 	}
+	/* 등급별 관리자 조회 */
+	public List<AdminMember> getAdminLevelSearchList(String adminLevel){
+		List<AdminMember> levelSearchInfo = adminMapper.getAdminLevelSearchList(adminLevel);
+		return levelSearchInfo;
+	}
 	/* 탈퇴한 관리자 조회  */
 	public List<AdminMember> getWithdrawalAdminList(){
 		List<AdminMember> withdrawalAdminList = adminMapper.getWithdrawalAdminList();
@@ -37,5 +43,4 @@ private final AdminMapper adminMapper;
 		int result = adminMapper.addAdmin(adminMember);
 		return result;
 	}
-	
 }
