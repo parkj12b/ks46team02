@@ -9,6 +9,7 @@ public class AnswerDto {
 	private String answerTitle;
 	private String answerContent;
 	private String answerFile;
+	private String questionStatus;
 	private String adminId;
 	private String answerRegDate;
 	private String answerModityDate;
@@ -54,6 +55,14 @@ public class AnswerDto {
 	public void setAnswerFile(String answerFile) {
 		this.answerFile = answerFile;
 	}
+	
+	public String getQuestionStatus() {
+		return questionStatus;
+	}
+
+	public void setQuestionStatus(String questionStatus) {
+		this.questionStatus = questionStatus;
+	}
 
 	public String getAdminId() {
 		return adminId;
@@ -98,9 +107,11 @@ public class AnswerDto {
 	@Override
 	public String toString() {
 		return "AnswerDto [answerCode=" + answerCode + ", questionCode=" + questionCode + ", answerTitle=" + answerTitle
-				+ ", answerContent=" + answerContent + ", answerFile=" + answerFile + ", adminId=" + adminId
-				+ ", answerRegDate=" + answerRegDate + ", answerModityDate=" + answerModityDate + ", answerDelYN="
-				+ answerDelYN + ", answerDelDate=" + answerDelDate + "]";
+				+ ", answerContent=" + answerContent + ", answerFile=" + answerFile + ", questionStatus="
+				+ questionStatus + ", adminId=" + adminId + ", answerRegDate=" + answerRegDate + ", answerModityDate="
+				+ answerModityDate + ", answerDelYN=" + answerDelYN + ", answerDelDate=" + answerDelDate + "]";
 	}
+
+	
 
 }

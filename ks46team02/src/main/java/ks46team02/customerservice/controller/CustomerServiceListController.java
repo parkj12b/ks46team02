@@ -10,15 +10,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import ks46team02.customerservice.service.CustomerServiceListService;
 import ks46team02.customerservice.dto.AnswerDto;
 import ks46team02.customerservice.dto.QuestionDto;
@@ -45,12 +43,22 @@ public class CustomerServiceListController {
 		return "customerservice/questionlist";
 	}
 
+	/* 답변내용애 대한 정보 조회 */
 	@GetMapping("/answerlist")
 	public String getAnswerList(Model model) {
+
 		List<AnswerDto> answerList = customerserviceListService.getAnswerList();
+
 		model.addAttribute("title", "문의에 대한 답변 조회");
 		model.addAttribute("answerList", answerList);
+
 		return "customerservice/answerlist";
+	}
+
+	@GetMapping("/addAnwerList")
+	public ResponseEntity<?> addAnswerList(@RequestParam String answerCode) {
+		AnswerDto answerDto = customerserviceListService.getAnswerByCode(answerCode);
+		return new ResponseEntity<>(answerDto, HttpStatus.OK);
 	}
 
 	@GetMapping("/questiontypelist")
@@ -83,7 +91,6 @@ public class CustomerServiceListController {
 		return msg;
 	}
 
-
 	@PostMapping("/modify_questionType_proc")
 	@ResponseBody
 	public String updateQuestionTypeName(QuestionTypeDto questionTypeDto) {
@@ -100,6 +107,13 @@ public class CustomerServiceListController {
 			msg = "success";
 
 		return msg;
+	}
+
+	@PostMapping("/delete_questionType_proc")
+	@ResponseBody
+	public String deleteQuestionType(@RequestParam("questionTypeCode") int questionTypeCode) {
+		boolean success = customerserviceListService.deleteQuestionType(questionTypeCode);
+		return success ? "success" : "fail";
 	}
 
 }
