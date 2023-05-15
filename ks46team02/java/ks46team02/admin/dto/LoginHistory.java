@@ -7,6 +7,17 @@ public class LoginHistory {
 	private String logoutDate;
 	private String memberId;
 	private String ipv4Address;
+
+	private Member memberInfo;
+
+	public Member getMemberInfo() {
+		return memberInfo;
+	}
+
+	public void setMemberInfo(Member memberInfo) {
+		this.memberInfo = memberInfo;
+	}
+
 	public String getLoginCode() {
 		return loginCode;
 	}
@@ -37,10 +48,17 @@ public class LoginHistory {
 	public void setIpv4Address(String ipv4Address) {
 		this.ipv4Address = ipv4Address;
 	}
-	@Override
-	public String toString() {
-		return "LoginHistory [loginCode=" + loginCode + ", LoginDate=" + LoginDate + ", logoutDate=" + logoutDate
-				+ ", memberId=" + memberId + ", ipv4Address=" + ipv4Address + "]";
+
+	@java.lang.Override
+	public java.lang.String toString() {
+		return "LoginHistory{" +
+				"loginCode='" + loginCode + '\'' +
+				", LoginDate='" + LoginDate + '\'' +
+				", logoutDate='" + logoutDate + '\'' +
+				", memberId='" + memberId + '\'' +
+				", ipv4Address='" + ipv4Address + '\'' +
+				", memberInfo=" + memberInfo +
+				'}';
 	}
-	
+
 }

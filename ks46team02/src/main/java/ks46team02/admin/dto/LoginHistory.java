@@ -1,5 +1,7 @@
 package ks46team02.admin.dto;
 
+import ks46team02.common.dto.Member;
+
 public class LoginHistory {
 	
 	private String loginCode;
@@ -7,6 +9,9 @@ public class LoginHistory {
 	private String logoutDate;
 	private String memberId;
 	private String ipv4Address;
+
+	private Member memberInfo;
+
 	public String getLoginCode() {
 		return loginCode;
 	}
@@ -37,10 +42,24 @@ public class LoginHistory {
 	public void setIpv4Address(String ipv4Address) {
 		this.ipv4Address = ipv4Address;
 	}
+
+	public Member getMemberInfo() {
+		return memberInfo;
+	}
+
+	public void setMemberInfo(Member memberInfo) {
+		this.memberInfo = memberInfo;
+	}
+
 	@Override
 	public String toString() {
-		return "LoginHistory [loginCode=" + loginCode + ", LoginDate=" + LoginDate + ", logoutDate=" + logoutDate
-				+ ", memberId=" + memberId + ", ipv4Address=" + ipv4Address + "]";
+		return "LoginHistory{" +
+				"loginCode='" + loginCode + '\'' +
+				", LoginDate='" + LoginDate + '\'' +
+				", logoutDate='" + logoutDate + '\'' +
+				", memberId='" + memberId + '\'' +
+				", ipv4Address='" + ipv4Address + '\'' +
+				", memberInfo=" + memberInfo +
+				'}';
 	}
-	
 }

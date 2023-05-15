@@ -1,124 +1,131 @@
-<!DOCTYPE html>
+`<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/mypageLayout}">
 <head>
-<style>
-input[type="checkbox"] {
-  transform: scale(2);
-  vertical-align: middle;
-}
-</style>
+	<style>
+		input.form-control {
+			width: 200px;
+		}
+
+		input {
+			width: 80px; /* 원하는 크기로 조정 가능 */
+			height: 20px;
+		}
+		input[type=checkbox] {
+			transform: scale(1.5);
+		}
+	</style>
 </head>
 <th:block layout:fragment="customJs">
-<script>
-    $('.cancel').click(function(){
-    	history.go(-1);
-    });
-    </script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script>
+		// 취소버튼
+		$('.cancel').click(function(){
+			history.go(-1);
+		});
+		$('form').submit(function(event) {
+			let adminPosition = $('input[name="adminPosition"]').val();
+			if (typeof adminPosition == 'undefined' || adminPosition == null || adminPosition == '') {
+				Swal.fire({
+					icon: 'warning',
+					title: `${adminPosition}를 입력해주세요.`
+				}).then((result) => {
+					if (result.isConfirmed) {
+						$('input[name="adminPosition"]').focus();
+						Swal.close();
+					}
+				})
+			}
+		});
+		function updateHiddenField(checkbox, hiddenFieldId) {
+			document.getElementById(hiddenFieldId).value = checkbox.checked ? '1' : '0';}
+	</script>
 </th:block>
+
 <th:block layout:fragment="customContent">
 	<div class="page-title">
 		<div class="title">
-			<div class="x_panel">
-				<div class="x_title">
-					<h2>관리자 등급 등록</h2>
+			<div class="col-md-6">
 
-					<ul class="nav navbar-right panel_toolbox" style="flex-direction: row-reverse">
-						<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-						</li>
-						<li class="dropdown">
-							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				<div class="x_panel">
+					<div class="x_title">
+						<h2>관리자 등급 등록</h2>
+						<button type="reset" class="btn btn-white" style="float: right"> <i class="fa fa-repeat"></i></button>
+						<div class="clearfix"></div>
+					</div>
+
+					<div class="x_content">
+						<br>
+						<form id="addAdminLevelForm" class="form-horizontal form-label-left"
+							  th:action="@{/admin/addAdminLevel}" method="post">
+							<table class="table table-hover">
+								<thead>
+								<tr>
+									<th ></th>
+									<th> </th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+									<td>관리자 권한 이름</td>
+									<td><input type="text" class="form-control" id ="adminPosition" name="adminPosition"> </td>
+								</tr>
+								<tr>
+									<td>회원관리</td>
+									<td>
+										<input type="hidden" id="hiddenAdminMember" name="adminMember" value="0" />
+										<input type="checkbox" class="check-self" id="adminMember" onchange="updateHiddenField(this, 'hiddenAdminMember')">
+									</td>
+								</tr>
+								<tr>
+									<td>계약관리</td>
+									<td>
+										<input type="hidden" id="hiddenAdminContract" name="adminContract" value="0" />
+										<input type="checkbox" class="check-self" id="adminContract" onchange="updateHiddenField(this, 'hiddenAdminContract')">
+									</td>
+								</tr>
+								<tr>
+									<td>사육장관리</td>
+									<td>
+										<input type="hidden" id="hiddenAdminFarm" name="adminFarm" value="0" />
+										<input type="checkbox" class="check-self" id="adminFarm" onchange="updateHiddenField(this, 'hiddenAdminFarm')">
+									</td>
+								</tr>
+								<tr>
+									<td>고객문의</td>
+									<td>
+										<input type="hidden" id="hiddenAdminQuestion" name="adminQuestion" value="0" />
+										<input type="checkbox" class="check-self" id="adminQuestion" onchange="updateHiddenField(this, 'hiddenAdminQuestion')">
+									</td>
+								</tr>
+								<tr>
+									<td>플랫폼설정</td>
+									<td>
+										<input type="hidden" id="hiddenAdminSetting" name="adminSetting" value="0" />
+										<input type="checkbox" class="check-self" id="adminSetting" onchange="updateHiddenField(this, 'hiddenAdminSetting')">
+									</td>
+								</tr>
+								<tr>
+									<td>결졔관리</td>
+									<td>
+										<input type="hidden" id="hiddenAdminPayment" name="adminPayment" value="0" />
+										<input type="checkbox" class="check-self" id="adminPayment" onchange="updateHiddenField(this, 'hiddenAdminPayment')">
+									</td>
+								</tr>
+								</tbody>
+							</table>
+
+							<div class="col-md-9 col-sm-9  offset-md-5">
+								<button type="submit" class="btn btn-dark add" >등록</button>
+								<button type="reset" class="btn btn-dark cancel">취소</button>
 							</div>
-						</li>
-					</ul>
-
-					<div class="clearfix"></div>
-				</div>
-				<div class="x_content">
-					<div class="row">
-						<div class="col-sm-8">
-							<div class="card-box table-responsive">
-								<div class="col-sm-8">
-									<!-- <div th:include="~{admin/search/search :: memberSearch}"></div> -->
-
-
-									<table id="datatable1"  class="table table-hover">
-										<thead>
-										<tr>
-											<th></th>
-											<th></th>
-										</tr>
-										</thead>
-										<tbody>
-										<tr>
-											<td>관리자 직위</td>
-											<td>
-												<input type=text">
-											</td>
-										</tr>
-										<tr>
-											<td>회원관리</td>
-											<td>
-												<label class="checkbox-inline">
-													<input type="checkbox" id="check" onclick="chkClicked()" value="">
-												</label>
-											</td>
-										</tr>
-										<tr>
-											<td>계약관리</td>
-											<td>
-												<label class="checkbox-inline">
-													<input type="checkbox" onclick="chkClicked()" value="">
-												</label>
-											</td>
-										</tr>
-										<tr>
-											<td>동에등애 사육장관리</td>
-											<td>
-												<label class="checkbox-inline">
-													<input type="checkbox" onclick="chkClicked()" value="">
-												</label>
-											</td>
-										</tr>
-										<tr>
-											<td>고객 문의 관리</td>
-											<td>
-												<label class="checkbox-inline">
-													<input type="checkbox" onclick="chkClicked()" value="">
-												</label>
-											</td>
-										</tr>
-										<tr>
-											<td></td>
-											<td>
-												<label class="checkbox-inline">
-													<input type="checkbox" onclick="chkClicked()" value="">
-												</label>
-											</td>
-										</tr>
-										<tr>
-											<td></td>
-											<td>
-												<label class="checkbox-inline">
-													<input type="checkbox" onclick="chkClicked()" value="">
-												</label>
-											</td>
-										</tr>
-										</tbody>
-									</table>
-								</div>
-								<div class="col-md-12 text-right">
-									<button class="btn btn-primary float-right" type="button">관리자 등급 등록</button>
-								</div>
-							</div>
-						</div>
+					</div>
+					</form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
-
 </th:block>
-</html>
+</html>`

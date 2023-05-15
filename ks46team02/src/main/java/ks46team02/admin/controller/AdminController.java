@@ -166,6 +166,16 @@ public class AdminController {
 		model.addAttribute("sessionId",sessionId);
 		return "admin/apply_company_reg_list";
 	}
+	/* 등급별 관리자 목록 조회*/
+	@PostMapping("/adminLevelCheck")
+	@ResponseBody
+	public List<AdminMember> getAdminLevelSearchList(@RequestParam(name="adminLevel") String adminLevel){
+		List<AdminMember> levelInfo = adminService.getAdminLevelSearchList(adminLevel);
+
+		return levelInfo;
+	}
+
+
     /* 전체 관리자 목록 조회 */
 	@GetMapping("/adminList")
 	public String getAdminList(Model model) {
@@ -234,15 +244,19 @@ public class AdminController {
 		model.addAttribute("adminLevelList1", adminLevelList1);
 		return "admin/add_admin";
 	}
+	/* 관리자 등급 등록*/
+	@PostMapping("/addAdminLevel")
+	public String addAdminLevel(AdminLevel adminLevel) {
+		adminLevelService.addAdminLevel(adminLevel);
+		return "redirect:/admin/adminLevelList";
+	}
 	/* 관리자 등급 등록 */
 	@GetMapping("/addAdminLevel")
 	public String addAdminLevel(Model model){
-		List<AdminLevel>adminLevelList =adminLevelService.getAdminLevelList();
-		model.addAttribute("title", "관리자 등급 등록");
-		model.addAttribute("adminLevelList", adminLevelList);
+		model.addAttribute("title","관리자 등급 등록");
 		return "admin/add_adminLevel";
 	}
-	/* 관리자등급 수정   */
+	/* 관리자 등급 수정   */
 	@PostMapping("/modifyAdminLevel")
 	@ResponseBody
 	public void modifyAdminLevel(AdminLevel adminLevel) {

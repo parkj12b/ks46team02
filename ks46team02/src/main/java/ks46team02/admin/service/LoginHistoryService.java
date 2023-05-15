@@ -3,7 +3,10 @@ package ks46team02.admin.service;
 
 import java.util.List;
 
+import ks46team02.admin.controller.AdminController;
 import ks46team02.common.dto.Member;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +20,12 @@ public class LoginHistoryService {
 private final LoginHistoryMapper loginHistoryMapper;
 private final MainMapper mainMapper;
 private  final MemberService memberService;
+
+	private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 	
 	public LoginHistoryService(LoginHistoryMapper loginHistoryMapper, MainMapper mainMapper, MemberService memberService) {
 		this.loginHistoryMapper = loginHistoryMapper;
 		this.mainMapper = mainMapper;
-
 		this.memberService = memberService;
 	}
 
@@ -39,4 +43,11 @@ private  final MemberService memberService;
 	        return result;
 	    }
 
+		/* 휴면될 회원들 조회*/
+	public List<LoginHistory> getDormentLoginList() {
+		List<LoginHistory> loginDormentList =loginHistoryMapper.getDormentLoginList();
+		log.info("loginDormentList:{}",loginDormentList);
+
+		return loginDormentList;
+	}
 }
