@@ -8,6 +8,7 @@ public class ContractStandard {
 	private String contStandUnit;
 	private String contStandRegDate;
 	private String adminId;
+	private String standardDescription;
 	public String getContStandCode() {
 		return contStandCode;
 	}
@@ -50,11 +51,26 @@ public class ContractStandard {
 	public void setAdminId(String adminId) {
 		this.adminId = adminId;
 	}
+
+	public String getStandardDescription() {
+		return standardDescription;
+	}
+
+	public void setStandardDescription(String standardDescription) {
+		this.standardDescription = standardDescription;
+	}
+
 	@Override
 	public String toString() {
-		return "contractStandard [contStandCode=" + contStandCode + ", contAppStand=" + contAppStand
-				+ ", contStandInfo=" + contStandInfo + ", contStandValue=" + contStandValue + ", contStandUnit="
-				+ contStandUnit + ", contStandRegDate=" + contStandRegDate + ", adminId=" + adminId + "]";
+		return "ContractStandard{" +
+				"contStandCode='" + contStandCode + '\'' +
+				", contAppStand='" + contAppStand + '\'' +
+				", contStandInfo='" + contStandInfo + '\'' +
+				", contStandValue='" + contStandValue + '\'' +
+				", contStandUnit='" + contStandUnit + '\'' +
+				", contStandRegDate='" + contStandRegDate + '\'' +
+				", adminId='" + adminId + '\'' +
+				", standardDescription='" + standardDescription + '\'' +
+				'}';
 	}
-	
 }
