@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mypageLayout}">
+<head>
+<meta charset="UTF-8">
+<title th:text="${title}"></title>
+<style>
+.container-below {
+	border-top: 2px solid #E6E9ED;
+	margin-top: 30px;
+	padding-top: 20px;
+	padding-left: 0;
+}
+#mentorApprovalLabel{
+	float: right;
+	margin: 15px;
+}
+.like-h2{
+	font-size: 18px;
+	float: left;
+}
+</style>
+</head>
+<th:block layout:fragment="customJs">
+	<script>
+		$('.datatable-custom').dataTable({
+			length : true,
+			paginate : true,
+			info : true,
+			searching : true,
+			destroy: true,
+			language: lang_ko
+		})
+		var mentorlistTable = $('#datatable-mentor-list').DataTable({
+					length : true,
+					paginate : true,
+					info : true,
+					searching : true,
+					language: lang_ko
+					
+		})
+		$(function(){
+			$('#mentorApproval').change(function(){
+				console.log(mentorlistTable);
+				mentorlistTable
+					.columns(10)
+					.search(this.value)
+					.draw();
+			})
+		})
+		
+		
+		
+		const mentorApprove = function(mentorAppCode, companyCode) {
+			Swal.fire({
+				icon : 'question',
+				title : `${companyCode}`,
+				text : '위 업체를 멘토로 승인하시겠습니까?',
+				showConfirmButton : true,
+				showCancelButton : true,
+				confirmButtonText : '승인',
+				cancelButtonText : '취소'
+			}).then(result => {
+				if(result.isConfirmed){
+					$.ajax({
+						url: `/admin/mentorRegApprove`,
+						method: "post",
+						dataType: "json",
+						data: {
+							mentorAppCode: mentorAppCode,
+							adminId: `[[${session.sessionId}]]`
+						}
+					}).done(data => {
+						if(data.isSuccess){
+							Swal.fire({
+								icon: 'success',
+								title: data.msg,
+								showConfirmButton: true,
+								confirmButtonText: '확인'
+							}).then(function(){
+								location.reload();
+							})
+						}else {
+							Swal.fire({
+								icon: 'error',
+								title: data.msg,
+								showConfirmButton: true,
+								confirmButtonText: '확인'
+							})
+						}
+						
+					})
+				}
+			})
+		}
+		const mentorDeny = function(mentorAppCode, companyCode) {
+			Swal.fire({
+				icon : 'question',
+				title : `${companyCode}`,
+				text : '위 업체를 승인거부 하시겠습니까?',
+				showConfirmButton : true,
+				showCancelButton : true,
+				confirmButtonText : '승인거부',
+				cancelButtonText : '취소'
+			}).then(result => {
+				if(result.isConfirmed){
+					$.ajax({
+						url: `/admin/mentorRegDeny`,
+						method: "post",
+						dataType: "json",
+						data: {
+							mentorAppCode: mentorAppCode,
+							adminId: `[[${session.sessionId}]]`
+						}
+					}).done(data => {
+						if(data.isSuccess){
+							Swal.fire({
+								icon: 'success',
+								title: data.msg,
+								showConfirmButton: true,
+								confirmButtonText: '확인'
+							}).then(function(){
+								location.reload();
+							})
+						}else {
+							Swal.fire({
+								icon: 'error',
+								title: data.msg,
+								showConfirmButton: true,
+								confirmButtonText: '확인'
+							})
+						}
+						
+					})
+				}
+			})
+		}
+		
+		const deleteMentorRegHistory = function(mentorAppCode, companyCode) {
+			Swal.fire({
+				icon : 'question',
+				title : `${companyCode}`,
+				text : '위 업체의 멘토등록기록을 삭제 하시겠습니까?',
+				showConfirmButton : true,
+				showCancelButton : true,
+				confirmButtonText : '삭제',
+				cancelButtonText : '취소'
+			}).then(result => {
+				if(result.isConfirmed){
+					$.ajax({
+						url: `/admin/mentorRegDelete`,
+						method: "post",
+						dataType: "json",
+						data: {
+							mentorAppCode: mentorAppCode,
+							adminId: `[[${session.sessionId}]]`
+						}
+					}).done(data => {
+						if(data.isSuccess){
+							Swal.fire({
+								icon: 'success',
+								title: data.msg,
+								showConfirmButton: true,
+								confirmButtonText: '확인'
+							}).then(function(){
+								location.reload();
+							})
+						}else {
+							Swal.fire({
+								icon: 'error',
+								title: data.msg,
+								showConfirmButton: true,
+								confirmButtonText: '확인'
+							})
+						}
+						
+					})
+				}
+			})
+		}
+	</script>
+</th:block>
+<body>
+	<th:block layout:fragment="customContent">
+		<div class="col-md-12 col-sm-12 ">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>
+						멘토멘티 승인 여부 조회 <small>멘토</small>
+					</h2>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="card-box table-responsive">
+								<div id="datatable_wrapper"
+									class="dataTables_wrapper container-fluid dt-bootstrap no-footer">
+									<div class="row">
+										<div class="col-sm-12">
+											<table
+												class="datatable-custom table table-striped table-bordered dataTable no-footer"
+												style="width: 100%;" role="grid"
+												aria-describedby="datatable_info">
+												<thead>
+													<tr role="row">
+														<th>업체코드</th>
+														<th>회원아이디</th>
+														<th>신청일자</th>
+														<th>직전연도</th>
+														<th>직전연도 매출(억)</th>
+														<th>매출적합여부</th>
+														<th>경력(년)</th>
+														<th>경력(월)</th>
+														<th>경력적합도</th>
+														<th>증명 서류</th>
+														<th>승인</th>
+														<th>거부</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="m : ${mentorRegList}"
+														th:if="${mentorRegList != null}">
+														<td th:text="${m.companyCode}"></td>
+														<td th:text="${m.memberId}"></td>
+														<td th:text="${m.mentorApplyDate}"></td>
+														<td th:text="${m.previousYear}"></td>
+														<td th:text="${m.previousYearSales}"></td>
+														<td th:if="${m.salesSuitability}" th:text="적합"></td>
+														<td th:unless="${m.salesSuitability}" th:text="부적합"></td>
+														<td th:text="${m.careerYear}"></td>
+														<td th:text="${m.careerMonth}"></td>
+														<td th:if="${m.careerSuitability}" th:text="적합"></td>
+														<td th:unless="${m.careerSuitability}" th:text="부적합"></td>
+														<td th:text="${m.documentaryEvidence}"></td>
+														<td><a
+															th:attr="onclick=|mentorApprove('${m.mentorAppCode}','${m.companyCode}')|">승인</a></td>
+														<td><a
+															th:attr="onclick=|mentorDeny('${m.mentorAppCode}','${m.companyCode}')|">거부</a></td>
+													</tr>
+													<tr th:unless="${mentorRegList != null}">
+														<td colspan="12">멘토멘티 신청여부가 존재하지 않습니다.</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+										<div class="container-below col-sm-12 col-md-12">
+											<div class="like-h2" style="margin-bottom: 20px;">
+												<span>멘토승인/거부 기록</span>
+											</div>
+											<label for="mentorApproval" id="mentorApprovalLabel">
+												멘토 승인여부: 
+												<select name="mentorApproval" id="mentorApproval" class="form-control">
+												<option value="">승인여부 선택</option>
+												<option value="denied">승인거부</option>
+												<option value="approved">승인</option>
+											</select>
+											</label>
+											
+											<table id="datatable-mentor-list"
+												class="table table-striped table-bordered dataTable no-footer"
+												style="width: 100%;" role="grid"
+												aria-describedby="datatable_info">
+												<thead>
+													<tr role="row">
+														<th>업체코드</th>
+														<th>회원아이디</th>
+														<th>신청일자</th>
+														<th>직전연도</th>
+														<th>직전연도 매출(억)</th>
+														<th>매출적합여부</th>
+														<th>경력(년)</th>
+														<th>경력(월)</th>
+														<th>경력적합도</th>
+														<th>증명 서류</th>
+														<th>승인여부</th>
+														<th>삭제</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="m : ${mentorList}"
+														th:if="${mentorList != null}">
+														<td th:text="${m.companyCode}"></td>
+														<td th:text="${m.memberId}"></td>
+														<td th:text="${m.mentorApplyDate}"></td>
+														<td th:text="${m.previousYear}"></td>
+														<td th:text="${m.previousYearSales}"></td>
+														<td th:if="${m.salesSuitability}" th:text="적합"></td>
+														<td th:unless="${m.salesSuitability}" th:text="부적합"></td>
+														<td th:text="${m.careerYear}"></td>
+														<td th:text="${m.careerMonth}"></td>
+														<td th:if="${m.careerSuitability}" th:text="적합"></td>
+														<td th:unless="${m.careerSuitability}" th:text="부적합"></td>
+														<td th:text="${m.documentaryEvidence}"></td>
+														<td th:text="${m.mentorApproval}"></td>
+														<td><a
+															th:attr="onclick=|deleteMentorRegHistory('${m.mentorAppCode}','${m.companyCode}')|">삭제</a></td>
+													</tr>
+													<tr th:unless="${mentorList != null}">
+														<td colspan="12">멘토멘티 신청여부가 존재하지 않습니다.</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</body>
+</html>

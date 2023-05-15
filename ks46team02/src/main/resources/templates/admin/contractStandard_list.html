@@ -40,18 +40,20 @@ input[type="number"] {
 	    var modifyButton = $(this);
 	    var cancelButton = tr.find('.cancel');
 	    var prevValues = []; // 이전 값 저장할 배열
-	    tr.find('td:nth-child(n+3):nth-child(-n+4)').each(function() {
+	    tr.find('td:nth-child(n+3):nth-child(-n+4),td:nth-child(6)').each(function() {
 	      var value = $(this).text();
 	      prevValues.push(value); // 이전 값 저장
 	      var input;
-	      if ($(this).index() == 2) {
-	    	  input = $('<input>').val(value);
-		      $(this).html(input);
-	      } else {
+
+             if($(this).index() == 3){
 	    	  input = $('<input>').val(value).attr('type', 'number').attr('min', '0');
 		      $(this).html(input);
 	      }
-	    });
+            else{
+                input = $('<input>').val(value);
+                $(this).html(input);
+            }
+        });
 	    modifyButton.text('저장');
 	    modifyButton.removeClass('modify').addClass('save');
 	    cancelButton.attr('prev-values', prevValues);
@@ -60,7 +62,7 @@ input[type="number"] {
 	  $('table tbody').on('click', '.cancel', function(){
 	    var tr = $(this).closest('tr');
 	    var currentValues = $(this).attr('prev-values').split(","); // 현재 값 배열 가져오기
-	    tr.find('td:nth-child(n+3):nth-child(-n+4)').each(function(index) {
+	    tr.find('td:nth-child(n+3):nth-child(-n+4),td:nth-child(6)').each(function(index) {
 	    var value = currentValues[index];
 	    var saveButton = tr.find('.save');
 	    saveButton.text('수정');
@@ -161,6 +163,7 @@ input[type="number"] {
                                             <th>기준 설명</th>
                                             <th>기준값</th>
                                             <th>단위</th>
+                                            <th>계약 설명</th>
                                             <th>계약 승인 등록 일자</th>
                                             <th>등록 관리자</th>
                                             <th></th>
@@ -174,6 +177,7 @@ input[type="number"] {
                                             <td th:text="${l.contStandInfo}"></td>
                                             <td th:text="${l.contStandValue}"></td>
                                             <td th:text="${l.contStandUnit}"></td>
+                                            <td th:text="${l.standardDescription}"></td>
                                             <td th:text="${l.contStandRegDate}"></td>
                                             <td th:text="${l.adminId}"></td>
                                             <td>                                            

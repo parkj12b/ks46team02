@@ -10,15 +10,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import ks46team02.customerservice.service.CustomerServiceListService;
 import ks46team02.customerservice.dto.AnswerDto;
 import ks46team02.customerservice.dto.QuestionDto;
@@ -33,6 +31,7 @@ public class CustomerServiceListController {
 
 	private static final Logger log = LoggerFactory.getLogger(CustomerServiceListController.class);
 
+	/* 문의내역 조회 */
 	@GetMapping("/questionlist")
 	public String getQuestionList(Model model) {
 
@@ -45,14 +44,37 @@ public class CustomerServiceListController {
 		return "customerservice/questionlist";
 	}
 
+	/* 답변내용애 대한 정보 조회 */
 	@GetMapping("/answerlist")
 	public String getAnswerList(Model model) {
+
 		List<AnswerDto> answerList = customerserviceListService.getAnswerList();
+
 		model.addAttribute("title", "문의에 대한 답변 조회");
 		model.addAttribute("answerList", answerList);
+
 		return "customerservice/answerlist";
 	}
 
+	/* 답변세부내용 조회추가 */
+	@GetMapping("/addAnwerList")
+	public ResponseEntity<?> addAnswerList(@RequestParam String answerCode) {
+		AnswerDto answerDto = customerserviceListService.getAnswerByCode(answerCode);
+		return new ResponseEntity<>(answerDto, HttpStatus.OK);
+	}
+
+	/*
+	 * 답변 삭제
+	 * 
+	 * @PostMapping("/remove_answer_proc")
+	 * 
+	 * @ResponseBody public String removeAnswer(@RequestParam("answerCode") String
+	 * answerCode) { boolean success =
+	 * customerserviceListService.removeAnswer(answerCode); return success ?
+	 * "success" : "fail"; }
+	 */
+
+	/* 문의유형 조회 */
 	@GetMapping("/questiontypelist")
 	public String getQuestionTypeList(Model model, QuestionTypeDto questionTypeDto) {
 
@@ -73,6 +95,7 @@ public class CustomerServiceListController {
 
 	}
 
+	/* 문의유형 등록 */
 	@PostMapping("/add_questionType_proc")
 	@ResponseBody
 	public String registerQuestionType(QuestionTypeDto questionTypeDto) {
@@ -83,7 +106,7 @@ public class CustomerServiceListController {
 		return msg;
 	}
 
-
+	/* 문의유형 수정 */
 	@PostMapping("/modify_questionType_proc")
 	@ResponseBody
 	public String updateQuestionTypeName(QuestionTypeDto questionTypeDto) {
@@ -100,6 +123,14 @@ public class CustomerServiceListController {
 			msg = "success";
 
 		return msg;
+	}
+
+	/* 문의 유형 삭제 */
+	@PostMapping("/delete_questionType_proc")
+	@ResponseBody
+	public String deleteQuestionType(@RequestParam("questionTypeCode") int questionTypeCode) {
+		boolean success = customerserviceListService.deleteQuestionType(questionTypeCode);
+		return success ? "success" : "fail";
 	}
 
 }

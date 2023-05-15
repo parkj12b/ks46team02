@@ -10,20 +10,31 @@
 		<result column="member_id"  				property="memberId"/>
 		<result column="ipv4_address"  				property="ipv4Address"/>
 </resultMap>
-	<select id="getDormentLoginList" resultMap="loginHistoryResultMap">
-		/* 최근 로그인 기록이 90일 이상인 회원 조회 */
+	<select id="getDormentLoginList" resultType="LoginHistory">
+		/* 자동으로 휴면처리될 회원 조회*/
 		SELECT
-			max(member_id)
+			max(member_id) as memberId
 		FROM
 			login_history as l
 
 		WHERE
 			DATEDIFF(NOW(),login_date)>90
-		GROUP by member_id;
-
-
+		GROUP by member_id
+		union
+		SELECT
+		m.member_id as memberId
+		FROM
+		member_info as m
+		left join
+		login_history as l
+		on m.member_id = l.member_id
+		WHERE
+		DATEDIFF(now(), member_reg_date )> 90
+		and m.member_status = "normal";
 
 	</select>
+
+
 
 		<insert id="addLoginHistory" parameterType="LoginHistory">
 			/* 로그인 기록 등록 */
