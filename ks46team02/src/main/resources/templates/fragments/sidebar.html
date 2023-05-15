@@ -56,7 +56,7 @@
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
 					<li><a th:href="@{/contract/contractList}">#최학준 동애등에 계약 공고</a></li>
-					<li><a href="#">#최학준 동애등에 계약 공고 등록</a></li>
+					<li><a th:href="@{/contract/addContract}">#최학준 동애등에 계약 공고 등록</a></li>
 					<li><a href="#">#최학준 신청한 건조업체 계약조회</a></li>
 					<li><a href="#">#최학준 신청한 구매업체 계약조회</a></li>
 				</ul></li>
@@ -228,12 +228,12 @@
 			<li><a><i class="fa fa-users"></i> 멘토멘티 관리 <span
 					class="fa fa-chevron-down"></span></a>
 				<ul class="nav child_menu">
-					<li><a href="/admin/mentorRegManageList">#멘토 신청 관리</a></li>
-					<li><a href="/admin/menteeRegManageList">#멘티 신청 관리</a></li>
-					<li><a href="#">#멘토 방문 기록 관리</a></li>
-					<li><a href="#">#멘토 평가 결과 기록 관리</a></li>
-					<li><a href="#">#멘토 멘티 평가 대분류 관리</a></li>
-					<li><a href="#">#멘토 평가 세부항목 관리</a></li>
+					<li><a href="/admin/mentorRegList">!멘토 신청 관리</a></li>
+					<li><a href="/admin/menteeRegList">!멘티 신청 관리</a></li>
+					<li><a href="/admin/mentorVisitHistory">!멘토 방문 기록 관리</a></li>
+					<li><a href="/admin/mentorResultHistory">!멘토 평가 결과 기록 관리</a></li>
+					<li><a href="/admin/mentorEvaluationLargeCategory">!멘토 멘티 평가 대분류 관리</a></li>
+					<li><a href="/admin/mentorEvaluationDetailCategory">!멘토 평가 세부항목 관리</a></li>
 					<li><a href="#">#멘토 평가 평가 기준관리</a></li>
 				</ul></li>
 			<li><a><i class="fa fa-bug"></i> 사육장 <span

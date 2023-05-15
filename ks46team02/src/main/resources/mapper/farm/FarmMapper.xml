@@ -4,6 +4,14 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ks46team02.farm.mapper.FarmMapper">
 
+    <!--  먹이 급여 등록    -->
+    <insert id="addFeed" parameterType="Feed">
+        INSERT INTO
+        feeding
+        (feeding_num, company_code, farm_code, expected_cage_production_code, feeding_amount, feeding_date, member_id)
+        VALUES (#{feedingNum}, #{companyCode}, #{farmCode}, #{expectedCageProductionCode}, #{feedingAmount}, #{feedingDate}, #{memberId})
+    </insert>
+
     <!-- 생산량 그래프    -->
     <select id="getProductionGraph" resultType="Production">
         SELECT
@@ -373,7 +381,7 @@
         farm_code AS farmCode,
         expected_cage_production_code AS expectedCageProductionCode,
         feeding_amount AS feedingAmount,
-        feeding_date AS feedingDate,
+        DATE_FORMAT(feeding_date, '%Y-%m-%d') AS feedingDate,
         member_id AS memberId
         FROM
         feeding

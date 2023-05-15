@@ -66,6 +66,25 @@ public class FarmController {
 		this.memberService = memberService;
 		this.farmMapper = farmMapper;
 	}
+
+	/**
+	 * 먹이 급여량 등록
+	 */
+	@PostMapping("/addFeed")
+	@ResponseBody
+	public Feed addFeed(Feed feed
+						,HttpSession session) {
+		String memberId = (String) session.getAttribute("sessionId");
+		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+
+		feed.setCompanyCode(companyCode);
+		feed.setMemberId(memberId);
+		log.info("화면에서 전달받은 데이터 : {}", feed);
+		return farmService.addFeed(feed);
+	}
+	/**
+	 * 생산량 그래프
+	 */
 	@GetMapping("/productionGraph")
 	@ResponseBody
 	public List<Production> getProductionGraph(String farmCode){
