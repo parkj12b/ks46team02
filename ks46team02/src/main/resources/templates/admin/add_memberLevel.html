@@ -27,9 +27,10 @@
 		$('form').submit(function(event) {
 			let memberLevelName = $('input[name="memberLevelName"]').val();
 			if (typeof memberLevelName == 'undefined' || memberLevelName == null || memberLevelName == '') {
+				event.preventDefault();
 				Swal.fire({
 					icon: 'warning',
-					title: `${memberLevelName}를 입력해주세요.`
+					title: `직원별 권한 명칭을 입력해주세요.`
 				}).then((result) => {
 					if (result.isConfirmed) {
 						$('input[name="memberLevelName"]').focus();
