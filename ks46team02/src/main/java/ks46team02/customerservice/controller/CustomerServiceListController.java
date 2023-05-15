@@ -31,6 +31,7 @@ public class CustomerServiceListController {
 
 	private static final Logger log = LoggerFactory.getLogger(CustomerServiceListController.class);
 
+	/* 문의내역 조회 */
 	@GetMapping("/questionlist")
 	public String getQuestionList(Model model) {
 
@@ -55,12 +56,25 @@ public class CustomerServiceListController {
 		return "customerservice/answerlist";
 	}
 
+	/* 답변세부내용 조회추가 */
 	@GetMapping("/addAnwerList")
 	public ResponseEntity<?> addAnswerList(@RequestParam String answerCode) {
 		AnswerDto answerDto = customerserviceListService.getAnswerByCode(answerCode);
 		return new ResponseEntity<>(answerDto, HttpStatus.OK);
 	}
 
+	/*
+	 * 답변 삭제
+	 * 
+	 * @PostMapping("/remove_answer_proc")
+	 * 
+	 * @ResponseBody public String removeAnswer(@RequestParam("answerCode") String
+	 * answerCode) { boolean success =
+	 * customerserviceListService.removeAnswer(answerCode); return success ?
+	 * "success" : "fail"; }
+	 */
+
+	/* 문의유형 조회 */
 	@GetMapping("/questiontypelist")
 	public String getQuestionTypeList(Model model, QuestionTypeDto questionTypeDto) {
 
@@ -81,6 +95,7 @@ public class CustomerServiceListController {
 
 	}
 
+	/* 문의유형 등록 */
 	@PostMapping("/add_questionType_proc")
 	@ResponseBody
 	public String registerQuestionType(QuestionTypeDto questionTypeDto) {
@@ -91,6 +106,7 @@ public class CustomerServiceListController {
 		return msg;
 	}
 
+	/* 문의유형 수정 */
 	@PostMapping("/modify_questionType_proc")
 	@ResponseBody
 	public String updateQuestionTypeName(QuestionTypeDto questionTypeDto) {
@@ -109,6 +125,7 @@ public class CustomerServiceListController {
 		return msg;
 	}
 
+	/* 문의 유형 삭제 */
 	@PostMapping("/delete_questionType_proc")
 	@ResponseBody
 	public String deleteQuestionType(@RequestParam("questionTypeCode") int questionTypeCode) {

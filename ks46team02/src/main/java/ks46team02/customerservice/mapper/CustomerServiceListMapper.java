@@ -17,15 +17,20 @@ public interface CustomerServiceListMapper {
 
 	/* 문의 조회 중 답변 내역 조회 */
 	public List<AnswerDto> getAnswerList();
-	
+
+	/* 답변 수정 */
 	public int modifyAnswerList(AnswerDto answerDto);
-	
-	/* 답변 새부나용 조회 */
+
+	/* 답변 세부내용 조회 */
 	public AnswerDto getAnswerByCode(@Param("answerCode") String answerCode);
-	
+
+	/*
+	 * 답변 삭제 public boolean removeAnswer(String answerCode);
+	 */
+
 	/* 문의 유형 조회 */
 	public List<QuestionTypeDto> getQuestionTypeList();
-	
+
 	public int getNextQuestionTypeCode();
 
 	public int insertQuestionType(QuestionTypeDto questionTypeDto);
@@ -34,7 +39,4 @@ public interface CustomerServiceListMapper {
 
 	public boolean deleteQuestionType(int questionTypeCode);
 
-
-
-	
 }

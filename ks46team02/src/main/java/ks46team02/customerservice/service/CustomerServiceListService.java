@@ -35,6 +35,12 @@ public class CustomerServiceListService {
 	public AnswerDto  getAnswerByCode(String answerCode) {
 		return customerserviceListMapper.getAnswerByCode(answerCode);
 	}
+	
+	/*
+	 * public boolean removeAnswer(String answerCode) { return
+	 * customerserviceListMapper.removeAnswer(answerCode); }
+	 */
+
 
 
 	public List<QuestionTypeDto> getQuestionTypeList() {
@@ -59,6 +65,7 @@ public class CustomerServiceListService {
 	public boolean deleteQuestionType(int questionTypeCode) {
 		return customerserviceListMapper.deleteQuestionType(questionTypeCode);
 	}
+	
 
 
 }

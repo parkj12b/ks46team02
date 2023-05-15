@@ -99,9 +99,13 @@
 		where
 		a.answer_code = #{answerCode};
 	</select>
-
-
-
+	
+<!-- 	<delete id="removeAnswer" parameterType="String">
+		DELETE FROM
+		answer
+		WHERE answer_code = #{answerCode}
+	</delete> -->
+	
 	<update id="modifyAnswerList" parameterType="AnswerDto">
 		UPDATE answer
 		<set>
@@ -123,7 +127,6 @@
 		</set>
 		WHERE answer_code = #{answerCode} and answer_del_yn ='N';
 	</update>
-
 
 	<select id="getQuestionTypeList"
 		resultMap="questiontypeListResultMap">
