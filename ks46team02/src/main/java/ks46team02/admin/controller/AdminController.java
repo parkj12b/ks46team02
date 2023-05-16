@@ -1,61 +1,29 @@
 package ks46team02.admin.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import groovy.util.logging.Slf4j;
+import jakarta.servlet.http.HttpSession;
+import ks46team02.admin.dto.*;
+import ks46team02.admin.mapper.*;
+import ks46team02.admin.service.*;
+import ks46team02.common.dto.Addr;
+import ks46team02.common.dto.AdminMember;
+import ks46team02.common.dto.Member;
+import ks46team02.common.mapper.MainMapper;
+import ks46team02.company.dto.Company;
+import ks46team02.company.service.CompanyService;
+import ks46team02.farm.dto.*;
+import ks46team02.farm.mapper.MentorMenteeMapper;
+import ks46team02.farm.service.MentorMenteeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import groovy.util.logging.Slf4j;
-import jakarta.servlet.http.HttpSession;
-import ks46team02.admin.dto.AdminLevel;
-import ks46team02.admin.dto.ContractStandard;
-import ks46team02.admin.dto.LoginHistory;
-import ks46team02.admin.dto.MemberLevel;
-import ks46team02.admin.dto.WithdrawalMember;
-import ks46team02.admin.mapper.AddrMapper;
-import ks46team02.admin.mapper.AdminLevelMapper;
-import ks46team02.admin.mapper.AdminMapper;
-import ks46team02.admin.mapper.LoginHistoryMapper;
-import ks46team02.admin.mapper.MemberLevelMapper;
-import ks46team02.admin.mapper.MemberMapper;
-import ks46team02.admin.mapper.WithdrawalMemberMapper;
-import ks46team02.admin.service.AddrService;
-import ks46team02.admin.service.AdminLevelService;
-import ks46team02.admin.service.AdminMMservice;
-import ks46team02.admin.service.AdminService;
-import ks46team02.admin.service.ContractStandardService;
-import ks46team02.admin.service.LoginHistoryService;
-import ks46team02.admin.service.MemberLevelService;
-import ks46team02.admin.service.MemberService;
-import ks46team02.admin.service.WithdrawalMemberService;
-import ks46team02.common.dto.Addr;
-import ks46team02.common.dto.AdminMember;
-import ks46team02.common.dto.Member;
-import ks46team02.company.dto.Company;
-import ks46team02.company.service.CompanyService;
-import ks46team02.farm.dto.EvaluationDetailCategory;
-import ks46team02.farm.dto.EvaluationDetailCategory;
-import ks46team02.farm.dto.EvaluationLargeCategory;
-import ks46team02.farm.dto.MMRegInfoMentee;
-import ks46team02.farm.dto.MMRegInfoMentor;
-import ks46team02.farm.dto.VisitHistory;
-import ks46team02.farm.mapper.MentorMenteeMapper;
-import ks46team02.farm.service.MentorMenteeService;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admin")
@@ -81,6 +49,8 @@ public class AdminController {
 	private final WithdrawalMemberMapper withdrawalMemberMapper;
 	private final MentorMenteeService mentorMenteeService;
 	private final MentorMenteeMapper mentorMenteeMapper;
+
+	private final MainMapper mainMapper;
 	
 	private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
@@ -103,7 +73,8 @@ public class AdminController {
     					  ,WithdrawalMemberMapper withdrawalMemberMapper
 						  ,CompanyService companyService
 						  ,MentorMenteeService mentorMenteeService
-						  ,MentorMenteeMapper mentorMenteeMapper) {
+						  ,MentorMenteeMapper mentorMenteeMapper
+						  ,MainMapper mainMapper) {
 		this.mentorMenteeMapper = mentorMenteeMapper;
 		this.mentorMenteeService = mentorMenteeService;
 		this.addrService = addrService;
@@ -122,6 +93,7 @@ public class AdminController {
 	    this.loginHistoryMapper = loginHistoryMapper;
 	    this.withdrawalMemberMapper = withdrawalMemberMapper;
 	    this.companyService = companyService;
+		this.mainMapper = mainMapper;
 	}
 
 	/* 관리자 아이디 중복 체크 */
@@ -486,8 +458,18 @@ public class AdminController {
 	/* 회원 삭제 */
 	@PostMapping("/removeMember")
 	@ResponseBody
-	public void removeMember(String memberId ){
+	public void removeMember(String memberId,WithdrawalMember withdrawalMember){
 		memberMapper.removeMember(memberId);
+		Member member = memberservice.getMemberInfoById(memberId);
+		String phone = member.getMemberPhone();
+		String column = "withdrawal_member_code";
+		String table = "withdrawal_member";
+		String WithdrawalMemberCode = mainMapper.autoIncrement(table, column);
+		withdrawalMember.setWithdrawalMemberCode(WithdrawalMemberCode);
+		withdrawalMember.setWithdrawalMemberId(memberId);
+		withdrawalMember.setWithdrawalMemberPhone(phone);
+		withdrawalMemberMapper.addwithdrawalMember(withdrawalMember);
+
 	}
 	/* 휴면 회원 삭제 */
 	@PostMapping("/removeDormantMember")

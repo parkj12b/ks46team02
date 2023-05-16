@@ -12,6 +12,8 @@ public interface WithdrawalMemberMapper{
 	public List<WithdrawalMember> getWithdrawalMember();
 	/* 탈퇴한 회원 영구 삭제 */
 	public int removewithdrawalMember(String WithdrawalMemberCode);
+	/* 탈퇴 회원 등록*/
+	public int addwithdrawalMember(WithdrawalMember withdrawalMember);
 	
 	
 
