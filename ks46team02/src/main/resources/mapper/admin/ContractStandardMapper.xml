@@ -9,29 +9,39 @@
 		<result column="cont_app_stand_info"  					property="contStandInfo"/>
 		<result column="cont_app_stand_value"  					property="contStandValue"/>
 		<result column="cont_app_stand_unit"  					property="contStandUnit"/>
-		<result column="cont_app_stand_reg_date"  				property="contStandRegDate"/>
-		<result column="admin_id"  								property="adminId"/>
-		<result column="standard_description"  					property="standardDescription"/>
+	<result column="standard_description"  					property="standardDescription"/>
+	<result column="cont_app_stand_reg_date"  				property="contStandRegDate"/>
+	<result column="admin_id"  								property="adminId"/>
 </resultMap>
+
+	<delete id="removeContractStandard" parameterType="String" >
+		/* 관리자 등급 삭제 */
+		DELETE
+		FROM
+		contract_approval_standard
+		WHERE
+
+		cont_app_stand_code = #{contStandCode};
+	</delete>
 
 	<update id="modifyContractStandard" parameterType="String">
 			/* 계약 기준 수정  */
 		    UPDATE contract_approval_standard
-		    <set>
-		        <if test="contStandInfo != null and contStandInfo != ''">
+		    set
+					cont_app_stand= #{contAppStand},
+
 		            cont_app_stand_info = #{contStandInfo},
-		        </if>
+
 		            cont_app_stand_value = #{contStandValue},
+
+					cont_app_stand_unit = #{contStandUnit},
 
 					standard_description = #{standardDescription},
 
 			        cont_app_stand_reg_date =NOW(),
 			        
-		        <if test="adminId != null and adminId != ''">
 		            admin_id = #{adminId}
-		        </if>
-		     
-		    </set>
+
 		    WHERE cont_app_stand_code = #{contStandCode};
 		</update>
 			

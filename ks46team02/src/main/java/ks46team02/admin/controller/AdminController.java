@@ -49,8 +49,8 @@ public class AdminController {
 	private final WithdrawalMemberMapper withdrawalMemberMapper;
 	private final MentorMenteeService mentorMenteeService;
 	private final MentorMenteeMapper mentorMenteeMapper;
-
 	private final MainMapper mainMapper;
+	private final ContractStandardMapper contractStandardMapper;
 	
 	private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
@@ -74,7 +74,8 @@ public class AdminController {
 						  ,CompanyService companyService
 						  ,MentorMenteeService mentorMenteeService
 						  ,MentorMenteeMapper mentorMenteeMapper
-						  ,MainMapper mainMapper) {
+						  ,MainMapper mainMapper
+						  ,ContractStandardMapper contractStandardMapper) {
 		this.mentorMenteeMapper = mentorMenteeMapper;
 		this.mentorMenteeService = mentorMenteeService;
 		this.addrService = addrService;
@@ -94,6 +95,7 @@ public class AdminController {
 	    this.withdrawalMemberMapper = withdrawalMemberMapper;
 	    this.companyService = companyService;
 		this.mainMapper = mainMapper;
+		this.contractStandardMapper = contractStandardMapper;
 	}
 
 	/* 관리자 아이디 중복 체크 */
@@ -514,6 +516,14 @@ public class AdminController {
 	@ResponseBody
 	public void modifyContractStandard(ContractStandard contractStandard) {
 		contractStandardService.modifyContractStandard(contractStandard);
+	}
+	/* 승인기준 삭제*/
+	@PostMapping("/removeContractStandard")
+	@ResponseBody
+	public void removeContractStandard(String contStandCode) {
+		contractStandardMapper.removeContractStandard(contStandCode);
+
+
 	}
 	
 	@PostMapping("/mentorRegApprove")

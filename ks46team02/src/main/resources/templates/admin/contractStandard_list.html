@@ -6,7 +6,7 @@
 <head>
 <style >
 input {
-	  width: 200px; /* 원하는 크기로 조정 가능 */
+	  width: 100px; /* 원하는 크기로 조정 가능 */
 	  height: 20px;
 	}
 
@@ -38,7 +38,7 @@ input[type="number"] {
 	    var modifyButton = $(this);
         var deleteButton = tr.find('.delete');
 	    var prevValues = []; // 이전 값 저장할 배열
-	    tr.find('td:nth-child(n+3):nth-child(-n+4),td:nth-child(6)').each(function() {
+	    tr.find('td:nth-child(n+2):nth-child(-n+6)').each(function() {
 	      var value = $(this).text();
 	      prevValues.push(value); // 이전 값 저장
 	      var input;
@@ -63,7 +63,7 @@ input[type="number"] {
 	  $('table tbody').on('click', '.cancel', function(){
 	    var tr = $(this).closest('tr');
 	    var currentValues = $(this).attr('prev-values').split(","); // 현재 값 배열 가져오기
-	    tr.find('td:nth-child(n+3):nth-child(-n+4),td:nth-child(6)').each(function(index) {
+	    tr.find('td:nth-child(n+2):nth-child(-n+6)').each(function(index) {
 	    var value = currentValues[index];
 	    var saveButton = tr.find('.save');
 	    saveButton.text('수정');
@@ -85,12 +85,14 @@ input[type="number"] {
 	  $('table tbody').on('click', '.save', function(){
 		  var tr = $(this).closest('tr');
 		  var contStandCode = 		        tr.find('td:eq(0)').text();
+		  var contAppStand = 		        tr.find('td:eq(1) input').val();
 		  var contStandInfo = 		        tr.find('td:eq(2) input').val();
 		  var contStandValue = 		        tr.find('td:eq(3) input').val();
-		  var standardDescription = 		tr.find('td:eq(4) input').val();
+		  var contStandUnit = 		        tr.find('td:eq(4) input').val();
+		  var standardDescription = 		tr.find('td:eq(5) input').val();
 		  var adminId = "[[${session.sessionId}]]";
+		  console.log(contAppStand);
 		  console.log(contStandInfo);
-		  console.log(contStandValue);
 		  console.log(adminId);
 		  // 필드별로 값을 가져옵니다.
 		 var saveButton = tr.find('.save'); // deleteButton 변수 정의
@@ -101,20 +103,24 @@ input[type="number"] {
 		    url: '/admin/modifyContractStandard',
 		    data: {
 		    	contStandCode:   	    contStandCode,
-		    	contStandInfo: 		    contStandInfo,
-		    	contStandValue: 	    contStandValue,
+                contAppStand: 		    contAppStand,
+                contStandInfo: 		    contStandInfo,
+                contStandValue: 		contStandValue,
+                contStandUnit: 	        contStandUnit,
                 standardDescription:    standardDescription,
                 adminId:			    adminId
 		    	},
 		    success: function() {
 		      alert('성공했습니다.');
-		      currentValues[0] = contStandInfo; 
-		      currentValues[1] = contStandValue;
+		      currentValues[0] = contAppStand;
+		      currentValues[1] = contStandInfo;
 		      currentValues[2] = contStandValue;
-		      currentValues[3] = adminId;
-		      
+		      currentValues[3] = contStandUnit;
+		      currentValues[4] = standardDescription;
+		      currentValues[5] = adminId;
 
-		      tr.find('td:nth-child(n+3):nth-child(-n+4),td:nth-child(6),td:nth-child(7)').each(function(index) {
+
+		      tr.find('td:nth-child(n+2):nth-child(-n+6)').each(function(index) {
 		        var value = currentValues[index];
 		        if ($(this).find('input').length > 0) {
 		          $(this).html(value);
@@ -142,7 +148,6 @@ input[type="number"] {
                 });
                 var tr = $(this).closest('tr');
                 var contStandCode = tr.find('td:eq(0)').text();
-                var adminPosition = tr.find('td:eq(1)').text();
                 /* 비밀번호 체크 */
                 $.ajax({
                     type: "POST",
@@ -153,7 +158,7 @@ input[type="number"] {
                     success: function (pwCheck) {
                         if (pwCheck) {
                             Swal.fire({
-                                title: "정말로 " + adminPosition+ " 등급을 삭제하시겠습니까?",
+                                title: "정말로 " + contStandCode+ " 코드를 삭제하시겠습니까?",
                                 text: "이후에 다시 되돌릴수없습니다.",
                                 icon: "warning",
                                 showCancelButton: true,
@@ -166,7 +171,7 @@ input[type="number"] {
                                 if (result.isConfirmed) {
                                     $.ajax({
                                         type: "POST",
-                                        url: "/admin/removeContractStandrard",
+                                        url: "/admin/removeContractStandard",
                                         data: {
                                             contStandCode: contStandCode,
                                         },
