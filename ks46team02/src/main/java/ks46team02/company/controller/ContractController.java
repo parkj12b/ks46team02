@@ -37,10 +37,23 @@ public class ContractController {
         this.mentorMenteeService = mentorMenteeService;
     }
     /* 공고계약 신청 */
+    @PostMapping("/addDryContract")
+    public String addDryContract(Contract contract
+                                ,HttpSession session){
+        contract.setMemberId((String)session.getAttribute("sessionId"));
+        contract.setContracteeCompanyCode((String)session.getAttribute("sessionCompanyCode"));
+        boolean result = contractService.applyDryContract(contract);
+        log.info("addDryContractResult : {}",result);
+        return "redirect:/contract/contractListDry";
+
+    }
+    /* 공고계약 신청 */
     @GetMapping("/addApplyContract")
     public String addApplyContract(Model model
-                                  ,@RequestParam(name = "contractRegCode") String contractRegCode){
+                                  ,@RequestParam(name = "contractRegCode") String contractRegCode
+                                  ,@RequestParam(name = "companyName") String companyName){
         Contract contractInfo = contractService.getContractInfo(contractRegCode);
+        contractInfo.setCompanyName(companyName);
         model.addAttribute("title", "계약신청");
         model.addAttribute("contractInfo", contractInfo);
         return "company/apply_contract";

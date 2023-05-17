@@ -26,19 +26,19 @@
 
             var companyTypeNumber = "[[${companyTypeNum}]]";
 
-            if(companyTypeNumber == 1) {
+            if (companyTypeNumber == 1) {
                 // 건조업체계약공고 이외의 탭 숨기기
                 $('#breed-tab').hide();
                 $('#mentor-tab').hide();
                 $('#all-tab').hide();
                 // 건조업체계약공고 탭 활성화
                 $('#myTab a[href="#dry"]').tab('show');
-            } else if(companyTypeNumber == 2) {
+            } else if (companyTypeNumber == 2) {
                 $('#dry-tab').hide();
                 $('#all-tab').hide();
                 // 건조업체계약공고 탭 활성화
                 $('#myTab a[href="#breed"]').tab('show');
-            } else if(companyTypeNumber == 3) {
+            } else if (companyTypeNumber == 3) {
                 $('#dry-tab').hide();
                 $('#mentor-tab').hide();
                 $('#all-tab').hide();
@@ -46,7 +46,6 @@
                 $('#myTab a[href="#breed"]').tab('show');
             }
         });
-
 
 
     </script>
@@ -59,21 +58,21 @@
             <div class="clearfix"></div>
         </div>
         <div class="x_content">
-            <ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist" >
+            <ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist">
                 <li class="nav-item" id="dry-tab">
-                    <a class="nav-link active"  data-toggle="tab" href="#dry" role="tab"
-                       >건조업체계약공고</a>
+                    <a class="nav-link active" data-toggle="tab" href="#dry" role="tab"
+                    >건조업체계약공고</a>
                 </li>
                 <li class="nav-item" id="breed-tab">
-                    <a class="nav-link"  data-toggle="tab" href="#breed" role="tab" >사육업체계약공고</a>
+                    <a class="nav-link" data-toggle="tab" href="#breed" role="tab">사육업체계약공고</a>
                 </li>
-                <li class="nav-item" id="mentor-tab" >
+                <li class="nav-item" id="mentor-tab">
                     <a class="nav-link" data-toggle="tab" href="#mentor" role="tab"
-                       >멘토멘티계약공고</a>
+                    >멘토멘티계약공고</a>
                 </li>
                 <li class="nav-item" id="all-tab">
-                    <a class="nav-link"  data-toggle="tab" href="#all" role="tab"
-                       >모든계약</a>
+                    <a class="nav-link" data-toggle="tab" href="#all" role="tab"
+                    >모든계약</a>
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
@@ -106,7 +105,9 @@
                                                 <tbody>
                                                 <tr role="row" th:unless="${contractListDry == null}"
                                                     th:each="l :${contractListDry}">
-                                                    <td><a th:href="@{/company/companyInfo(companyCode=${l.companyCode})}" th:text="${l.companyName}"></a></td>
+                                                    <td>
+                                                        <a th:href="@{/company/companyInfo(companyCode=${l.companyCode})}"
+                                                           th:text="${l.companyName}"></a></td>
                                                     <td th:text="${l.minAmount}"></td>
                                                     <td th:text="${l.maxAmount}"></td>
                                                     <td th:text="${l.minMonth}"></td>
@@ -114,8 +115,9 @@
                                                     <td th:text="${l.region}"></td>
                                                     <td th:text="${l.contractRegDate}"></td>
                                                     <td>
-                                                        <a th:href="@{/contract/addApplyContract(contractRegCode=${l.contractRegCode})}" class="btn btn-secondary btn-sm" style="color: white">
-                                                            계약신청
+                                                        <a th:href="@{/contract/addApplyContract(contractRegCode=${l.contractRegCode})}"
+                                                           class="btn btn-secondary btn-sm" style="color: white">
+                                                            수정
                                                         </a>
                                                     </td>
                                                 </tr>
@@ -156,9 +158,14 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr role="row" th:unless="${contractListBreed == null}"
-                                                    th:each="l :${contractListBreed}">
-                                                    <td><a th:href="@{/company/companyInfo(companyCode=${l.companyCode})}" th:text="${l.companyName}"></a></td>
+                                                <tr role="row"
+                                                    th:each="l :${contractListBreed}"
+                                                    th:unless="${contractListBreed == null}"
+                                                    th:if="${l.companyCode == session.sessionCompanyCode}"
+                                                    >
+                                                    <td>
+                                                        <a th:href="@{/company/companyInfo(companyCode=${l.companyCode})}"
+                                                           th:text="${l.companyName}"></a></td>
                                                     <td th:text="${l.minAmount}"></td>
                                                     <td th:text="${l.maxAmount}"></td>
                                                     <td th:text="${l.minDate}"></td>
@@ -166,7 +173,8 @@
                                                     <td th:text="${l.productName}"></td>
                                                     <td th:text="${l.monthPrice}"></td>
                                                     <td th:text="${l.breedLocal}"></td>
-                                                    <td><a class="btn btn-secondary btn-sm" style="color: white">계약신청</a></td>
+                                                    <td><a class="btn btn-secondary btn-sm"
+                                                           style="color: white">수정</a></td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -283,7 +291,7 @@
                                                 <tbody>
                                                 <tr role="row" th:unless="${contractList == null}"
                                                     th:each="l :${contractList}"
-                                                    th:switch="${companyTypeNum}">
+                                                >
 
                                                     <td th:text="${l.contractCode}"></td>
                                                     <td th:text="${l.contractType}"></td>

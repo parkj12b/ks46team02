@@ -35,6 +35,24 @@ public class Contract {
     private String breedLocal;
     private int breedCompanySize;
     private String productName;
+    private String companyAddr;
+    private String companyTel;
+
+    public String getCompanyAddr() {
+        return companyAddr;
+    }
+
+    public void setCompanyAddr(String companyAddr) {
+        this.companyAddr = companyAddr;
+    }
+
+    public String getCompanyTel() {
+        return companyTel;
+    }
+
+    public void setCompanyTel(String companyTel) {
+        this.companyTel = companyTel;
+    }
 
     public String getCompanyCode() {
         return companyCode;
@@ -345,6 +363,8 @@ public class Contract {
                 ", breedLocal='" + breedLocal + '\'' +
                 ", breedCompanySize=" + breedCompanySize +
                 ", productName='" + productName + '\'' +
+                ", companyAddr='" + companyAddr + '\'' +
+                ", companyTel='" + companyTel + '\'' +
                 '}';
     }
 }
