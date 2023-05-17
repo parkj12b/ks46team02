@@ -98,6 +98,29 @@ input[type="number"] {
 		 var saveButton = tr.find('.save'); // deleteButton 변수 정의
 		 var cancelButton = tr.find('.cancel');
 		 var currentValues = cancelButton.attr('prev-values').split(","); // 수정된 값 배열 가져오기
+          if (typeof contAppStand == 'undefined' || contAppStand == null || contAppStand == '') {
+              Swal.fire({
+                  icon: 'warning',  // 여기다가 아이콘 종류를 쓰면 됩니다.
+                  title: `승인기준을 입력해주세요.`
+              }).then((result) => {
+                  if (result.isConfirmed) { // 모달창에서 확인을 누르면 true가 되는 속성
+                      $(contAppStand).focus();
+                      Swal.close(); // 모달창이 닫힐 때까지 기다림
+                  }
+              });
+          }
+          else if (typeof contStandInfo == 'undefined' || contStandInfo == null || contStandInfo == '') {
+              Swal.fire({
+                  icon: 'warning',  // 여기다가 아이콘 종류를 쓰면 됩니다.
+                  title: `기준설명을 입력해주세요.`
+              }).then((result) => {
+                  if (result.isConfirmed) { // 모달창에서 확인을 누르면 true가 되는 속성
+                      $(contStandInfo).focus();
+                      Swal.close(); // 모달창이 닫힐 때까지 기다림
+                  }
+              });
+          }
+          else{
 		  $.ajax({
 		    type: 'POST',
 		    url: '/admin/modifyContractStandard',
@@ -137,7 +160,7 @@ input[type="number"] {
 		      alert('서버와 통신 중 오류가 발생했습니다.');
 		      
 		    }
-		  });
+		  })};
 		});
         $('table tbody').on('click', '.delete', function(){
             (async () => {
