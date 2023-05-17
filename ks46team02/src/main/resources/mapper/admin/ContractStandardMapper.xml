@@ -9,13 +9,36 @@
 		<result column="cont_app_stand_info"  					property="contStandInfo"/>
 		<result column="cont_app_stand_value"  					property="contStandValue"/>
 		<result column="cont_app_stand_unit"  					property="contStandUnit"/>
-	<result column="standard_description"  					property="standardDescription"/>
-	<result column="cont_app_stand_reg_date"  				property="contStandRegDate"/>
-	<result column="admin_id"  								property="adminId"/>
+		<result column="standard_description"  					property="standardDescription"/>
+		<result column="cont_app_stand_reg_date"  				property="contStandRegDate"/>
+		<result column="admin_id"  								property="adminId"/>
 </resultMap>
 
+	<insert id="addContractStandard" parameterType="ContractStandard">
+		/* 승인 기준 등록 */
+		insert into contract_approval_standard
+		(cont_app_stand_code
+		,cont_app_stand
+		,cont_app_stand_info
+		,cont_app_stand_value
+		,cont_app_stand_unit
+		,standard_description
+		,cont_app_stand_reg_date
+		,admin_id)
+		VALUES
+		(#{contStandCode}
+		,#{contAppStand}
+		,#{contStandInfo}
+		,#{contStandValue}
+		,#{contStandUnit}
+		,#{standardDescription}
+		,NOW()
+		,#{adminId});
+
+	</insert>
+
 	<delete id="removeContractStandard" parameterType="String" >
-		/* 관리자 등급 삭제 */
+		/*  승인 기준 삭제 */
 		DELETE
 		FROM
 		contract_approval_standard

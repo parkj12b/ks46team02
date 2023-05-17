@@ -496,6 +496,13 @@ public class AdminController {
 	    memberservice.modifyDormantMember(memberId);
 	    
 	}
+	/* 승인 기준 등록*/
+	@PostMapping("/addContractStandard")
+	public String addContractStandard(ContractStandard contractStandard,HttpSession session){
+		contractStandardService.addContractStandard(contractStandard,session);
+		return "redirect:/admin/contractStandardList";
+	}
+
 
 	/* 승인 기준 등록 */
 	@GetMapping("/addContractStandard")

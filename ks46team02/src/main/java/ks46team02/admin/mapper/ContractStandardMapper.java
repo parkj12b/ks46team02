@@ -17,4 +17,6 @@ public interface ContractStandardMapper {
 	public int modifyContractStandard(ContractStandard contractStandard);
 	/* 승인 기준 삭제*/
 	public int removeContractStandard(String contStandCode);
+	/* 승인 기준 등록*/
+	public int addContractStandard(ContractStandard contractStandard);
 }
