@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class CompanyService {
     private final CompanyMapper companyMapper;
     private final MainMapper mainMapper;

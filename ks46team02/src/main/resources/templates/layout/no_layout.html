@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Meta, title, CSS, favicons, etc. -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title></title>
+<!-- popper js -->
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<!-- Bootstrap -->
+<link th:href="@{/vendors/bootstrap/dist/css/bootstrap.min.css}"
+	rel="stylesheet">
+<!-- Font Awesome -->
+<link th:href="@{/vendors/font-awesome/css/font-awesome.min.css}"
+	rel="stylesheet">
+<!-- NProgress -->
+<link th:href="@{/vendors/nprogress/nprogress.css}" rel="stylesheet">
+<!-- Dropzone.js -->
+<link th:href="@{/vendors/dropzone/dist/min/dropzone.min.css}"
+	rel="stylesheet">
+
+<!-- Custom Theme Style -->
+<link th:href="@{/build/css/custom.min.css}" rel="stylesheet">
+
+<style>
+
+</style>
+
+</head>
+<script>
+
+</script>
+<body class="nav-md">
+	<div class="container body">
+		<div class="main_container">
+			<!-- page content -->
+			<div>
+				<th:block layout:fragment="customContent">
+					
+				</th:block>
+			</div>
+		</div>
+	</div>
+
+	<!-- jQuery -->
+	<script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+	<!-- Bootstrap -->
+	<script th:src="@{/vendors/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+	<!-- FastClick -->
+	<script th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
+	<!-- NProgress -->
+	<script th:src="@{/vendors/nprogress/nprogress.js}"></script>
+	<!-- dropzone.js -->
+	<script src="/vendors/dropzone/dist/dropzone.js"></script>
+	<!-- Custom Theme Scripts -->
+	<script th:src="@{/build/js/custom.js}"></script>
+
+	<th:block layout:fragment="customJs"></th:block>
+
+
+
+
+</body>
+</html>

@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,10 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import ks46team02.admin.service.MemberService;
 import ks46team02.common.dto.AllContractInfo;
-import ks46team02.common.dto.FileRelation;
 import ks46team02.common.dto.Member;
 import ks46team02.common.service.FileService;
 import ks46team02.farm.dto.Cage;
@@ -466,12 +467,14 @@ public class FarmController {
 		boolean isApply = mentorMenteeService.mentorMenteeIsApply(companyCode);
 		model.addAttribute("mmRegType",mmRegType);
 		model.addAttribute("isApply", isApply);
+		model.addAttribute("title", "멘토멘티 신청");
 		log.info("{}",mmRegType);
 		return "farm/mentor_mentee_intro";
 	}
 
 	@GetMapping("/mentorSignUp")
-	public String getMentorSignUpForm(){
+	public String getMentorSignUpForm(Model model){
+		model.addAttribute("title","멘토멘티 멘토 신청");
 		return "farm/mentor_sign_up";
 	}
 
@@ -496,8 +499,8 @@ public class FarmController {
 		}
 		
 		model.addAttribute("mmRegType", mmRegType);
+		model.addAttribute("title", "멘토멘티 승인여부 조회");
 		
-
 		return "farm/mentor_mentee_register_status";
 	}
 
@@ -506,6 +509,8 @@ public class FarmController {
 		String searchKey = "company_code";
 		List<MMContractInfo> mmContractInfo = mentorMenteeService.getMMContractList(searchKey,"");
 		model.addAttribute("mmContractInfo", mmContractInfo);
+		model.addAttribute("title", "멘토멘티 공고 조회");
+		
 		return "farm/mm_contract_list";
 	}
 
@@ -515,7 +520,7 @@ public class FarmController {
 		MMContractInfo mmContractInfo = mentorMenteeService.getMMContractList(searchKey, mentorContractRegCode).get(0);
 		log.info("{}", mmContractInfo);
 		model.addAttribute("mmContractInfo",mmContractInfo);
-
+		model.addAttribute("title", "멘토멘티 공고 상세");
 
 		return "farm/mm_contract_detail";
 	}
@@ -525,6 +530,8 @@ public class FarmController {
 		String companyCode = (String)session.getAttribute("sessionCompanyCode");
 		List<MMContractInfo> mmContractInfo = mentorMenteeService.getMMContractList("company_code", companyCode);
 		model.addAttribute("mmContractInfo",mmContractInfo);
+		model.addAttribute("title", "나의 멘토멘티 공고 조회");
+		
 		log.info("{}", mmContractInfo);
 		return "farm/my_mm_contract_list_mentor";
 	}
@@ -581,6 +588,8 @@ public class FarmController {
 		model.addAttribute("numComplete", numComplete);
 		model.addAttribute("totalVisit", totalVisit);
 		model.addAttribute("widthVisitBar", widthVisitBar);
+		model.addAttribute("title", "나의 멘토 계약 조회");
+		
 		return "farm/my_mm_contract_mentee";
 	}
 
@@ -590,7 +599,8 @@ public class FarmController {
 		MMContractInfo mmContractInfo = mentorMenteeService.getMMContractList("mentor_contract_reg_code", mentorContractRegCode).get(0);
 		log.info("{}", mmContractInfo);
 		model.addAttribute("mmContractInfo",mmContractInfo);
-
+		model.addAttribute("title", "나의 등록 계약 수정");
+		
 		return "farm/mm_contract_modify";
 	}
 	//미구현
@@ -598,13 +608,14 @@ public class FarmController {
 	public String setMMContractModify(MMContractInfo contractInfo) {
 
 		log.info("{}", contractInfo);
+		
 		return "redirect:/farm/myMentorMenteeContract";
 	}
 
 	@GetMapping("/registerMentorMenteeContract")
-	public String addMMContractRegister() {
+	public String addMMContractRegister(Model model) {
 
-
+		model.addAttribute("title", "멘토멘티 공고 등록");
 		return "farm/mm_contract_register";
 	}
 
@@ -632,6 +643,8 @@ public class FarmController {
 		List<AllContractInfo> contractList = mentorMenteeService.getMMContractListByKeyValue(searchList);
 
 		model.addAttribute("contractList",contractList);
+		model.addAttribute("title", "승인대기 멘토멘티 계약조회"); 
+		
 		log.info("{}",contractList);
 		return "farm/my_mm_contract_approve_list";
 	}
@@ -669,7 +682,8 @@ public class FarmController {
 
 		model.addAttribute("visitHistoryList",visitHistoryList);
 		model.addAttribute("evaluationStandard", evaluationStandardList);
-
+		model.addAttribute("title", "방문평가 조회");
+		
 		return "farm/mm_feedback_mentee";
 	}
 
@@ -695,7 +709,7 @@ public class FarmController {
 		model.addAttribute("visitHistory",visitHistory);
 		model.addAttribute("resultHistoryList",resultHistoryList);
 		model.addAttribute("evaluationStandard", evaluationStandardList);
-
+		model.addAttribute("title", "멘토멘티 방문평가 상세정보");
 
 		return "farm/mm_feedback_mentee_detail";
 	}
@@ -749,7 +763,7 @@ public class FarmController {
 		List<AllContractInfo> mmContractInfo = mentorMenteeService.getMMContractListByKeyValue(searchList);
 
 		model.addAttribute("mmContractInfo", mmContractInfo);
-
+		model.addAttribute("title", "나의 멘토멘티 계약");
 		return "farm/my_mm_contract_mentor";
 	}
 
@@ -800,7 +814,7 @@ public class FarmController {
 		model.addAttribute("numComplete", numComplete);
 		model.addAttribute("totalVisit", totalVisit);
 		model.addAttribute("widthVisitBar", widthVisitBar);
-
+		model.addAttribute("title", "나의 멘토멘티 계약 진행 현황");
 		return "farm/my_mm_contract_mentor_detail";
 	}
 
@@ -824,14 +838,24 @@ public class FarmController {
 
 		model.addAttribute("mentorFeedbackToken", mentorFeedbackToken);
 		model.addAttribute("resultHistoryList", resultHistoryList);
-
+		model.addAttribute("title","멘토멘티 피드백 작성/수정");
 
 		return "farm/my_mentee_feedback_modify";
 	}
-
+	
+	@CrossOrigin("*")
 	@PostMapping("/receiveFormData")
 	@ResponseBody
-	public String receiveFormDataMentorMentee(@RequestBody GoogleFormResponse googleFormResponse) throws Exception {
+	public String receiveFormDataMentorMentee(@RequestBody GoogleFormResponse googleFormResponse, HttpServletRequest request) throws Exception {
+		log.info("ACCESS INFO ==================================================");
+		log.info("PORT 		::::::::	{}", request.getLocalPort());
+		log.info("ServerName		::::::::	{}", request.getServerName());
+		log.info("Method 		::::::::	{}", request.getMethod());
+		log.info("URI 		::::::::	{}", request.getRequestURI());
+		log.info("CLIENT IP		::::::::	{}", request.getRemoteAddr());
+		log.info("ACCESS INFO ==================================================");
+		
+		
 		Map<String, String> memberInfo = new HashMap<>();
 		List<GoogleFormResult> feedbackList = new ArrayList<>();
 		List<GoogleFormResult> feedbackScore = new ArrayList<>();

@@ -137,7 +137,7 @@ public class CommonController {
 		return "redirect:/login#signup";
 	}
 	
-	@RequestMapping(value="/", method=RequestMethod.GET)
+	@GetMapping("/")
 	public String mainPage(@RequestParam(name = "questionTypeCode", defaultValue = "0") int questionTypeCode
 						   , Model model
 						   ,HttpSession session) {
@@ -145,20 +145,20 @@ public class CommonController {
 	    List<QuestionTypeDto> topMenuList = topMenuService.getTopMenuCustomerServiceList();
 	    log.info("{}", topMenuList);
 	    session.setAttribute("topMenuList", topMenuList);
-
+	    model.addAttribute("title", "환경을 생각하는 라바링크");
 	 
-	    return "mainPage";
+	    return "mainpage";
 	}
 	
 	@GetMapping("/mypage")
 	public String mypage() {
-
 		return "mypage";
 	}
 	
 	@GetMapping("/login")
 	public String loginAndSignUp(Model model) {
-		return "loginAndSignUp";
+		model.addAttribute("title", "라바링크 로그인");
+		return "login_and_signup";
 	}
 	
 	@GetMapping("/logout")
@@ -208,7 +208,7 @@ public class CommonController {
 		model.addAttribute("contractInfo", contractInfo);
 		model.addAttribute("contractorInfo", contractorCompany);
 		model.addAttribute("contracteeInfo", contracteeCompany);
-		
+		model.addAttribute("title", "멘토멘티 계약서");
 		
 		return "contract_paper_mm";
 	}
@@ -255,5 +255,13 @@ public class CommonController {
 	public String addMemberAddr(Model model){
 		model.addAttribute("title", "배송지 등록");
 		return "/add_member_addr";
+	}
+	
+	/**
+	 * 
+	 */
+	@GetMapping("/unauthorizedRedirect")
+	public String accessDenied() {
+		return "invalid_access";
 	}
 }

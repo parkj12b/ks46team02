@@ -17,7 +17,8 @@ public class Member {
 	private String dormantMemberRegDate;
 	private boolean isOwner;
 	private boolean isExist;
-	private String companyTypeNum;
+	private int companyTypeNum;
+	private String memberLevelName;
 
 	public String getMemberLevelName() {
 		return memberLevelName;
@@ -25,13 +26,10 @@ public class Member {
 	public void setMemberLevelName(String memberLevelName) {
 		this.memberLevelName = memberLevelName;
 	}
-
-	private String memberLevelName;
-	
-	public String getCompanyTypeNum() {
+	public int getCompanyTypeNum() {
 		return companyTypeNum;
 	}
-	public void setCompanyTypeNum(String companyTypeNum) {
+	public void setCompanyTypeNum(int companyTypeNum) {
 		this.companyTypeNum = companyTypeNum;
 	}
 	public boolean isExist() {
@@ -115,23 +113,12 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return "Member{" +
-				"memberId='" + memberId + '\'' +
-				", memberPw='" + memberPw + '\'' +
-				", memberName='" + memberName + '\'' +
-				", memberPhone='" + memberPhone + '\'' +
-				", memberEmail='" + memberEmail + '\'' +
-				", positionLevelCode='" + positionLevelCode + '\'' +
-				", companyCode='" + companyCode + '\'' +
-				", memberRegDate='" + memberRegDate + '\'' +
-				", memberCi='" + memberCi + '\'' +
-				", memberStatus='" + memberStatus + '\'' +
-				", dormantMemberRegDate='" + dormantMemberRegDate + '\'' +
-				", isOwner=" + isOwner +
-				", isExist=" + isExist +
-				", companyTypeNum='" + companyTypeNum + '\'' +
-				", memberLevelName='" + memberLevelName + '\'' +
-				'}';
+		return "Member [memberId=" + memberId + ", memberPw=" + memberPw + ", memberName=" + memberName
+				+ ", memberPhone=" + memberPhone + ", memberEmail=" + memberEmail + ", positionLevelCode="
+				+ positionLevelCode + ", companyCode=" + companyCode + ", memberRegDate=" + memberRegDate
+				+ ", memberCi=" + memberCi + ", memberStatus=" + memberStatus + ", dormantMemberRegDate="
+				+ dormantMemberRegDate + ", isOwner=" + isOwner + ", isExist=" + isExist + ", companyTypeNum="
+				+ companyTypeNum + ", memberLevelName=" + memberLevelName + "]";
 	}
 
 

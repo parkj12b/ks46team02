@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -7,7 +7,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Gentelella Alela! |</title>
+	<title th:text="${title}"></title>
 	<script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
 	<script th:src="@{/vendors/boostrap/dist/js/boostrap.min.js}"></script>
 	<!-- popper js -->
@@ -54,7 +54,7 @@
 			<div class="animate form login_form">
 				<section class="login_content" id="loginContent_login">
 					<form id="loginSubmitForm" th:action="@{/login}" method="post">
-						<h1>Login Form</h1>
+						<h1>로그인</h1>
 						<!-- 여기는 관리자/회원 로그인 나누는것 -->
 						<ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-bottom: 20px;">
 							<li class="nav-item"><a class="nav-link active" id="normal" data-toggle="tab" role="tab"
