@@ -36,7 +36,15 @@ public class ContractController {
         this.companyService = companyService;
         this.mentorMenteeService = mentorMenteeService;
     }
-
+    /* 공고계약 신청 */
+    @GetMapping("/addApplyContract")
+    public String addApplyContract(Model model
+                                  ,@RequestParam(name = "contractRegCode") String contractRegCode){
+        Contract contractInfo = contractService.getContractInfo(contractRegCode);
+        model.addAttribute("title", "계약신청");
+        model.addAttribute("contractInfo", contractInfo);
+        return "company/apply_contract";
+    }
     /* 계약공고 등록 */
     @PostMapping("/addContract")
     public String addContract(Contract contract
@@ -60,6 +68,7 @@ public class ContractController {
         Company companyInfo = companyService.getCompanyInfoByCode(companyCode);
         String companyName = companyInfo.getCompanyName();
         List<FarmProductCategory> farmProductCategoryList = companyService.getFarmProductCategoryList();
+        model.addAttribute("title", "계약공고등록");
         model.addAttribute("sessionCompanyTypeNum", sessionCompanyTypeNum);
         model.addAttribute("companyName", companyName);
         model.addAttribute("farmProductCategoryList",farmProductCategoryList);

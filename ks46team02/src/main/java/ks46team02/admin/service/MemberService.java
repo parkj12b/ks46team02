@@ -30,6 +30,7 @@ private static final Logger log = LoggerFactory.getLogger(AdminController.class)
 	/* 업체별 직원 조회 */
 	public List<Member> getEmployeeList(String companyCode){
 		List<Member> employeeList = memberMapper.getEmployeeList(companyCode);
+		log.info("employeeList :{}",employeeList );
 		return employeeList;
 	}
 
