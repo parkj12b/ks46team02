@@ -7,7 +7,7 @@
     <title>BSFP</title>
 </head>
 <th:block layout:fragment="customJs">
-    <script th:src="@{/js/jquery-3.6.4.min.js}"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
         $(function () {
             function validationCheck(ele) {
@@ -36,9 +36,6 @@
             })
 
         });
-    </script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script>
         function sample4_execDaumPostcode() {
             new daum.Postcode({
                 oncomplete: function (data) {
@@ -71,13 +68,11 @@
 
             }).open();
         }
-
-    </script>
-    <script>
         $('#resetBtn').click(function () {
             history.back();
         });
     </script>
+
 </th:block>
 <body>
 <th:block layout:fragment="customContent">

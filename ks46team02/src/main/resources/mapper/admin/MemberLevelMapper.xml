@@ -6,14 +6,40 @@
 <resultMap type="MemberLevel" id="memberLevelResultMap">
 		<id 	column="position_level_code"  							property="positionLevelCode" />
 		<result	column="member_level_name"  							property="memberLevelName" />
-		<result	column="company_reg_date"  								property="companyRegDate" />
 		<result	column="member_management"  							property="memberManagement" />
-		<result	column="admin_id"  										property="adminId" />
 		<result	column="contract_management"  							property="contractManagement" />
 		<result	column="payment_management"  							property="paymentManagement" />
 		<result	column="company_info_management"  						property="companyInfoManagement" />
 		<result	column="mento_mentee_management"  						property="mentoMenteeManagement" />
-</resultMap>
+		<result	column="admin_id"  										property="adminId" />
+		<result	column="company_reg_date"  								property="companyRegDate" />
+	</resultMap>
+
+
+		<insert id="addMemberLevel" parameterType="MemberLevel">
+			/* 회원 등급등록 */
+			insert into company_position_level
+			(position_level_code
+			,member_level_name
+			,member_management
+			,contract_management
+			,payment_management
+			,company_info_management
+			,mento_mentee_management
+			,admin_id
+			,company_reg_date)
+			VALUES
+			(#{positionLevelCode}
+			,#{memberLevelName}
+			,#{memberManagement}
+			,#{contractManagement}
+			,#{paymentManagement}
+			,#{companyInfoManagement}
+			,#{mentoMenteeManagement}
+			,#{adminId}
+			,now());
+
+		</insert>
 
 		<delete id="removeMemberLevel" parameterType="String" >
 		/* 회원 등급 삭제 */
