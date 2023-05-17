@@ -3,9 +3,47 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/mypageLayout}">
 <head>
-<script>
-	
-</script>
+<th:block layout:fragment="customJs">
+	<script>
+		$(document).ready(
+				function() {
+					$('#datatable-buttons').on(
+							'click',
+							'#detail',
+							function() {
+								var questionCode = $(this).closest('tr').find(
+										'td:first').text();
+
+								$.ajax({
+									url : '/customerservice/addQuestionList',
+									method : 'GET',
+									data : {
+										questionCode : questionCode
+									},
+									success : function(response) {
+										$('#questionCode').val(
+												response.questionCode);
+										$('#memberId').val(response.memberId);
+										$('#questionTypeName').val(
+												response.questionTypeName); 
+										$('#questionRegDate').val(
+												response.questionRegDate);
+										$('#questionTitle').val(
+												response.questionTitle);
+										$('#questionContent').val(
+												response.questionContent);
+										$('#questionStatus').val(
+												response.questionStatus);
+										//$('#questionFile').val(response.questionFile);
+									},
+									error : function(error) {
+										console.log("Error: ", error);
+									}
+								});
+							});
+				});
+	</script>
+</th:block>
 </head>
 
 <th:block layout:fragment="customContent">
@@ -49,21 +87,11 @@
 													style="width: 255px;"
 													aria-label="Name: activate to sort column ascending">게시판
 												</th>
-												<th class="sorting" tabindex="0"
+												<th class="sorting_desc" tabindex="0"
 													aria-controls="datatable-buttons" rowspan="1" colspan="1"
-													style="width: 200px;"
-													aria-label="Position: activate to sort column ascending">제목
-												</th>
-												<th class="sorting" tabindex="0"
-													aria-controls="datatable-buttons" rowspan="1" colspan="1"
-													style="width: 200px;"
-													aria-label="Office: activate to sort column ascending">내용
-												</th>
-												<th class="sorting" tabindex="0"
-													aria-controls="datatable-buttons" rowspan="1" colspan="1"
-													style="width: 120px;"
-													aria-label="Age: activate to sort column ascending">첨부파일
-												</th>
+													style="width: 187px;"
+													aria-label="Start date: activate to sort column ascending"
+													aria-sort="descending">문의 세부내용</th>
 												<th class="sorting_desc" tabindex="0"
 													aria-controls="datatable-buttons" rowspan="1" colspan="1"
 													style="width: 187px;"
@@ -99,13 +127,15 @@
 												<td th:text="${l.questionCode}"></td>
 												<td th:text="${l.questionTypeCode}"
 													style="text-align: center;"></td>
-												<td th:text="${l.questionTitle}" style="text-align: center;"></td>
-												<td th:text="${l.questionContent}"></td>
-												<td th:text="${l.questionFile}"></td>
+												<td>
+													<button type="button" class="btn btn-dark " id="detail"
+														data-toggle="modal" data-target="#myModal">문의
+														상세내용 보기</button>
+												</td>
 												<td th:text="${l.memberId}"></td>
 												<td th:text="${l.questionRegDate}"></td>
 												<td th:text="${l.questionStatus}"></td>
-												<td><a href="#">
+												<td><a th:href="@{/customerservice/add_answer}">
 														<button class="btn btn-primary float-right" type="button">답변
 															등록</button>
 												</a></td>
@@ -118,6 +148,94 @@
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 문의 세부내용 모달창 -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-right modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">문의 상세 정보</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal form-label-left" id="addFarmForm"
+						method="post">
+
+						<div class="form-group row">
+							<label class="control-label col-md-3 col-sm-3 "
+								for="questionCode">question No.</label>
+							<div class="col-md-9 col-sm-9 ">
+								<input type="text" class="form-control" name="questionCode"
+									th:value="${questionCode}" id="questionCode" readonly />
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="control-label col-md-3 col-sm-3 "
+								for="questionTypeName">문의 유형 이름</label>
+							<div class="col-md-9 col-sm-9 ">
+								<input type="text" class="form-control" name="questionTypeName"
+									th:value="${questionTypeName}" id="questionTypeName" readonly />
+							</div>
+						</div>
+
+
+						<div class="form-group row">
+							<label class="control-label col-md-3 col-sm-3 " for="memberId">작성자</label>
+							<div class="col-md-9 col-sm-9 ">
+								<input type="text" class="form-control" name="memberId"
+									id="memberId" th:value="${memberId}" readonly />
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="control-label col-md-3 col-sm-3 "
+								for="questionRegDate">작성 등록일</label>
+							<div class="col-md-9 col-sm-9 ">
+								<input type="text" class="form-control" name="questionRegDate"
+									id="questionRegDate" readonly>
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="control-label col-md-3 col-sm-3 "
+								for="questionTitle">작성 제목</label>
+							<div class="col-md-9 col-sm-9 ">
+								<input type="text" class="form-control" name="questionTitle"
+									id="questionTitle" readonly>
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="control-label col-md-3 col-sm-3 "
+								for="questionContent">문의 내용<span class="required">*</span>
+							</label>
+							<div class="col-md-9 col-sm-9 ">
+								<textarea class="form-control" rows="3" name="questionContent"
+									id="questionContent" readonly></textarea>
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="control-label col-md-3 col-sm-3 "
+								for="questionStatus">답변 상태</label> <input type="text"
+								class="form-control" name="questionStatus" id="questionStatus"
+								readonly />
+						</div>
+
+						<div class="form-group row">
+							<label class="form-label" for="">첨부 이미지</label> <input
+								class="form-control" readonly />
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>

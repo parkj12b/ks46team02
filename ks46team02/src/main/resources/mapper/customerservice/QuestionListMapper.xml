@@ -7,6 +7,7 @@
 	<resultMap type="QuestionDto" id="questionListResultMap">
 		<id column="question_code" property="questionCode" />
 		<result column="question_title" property="questionTitle" />
+		<result column="question_type_name" property="questionTypeName" />
 		<result column="question_content" property="questionContent" />
 		<result column="question_file" property="questionFile" />
 		<result column="member_id" property="memberId" />
@@ -47,37 +48,66 @@
 	<select id="getQuestionList" resultMap="questionListResultMap">
 		/* 문의 조회 */
 		SELECT
-		question_code
-		,question_type_code
-		,question_title
-		,question_content
-		,question_file
-		,member_id
-		,question_reg_date
-		,question_status
+			question_code
+			,question_type_code
+			,question_title
+			,question_content
+			,question_file
+			,member_id
+			,question_reg_date
+			,question_status
 		FROM
-		question;
+		question
+		WHERE
+			question_del_yn = 'N'
+		ORDER BY
+			question_reg_date DESC;
+	</select>
+	
+	<select id="getQuestionByCode" parameterType="String"
+		resultMap="questionListResultMap">
+		/* 답변 세부내용 조회 */
+		SELECT 
+    		q.question_code,
+    		qt.question_type_name,
+    		q.question_title,
+    		q.question_content,
+    		q.question_file,
+    		q.member_id,
+    		q.question_status,
+    		q.question_reg_date
+		FROM
+    		question q
+    	INNER JOIN question_type qt ON q.question_type_code = qt.question_type_code
+		WHERE
+   			question_code = #{questionCode}
+   		ORDER BY question_code;
 	</select>
 
 	<select id="getAnswerList" resultMap="answerListResultMap">
 		/* 문의에 대한 답변 조회 */
 		SELECT
-		a.answer_code
-		,a.question_code
-		,a.answer_title ,a.answer_content
-		,a.answer_file
-		,a.admin_id
-		,a.answer_reg_date
-		,a.answer_modify_date
-		,a.answer_del_yn
-		,a.answer_del_date
-		,q.question_status
+			a.answer_code,
+			a.question_code,
+			a.answer_title,
+			a.answer_content,
+			a.answer_file,
+			a.admin_id,
+			a.answer_reg_date,
+			a.answer_modify_date,
+			a.answer_del_yn,
+			a.answer_del_date,
+			q.question_status
 		FROM
-		answer a
-		JOIN
-		question q ON a.question_code = q.question_code
-		GROUP BY
-		a.answer_code;
+			answer a
+			JOIN
+		question q
+		ON a.question_code = q.question_code
+		WHERE
+			a.answer_del_yn = 'N'
+		ORDER BY
+			a.answer_reg_date DESC;
+
 	</select>
 
 	<select id="getAnswerByCode" parameterType="String"
@@ -95,17 +125,22 @@
 		answer a
 		inner join
 		question q
-		on a.question_code = q.question_code
+		on
+		a.question_code = q.question_code
 		where
 		a.answer_code = #{answerCode};
 	</select>
-	
-<!-- 	<delete id="removeAnswer" parameterType="String">
-		DELETE FROM
-		answer
-		WHERE answer_code = #{answerCode}
-	</delete> -->
-	
+
+	<update id="updateAnswerDeleteStatus">
+		UPDATE answer
+		SET
+		answer_del_yn = 'Y',
+		answer_del_date =
+		CURRENT_TIMESTAMP()
+		WHERE
+		answer_code = #{answerCode};
+	</update>
+
 	<update id="modifyAnswerList" parameterType="AnswerDto">
 		UPDATE answer
 		<set>

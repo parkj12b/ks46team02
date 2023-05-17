@@ -43,7 +43,21 @@ public class CustomerServiceListController {
 
 		return "customerservice/questionlist";
 	}
-
+	
+	/* 문의 세부내용 조회 */
+	@GetMapping("/addQuestionList")
+	public ResponseEntity<?> addQuestionList(@RequestParam String questionCode) {
+		QuestionDto questionDto = customerserviceListService.getQuestionByCode(questionCode);
+		return new ResponseEntity<>(questionDto, HttpStatus.OK);
+	}
+	
+	/* 문의에 대한 답변등록  */
+	@GetMapping("/add_answer")
+	public String addAnswer() {
+		return "customerservice/add_answer";
+	}
+	
+	
 	/* 답변내용애 대한 정보 조회 */
 	@GetMapping("/answerlist")
 	public String getAnswerList(Model model) {
@@ -63,16 +77,14 @@ public class CustomerServiceListController {
 		return new ResponseEntity<>(answerDto, HttpStatus.OK);
 	}
 
-	/*
-	 * 답변 삭제
-	 * 
-	 * @PostMapping("/remove_answer_proc")
-	 * 
-	 * @ResponseBody public String removeAnswer(@RequestParam("answerCode") String
-	 * answerCode) { boolean success =
-	 * customerserviceListService.removeAnswer(answerCode); return success ?
-	 * "success" : "fail"; }
-	 */
+	/* 답변 삭제 */
+	@PostMapping("/remove_answer_proc")
+	@ResponseBody
+	public String removeAnswer(@RequestParam("answerCode") String answerCode) {
+	    boolean success = customerserviceListService.removeAnswer(answerCode);
+	    return success ? "success" : "fail";
+	}
+
 
 	/* 문의유형 조회 */
 	@GetMapping("/questiontypelist")

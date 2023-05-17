@@ -17,6 +17,7 @@ public class QuestionDto {
 	private MultipartFile uploadFile;
 
 	private String questionFile;
+	
 
 	private String memberId;
 	private int questionTypeCode;
@@ -25,6 +26,7 @@ public class QuestionDto {
 	private String questionModityDate;
 	private String questionDelDate;
 	private String questionDelYN;
+	private String questionTypeName;
 
 	public String getQuestionCode() {
 		return questionCode;
@@ -122,14 +124,25 @@ public class QuestionDto {
 		this.questionDelYN = questionDelYN;
 	}
 
+	public String getQuestionTypeName() {
+		return questionTypeName;
+	}
+
+	public void setQuestionTypeName(String questionTypeName) {
+		this.questionTypeName = questionTypeName;
+	}
+
 	@Override
 	public String toString() {
 		return "QuestionDto [questionCode=" + questionCode + ", questionTitle=" + questionTitle + ", questionContent="
 				+ questionContent + ", uploadFile=" + uploadFile + ", questionFile=" + questionFile + ", memberId="
 				+ memberId + ", questionTypeCode=" + questionTypeCode + ", questionStatus=" + questionStatus
 				+ ", questionRegDate=" + questionRegDate + ", questionModityDate=" + questionModityDate
-				+ ", questionDelDate=" + questionDelDate + ", questionDelYN=" + questionDelYN + "]";
+				+ ", questionDelDate=" + questionDelDate + ", questionDelYN=" + questionDelYN + ", quesitonTypeName="
+				+ questionTypeName + "]";
 	}
 
+	
+	
 
 }

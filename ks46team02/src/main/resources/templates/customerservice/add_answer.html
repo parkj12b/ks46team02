@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mypageLayout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<th:block layout:fragment="customJs">
+	<style>
+
+.row {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.col-md-6 {
+	flex: 0 0 50%;
+	max-width: 50%;
+	padding: 0 15px;
+	box-sizing: border-box;
+}
+</style>
+	<script
+		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</th:block>
+</head>
+<body>
+	<th:block layout:fragment="customContent">
+		<div class="page-title">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="x_panel">
+						<div class="x_title">
+							<h2>답변 등록</h2>
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<form class="form-horizontal form-label-left" id="addFarmForm"
+								method="post">
+								<!-- Form Content -->
+
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 "
+										for="questionCode">question No.</label>
+									<div class="col-md-9 col-sm-9 ">
+										<input type="text" class="form-control" name="questionCode"
+											th:value="${questionCode}" id="questionCode" readonly />
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 "
+										for="questionTypeName">문의 유형 이름</label>
+									<div class="col-md-9 col-sm-9 ">
+										<input type="text" class="form-control"
+											name="questionTypeName" th:value="${questionTypeName}"
+											id="questionTypeName" readonly />
+									</div>
+								</div>
+
+
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 " for="memberId">작성자</label>
+									<div class="col-md-9 col-sm-9 ">
+										<input type="text" class="form-control" name="memberId"
+											id="memberId" th:value="${memberId}" readonly />
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 "
+										for="questionRegDate">작성 등록일</label>
+									<div class="col-md-9 col-sm-9 ">
+										<input type="text" class="form-control" name="questionRegDate"
+											id="questionRegDate" readonly>
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 "
+										for="questionTitle">작성 제목</label>
+									<div class="col-md-9 col-sm-9 ">
+										<input type="text" class="form-control" name="questionTitle"
+											id="questionTitle" readonly>
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 "
+										for="questionContent">문의 내용<span class="required">*</span>
+									</label>
+									<div class="col-md-9 col-sm-9 ">
+										<textarea class="form-control" rows="3" name="questionContent"
+											id="questionContent" readonly></textarea>
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 "
+										for="questionStatus">답변 상태</label> <input type="text"
+										class="form-control" name="questionStatus" id="questionStatus"
+										readonly />
+								</div>
+
+								<div class="form-group row">
+									<label class="form-label" for="">첨부 이미지</label> <input
+										class="form-control" readonly />
+								</div>
+							</form>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="x_panel">
+						<div class="x_title">
+							<h2>답변 입력</h2>
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<form class="form-horizontal form-label-left" id="addAnswerForm"
+								th:action="@{/customerservice/add_Answer}" method="post">
+								<!-- Form Content -->
+								<div class="form-group row ">
+									<label class="control-label col-md-3 col-sm-3 ">답변 담당
+										관리자 ID</label>
+									<div class="col-md-9 col-sm-9 ">
+										<input type="text" class="form-control" id="adminId"
+											name="adminId" th:value="${session.sessionId}" readonly>
+									</div>
+								</div>
+								<div class="form-group row ">
+									<label class="control-label col-md-3 col-sm-3 ">답변 코드</label>
+									<div class="col-md-9 col-sm-9 ">
+										<input type="text" class="form-control" id="answerCode"
+											name="answerCode" readonly>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 ">답변 제목</label>
+									<div class="col-md-9 col-sm-9 ">
+										<input type="text" class="form-control" id="answerTitle"
+											name="answerTitle" placeholder="답변 제목을 입력하세요">
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 ">답변 내용</label>
+									<div class="col-md-9 col-sm-9 ">
+										<textarea class="form-control" rows="3" name="answerContent"
+											id="answerContent" placeholder="답변 내용을 입력하세요"></textarea>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 "
+										for="questionStatus">답변 상태</label>
+									<div class="col-md-9 col-sm-9 ">
+										<select id="questionStatus" class="form-control"
+											name="questionStatus">
+											<option value="">weighting for response</option>
+											<option value="">processing</option>
+											<option value="">complete</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="form-label" for="">첨부 이미지</label> <input
+										type="file" class="form-control" />
+								</div>
+								<span id="guide" style="color: #999; display: none"></span>
+
+								<div class="ln_solid"></div>
+								<div class="form-group">
+									<div class="col-md-9 col-sm-9  offset-md-5">
+										<button type="button" class="btn btn-dark add">등록</button>
+										<button type="reset" class="btn btn-dark cancel">취소</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</body>
+</html>

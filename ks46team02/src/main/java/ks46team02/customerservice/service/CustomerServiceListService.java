@@ -2,6 +2,7 @@ package ks46team02.customerservice.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,22 +27,25 @@ public class CustomerServiceListService {
 		List<QuestionDto> QuestionList = customerserviceListMapper.getQuestionList();
 		return QuestionList;
 	}
+	public QuestionDto getQuestionByCode(String questionCode) {
+		return customerserviceListMapper.getQuestionByCode(questionCode);
+	}
 
 	public List<AnswerDto> getAnswerList() {
 		List<AnswerDto> AnswerList = customerserviceListMapper.getAnswerList();
 		return AnswerList;
 	}
-	
-	public AnswerDto  getAnswerByCode(String answerCode) {
+
+	public AnswerDto getAnswerByCode(String answerCode) {
 		return customerserviceListMapper.getAnswerByCode(answerCode);
 	}
+
+	public boolean removeAnswer(String answerCode) {
+		int rowsAffected = customerserviceListMapper.updateAnswerDeleteStatus(answerCode);
+		return rowsAffected > 0;
+	}
+
 	
-	/*
-	 * public boolean removeAnswer(String answerCode) { return
-	 * customerserviceListMapper.removeAnswer(answerCode); }
-	 */
-
-
 
 	public List<QuestionTypeDto> getQuestionTypeList() {
 		List<QuestionTypeDto> QuestionTypeList = customerserviceListMapper.getQuestionTypeList();
@@ -65,7 +69,6 @@ public class CustomerServiceListService {
 	public boolean deleteQuestionType(int questionTypeCode) {
 		return customerserviceListMapper.deleteQuestionType(questionTypeCode);
 	}
-	
 
 
 }
