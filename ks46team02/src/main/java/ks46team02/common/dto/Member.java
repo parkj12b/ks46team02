@@ -19,6 +19,8 @@ public class Member {
 	private boolean isExist;
 	private String companyTypeNum;
 
+	private String withdrawalStatus;
+
 	public String getMemberLevelName() {
 		return memberLevelName;
 	}
@@ -113,6 +115,14 @@ public class Member {
 		this.dormantMemberRegDate = nowTime;
 	}
 
+	public String getWithdrawalStatus() {
+		return withdrawalStatus;
+	}
+
+	public void setWithdrawalStatus(String withdrawalStatus) {
+		this.withdrawalStatus = withdrawalStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "Member{" +
@@ -130,9 +140,8 @@ public class Member {
 				", isOwner=" + isOwner +
 				", isExist=" + isExist +
 				", companyTypeNum='" + companyTypeNum + '\'' +
+				", withdrawalStatus='" + withdrawalStatus + '\'' +
 				", memberLevelName='" + memberLevelName + '\'' +
 				'}';
 	}
-
-
 }
