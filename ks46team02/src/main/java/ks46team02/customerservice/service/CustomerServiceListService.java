@@ -16,7 +16,8 @@ public class CustomerServiceListService {
 
 	private final CustomerServiceListMapper customerserviceListMapper;
 
-	public CustomerServiceListService(CustomerServiceListMapper customeerserviceListMapper, CustomerServiceListMapper customerserviceListMapper) {
+	public CustomerServiceListService(CustomerServiceListMapper customeerserviceListMapper,
+			CustomerServiceListMapper customerserviceListMapper) {
 		this.customerserviceListMapper = customerserviceListMapper;
 
 	}
@@ -26,17 +27,26 @@ public class CustomerServiceListService {
 		return QuestionList;
 	}
 
-
 	public List<AnswerDto> getAnswerList() {
 		List<AnswerDto> AnswerList = customerserviceListMapper.getAnswerList();
 		return AnswerList;
 	}
 	
+	public AnswerDto  getAnswerByCode(String answerCode) {
+		return customerserviceListMapper.getAnswerByCode(answerCode);
+	}
+	
+	/*
+	 * public boolean removeAnswer(String answerCode) { return
+	 * customerserviceListMapper.removeAnswer(answerCode); }
+	 */
+
+
+
 	public List<QuestionTypeDto> getQuestionTypeList() {
 		List<QuestionTypeDto> QuestionTypeList = customerserviceListMapper.getQuestionTypeList();
 		return QuestionTypeList;
 	}
-
 
 	public int getNextQuestionTypeCode() {
 		return customerserviceListMapper.getNextQuestionTypeCode();
@@ -44,31 +54,18 @@ public class CustomerServiceListService {
 
 	public int registerQuestionType(QuestionTypeDto questionTypeDto) {
 		return customerserviceListMapper.insertQuestionType(questionTypeDto);
-		
+
 	}
 
 	public String updateQuestionTypeName(QuestionTypeDto questionTypeDto) {
 		return customerserviceListMapper.updateQuestionType(questionTypeDto);
-		
+
 	}
 
-
-
-
-		
+	public boolean deleteQuestionType(int questionTypeCode) {
+		return customerserviceListMapper.deleteQuestionType(questionTypeCode);
+	}
 	
 
 
-
-
-
-	
-
-
-	
 }
-	
-
-	
-
-

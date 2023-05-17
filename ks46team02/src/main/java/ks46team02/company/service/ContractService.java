@@ -46,7 +46,18 @@ public class ContractService {
 
     /* 계약정보조회 */
     public Contract getContractInfo(String contractCode){
-        Contract contractInfo = contractMapper.getContractInfo(contractCode);
+        Contract contractInfo = null;
+        String validCode = contractCode.substring(0,2);
+        if(validCode.equals("cd")){
+
+            contractInfo = contractMapper.getDryContractInfo(contractCode);
+        } else if (validCode.equals("cf")) {
+
+            contractInfo = contractMapper.getBreedContractInfo(contractCode);
+        } else {
+            contractInfo = contractMapper.getContractInfo(contractCode);
+        }
+
         return contractInfo;
     }
 

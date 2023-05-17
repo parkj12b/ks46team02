@@ -295,6 +295,7 @@ public class AdminController {
 		model.addAttribute("addrList", addrList);
 		return "admin/addr_list";
 	}
+	
 	/* 배송지 세부 조회 */
 	@GetMapping("/addrMemberList")
 	@ResponseBody

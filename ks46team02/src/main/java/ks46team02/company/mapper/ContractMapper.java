@@ -13,6 +13,8 @@ public interface ContractMapper {
     public boolean addDryContract(Contract contract);
     //계약상세정보
     public Contract getContractInfo(String contractCode);
+    public Contract getDryContractInfo(String contractCode);
+    public Contract getBreedContractInfo(String contractCode);
     // 계약조회
     public List<Contract> getContractList();
     // 사육업체 계약조회
