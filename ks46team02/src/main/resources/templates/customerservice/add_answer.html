@@ -8,7 +8,6 @@
 
 <th:block layout:fragment="customJs">
 	<style>
-
 .row {
 	display: flex;
 	flex-wrap: wrap;
@@ -23,6 +22,9 @@
 </style>
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script>
+		
+	</script>
 </th:block>
 </head>
 <body>
@@ -32,7 +34,7 @@
 				<div class="col-md-6">
 					<div class="x_panel">
 						<div class="x_title">
-							<h2>답변 등록</h2>
+							<h2>문의 내용</h2>
 							<div class="clearfix"></div>
 						</div>
 						<div class="x_content">
@@ -45,7 +47,7 @@
 										for="questionCode">question No.</label>
 									<div class="col-md-9 col-sm-9 ">
 										<input type="text" class="form-control" name="questionCode"
-											th:value="${questionCode}" id="questionCode" readonly />
+											th:value="${getquestionDto.questionCode}" id="questionCode" readonly />
 									</div>
 								</div>
 
@@ -54,7 +56,7 @@
 										for="questionTypeName">문의 유형 이름</label>
 									<div class="col-md-9 col-sm-9 ">
 										<input type="text" class="form-control"
-											name="questionTypeName" th:value="${questionTypeName}"
+											name="questionTypeName" th:value="${getquestionDto.questionTypeName}"
 											id="questionTypeName" readonly />
 									</div>
 								</div>
@@ -64,7 +66,7 @@
 									<label class="control-label col-md-3 col-sm-3 " for="memberId">작성자</label>
 									<div class="col-md-9 col-sm-9 ">
 										<input type="text" class="form-control" name="memberId"
-											id="memberId" th:value="${memberId}" readonly />
+											id="memberId" th:value="${getquestionDto.memberId}" readonly />
 									</div>
 								</div>
 
@@ -73,7 +75,7 @@
 										for="questionRegDate">작성 등록일</label>
 									<div class="col-md-9 col-sm-9 ">
 										<input type="text" class="form-control" name="questionRegDate"
-											id="questionRegDate" readonly>
+											id="questionRegDate" th:value="${getquestionDto.questionRegDate}"readonly>
 									</div>
 								</div>
 
@@ -82,7 +84,7 @@
 										for="questionTitle">작성 제목</label>
 									<div class="col-md-9 col-sm-9 ">
 										<input type="text" class="form-control" name="questionTitle"
-											id="questionTitle" readonly>
+											id="questionTitle" th:value="${getquestionDto.questionTitle}" readonly>
 									</div>
 								</div>
 
@@ -92,7 +94,7 @@
 									</label>
 									<div class="col-md-9 col-sm-9 ">
 										<textarea class="form-control" rows="3" name="questionContent"
-											id="questionContent" readonly></textarea>
+											id="questionContent" th:text="${getquestionDto.questionContent}" readonly></textarea>
 									</div>
 								</div>
 
@@ -100,7 +102,7 @@
 									<label class="control-label col-md-3 col-sm-3 "
 										for="questionStatus">답변 상태</label> <input type="text"
 										class="form-control" name="questionStatus" id="questionStatus"
-										readonly />
+										th:value="${getquestionDto.questionStatus}" readonly />
 								</div>
 
 								<div class="form-group row">
@@ -116,12 +118,11 @@
 				<div class="col-md-6">
 					<div class="x_panel">
 						<div class="x_title">
-							<h2>답변 입력</h2>
+							<h2>답변 등록</h2>
 							<div class="clearfix"></div>
 						</div>
 						<div class="x_content">
-							<form class="form-horizontal form-label-left" id="addAnswerForm"
-								th:action="@{/customerservice/add_Answer}" method="post">
+							<form id="answerForm" method="post">
 								<!-- Form Content -->
 								<div class="form-group row ">
 									<label class="control-label col-md-3 col-sm-3 ">답변 담당
@@ -129,13 +130,6 @@
 									<div class="col-md-9 col-sm-9 ">
 										<input type="text" class="form-control" id="adminId"
 											name="adminId" th:value="${session.sessionId}" readonly>
-									</div>
-								</div>
-								<div class="form-group row ">
-									<label class="control-label col-md-3 col-sm-3 ">답변 코드</label>
-									<div class="col-md-9 col-sm-9 ">
-										<input type="text" class="form-control" id="answerCode"
-											name="answerCode" readonly>
 									</div>
 								</div>
 								<div class="form-group row">

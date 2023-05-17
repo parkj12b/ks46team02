@@ -27,9 +27,15 @@ public class CustomerServiceListService {
 		List<QuestionDto> QuestionList = customerserviceListMapper.getQuestionList();
 		return QuestionList;
 	}
+
 	public QuestionDto getQuestionByCode(String questionCode) {
 		return customerserviceListMapper.getQuestionByCode(questionCode);
 	}
+
+	public void addAnswer(AnswerDto answerDto) {
+		customerserviceListMapper.addAnswer(answerDto);
+	}
+
 
 	public List<AnswerDto> getAnswerList() {
 		List<AnswerDto> AnswerList = customerserviceListMapper.getAnswerList();
@@ -44,8 +50,6 @@ public class CustomerServiceListService {
 		int rowsAffected = customerserviceListMapper.updateAnswerDeleteStatus(answerCode);
 		return rowsAffected > 0;
 	}
-
-	
 
 	public List<QuestionTypeDto> getQuestionTypeList() {
 		List<QuestionTypeDto> QuestionTypeList = customerserviceListMapper.getQuestionTypeList();
@@ -70,5 +74,11 @@ public class CustomerServiceListService {
 		return customerserviceListMapper.deleteQuestionType(questionTypeCode);
 	}
 
+	public QuestionDto selectquestionInfo(String questionCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 
 }

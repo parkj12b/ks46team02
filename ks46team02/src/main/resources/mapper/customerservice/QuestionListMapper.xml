@@ -48,65 +48,92 @@
 	<select id="getQuestionList" resultMap="questionListResultMap">
 		/* 문의 조회 */
 		SELECT
-			question_code
-			,question_type_code
-			,question_title
-			,question_content
-			,question_file
-			,member_id
-			,question_reg_date
-			,question_status
+		question_code
+		,question_type_code
+		,question_title
+		,question_content
+		,question_file
+		,member_id
+		,question_reg_date
+		,question_status
 		FROM
 		question
 		WHERE
-			question_del_yn = 'N'
+		question_del_yn = 'N'
 		ORDER BY
-			question_reg_date DESC;
+		question_reg_date DESC;
 	</select>
-	
+
 	<select id="getQuestionByCode" parameterType="String"
 		resultMap="questionListResultMap">
 		/* 답변 세부내용 조회 */
-		SELECT 
-    		q.question_code,
-    		qt.question_type_name,
-    		q.question_title,
-    		q.question_content,
-    		q.question_file,
-    		q.member_id,
-    		q.question_status,
-    		q.question_reg_date
+		SELECT
+		q.question_code,
+		qt.question_type_name,
+		q.question_title,
+		q.question_content,
+		q.question_file,
+		q.member_id,
+		q.question_status,
+		q.question_reg_date
 		FROM
-    		question q
-    	INNER JOIN question_type qt ON q.question_type_code = qt.question_type_code
+		question q
+		INNER JOIN question_type qt ON q.question_type_code =
+		qt.question_type_code
 		WHERE
-   			question_code = #{questionCode}
-   		ORDER BY question_code;
+		question_code = #{questionCode}
+		ORDER BY
+		question_code;
 	</select>
+
+	<insert id="addAnswer" parameterType="answerDto">
+		<selectKey keyProperty="answerCode" order="BEFORE"
+			resultType="String">
+			select sf_new_answer_code() as answerCode;
+		</selectKey>
+		insert into
+		answer ('answer_code', question_code, answer_title,
+		answer_content,
+		answer_file, admin_id, answer_reg_date)
+		VALUES
+		(#{answerCode}, #{questionCode}, #{answerTitle}, #{answerContent},
+		#{answerFile}, #{adminId}, CURRENT_TIMESTAMP());
+	</insert>
+
+	<update id="modify_QuestionStatus" parameterType="questionDto">
+		UPDATE
+		question
+		SET
+		question_status = #{questionStatus}
+		WHERE question_code = #{questionCode} and question_del_yn ='N';
+	</update>
+	
+
 
 	<select id="getAnswerList" resultMap="answerListResultMap">
 		/* 문의에 대한 답변 조회 */
 		SELECT
-			a.answer_code,
-			a.question_code,
-			a.answer_title,
-			a.answer_content,
-			a.answer_file,
-			a.admin_id,
-			a.answer_reg_date,
-			a.answer_modify_date,
-			a.answer_del_yn,
-			a.answer_del_date,
-			q.question_status
+		a.answer_code,
+		a.question_code,
+		a.answer_title,
+		a.answer_content,
+		a.answer_file,
+		a.admin_id,
+		a.answer_reg_date,
+		a.answer_modify_date,
+		a.answer_del_yn,
+		a.answer_del_date,
+		q.question_status
 		FROM
-			answer a
-			JOIN
+		answer a
+		JOIN
 		question q
 		ON a.question_code = q.question_code
 		WHERE
-			a.answer_del_yn = 'N'
+		a.answer_del_yn =
+		'N'
 		ORDER BY
-			a.answer_reg_date DESC;
+		a.answer_reg_date DESC;
 
 	</select>
 
@@ -144,9 +171,6 @@
 	<update id="modifyAnswerList" parameterType="AnswerDto">
 		UPDATE answer
 		<set>
-			<if test="questionStatus != null and questionStatus != ''">
-				question_status = #{questionStatus},
-			</if>
 			<if test="answerTitle != null">
 				answer_title = #{answerTitle},
 			</if>

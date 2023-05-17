@@ -74,6 +74,7 @@ public class MainQuestionController {
 		return "customerservice/main";
 	}
 
+	
 	@GetMapping("/read")
 	public String read(@RequestParam("questionTypeCode") int questionTypeCode,
 			@RequestParam("questionCode") String questionCode, @RequestParam("page") int page, Model model) {

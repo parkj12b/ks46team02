@@ -25,7 +25,7 @@
 												response.questionCode);
 										$('#memberId').val(response.memberId);
 										$('#questionTypeName').val(
-												response.questionTypeName); 
+												response.questionTypeName);
 										$('#questionRegDate').val(
 												response.questionRegDate);
 										$('#questionTitle').val(
@@ -135,7 +135,8 @@
 												<td th:text="${l.memberId}"></td>
 												<td th:text="${l.questionRegDate}"></td>
 												<td th:text="${l.questionStatus}"></td>
-												<td><a th:href="@{/customerservice/add_answer}">
+												<td><a id="registerButton"
+													th:href="@{/customerservice/add_answer(questionCode=${l.questionCode})}">
 														<button class="btn btn-primary float-right" type="button">답변
 															등록</button>
 												</a></td>
