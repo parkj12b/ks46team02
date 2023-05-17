@@ -15,7 +15,7 @@
 		<result column="member_ci"  							property="memberCi"/>
 		<result column="member_status"  						property="memberStatus"/>
 		<result column="dormant_member_reg_date"  				property="dormantMemberRegDate"/>
-		<result column="member_level_name"						property="memberLevelName"/>
+		<result column="withdrawal_status"  					property="withdrawalStatus"/>
 </resultMap>
 
 
@@ -32,23 +32,25 @@
 		<insert id="addMember" parameterType="Member">
 			/* 회원 등록 */
 			insert into member_info
-			(member_id,member_pw,member_name,member_phone,member_email,position_level_code,company_code,member_reg_date,member_status)
+			(member_id,member_pw,member_name,member_phone,member_email,position_level_code,company_code,member_reg_date,member_status,withdrawal_status)
 			VALUES
 
-			(#{memberId},#{memberPw},#{memberName},#{memberPhone},#{memberEmail},#{positionLevelCode},#{companyCode},CURDATE(),'normal');
+			(#{memberId},#{memberPw},#{memberName},#{memberPhone},#{memberEmail},#{positionLevelCode},#{companyCode},NOW(),'normal','N');
 
 
 		</insert>
 		
 
-		<delete id="removeMember" parameterType="String" >
-		/* 회원 삭제 */
-		DELETE
-		FROM
-		 	member_info 
-		WHERE
-			member_id = #{memberId};
-		</delete>
+		<update id="removeMember" parameterType="String" >
+			/* 회원 삭제 */
+			UPDATE member_info
+				set
+				member_status = 'normal',
+				withdrawal_status = #{withdrawalStatus}
+			WHERE
+				member_id = #{memberId};
+
+		</update>
 
 <select id="getMemberInfoById" parameterType="String" resultMap="MemberResultMap">
 		/* 특정 회원 조회 */
@@ -203,7 +205,7 @@
 			from 
 				member_info
 			where
-				member_status='normal';
+				member_status='normal' and withdrawal_status='N';
 	</select>
 	
 	

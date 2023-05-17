@@ -11,6 +11,17 @@
 		<result column="withdrawal_member_phone"  						property="WithdrawalMemberPhone"/>
 		<result column="withdrawal_member_date"  						property="WithdrawalMemberDate"/>
 </resultMap>
+
+
+		<insert id="addwithdrawalMember" parameterType="AdminLevel">
+			/* 탈퇴 회원 등록 */
+			insert into withdrawal_member
+			(withdrawal_member_code,withdrawal_member_id,withdrawal_member_reason,withdrawal_member_phone,withdrawal_member_date)
+			VALUES
+			(#{WithdrawalMemberCode},#{WithdrawalMemberId},'관리자 삭제',#{WithdrawalMemberPhone},now());
+
+		</insert>
+
 		<delete id="removewithdrawalMember" parameterType="String" >
 			/* 탈퇴한 회원 삭제 */
 			DELETE
