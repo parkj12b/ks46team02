@@ -92,7 +92,7 @@
 			select sf_new_answer_code() as answerCode;
 		</selectKey>
 		insert into
-		answer ('answer_code', question_code, answer_title,
+		answer (answer_code, question_code, answer_title,
 		answer_content,
 		answer_file, admin_id, answer_reg_date)
 		VALUES
@@ -100,7 +100,7 @@
 		#{answerFile}, #{adminId}, CURRENT_TIMESTAMP());
 	</insert>
 
-	<update id="modify_QuestionStatus" parameterType="questionDto">
+	<update id="modifyQuestionStatus" parameterType="questionDto">
 		UPDATE
 		question
 		SET
@@ -108,7 +108,6 @@
 		WHERE question_code = #{questionCode} and question_del_yn ='N';
 	</update>
 	
-
 
 	<select id="getAnswerList" resultMap="answerListResultMap">
 		/* 문의에 대한 답변 조회 */

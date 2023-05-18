@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,23 +54,29 @@ public class CustomerServiceListController {
 	/* 문의에 대한 답변등록 */
 	@GetMapping("/add_answer")
 	public String getAddAnswer(@RequestParam("questionCode") String questionCode, AnswerDto answerDto, Model model) {
-		
+
 		QuestionDto questionDto = customerserviceListService.getQuestionByCode(questionCode);
-		
+
 		model.addAttribute("getquestionDto", questionDto);
 		model.addAttribute("questionCode", questionCode);
 		return "customerservice/add_answer";
 	}
 
-	/*  */
+	/* 문의 내용에 대한 답변등록 */
 	@PostMapping("/add_answer_proc")
 	public String postAddAnswer(@ModelAttribute("writeAnswerDto") AnswerDto answerDto,
-								@RequestParam("questionCode") String questionCode) {
-		
-	    answerDto.setQuestionCode(questionCode);
-	    customerserviceListService.addAnswer(answerDto);
-	    
-	    return "redirect:/answerlist";
+			@RequestParam("questionCode") String questionCode, @RequestParam("questionStatus") String questionStatus) {
+
+		answerDto.setQuestionCode(questionCode);
+		customerserviceListService.addAnswer(answerDto);
+
+		QuestionDto questionDto = new QuestionDto();
+		questionDto.setQuestionCode(questionCode);
+		log.info(questionCode);
+		questionDto.setQuestionStatus(questionStatus);
+		customerserviceListService.modifyQuestionStatus(questionDto);
+
+		return "/customerservice/answerlist";
 	}
 
 	/* 답변내용애 대한 정보 조회 */
