@@ -27,21 +27,32 @@ public class CustomerServiceListService {
 		return QuestionList;
 	}
 
+	public QuestionDto getQuestionByCode(String questionCode) {
+		return customerserviceListMapper.getQuestionByCode(questionCode);
+	}
+
+	public void addAnswer(AnswerDto answerDto) {
+		customerserviceListMapper.addAnswer(answerDto);
+	}
+	
+	public void modifyQuestionStatus(QuestionDto questionDto) {
+        customerserviceListMapper.modifyQuestionStatus(questionDto);
+    }
+
+
 	public List<AnswerDto> getAnswerList() {
 		List<AnswerDto> AnswerList = customerserviceListMapper.getAnswerList();
 		return AnswerList;
 	}
-	
-	public AnswerDto  getAnswerByCode(String answerCode) {
+
+	public AnswerDto getAnswerByCode(String answerCode) {
 		return customerserviceListMapper.getAnswerByCode(answerCode);
 	}
-	
-	/*
-	 * public boolean removeAnswer(String answerCode) { return
-	 * customerserviceListMapper.removeAnswer(answerCode); }
-	 */
 
-
+	public boolean removeAnswer(String answerCode) {
+		int rowsAffected = customerserviceListMapper.updateAnswerDeleteStatus(answerCode);
+		return rowsAffected > 0;
+	}
 
 	public List<QuestionTypeDto> getQuestionTypeList() {
 		List<QuestionTypeDto> QuestionTypeList = customerserviceListMapper.getQuestionTypeList();
@@ -65,7 +76,4 @@ public class CustomerServiceListService {
 	public boolean deleteQuestionType(int questionTypeCode) {
 		return customerserviceListMapper.deleteQuestionType(questionTypeCode);
 	}
-	
-
-
 }
