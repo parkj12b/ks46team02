@@ -18,6 +18,7 @@ public interface CustomerServiceListMapper {
 	/* 문의 세부내용 조회 */
 	public QuestionDto getQuestionByCode(@Param("questionCode") String questionCode);
 	
+	
 	public void addAnswer(AnswerDto answerDto);
 	
 	

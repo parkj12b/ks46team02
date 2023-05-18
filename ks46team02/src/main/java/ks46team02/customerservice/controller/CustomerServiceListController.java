@@ -63,12 +63,14 @@ public class CustomerServiceListController {
 		return "customerservice/add_answer";
 	}
 
+	/*  */
 	@PostMapping("/add_answer_proc")
 	public String postAddAnswer(@ModelAttribute("writeAnswerDto") AnswerDto answerDto,
 								@RequestParam("questionCode") String questionCode) {
 		
 	    answerDto.setQuestionCode(questionCode);
 	    customerserviceListService.addAnswer(answerDto);
+	    
 	    return "redirect:/answerlist";
 	}
 
