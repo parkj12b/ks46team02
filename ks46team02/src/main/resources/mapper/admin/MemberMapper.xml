@@ -80,7 +80,7 @@
 				member_pw = #{memberPw},
 			</if>
 			<if test="memberName != null and memberName != ''">
-				member_name = #{adminName},
+				member_name = #{memberName},
 			</if>
 			<if test="memberPhone != null and memberPhone != ''">
 				member_phone = #{memberPhone},

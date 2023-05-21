@@ -22,4 +22,6 @@ public interface ContractMapper {
     // 건조업체 계약조회
     public List<Contract> getContractListDry();
 
+    /* 회원별 계약 횟수 조회*/
+    public int getContractAmount(String memberId);
 }

@@ -21,6 +21,8 @@ public class Member {
 
 	private String withdrawalStatus;
 
+	private String companyName;
+
 	public String getMemberLevelName() {
 		return memberLevelName;
 	}
@@ -123,6 +125,14 @@ public class Member {
 		this.withdrawalStatus = withdrawalStatus;
 	}
 
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
 	@Override
 	public String toString() {
 		return "Member{" +
@@ -141,6 +151,7 @@ public class Member {
 				", isExist=" + isExist +
 				", companyTypeNum='" + companyTypeNum + '\'' +
 				", withdrawalStatus='" + withdrawalStatus + '\'' +
+				", companyName='" + companyName + '\'' +
 				", memberLevelName='" + memberLevelName + '\'' +
 				'}';
 	}

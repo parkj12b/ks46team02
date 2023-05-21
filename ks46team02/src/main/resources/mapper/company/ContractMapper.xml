@@ -23,6 +23,21 @@
         <result column="contractor_company_code"    property="contractorCompanyCode"/>
     </resultMap>
 
+    <select id="getContractAmount" resultType="int">
+    /* 회원별 진행중인 계약 횟수 조회*/
+        SELECT
+        count(1)
+        FROM
+        all_contract
+        WHERE
+        contract_approval='approve'
+        AND
+        member_id = #{memberId};
+
+
+
+    </select>
+
 
 
     <insert id="addBreedContract" parameterType="Contract">
