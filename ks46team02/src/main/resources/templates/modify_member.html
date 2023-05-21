@@ -12,29 +12,28 @@
         $('#resetBtn').click(function(){
 			history.go(-1);
 		});
-        /* 휴대폰 전화 자동 하이픈  */
-        $(document).ready(function () {
-           $(function () {
-                    
-                    $('#memberPhone').keydown(function (event) {
-                     var key = event.charCode || event.keyCode || 0;
-                     $text = $(this); 
-                     if (key !== 8 && key !== 9) {
-                         if ($text.val().length === 3) {
-                             $text.val($text.val() + '-');
-                         }
-                         if ($text.val().length === 8) {
-                             $text.val($text.val() + '-');
-                         }
-                     }
+    $(document).ready(function () {
+        $(function () {
 
-                     return (key == 8 || key == 9 || key == 46 || (key >= 48 && key <= 57) || (key >= 96 && key <= 105));
-        			 // Key 8번 백스페이스, Key 9번 탭, Key 46번 Delete 부터 0 ~ 9까지, Key 96 ~ 105까지 넘버패트
-        			 // 한마디로 JQuery 0 ~~~ 9 숫자 백스페이스, 탭, Delete 키 넘버패드외에는 입력못함
-                 })
-           });
+            $('#addrPhone').keydown(function (event) {
+                var key = event.charCode || event.keyCode || 0;
+                $text = $(this);
+                if (key !== 8 && key !== 9) {
+                    if ($text.val().length === 3) {
+                        $text.val($text.val() + '-');
+                    }
+                    if ($text.val().length === 8) {
+                        $text.val($text.val() + '-');
+                    }
+                }
 
+                return (key == 8 || key == 9 || key == 46 || (key >= 48 && key <= 57) || (key >= 96 && key <= 105));
+                // Key 8번 백스페이스, Key 9번 탭, Key 46번 Delete 부터 0 ~ 9까지, Key 96 ~ 105까지 넘버패트
+                // 한마디로 JQuery 0 ~~~ 9 숫자 백스페이스, 탭, Delete 키 넘버패드외에는 입력못함
+            })
         });
+
+    });
         /* 유효성 검사 > sweat로 모달창 */
       $('#submitBtn').click(function() {
 
@@ -85,35 +84,35 @@
                         <div th:object="${memberInfo}">
                         <span class="section"></span>
                             <div class="field item form-group">
-							    <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyCode">아이디</label>
+							    <label class="col-form-label col-md-3 col-sm-3  label-align" >아이디</label>
 							    <div class="col-md-3 col-sm-3 input-group">
 							        <input id="memberId" class="form-control" name="memberId" type="text" th:value="*{memberId}" readonly/>
 							    </div>
 							</div>
 
                         <div class="field item form-group">
-                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyRegNum">비밀번호</label>
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" >비밀번호</label>
                             <div class="col-md-3 col-sm-3">
                                 <input id="memberPw" class="form-control" name="memberPw"
                                        type="password" th:value="*{memberPw}"/>
                             </div>
                         </div>
                         <div class="field item form-group">
-                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyName">이름</label>
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" >이름</label>
                             <div class="col-md-3 col-sm-3">
                                 <input id="memberName" class="form-control" name="memberName"
                                        th:value="*{memberName}"/>
                             </div>
                         </div>
 						<div class="form-group row">
-						  <label class="control-label col-md-3 col-sm-3 label-align" for="companyAddr">전화번호</label>
+						  <label class="control-label col-md-3 col-sm-3 label-align" >전화번호</label>
 						  <div class="col-md-3 col-sm-3">
 						   <input id="memberPhone" class="form-control" name="memberPhone"
                                        th:value="*{memberPhone}"/>
 						  </div>
 						</div>
 						<div class="field item form-group">
-                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="companyAddr">이메일</label>
+                            <label class="col-form-label col-md-3 col-sm-3  label-align" >이메일</label>
                             <div class="col-md-3 col-sm-3">
                                 <input id="memberEmail" class="form-control" name="memberEmail"
                                        th:value="*{memberEmail}"/>
@@ -122,15 +121,15 @@
 
 
                        <div class="form-group row">
-						  <label class="control-label col-md-3 col-sm-3 label-align" for="companyAddr">직원별 권한</label>
+						  <label class="control-label col-md-3 col-sm-3 label-align">직원별 권한</label>
 						  <div class="col-md-3 col-sm-3">
-                                  <input id="memberEmail" class="form-control" name="memberEmail"
+                                  <input id="positionLevelCode" class="form-control" name="positionLevelCode"
                                          th:value="*{positionLevelCode}" readonly/>
 						  </div>
 						</div>
 
                         <div class="field item form-group">
-                            <label class="col-form-label col-md-3 col-sm-3  label-align" for="regPassword">업체 코드</label>
+                            <label class="col-form-label col-md-3 col-sm-3  label-align">업체 코드</label>
                             <div class="col-md-3 col-sm-3">
                                 <input id="companyCode" class="form-control" name="companyCode"
                                        th:value="*{companyCode}" readonly/>
