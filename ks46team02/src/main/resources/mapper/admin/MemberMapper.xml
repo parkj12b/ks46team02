@@ -16,6 +16,7 @@
 		<result column="member_status"  						property="memberStatus"/>
 		<result column="dormant_member_reg_date"  				property="dormantMemberRegDate"/>
 		<result column="withdrawal_status"  					property="withdrawalStatus"/>
+		<result column="member_level_name"  					property="memberLevelName"/>
 </resultMap>
 
 

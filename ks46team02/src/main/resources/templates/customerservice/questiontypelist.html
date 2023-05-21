@@ -72,17 +72,15 @@
 	            }
 	        });
 	    });
-	$(document).ready(function() {
+	/* $(document).ready(function() {
 	    $(".delete").on('click', function(event) {
-	        event.preventDefault(); // Prevent the default action (navigation)
+	        event.preventDefault(); 
 
-	        // Get the current row
+	    
 	        var currentRow = $(this).closest("tr");
 
-	        // Extract the questionTypeCode from the row
 	        var questionTypeCode = currentRow.find("td:eq(0)").text();
 
-	        // Ask the user to confirm the deletion
 	        var confirmDelete = confirm("정말 삭제하시겠습니까?");
 
 	        if (confirmDelete) {
@@ -106,6 +104,38 @@
 	            });
 	        }
 	    });
+	}); */
+	$(document).ready(function() {
+		$(".delete").on('click', function(event) {
+			event.preventDefault();
+
+			var currentRow = $(this).closest("tr");
+			var questionTypeCode = currentRow.find("td:eq(0)").text();
+
+			var confirmDelete = confirm("정말 삭제하시겠습니까?");
+
+			if (confirmDelete) {
+				$.ajax({
+					url : '/customerservice/remove_answer_proc', // URL을 업데이트 합니다.
+					type : 'POST',
+					data : {
+						answerCode : answerCode,
+					},
+					success : function(response) {
+						if (response === 'success') {
+							alert('문의 유형이 성공적으로 삭제되었습니다.');
+							// location.reload(); // 이 코드를 주석 처리하고
+							currentRow.hide(); // 이 코드를 추가하여 삭제된 것처럼 보이게 합니다.
+						} else {
+							alert('문의 유형 삭제에 실패하였습니다.');
+						}
+					},
+					error : function() {
+						alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+					}
+				});
+			}
+		});
 	});
 		
 </script>
@@ -186,7 +216,7 @@
 												<td th:text="${l.questionTypeRegDate}"></td>
 												<td th:text="${l.questionTypeModifyDate}"></td>
 												<td><button type="submit" class="submit">수정</button></td>
-												<td><a href="#" class="delete"><i
+												<td><a href="" class="delete"><i
 														class="fa fa-close"></i> 삭제</a></td>
 											</tr>
 										</tbody>
