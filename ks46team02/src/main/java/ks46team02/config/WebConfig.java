@@ -42,7 +42,8 @@ public class WebConfig implements WebMvcConfigurer{
 		
 		/* add farmInterceptor */
 		
-		registry.addInterceptor(farmInterceptor) .addPathPatterns("/farm/**");
+		registry.addInterceptor(farmInterceptor)
+			.addPathPatterns("/farm/**");
 		 }
 	
 	@Override

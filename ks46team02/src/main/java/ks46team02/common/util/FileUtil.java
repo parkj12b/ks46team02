@@ -19,6 +19,7 @@ import ks46team02.common.dto.FileDto;
 @Component
 public class FileUtil {
 	
+	//파일 처리
 	public List<FileDto> parseFileInfo(MultipartFile[] uploadfile, String fileRealPath, String fileAssociateKey){
 		
 		// 파일이 존재하지 않은 경우 

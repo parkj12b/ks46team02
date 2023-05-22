@@ -52,6 +52,7 @@ public class MentorMenteeService {
 		this.mainMapper = mainMapper;
 	}
 
+	//멘토멘티 신청 기록 조회
 	public Map<String, Object> getMentorMenteeRegisterStatus(String companyCode) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		MMRegInfoMentee mmRegInfoMentee;
@@ -75,11 +76,13 @@ public class MentorMenteeService {
 		return map;
 
 	}
-
+	
+	//멘토멘티 권한 조회
 	public Integer getMMRegType(String companyCode) {
 		return mentorMenteeMapper.getMMRegType(companyCode);
 	}
 
+	//멘토멘티 계약 정보조회
 	public List<MMContractInfo> getMMContractList(String searchKey, String searchValue) {
 
 		List<MMContractInfo> mmContractInfo = mentorMenteeMapper.getMMContractInfo(searchKey, searchValue);
@@ -87,6 +90,7 @@ public class MentorMenteeService {
 		return mmContractInfo;
 	}
 
+	//멘토멘티 계약 정보 조회
 	public List<AllContractInfo> getMMContractListByKeyValue(List<Map<String, Object>> searchList) {
 		// TODO Auto-generated method stub
 
@@ -95,6 +99,7 @@ public class MentorMenteeService {
 		return contractInfoList;
 	}
 
+	//멘토멘티 계약 조회
 	public AllContractInfo getMMContractByKeyValue(List<Map<String, Object>> searchList) {
 		List<AllContractInfo> contractInfo = mainMapper.getContractInfoByKeyValueAnd(searchList);
 
@@ -105,6 +110,7 @@ public class MentorMenteeService {
 		return contractInfo.get(0);
 	}
 
+	//멘토멘티 계약 상세정보
 	public AllContractInfo getMMContractDetail(List<Map<String, Object>> searchList) {
 		List<AllContractInfo> contractInfo = mainMapper.getContractInfoByKeyValueOr(searchList);
 
@@ -115,6 +121,7 @@ public class MentorMenteeService {
 		return contractInfo.get(0);
 	}
 
+	//멘토멘티 방문기록 조회
 	public Map<String, Object> getVisitHistoryInfo(String contractCode) {
 		// TODO Auto-generated method stub
 
@@ -132,6 +139,7 @@ public class MentorMenteeService {
 		return visitHistoryInfo;
 	}
 
+	//멘토멘티 방문평가 조회
 	public List<ResultHistory> getResultHistoryList(String visitCode) {
 		// TODO Auto-generated method stub
 
@@ -139,6 +147,7 @@ public class MentorMenteeService {
 		return resultHistoryList;
 	}
 
+	//멘토멘티 방문평가 기준 조회
 	public List<EvaluationStandard> getEvaluationStandardList() {
 		// TODO Auto-generated method stub
 		List<EvaluationStandard> evaluationStandardList = mentorMenteeMapper.getEvaluationStandardList();
@@ -146,6 +155,7 @@ public class MentorMenteeService {
 		return evaluationStandardList;
 	}
 
+	//멘토멘티 방문기록 조회
 	public VisitHistory getVisitHistoryByVisitCode(String visitCode) {
 		// TODO Auto-generated method stub
 
@@ -153,6 +163,7 @@ public class MentorMenteeService {
 		return visitHistory;
 	}
 
+	//멘토멘티 신청유무
 	public boolean mentorMenteeIsApply(String companyCode) {
 		// TODO Auto-generated method stub
 
@@ -161,6 +172,7 @@ public class MentorMenteeService {
 		return isApply;
 	}
 
+	//멘토멘티 계약 유부
 	public boolean isRegisterValid(String companyCode) {
 		// TODO Auto-generated method stub
 
@@ -169,6 +181,7 @@ public class MentorMenteeService {
 		return !hasNoContract;
 	}
 
+	//멘토멘티 방문평가 상세캬 기준조회
 	public List<EvaluationDetailCategory> getEvalDetailCateList() {
 		// TODO Auto-generated method stub
 
@@ -177,6 +190,7 @@ public class MentorMenteeService {
 		return evalDetailCateList;
 	}
 
+	//멘토멘티 방문평가 대분류 조회
 	public List<EvaluationLargeCategory> getEvalLargeCateList() {
 		// TODO Auto-generated method stub
 
@@ -185,6 +199,7 @@ public class MentorMenteeService {
 		return evalLargeCateList;
 	}
 
+	//멘토멘티 방문평가 작성/수정
 	@SuppressWarnings("unchecked")
 	public void addFeedback(Map<String, Object> paramMap) throws Exception {
 		// TODO Auto-generated method stub
@@ -337,6 +352,7 @@ public class MentorMenteeService {
 		int result = mentorMenteeMapper.modifyVisitHistory(visitHistoryParam);
 	}
 
+	//멘토멘티 방문평가 작성토큰 조회
 	public List<MentorFeedbackToken> getMentorFeedbackTokenList(String companyCode) {
 		// TODO Auto-generated method stub
 		List<MentorFeedbackToken> mentorFeedbackToken = mentorMenteeMapper.getMentorFeedbackTokenListByCompanyCode(companyCode);
@@ -345,6 +361,7 @@ public class MentorMenteeService {
 		return mentorFeedbackToken;
 	}
 
+	//멘토멘티 방문평가 작성토큰 삭제
 	public int removeTokenByTokenCode(String tokenCode) {
 		// TODO Auto-generated method stub
 		int result = mentorMenteeMapper.removeTokenByTokenCode(tokenCode);
@@ -352,6 +369,7 @@ public class MentorMenteeService {
 		return result;
 	}
 
+	//멘토멘티 방문평가 작성토큰 등록
 	public MentorFeedbackToken addMentorFeedbackToken(MentorFeedbackToken token) {
 		// TODO Auto-generated method stub
 		String tokenCode = mainMapper.autoIncrement("mentor_feedback_token","mentor_feedback_token_code");
@@ -371,12 +389,14 @@ public class MentorMenteeService {
 		return tokenInfo;
 	}
 
+	//멘토멘티 방문평가 작성토큰 조회
 	public MentorFeedbackToken getMentorFeedbackTokenByTokenCode(String tokenCode) {
 		// TODO Auto-generated method stub
 		MentorFeedbackToken tokenInfo = mentorMenteeMapper.getMentorFeedbackTokenByTokenCode(tokenCode);
 		return tokenInfo;
 	}
 
+	//멘토멘티 방문평가 기준 대분류 조회
 	public List<EvaluationLargeCategory> getEvaluationLargeCategoryNoDetailCate() {
 		// TODO Auto-generated method stub
 		List<EvaluationLargeCategory> list = mentorMenteeMapper.getEvaluationLargeCategoryNoDetailCate();
@@ -384,6 +404,7 @@ public class MentorMenteeService {
 		return list;
 	}
 
+	//멘토멘티 멘티 신청
 	public Map<String, Object> addMenteeApply(MMRegInfoMentee menteeRegInfo, HttpSession session) {
 		Map<String,Object> returnMap = new HashMap<>();
 		FileRelation fileRelation = new FileRelation();

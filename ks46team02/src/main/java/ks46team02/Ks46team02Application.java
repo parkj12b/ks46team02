@@ -14,7 +14,7 @@ public class Ks46team02Application {
 	
 	public static void main(String[] args) {
 		SpringApplication.run(Ks46team02Application.class, args);
-		 
+		
 	}
 
 }

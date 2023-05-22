@@ -31,6 +31,7 @@ public class FileController {
 		this.fileService = fileService;
 	}
 
+	/* 멘토멘티 멘티 매출 증빙서류 업로드 */
 	@PostMapping("/uploadMenteeApplyEvidence")
 	@ResponseBody
 	public void archiveUpload(@RequestParam("file") MultipartFile[] file,  HttpServletRequest request, FileRelation fileRelation) {

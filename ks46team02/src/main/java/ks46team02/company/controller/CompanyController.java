@@ -314,6 +314,7 @@ public class CompanyController {
         return "company/company_list";
     }
 
+    //방문평가 등록 토큰 조회
     @GetMapping("/mentorFeedbackToken")
     public String getMentorFeedbackTokenList(Model model, HttpSession session) {
     	String companyCode = (String) session.getAttribute("sessionCompanyCode");
@@ -324,6 +325,7 @@ public class CompanyController {
     	return "company/mentor_feedback_token";
     }
     
+    //방문평가 등록 토큰 삭제
     @PostMapping("/deleteTokenAction")
     @ResponseBody
     public Map<String, Object> removeTokenAction(Model model, String tokenCode, HttpSession session) {
@@ -351,13 +353,14 @@ public class CompanyController {
     	
     	return returnMap;
     }
-    
+    //멘토 피드백 토큰 등록 뷰
     @GetMapping("/addMentorFeedbackToken")
     public String addMentorFeedbackToken(Model model) {
     	model.addAttribute("title", "멘토 피드백 토큰 생성");
     	return "company/add_mentor_feedback_token";
     }
     
+    //멘토 피드백 토큰 등록
     @PostMapping("/addMentorFeedbackTokenAction")
     public String addMentorFeedbackTokenAction(MentorFeedbackToken token, RedirectAttributes reAttr) {
     	
@@ -367,6 +370,7 @@ public class CompanyController {
     	return "redirect:/company/newTokenPage";
     }
     
+    //토큰 페이지 뷰
     @GetMapping("/newTokenPage")
     public String newTokenPage(Model model) {
     	MentorFeedbackToken tokenInfo = (MentorFeedbackToken) model.asMap().get("token");

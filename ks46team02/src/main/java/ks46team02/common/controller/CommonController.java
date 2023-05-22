@@ -27,8 +27,8 @@ import ks46team02.common.dto.AdminMember;
 import ks46team02.common.dto.AllContractInfo;
 import ks46team02.common.dto.Member;
 import ks46team02.common.dto.MemberLoginInfo;
-import ks46team02.common.emailTest.EmailService;
-import ks46team02.common.emailTest.EmailServiceImpl;
+import ks46team02.common.email.EmailService;
+import ks46team02.common.email.EmailServiceImpl;
 import ks46team02.common.service.MainService;
 import ks46team02.company.dto.Company;
 import ks46team02.company.service.CompanyService;
@@ -63,12 +63,13 @@ public class CommonController {
 	}
 	
 	
-	//아직미구현
+	/* 회원가입 */
 	@PostMapping("/signUp")
 	public String signUp(Model model) {
 		return "main2";
 	}
 
+	/* 로그인 */
 	@PostMapping("/login")
 	public String login(MemberLoginInfo memberLoginInfo
 			           ,HttpSession session
@@ -131,12 +132,13 @@ public class CommonController {
 	//mail
 	
 	
-	
+	/* 회원가입 뷰 */
 	@GetMapping("/signUp")
 	public String signUp() {
 		return "redirect:/login#signup";
 	}
 	
+	/* 메인페이지 뷰 */
 	@GetMapping("/")
 	public String mainPage(@RequestParam(name = "questionTypeCode", defaultValue = "0") int questionTypeCode
 						   , Model model
@@ -146,32 +148,37 @@ public class CommonController {
 	    log.info("{}", topMenuList);
 	    session.setAttribute("topMenuList", topMenuList);
 	    model.addAttribute("title", "환경을 생각하는 라바링크");
-	 
+	    
 	    return "mainpage";
 	}
 	
+	/* 마이페이지 */
 	@GetMapping("/mypage")
 	public String mypage() {
 		return "mypage";
 	}
 	
+	/* 로그인 뷰 */
 	@GetMapping("/login")
 	public String loginAndSignUp(Model model) {
 		model.addAttribute("title", "라바링크 로그인");
 		return "login_and_signup";
 	}
 	
+	/* 로그아웃 후 메인페이지 뷰 */
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
 	}
 	
-	@GetMapping("/testing")
-    public String testing() {
-    	return "dataTableTest";
-    }
+	/*  */
+//	@GetMapping("/testing")
+//    public String testing() {
+//    	return "dataTableTest";
+//    }
 	
+	/* 계약서 조회 */
 	@GetMapping("/contractPaper")
 	public String getContractPaperDetail(Model model, HttpSession session, @RequestParam(name="contractCode") String contractCode) {
 		Map<String,String> keyValue = new HashMap<String,String>();
@@ -257,11 +264,11 @@ public class CommonController {
 		return "/add_member_addr";
 	}
 	
-	/**
-	 * 
-	 */
+	/* 멘토 승인 */
 	@GetMapping("/unauthorizedRedirect")
 	public String accessDenied() {
-		return "invalid_access";
+		return "error/error_403";
 	}
+	
+	
 }

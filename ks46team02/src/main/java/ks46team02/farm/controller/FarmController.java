@@ -460,6 +460,7 @@ public class FarmController {
 
 	// ========================= 멘토 멘티 ================================= //
 
+	//멘토멘티 신청
 	@GetMapping("/mentorMentee")
 	public String getMentorMenteeView(HttpSession session, Model model){
 		String companyCode = (String) session.getAttribute("sessionCompanyCode");
@@ -472,18 +473,21 @@ public class FarmController {
 		return "farm/mentor_mentee_intro";
 	}
 
+	//멘토 신청
 	@GetMapping("/mentorSignUp")
 	public String getMentorSignUpForm(Model model){
 		model.addAttribute("title","멘토멘티 멘토 신청");
 		return "farm/mentor_sign_up";
 	}
 
+	//멘티 신청
 	@GetMapping("/menteeSignUp")
 	public String getMenteeSignUpForm(Model model){
 		model.addAttribute("title", "멘토멘티 멘티 신청");
 		return "farm/mentee_sign_up";
 	}
 
+	//멘토멘티 승인여부 조회
 	@GetMapping("/mentorMenteeRegisterStatus")
 	public String getMentorMenteeRegisterStatus(HttpSession session, Model model) {
 		String companyCode = (String) session.getAttribute("sessionCompanyCode");
@@ -504,6 +508,7 @@ public class FarmController {
 		return "farm/mentor_mentee_register_status";
 	}
 
+	//멘토멘티 공고 조회
 	@GetMapping("/mentorMenteeContract")
 	public String getMMContractList(Model model) {
 		String searchKey = "company_code";
@@ -514,6 +519,7 @@ public class FarmController {
 		return "farm/mm_contract_list";
 	}
 
+	//멘토멘티 공고 상세정보 조회
 	@GetMapping("/mentorMenteeContractDetail")
 	public String getMMContractDetail(Model model, @RequestParam(name="mentorContractRegCode") String mentorContractRegCode) {
 		String searchKey = "mentor_contract_reg_code";
@@ -525,6 +531,7 @@ public class FarmController {
 		return "farm/mm_contract_detail";
 	}
 
+	//나의 멘토멘티 공고 조회
 	@GetMapping("/myMentorMenteeContractMentor")
 	public String getMMContractListMentor(Model model, HttpSession session) {
 		String companyCode = (String)session.getAttribute("sessionCompanyCode");
@@ -536,6 +543,7 @@ public class FarmController {
 		return "farm/my_mm_contract_list_mentor";
 	}
 
+	//나의 멘티 계약 조회 멘티
 	@GetMapping("/myMentorMenteeContractMentee")
 	public String getMMContractListMentee(Model model, HttpSession session) {
 		String companyCode = (String)session.getAttribute("sessionCompanyCode");
@@ -593,6 +601,7 @@ public class FarmController {
 		return "farm/my_mm_contract_mentee";
 	}
 
+	//나의 등록 계약 수정
 	@GetMapping("/mentorMenteeContractModify")
 	public String getMMContractModify(Model model, @RequestParam(name="mentorContractRegCode") String mentorContractRegCode) {
 
@@ -612,6 +621,7 @@ public class FarmController {
 		return "redirect:/farm/myMentorMenteeContract";
 	}
 
+	//멘토멘티 공고 등록
 	@GetMapping("/registerMentorMenteeContract")
 	public String addMMContractRegister(Model model) {
 
@@ -619,6 +629,7 @@ public class FarmController {
 		return "farm/mm_contract_register";
 	}
 
+	//승인대기 멘토멘티 계약 조회
 	@GetMapping("/mentorMenteeContractApprove")
 	public String mentorMenteeContractApprove(Model model, HttpSession session) {
 
@@ -649,6 +660,7 @@ public class FarmController {
 		return "farm/my_mm_contract_approve_list";
 	}
 
+	//방문평가 조회
 	@GetMapping("/mentorMenteeFeedbackMentee")
 	public String mentorMenteeFeedbackMentee(Model model, HttpSession session, @RequestParam(name="contractCode", required=false) String contractCode) {
 
@@ -687,6 +699,7 @@ public class FarmController {
 		return "farm/mm_feedback_mentee";
 	}
 
+	//멘토멘티 방문평가 상세정보 조회
 	@GetMapping("/mmFeedbackMenteeDetail")
 	public String mentorMenteeFeedbackDetail(Model model, @RequestParam(name="visitCode") String visitCode) {
 
@@ -713,7 +726,8 @@ public class FarmController {
 
 		return "farm/mm_feedback_mentee_detail";
 	}
-
+	
+	//멘토멘티 멘티 계약 접수
 	@PostMapping("/mmRegisterAction")
 	@ResponseBody
 	public Map<String,Object> mentorMenteeRegisterAction(HttpSession session) {
@@ -740,6 +754,7 @@ public class FarmController {
 		return map;
 	}
 
+	//나의 멘토멘티 계약 멘티 목록 조회
 	@GetMapping("/mmMyMenteeList")
 	public String mentorMenteeMyMenteeList(HttpSession session, Model model) {
 
@@ -767,6 +782,7 @@ public class FarmController {
 		return "farm/my_mm_contract_mentor";
 	}
 
+	//멘티 목록 조회 상세정보 조회
 	@GetMapping("/myMenteeListDetail")
 	public String myMentorMenteeDetail(HttpSession session, Model model, @RequestParam(name="companyCode") String companyCode) {
 
@@ -818,6 +834,7 @@ public class FarmController {
 		return "farm/my_mm_contract_mentor_detail";
 	}
 
+	//방문평가 수정삭제
 	@GetMapping("/myMenteeFeedbackModify")
 	public String myMenteeFeedbackModify(Model model,HttpSession session, @RequestParam(name="visitCode", required=false) String visitCode) {
 
@@ -843,6 +860,7 @@ public class FarmController {
 		return "farm/my_mentee_feedback_modify";
 	}
 	
+	//방문평가 등록/수정
 	@CrossOrigin("*")
 	@PostMapping("/receiveFormData")
 	@ResponseBody
@@ -901,14 +919,14 @@ public class FarmController {
 		return "Success";
 	}
 	
+	//멘토멘티 멘티 신청
 	@PostMapping("/menteeApply")
 	@ResponseBody
 	public Map<String, Object> addMenteeApply(MMRegInfoMentee menteeRegInfo, HttpSession session, @RequestParam(name="file[0]", required=false) MultipartFile[] uploadFile){
-		log.info("1");
+		
 		Map<String, Object> returnMap = mentorMenteeService.addMenteeApply(menteeRegInfo, session);
 		String fileAssociateKey = (String) returnMap.get("fileAssociateKey");
-		Map<String, Object> returnMap1 = fileService.uploadMenteeDocument(uploadFile, filePath, fileAssociateKey);
-		log.info("2");
+		Map<String, Object> returnMap1 = fileService.uploadMenteeDocument(uploadFile, filePath, fileAssociateKey);	
 		
 		return returnMap1;
 	}

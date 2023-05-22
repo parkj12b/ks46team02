@@ -34,18 +34,21 @@ public class AdminMMservice {
 		this.mainMapper = mainMapper;
 	}
 	
+	//멘티 신청 리스트 or로 조회
 	public List<MMRegInfoMentee> getMenteeRegListOr(List<Map<String, Object>> searchList) {
 		List<MMRegInfoMentee> menteeRegList = mMMapper.getMenteeRegListOr(searchList);
 		return menteeRegList;
 	}
 
+	//멘토 신청 리스트 or로 조회
 	public List<MMRegInfoMentor> getMentorRegListOr(List<Map<String, Object>> searchList) {
 		// TODO Auto-generated method stub
 		List<MMRegInfoMentor> mentorRegList = mMMapper.getMentorRegListOr(searchList);
 		log.info("{}", mentorRegList);
 		return mentorRegList;
 	}
-
+	
+	//멘토 신청 승인
 	public int approveMentorRegStatus(MMRegInfoMentor mentorRegInfo) {
 		// TODO Auto-generated method stub
 		mentorRegInfo.setMentorApproval("approved");
@@ -53,6 +56,7 @@ public class AdminMMservice {
 		return result;
 	}
 
+	//멘토 신청 거부
 	public int denyMentorRegStatus(MMRegInfoMentor mentorRegInfo) {
 		// TODO Auto-generated method stub
 		mentorRegInfo.setMentorApproval("denied");
@@ -60,6 +64,7 @@ public class AdminMMservice {
 		return result;
 	}
 
+	//멘토 신청 기록 삭제
 	public int removeMentorRegHistory(MMRegInfoMentor mentorRegInfo) {
 		// TODO Auto-generated method stub
 		
@@ -67,12 +72,15 @@ public class AdminMMservice {
 		return result;
 	}
 
+	//멘티 신청 승인
 	public int approveMenteeRegStatus(MMRegInfoMentee menteeRegInfo) {
 		// TODO Auto-generated method stub
 		menteeRegInfo.setMenteeApproval("approved");
 		int result = mMMapper.modifyMenteeRegStatus(menteeRegInfo);
 		return result;
 	}
+	
+	//멘티 신청 거부
 	public int denyMenteeRegStatus(MMRegInfoMentee menteeRegInfo) {
 		// TODO Auto-generated method stub
 		menteeRegInfo.setMenteeApproval("denied");
@@ -80,6 +88,7 @@ public class AdminMMservice {
 		return result;
 	}
 
+	//멘티 신청 기록 삭제
 	public int removeMenteeRegHistory(MMRegInfoMentee menteeRegInfo) {
 		// TODO Auto-generated method stub
 		int result = mMMapper.removeMenteeRegHistory(menteeRegInfo);
@@ -87,6 +96,7 @@ public class AdminMMservice {
 		
 	}
 
+	//방문기록 리셋
 	public Map<String, Object> resetVisitHistory(VisitHistory visitHistory) {
 		// TODO Auto-generated method stub
 		String msg = "방문기록이 삭제되지 않았습니다.";
@@ -112,6 +122,7 @@ public class AdminMMservice {
 		return returnMap;
 	}
 
+	//방문평가 카테고리 대분류 삭제
 	public Map<String, Object> removeEvaluationLargeCategory(EvaluationLargeCategory evalLargeCate) {
 		
 		String msg = "대분류 카테고리가 삭제되지 않았습니다.";
@@ -128,6 +139,7 @@ public class AdminMMservice {
 		return returnMap;
 	}
 
+	//방문평가 카테고리 대분류 수정
 	public Map<String, Object> modifyLargeCategory(EvaluationLargeCategory evalLargeCate) {
 		
 		String msg = "대분류 카테고리가 수정되지 않았습니다.";
@@ -144,6 +156,7 @@ public class AdminMMservice {
 		return returnMap;
 	}
 
+	//방문평가 카테고리 대분류 생성
 	public Map<String, Object> addEvaluationLargeCategory(EvaluationLargeCategory evalLargeCate) {
 		String msg = "대분류 카테고리가 추가되지 않았습니다.";
 		boolean isSuccess = false;
@@ -165,6 +178,7 @@ public class AdminMMservice {
 		return returnMap;
 	}
 
+	//방문평가 세부 카테고리 수정
 	public Map<String, Object> modifyDetailCategory(EvaluationDetailCategory evalDetailCate) {
 		String msg = "평가 세부항목이 수정되지 않았습니다.";
 		boolean isSuccess = false;
@@ -180,6 +194,7 @@ public class AdminMMservice {
 		return returnMap;
 	}
 
+	//방문평가 세부 카테코리 삭제
 	public Map<String, Object> deleteDetailCategory(EvaluationDetailCategory evalDetailCate) {
 		String msg = "평가 세부항목이 삭제되지 않았습니다.";
 		boolean isSuccess = false;
@@ -195,6 +210,7 @@ public class AdminMMservice {
 		return returnMap;
 	}
 
+	//방문평가 세부 카테고리 생성
 	public Map<String, Object> addDetailCategory(EvaluationDetailCategory evalDetailCate) {
 		String msg = "평가 세부항목이 추가되지 않았습니다.";
 		boolean isSuccess = false;
@@ -216,6 +232,7 @@ public class AdminMMservice {
 		return returnMap;
 	}
 
+	//방문평가 기준 수정
 	public Map<String, Object> modifyEvaluationStandard(EvaluationStandard evaluationStandard) {
 		String msg = "멘토멘티 평가 기준이 수정되지 않았습니다.";
 		boolean isSuccess = false;
@@ -231,6 +248,7 @@ public class AdminMMservice {
 		return returnMap;
 	}
 
+	//방문평가 기준 삭제
 	public Map<String, Object> removeEvaluationStandard(EvaluationStandard evaluationStandard) {
 		String msg = "멘토멘티 평가 기준이 삭제되지 않았습니다.";
 		boolean isSuccess = false;
@@ -246,6 +264,7 @@ public class AdminMMservice {
 		return returnMap;
 	}
 
+	//방문평가 기준 생성
 	public Map<String, Object> addEvaluationStandard(EvaluationStandard evaluationStandard) {
 		String msg = "멘토멘티 평가 기준이 추가되지 않았습니다.";
 		boolean isSuccess = false;
@@ -267,6 +286,7 @@ public class AdminMMservice {
 		return returnMap;
 	}
 
+	//방문평가 평가기록 수정
 	public Map<String, Object> modifyResultHistory(ResultHistory resultHistory) {
 		String msg = "멘토 평가결과 기록이 추가되지 않았습니다.";
 		boolean isSuccess = false;
@@ -283,6 +303,7 @@ public class AdminMMservice {
 		return returnMap;
 	}
 
+	//방문평가 평가기록 삭제
 	public Map<String, Object> removeResultHistory(ResultHistory resultHistory) {
 		String msg = "멘토 평가결과 기록이 삭제되지 않았습니다.";
 		boolean isSuccess = false;

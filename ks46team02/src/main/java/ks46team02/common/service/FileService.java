@@ -29,6 +29,7 @@ public class FileService {
 			this.fileMapper = fileMapper;
 		}
 	
+	//멘티서류 업로드
 	public Map<String,Object> uploadMenteeDocument(MultipartFile[] uploadfile, String fileRealPath, String fileAssociateKey) {
 		
 		List<FileDto> fileList= fileUtil.parseFileInfo(uploadfile, fileRealPath, fileAssociateKey);
@@ -56,12 +57,14 @@ public class FileService {
 		return returnMap;
 	}
 	
+	//파일 리스트 조회
 	public List<FileDto> getFileList(){
 		List<FileDto> fileList = fileMapper.getFileList();
 		
 		return fileList;
 	}
 	
+	//파일코드로 파일 정보 조회
 	public FileDto getFileInfoByIdx(String fileIdx) {
 		return fileMapper.getFileInfoByIdx(fileIdx);
 	}

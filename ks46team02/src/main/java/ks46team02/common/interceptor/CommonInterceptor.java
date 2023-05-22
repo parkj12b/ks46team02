@@ -18,9 +18,7 @@ public class CommonInterceptor implements HandlerInterceptor{
 
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		
-		
-		
+				
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
 	
