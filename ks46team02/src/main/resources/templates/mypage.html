@@ -3,12 +3,257 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/mypageLayout}">
 	<head>
-	
+		<style>
+			#memberInfo {
+				font-size: 20px;
+			}
+
+		</style>
+
 	</head>
 	<body>
 		<th:block layout:fragment="customContent">
-			
-		</th:block>	
+			<div role="main">
+				<div class="">
+					<div class="page-title">
+						<div class="title_left">
+							<h3>User Profile</h3>
+						</div>
+
+						<div class="title_right">
+
+						</div>
+					</div>
+
+					<div class="clearfix"></div>
+
+					<div class="row">
+						<div class="col-md-12 col-sm-12 ">
+							<div class="x_panel">
+								<div class="x_title">
+									<h2> 회원 정보 </h2>
+									<ul class="nav navbar-right panel_toolbox">
+									</ul>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+									<div class="col-md-3 col-sm-3  profile_left">
+										<div class="profile_img">
+											<div id="crop-avatar">
+												<!-- Current avatar -->
+												<img class="img-responsive avatar-view" src="images/picture.jpg" alt="Avatar" title="Change the avatar">
+											</div>
+										</div>
+										<h3 th:text="${romaMemberId}"></h3>
+
+
+
+										<a class="btn btn-success" th:href="@{/modifyMember}"><i class="fa fa-edit m-right-xs"></i>회원 정보 수정</a>
+										<br />
+
+										<!-- start skills -->
+
+
+									</div>
+									<div class="col-md-9 col-sm-9 ">
+
+										<div class="profile_title">
+											<div class="col-md-6">
+												<h2>   </h2>
+											</div>
+											<div class="col-md-6">
+												<div id="reportrange" class="pull-right" style="margin-top: 5px; background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #E6E9ED">
+													<span>가입일 :  </span>
+													<b class="caret"></b>
+													<span th:text="${memberInfo.memberRegDate}"></span>
+												</div>
+											</div>
+										</div>
+										<!-- start of user-activity-graph -->
+										<div class="col-md-9 col-sm-9 ">
+
+											<div class="col-md-8" id="memberInfo">
+												<div th:unless="${memberInfo == null}" th:each="l : ${memberInfo}">
+													<div class="row">
+														<div class="col-md-6">
+															<label>아이디</label>
+														</div>
+														<div class="col-md-6">
+															<p th:text="${l.memberId}"></p>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-md-6">
+															<label>이름</label>
+														</div>
+														<div class="col-md-6">
+															<p th:text="${l.memberName}"></p>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-md-6">
+															<label>이메일</label>
+														</div>
+														<div class="col-md-6">
+															<p th:text="${l.memberEmail}"></p>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-md-6">
+															<label>휴대폰</label>
+														</div>
+														<div class="col-md-6">
+															<p th:text="${l.memberPhone}"></p>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-md-6">
+															<label>회사이름</label>
+														</div>
+														<div class="col-md-6">
+															<p th:text="${l.companyName}"></p>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col-md-6">
+															<label>직급</label>
+														</div>
+														<div class="col-md-6">
+															<p th:text="${l.memberLevelName}"></p>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!-- end of user-activity-graph -->
+
+											<!-- start user projects -->
+
+											<!-- end user projects -->
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- end of user-activity-graph -->
+
+							<div class="row">
+								<div class="animated flipInY col-lg-3 col-md-3 col-sm-6  ">
+									<div class="tile-stats">
+										<div class="icon"><i class="fa fa-caret-square-o-right"></i>
+										</div>
+										<div class="count">179</div>
+
+										<h3>대기중인 계약</h3>
+									</div>
+								</div>
+								<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 ">
+									<div class="tile-stats">
+										<div class="icon"><i class="fa fa-comments-o"></i>
+										</div>
+										<div class="count"  th:text="${contractAmount}"></div>
+
+										<h3>진행중인 계약</h3>
+									</div>
+								</div>
+								<div class="animated flipInY col-lg-3 col-md-3 col-sm-6  ">
+									<div class="tile-stats">
+										<div class="icon"><i class="fa fa-sort-amount-desc"></i>
+										</div>
+										<div class="count"> 0</div>
+
+										<h3>완료된 계약</h3>
+									</div>
+								</div>
+								<div class="animated flipInY col-lg-3 col-md-3 col-sm-6  ">
+									<div class="tile-stats">
+										<div class="icon"><i class="fa fa-check-square-o"></i>
+										</div>
+										<div class="count">179</div>
+
+										<h3>취소된 계약</h3>
+									</div>
+								</div>
+							</div>
+							<!-- end recent activity -->
+
+						</div>
+						<div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+
+							<!-- start user projects -->
+							<table class="data table table-striped no-margin">
+								<thead>
+								<tr>
+									<th>#</th>
+									<th>Project Name</th>
+									<th>Client Company</th>
+									<th class="hidden-phone">Hours Spent</th>
+									<th>Contribution</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr>
+									<td>1</td>
+									<td>New Company Takeover Review</td>
+									<td>Deveint Inc</td>
+									<td class="hidden-phone">18</td>
+									<td class="vertical-align-mid">
+										<div class="progress">
+											<div class="progress-bar progress-bar-success" data-transitiongoal="35"></div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td>New Partner Contracts Consultanci</td>
+									<td>Deveint Inc</td>
+									<td class="hidden-phone">13</td>
+									<td class="vertical-align-mid">
+										<div class="progress">
+											<div class="progress-bar progress-bar-danger" data-transitiongoal="15"></div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td>Partners and Inverstors report</td>
+									<td>Deveint Inc</td>
+									<td class="hidden-phone">30</td>
+									<td class="vertical-align-mid">
+										<div class="progress">
+											<div class="progress-bar progress-bar-success" data-transitiongoal="45"></div>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>4</td>
+									<td>New Company Takeover Review</td>
+									<td>Deveint Inc</td>
+									<td class="hidden-phone">28</td>
+									<td class="vertical-align-mid">
+										<div class="progress">
+											<div class="progress-bar progress-bar-success" data-transitiongoal="75"></div>
+										</div>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+							<!-- end user projects -->
+
+						</div>
+						<div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+							<p>xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui
+								photo booth letterpress, commodo enim craft beer mlkshk </p>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+			</div>
+			</div>
+			</div>
+			</div>
+			</div>
+		</th:block>
 	</body>
-	
+
 </html>

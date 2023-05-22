@@ -20,6 +20,10 @@ public class Member {
 	private int companyTypeNum;
 	private String memberLevelName;
 
+	private String withdrawalStatus;
+
+	private String companyName;
+
 	public String getMemberLevelName() {
 		return memberLevelName;
 	}
@@ -111,15 +115,43 @@ public class Member {
 		this.dormantMemberRegDate = nowTime;
 	}
 
-	@Override
-	public String toString() {
-		return "Member [memberId=" + memberId + ", memberPw=" + memberPw + ", memberName=" + memberName
-				+ ", memberPhone=" + memberPhone + ", memberEmail=" + memberEmail + ", positionLevelCode="
-				+ positionLevelCode + ", companyCode=" + companyCode + ", memberRegDate=" + memberRegDate
-				+ ", memberCi=" + memberCi + ", memberStatus=" + memberStatus + ", dormantMemberRegDate="
-				+ dormantMemberRegDate + ", isOwner=" + isOwner + ", isExist=" + isExist + ", companyTypeNum="
-				+ companyTypeNum + ", memberLevelName=" + memberLevelName + "]";
+	public String getWithdrawalStatus() {
+		return withdrawalStatus;
 	}
 
+	public void setWithdrawalStatus(String withdrawalStatus) {
+		this.withdrawalStatus = withdrawalStatus;
+	}
 
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	@Override
+	public String toString() {
+		return "Member{" +
+				"memberId='" + memberId + '\'' +
+				", memberPw='" + memberPw + '\'' +
+				", memberName='" + memberName + '\'' +
+				", memberPhone='" + memberPhone + '\'' +
+				", memberEmail='" + memberEmail + '\'' +
+				", positionLevelCode='" + positionLevelCode + '\'' +
+				", companyCode='" + companyCode + '\'' +
+				", memberRegDate='" + memberRegDate + '\'' +
+				", memberCi='" + memberCi + '\'' +
+				", memberStatus='" + memberStatus + '\'' +
+				", dormantMemberRegDate='" + dormantMemberRegDate + '\'' +
+				", isOwner=" + isOwner +
+				", isExist=" + isExist +
+				", companyTypeNum='" + companyTypeNum + '\'' +
+				", withdrawalStatus='" + withdrawalStatus + '\'' +
+				", companyName='" + companyName + '\'' +
+				", memberLevelName='" + memberLevelName + '\'' +
+				'}';
+
+	}
 }

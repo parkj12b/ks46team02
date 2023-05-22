@@ -3,6 +3,68 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/mypageLayout}">
 <head>
+<style>
+.deleted-row {
+    display: none !important;
+}
+</style>
+<th:block layout:fragment="customJs">
+	<script>
+		$(document).ready(function() {
+			$('#datatable-buttons').on('click', '#detail', function() {
+				var answerCode = $(this).closest('tr').find('td:first').text();
+
+				$.ajax({
+					url : '/customerservice/addAnwerList',
+					method : 'GET',
+					data : {
+						answerCode : answerCode
+					},
+					success : function(response) {
+						$('#answerCode').val(response.answerCode);
+						$('#questionCode').val(response.questionCode);
+						$('#answerRegDate').val(response.answerRegDate);
+						$('#answerTitle').val(response.answerTitle);
+						$('#answerContent').val(response.answerContent);
+						$('#questionStatus').val(response.questionStatus);
+					},
+					error : function(error) {
+						console.log("Error: ", error);
+					}
+				});
+			});
+		});
+		
+	
+		$('body').on('click', '.fa-close', function() {
+			var row = $(this).closest('tr');
+			var answerCode = row.find('td:first').text();
+			var confirmation = confirm('삭제하시겠습니까?');
+			if (confirmation) {
+				$.ajax({
+					type : 'POST',
+					url : '/customerservice/remove_answer_proc',
+					data : {
+						answerCode : answerCode
+					},
+					success : function(response) {
+						if (response === 'success') {
+							// 삭제 성공 시 처리할 내용
+							row.hide(); // 행 숨기기
+							row.addClass('deleted-row'); // 삭제된 행을 구별하기 위한 클래스 추가
+							alert('문의 유형이 성공적으로 삭제되었습니다.');
+						} else {
+							alert('문의 유형 삭제에 실패하였습니다.');
+						}
+					},
+					error : function() {
+						alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+					}
+				});
+			}
+		});
+	</script>
+</th:block>
 </head>
 
 <th:block layout:fragment="customContent">
@@ -47,26 +109,23 @@
 													style="width: 200px;"
 													aria-label="Office: activate to sort column ascending">Q
 													NO.</th>
-												<th class="sorting" tabindex="0"
-													aria-controls="datatable-buttons" rowspan="1" colspan="1"
-													style="width: 120px;"
-													aria-label="Age: activate to sort column ascending">답변제목
-												</th>
-												<th class="sorting" tabindex="0"
-													aria-controls="datatable-buttons" rowspan="1" colspan="1"
-													style="width: 120px;"
-													aria-label="Age: activate to sort column ascending">답변내용
-												</th>
+
 												<th class="sorting_desc" tabindex="0"
 													aria-controls="datatable-buttons" rowspan="1" colspan="1"
 													style="width: 187px;"
 													aria-label="Start date: activate to sort column ascending"
-													aria-sort="descending">답변 첨부파일</th>
+													aria-sort="descending">답변 세부내용</th>
+
 												<th class="sorting_desc" tabindex="0"
 													aria-controls="datatable-buttons" rowspan="1" colspan="1"
 													style="width: 187px;"
 													aria-label="Start date: activate to sort column ascending"
 													aria-sort="descending">답변 등록 ID</th>
+												<th class="sorting_desc" tabindex="0"
+													aria-controls="datatable-buttons" rowspan="1" colspan="1"
+													style="width: 187px;"
+													aria-label="Start date: activate to sort column ascending"
+													aria-sort="descending">답변 등록 상태</th>
 												<th class="sorting_desc" tabindex="0"
 													aria-controls="datatable-buttons" rowspan="1" colspan="1"
 													style="width: 187px;"
@@ -81,22 +140,13 @@
 													aria-controls="datatable-buttons" rowspan="1" colspan="1"
 													style="width: 187px;"
 													aria-label="Start date: activate to sort column ascending"
-													aria-sort="descending">답변 삭제 유뮤</th>
-												<th class="sorting_desc" tabindex="0"
-													aria-controls="datatable-buttons" rowspan="1" colspan="1"
-													style="width: 187px;"
-													aria-label="Start date: activate to sort column ascending"
-													aria-sort="descending">답변 삭제일</th>
-												<th class="sorting_desc" tabindex="0"
-													aria-controls="datatable-buttons" rowspan="1" colspan="1"
-													style="width: 187px;"
-													aria-label="Start date: activate to sort column ascending"
 													aria-sort="descending">답변 수정</th>
 												<th class="sorting_desc" tabindex="0"
 													aria-controls="datatable-buttons" rowspan="1" colspan="1"
 													style="width: 187px;"
 													aria-label="Start date: activate to sort column ascending"
 													aria-sort="descending">답변 삭제</th>
+
 											</tr>
 										</thead>
 										<tbody>
@@ -104,17 +154,19 @@
 												th:each="l : ${answerList}">
 												<td th:text="${l.answerCode}"></td>
 												<td th:text="${l.questionCode}" style="text-align: center;"></td>
-												<td th:text="${l.answerTitle}" style="text-align: center;"></td>
-												<td th:text="${l.answerContent}"></td>
-												<td th:text="${l.answerFile}"></td>
+												<td>
+													<button type="button" class="btn btn-dark " id="detail"
+														data-toggle="modal" data-target="#myModal">답변
+														상세내용 보기</button>
+												</td>
 												<td th:text="${l.adminId}"></td>
+												<td th:text="${l.questionStatus}"></td>
 												<td th:text="${l.answerRegDate}"></td>
 												<td th:text="${l.answerModityDate}"></td>
-												<td th:text="${l.answerDelYN}"></td>
-												<td th:text="${l.answerDelDate}"></td>
-												<td><a href="#"><i class="fa fa-edit"></i>수정</a></td>
-												<td><a href="#" class="delete"><i
-														class="fa fa-close"></i> 삭제</a></td>
+												<td><button class="fa fa-edit" data-toggle="modal"
+														data-target="#answerModifyModal"></button>수정</td>
+												<td><button class="fa fa-close" data-toggle="modal"
+														data-target="#answerRemoveModal"></button>삭제</td>
 											</tr>
 										</tbody>
 									</table>
@@ -125,6 +177,187 @@
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<!-- 답변 세부내용 모달창 -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-right modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="myModalLabel">답변 상세 정보</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal form-label-left" id="addFarmForm"
+						method="post">
+
+						<div class="form-group row">
+							<label class="control-label col-md-3 col-sm-3 " for="answerCode">answer
+								No.</label>
+							<div class="col-md-9 col-sm-9 ">
+								<input type="text" class="form-control" name="answerCode"
+									th:value="${answerCode}" id="answerCode" readonly />
+							</div>
+						</div>
+						<input type="hidden" id="farmAddr" name="farmAddr" />
+
+						<div class="form-group row">
+							<label class="control-label col-md-3 col-sm-3 " for="sessionId">작성
+								관리자</label>
+							<div class="col-md-9 col-sm-9 ">
+								<input type="text" class="form-control" name="sessionId"
+									id="sessionId" th:value="${session.sessionId}" readonly />
+							</div>
+						</div>
+						<input type="hidden" id="farmAddr" name="farmAddr" />
+
+						<div class="form-group row">
+							<label class="control-label col-md-3 col-sm-3 "
+								for="answerRegDate">답변 등록일 </label>
+							<div class="col-md-9 col-sm-9 ">
+								<input type="text" class="form-control" name="answerRegDate"
+									id="answerRegDate" readonly>
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="control-label col-md-3 col-sm-3 " for="answerTitle">답변
+								제목 </label>
+							<div class="col-md-9 col-sm-9 ">
+								<input type="text" class="form-control" name="answerTitle"
+									id="answerTitle" readonly>
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="control-label col-md-3 col-sm-3 "
+								for="answerContent">답변 내용 <span class="required">*</span>
+							</label>
+							<div class="col-md-9 col-sm-9 ">
+								<textarea class="form-control" rows="3" name="answerContent"
+									id="answerContent" readonly></textarea>
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="control-label col-md-3 col-sm-3 "
+								for="questionStatus">답변 상태</label> <input type="text"
+								class="form-control" name="questionStatus" id="questionStatus"
+								readonly />
+						</div>
+
+						<div class="form-group row">
+							<label class="form-label" for="">첨부 이미지</label> <input
+								class="form-control" readonly />
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 문의내용에 대한 답변 수정 모달창 -->
+	<div class="modal fade" id="answerModifyModal" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">답변 수정</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal form-label-left" id="addFarmForm"
+						method="post">
+
+						<div class="form-group row">
+							<label class="control-label col-md-3 col-sm-3 " for="answerCode">answer
+								No.</label>
+							<div class="col-md-9 col-sm-9 ">
+								<input type="text" class="form-control" name="answerCode"
+									th:value="${answerCode}" id="answerCode" readonly />
+							</div>
+						</div>
+						<input type="hidden" id="farmAddr" name="farmAddr" />
+
+						<div class="form-group row">
+							<label class="control-label col-md-3 col-sm-3 "
+								for="questionCode">question No.</label>
+							<div class="col-md-9 col-sm-9 ">
+								<input type="text" class="form-control" name="questionCode"
+									id="questionCode" th:value="${questionCode}" readonly />
+							</div>
+						</div>
+						<input type="hidden" id="farmAddr" name="farmAddr" />
+
+						<div class="form-group row">
+							<label class="control-label col-md-3 col-sm-3 "
+								for="answerRegDate">답변 등록일 </label>
+							<div class="col-md-9 col-sm-9 ">
+								<input type="text" class="form-control" name="answerRegDate"
+									id="answerRegDate" readonly>
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="control-label col-md-3 col-sm-3 " for="answerTitle">답변
+								제목 </label>
+							<div class="col-md-9 col-sm-9 ">
+								<input type="text" class="form-control" name="answerTitle"
+									id="answerTitle">
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="control-label col-md-3 col-sm-3 "
+								for="answerContent">답변 내용 <span class="required">*</span>
+							</label>
+							<div class="col-md-9 col-sm-9 ">
+								<textarea class="form-control" rows="3" name="answerContent"
+									id="answerContent"></textarea>
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="control-label col-md-3 col-sm-3 "
+								for="questionStatus">답변 상태</label>
+							<div class="col-md-9 col-sm-9 ">
+								<select id="questionStatus" class="form-control"
+									name="questionStatus">
+									<option value="">weighting for response</option>
+									<option value="pending">processing</option>
+									<option value="complete">complete</option>
+								</select>
+							</div>
+						</div>
+
+
+						<div class="form-group row">
+							<label class="form-label" for="">첨부 이미지</label> <input
+								type="file" class="form-control" />
+						</div>
+
+						<div th:if="${errorMsg}" class="alert alert-danger" role="alert">
+							<span th:text="${errorMsg}"></span>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">닫기</button>
+					<button type="button" class="btn btn-primary"
+						onclick="modifyAnswer()">등록</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </th:block>
 
 </html>

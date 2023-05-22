@@ -10,17 +10,18 @@ import ks46team02.admin.mapper.LoginHistoryMapper;
 @Service
 @Transactional
 public class LoginHistoryService {
-	
-private final LoginHistoryMapper loginHistoryMapper;
-	
+
+	private final LoginHistoryMapper loginHistoryMapper;
+
 	public LoginHistoryService(LoginHistoryMapper loginHistoryMapper) {
 		this.loginHistoryMapper = loginHistoryMapper;
 
 	}
-	
-	public List<LoginHistory> getloginHistoryList(){
+
+	public List<LoginHistory> getloginHistoryList() {
 		List<LoginHistory> loginHistoryList = loginHistoryMapper.getLoginHistoryList();
 		return loginHistoryList;
 	}
-	
+
+
 }

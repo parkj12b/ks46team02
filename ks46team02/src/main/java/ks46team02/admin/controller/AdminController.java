@@ -30,6 +30,7 @@ import ks46team02.admin.dto.WithdrawalMember;
 import ks46team02.admin.mapper.AddrMapper;
 import ks46team02.admin.mapper.AdminLevelMapper;
 import ks46team02.admin.mapper.AdminMapper;
+import ks46team02.admin.mapper.ContractStandardMapper;
 import ks46team02.admin.mapper.LoginHistoryMapper;
 import ks46team02.admin.mapper.MemberLevelMapper;
 import ks46team02.admin.mapper.MemberMapper;
@@ -46,6 +47,7 @@ import ks46team02.admin.service.WithdrawalMemberService;
 import ks46team02.common.dto.Addr;
 import ks46team02.common.dto.AdminMember;
 import ks46team02.common.dto.Member;
+import ks46team02.common.mapper.MainMapper;
 import ks46team02.company.dto.Company;
 import ks46team02.company.service.CompanyService;
 import ks46team02.farm.dto.EvaluationDetailCategory;
@@ -57,6 +59,7 @@ import ks46team02.farm.dto.ResultHistory;
 import ks46team02.farm.dto.VisitHistory;
 import ks46team02.farm.mapper.MentorMenteeMapper;
 import ks46team02.farm.service.MentorMenteeService;
+
 
 @Controller
 @RequestMapping("/admin")
@@ -82,6 +85,9 @@ public class AdminController {
 	private final WithdrawalMemberMapper withdrawalMemberMapper;
 	private final MentorMenteeService mentorMenteeService;
 	private final MentorMenteeMapper mentorMenteeMapper;
+	private final MainMapper mainMapper;
+	private final ContractStandardMapper contractStandardMapper;
+
 	
 	private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
@@ -104,7 +110,9 @@ public class AdminController {
     					  ,WithdrawalMemberMapper withdrawalMemberMapper
 						  ,CompanyService companyService
 						  ,MentorMenteeService mentorMenteeService
-						  ,MentorMenteeMapper mentorMenteeMapper) {
+						  ,MentorMenteeMapper mentorMenteeMapper
+						  ,MainMapper mainMapper
+						  ,ContractStandardMapper contractStandardMapper) {
 		this.mentorMenteeMapper = mentorMenteeMapper;
 		this.mentorMenteeService = mentorMenteeService;
 		this.addrService = addrService;
@@ -123,6 +131,8 @@ public class AdminController {
 	    this.loginHistoryMapper = loginHistoryMapper;
 	    this.withdrawalMemberMapper = withdrawalMemberMapper;
 	    this.companyService = companyService;
+		this.mainMapper = mainMapper;
+		this.contractStandardMapper = contractStandardMapper;
 	}
 
 	/* 관리자 아이디 중복 체크 */
@@ -167,6 +177,16 @@ public class AdminController {
 		model.addAttribute("sessionId",sessionId);
 		return "admin/apply_company_reg_list";
 	}
+	/* 등급별 관리자 목록 조회*/
+	@PostMapping("/adminLevelCheck")
+	@ResponseBody
+	public List<AdminMember> getAdminLevelSearchList(@RequestParam(name="adminLevel") String adminLevel){
+		List<AdminMember> levelInfo = adminService.getAdminLevelSearchList(adminLevel);
+
+		return levelInfo;
+	}
+
+
     /* 전체 관리자 목록 조회 */
 	@GetMapping("/adminList")
 	public String getAdminList(Model model) {
@@ -235,15 +255,19 @@ public class AdminController {
 		model.addAttribute("adminLevelList1", adminLevelList1);
 		return "admin/add_admin";
 	}
+	/* 관리자 등급 등록*/
+	@PostMapping("/addAdminLevel")
+	public String addAdminLevel(AdminLevel adminLevel) {
+		adminLevelService.addAdminLevel(adminLevel);
+		return "redirect:/admin/adminLevelList";
+	}
 	/* 관리자 등급 등록 */
 	@GetMapping("/addAdminLevel")
 	public String addAdminLevel(Model model){
-		List<AdminLevel>adminLevelList =adminLevelService.getAdminLevelList();
-		model.addAttribute("title", "관리자 등급 등록");
-		model.addAttribute("adminLevelList", adminLevelList);
+		model.addAttribute("title","관리자 등급 등록");
 		return "admin/add_adminLevel";
 	}
-	/* 관리자등급 수정   */
+	/* 관리자 등급 수정   */
 	@PostMapping("/modifyAdminLevel")
 	@ResponseBody
 	public void modifyAdminLevel(AdminLevel adminLevel) {
@@ -257,6 +281,12 @@ public class AdminController {
 	public void removeAdminLevel(String adminLevel) {
 		adminLevelMapper.removeAdminLevel(adminLevel);
 		
+	}
+	/* 회원 등급 등록*/
+	@PostMapping("/addMemberLevel")
+	public String addMemberLevel(MemberLevel memberLevel,HttpSession session) {
+		memberLevelService.addMemberLevel(memberLevel,session);
+		return "redirect:/admin/memberLevelList";
 	}
 	/* 회원 등급 등록 */
 	@GetMapping("/addMemberLevel")
@@ -302,6 +332,7 @@ public class AdminController {
 		model.addAttribute("addrList", addrList);
 		return "admin/addr_list";
 	}
+	
 	/* 배송지 세부 조회 */
 	@GetMapping("/addrMemberList")
 	@ResponseBody
@@ -467,8 +498,18 @@ public class AdminController {
 	/* 회원 삭제 */
 	@PostMapping("/removeMember")
 	@ResponseBody
-	public void removeMember(String memberId ){
+	public void removeMember(String memberId,WithdrawalMember withdrawalMember){
 		memberMapper.removeMember(memberId);
+		Member member = memberservice.getMemberInfoById(memberId);
+		String phone = member.getMemberPhone();
+		String column = "withdrawal_member_code";
+		String table = "withdrawal_member";
+		String WithdrawalMemberCode = mainMapper.autoIncrement(table, column);
+		withdrawalMember.setWithdrawalMemberCode(WithdrawalMemberCode);
+		withdrawalMember.setWithdrawalMemberId(memberId);
+		withdrawalMember.setWithdrawalMemberPhone(phone);
+		withdrawalMemberMapper.addwithdrawalMember(withdrawalMember);
+
 	}
 	/* 휴면 회원 삭제 */
 	@PostMapping("/removeDormantMember")
@@ -493,6 +534,13 @@ public class AdminController {
 	    memberservice.modifyDormantMember(memberId);
 	    
 	}
+	/* 승인 기준 등록*/
+	@PostMapping("/addContractStandard")
+	public String addContractStandard(ContractStandard contractStandard,HttpSession session){
+		contractStandardService.addContractStandard(contractStandard,session);
+		return "redirect:/admin/contractStandardList";
+	}
+
 
 	/* 승인 기준 등록 */
 	@GetMapping("/addContractStandard")
@@ -514,6 +562,15 @@ public class AdminController {
 	public void modifyContractStandard(ContractStandard contractStandard) {
 		contractStandardService.modifyContractStandard(contractStandard);
 	}
+	/* 승인기준 삭제*/
+	@PostMapping("/removeContractStandard")
+	@ResponseBody
+	public void removeContractStandard(String contStandCode) {
+		contractStandardMapper.removeContractStandard(contStandCode);
+
+
+	}
+
 	
 	/* 멘토 승인 */
 	@PostMapping("/mentorRegApprove")

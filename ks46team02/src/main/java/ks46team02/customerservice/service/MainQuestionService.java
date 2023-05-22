@@ -50,9 +50,6 @@ public class MainQuestionService {
 	}
 
 	public void writeQuestion(QuestionDto questiondto) {
-		
-		/* questiondto.setMemberId(loginMemberBean.getMemberId()); */
-		
 		mainquestionmapper.writeQuestion(questiondto);
 	}
 

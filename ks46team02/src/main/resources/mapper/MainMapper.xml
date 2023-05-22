@@ -57,7 +57,6 @@
                 property="contractDays"></result>
         <result column="days_left"
                 property="daysLeft"></result>
-
 	</resultMap>
 	<resultMap type="ContractApprovalStandard" id="contractApprovalStandardMap">
 		<id column="cont_app_stand_code" property="contAppStandCode"></id>
@@ -69,6 +68,28 @@
         <result column="admin_id" property="adminId"></result>
         <result column="standard_description" property="standardDescription"></result>
 	</resultMap>
+    <select id="getMemberInfoAll" resultType="Member">
+
+        /* 메인페이지 일반 회원 회원정보 */
+        SELECT
+        m.member_id AS memberId
+        ,m.member_name AS memberName
+        ,m.member_email AS memberEmail
+        ,m.member_phone AS memberPhone
+        ,m.member_reg_date AS memberRegDate
+        ,l.member_level_name AS memberLevelName
+        ,ci.company_name AS companyName
+        FROM
+        member_info AS m
+        INNER JOIN
+        company_position_level AS l
+        ON m.position_level_code = l.position_level_code
+        LEFT JOIN
+        company_info AS ci
+        ON m.company_code = ci.company_code
+        WHERE
+        m.member_id =#{memberId};
+    </select>
     <!-- 비밀번호 체크    -->
     <select id="getMemberInfoById" resultMap="memberResultMap">
         SELECT

@@ -7,7 +7,7 @@
     <title>BSFP</title>
 </head>
 <th:block layout:fragment="customJs">
-    <script th:src="@{/js/jquery-3.6.4.min.js}"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
         $(function () {
             function validationCheck(ele) {
@@ -36,9 +36,6 @@
             })
 
         });
-    </script>
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script>
         function sample4_execDaumPostcode() {
             new daum.Postcode({
                 oncomplete: function (data) {
@@ -71,13 +68,11 @@
 
             }).open();
         }
-
-    </script>
-    <script>
         $('#resetBtn').click(function () {
             history.back();
         });
     </script>
+
 </th:block>
 <body>
 <th:block layout:fragment="customContent">
@@ -93,7 +88,7 @@
                 <div class="form-group row">
                     <label class="control-label col-md-3 col-sm-3 " for="companyType">업체종류</label>
                     <div class="col-md-9 col-sm-9 ">
-                        <select id="companyType" name="companyTypeNum" class="form-control">
+                        <select id="companyType" name="companyTypeNum" class="form-control" required>
                             <option value="">업체종류선택</option>
                             <th:block th:unless="${companyTypeList == null}" th:each="l : ${companyTypeList}">
                                 <option th:value="${l.companyTypeNum}">[[${l.companyType}]]</option>
@@ -108,21 +103,21 @@
                     <label class="control-label col-md-3 col-sm-3 " for="companyRegNum">사업자등록번호</label>
                     <div class="col-md-9 col-sm-9 ">
                         <input type="text" id="companyRegNum" name="companyRegNum" class="form-control"
-                               placeholder="사업자등록번호를 입력해주세요.">
+                               placeholder="사업자등록번호를 입력해주세요." required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="control-label col-md-3 col-sm-3 " for="companyName">업체명</label>
                     <div class="col-md-9 col-sm-9 ">
                         <input type="text" id="companyName" name="companyName" class="form-control"
-                               placeholder="업체명을 입력해주세요">
+                               placeholder="업체명을 입력해주세요" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="control-label col-md-3 col-sm-3 " for="companyTel">전화번호 </label>
                     <div class="col-md-9 col-sm-9 ">
                         <input type="text" id="companyTel" name="companyTel" class="form-control"
-                               placeholder="전화번호를 입력해주세요.">
+                               placeholder="전화번호를 입력해주세요." required>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -131,7 +126,7 @@
                         <input type="text" id="companyAddrRoad" name="companyAddr" class="form-control"
                                readonly="readonly">
                         <span class="input-group-btn">
-                            <input type="button" class="btn btn-dark" onclick="sample4_execDaumPostcode()" value="주소찾기">
+                            <input type="button" class="btn btn-dark" onclick="sample4_execDaumPostcode()" value="주소찾기" required>
                         </span>
                     </div>
                 </div>
@@ -139,14 +134,14 @@
                     <label class="control-label col-md-3 col-sm-3 " for="companyAddrDetail">상세주소</label>
                     <div class="col-md-9 col-sm-3 input-group">
                         <input type="text" id="companyAddrDetail" name="companyAddrDetail" class="form-control"
-                               >
+                               required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="control-label col-md-3 col-sm-3 " for="regPassword">사원등록 비밀번호</label>
                     <div class="col-md-9 col-sm-9 ">
                         <input type="text" id="regPassword" name="regPassword" class="form-control"
-                               placeholder="사원등록 비밀번호를 입력해주세요."/>
+                               placeholder="사원등록 비밀번호를 입력해주세요." required/>
                     </div>
                 </div>
                 <div class="ln_solid"></div>

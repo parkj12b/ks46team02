@@ -133,12 +133,10 @@ public class CompanyController {
     @GetMapping("/companyEmployeeList")
     public String getCompanyEmployeeList(Model model,
                                          HttpSession session){
-        boolean sessionIsOwner = (boolean)session.getAttribute("isOwner");
         String sessionCompanyCode = (String)session.getAttribute("sessionCompanyCode");
         List<Member> employeeList = memberService.getEmployeeList(sessionCompanyCode);
         model.addAttribute("title","직원목록");
         model.addAttribute("employeeList",employeeList);
-        model.addAttribute("sessionIsOwner",sessionIsOwner);
         return "company/company_employee_list";
     }
 

@@ -77,33 +77,35 @@ $(document).ready(function() {
 	    var cancelButton = tr.find('.cancel'); // 클래스 변경
 	    saveButton.text('수정');
 	    saveButton.removeClass('save').addClass('modify');
-	    console.log(saveButton);
 	    cancelButton.text('삭제');
 	    cancelButton.removeClass('cancel').addClass('delete'); // cancel 클래스 제거하고 delete 클래스 추가
-	  	console.log(cancelButton);
 	  });
 	  $('table tbody').on('click', '.save', function(){
 		  var tr = $(this).closest('tr');
 		  var adminLevel = tr.find('td:eq(0)').text(); 
-		  	console.log("adminLevel " + adminLevel);
 		  var adminPosition = 		tr.find('td:eq(1) input').val();
-		  	console.log("adminPosition    "+adminPosition);
 		  var adminMember = 		tr.find('td:eq(2) select').val();
-		  	console.log("adminMember    "+adminMember);
 		  var adminContract = 		tr.find('td:eq(3) select').val();
-		  	console.log("adminContract    "+adminContract);
 		  var adminFarm = 		tr.find('td:eq(4) select').val();
-		  	console.log("adminFarm    "+adminFarm);
 		  var adminQuestion = 		tr.find('td:eq(5) select').val();
-		  	console.log("adminQuestion    "+adminQuestion);
 		  var adminSetting =	tr.find('td:eq(6) select').val();
-		  	console.log("adminSetting    "+adminSetting);
 		  var adminPayment =	tr.find('td:eq(7) select').val();
-		  	console.log("adminPayment    "+adminPayment);
-		
+
 		  // 필드별로 값을 가져옵니다.
 		 var deleteButton = tr.find('.cancel'); // deleteButton 변수 정의
 		 var currentValues = deleteButton.attr('prev-values').split(","); // 수정된 값 배열 가져오기
+               if (typeof adminPosition == 'undefined' || adminPosition == null || adminPosition == '') {
+                   Swal.fire({
+                       icon: 'warning',  // 여기다가 아이콘 종류를 쓰면 됩니다.
+                       title: `관리자 직위를 입력해주세요.`
+                   }).then((result) => {
+                       if (result.isConfirmed) { // 모달창에서 확인을 누르면 true가 되는 속성
+                           $(adminPosition).focus();
+                           Swal.close(); // 모달창이 닫힐 때까지 기다림
+                       }
+                   });
+               }
+               else{
 		  $.ajax({
 		    type: 'POST',
 		    url: '/admin/modifyAdminLevel',
@@ -155,7 +157,7 @@ $(document).ready(function() {
 		      alert('서버와 통신 중 오류가 발생했습니다.');
 		      
 		    }
-		  });
+		  })};
 		});
 	  /* 관리자 등급 삭제 */
 	  $('table tbody').on('click', '.delete', function(){
@@ -166,10 +168,9 @@ $(document).ready(function() {
 			      inputPlaceholder: "대소문자 구분해서 입력해주세요",
 			    });
 			    var tr = $(this).closest('tr');
-			    console.log("tr     "+tr);
-			    var adminLevel = tr.find('td:eq(0)').text(); 
-			    var adminPosition = tr.find('td:eq(1)').text(); 
-
+			    var adminLevel = tr.find('td:eq(0)').text();
+			    var adminPosition = tr.find('td:eq(1)').text();
+                /* 비밀번호 체크 */
 			    $.ajax({
 			      type: "POST",
 			      url: "/admin/pwCheckAdmin",
@@ -194,12 +195,11 @@ $(document).ready(function() {
 			                type: "POST",
 			                url: "/admin/removeAdminLevel",
 			                data: {
-			                adminLevel: adminLevel, // 관리자 아이디를 입력해주세요.
+			                adminLevel: adminLevel,
 			                },
 			                success: function () {
 			                  Swal.fire("삭제가 완료되었습니다.");
 			                  tr.remove();
-			                  
 			                },
 			                error: function () {
 			                  Swal.fire({
@@ -222,7 +222,6 @@ $(document).ready(function() {
 			    });
 			  })();
 			});
-		
 	});
 
 

@@ -44,5 +44,7 @@ public interface MainMapper {
 	
 	//파일관계 생성
 	public void addFileRelation(FileRelation fileRelation);
-	
+
+
+	public Member getMemberInfoAll(Member member);
 }

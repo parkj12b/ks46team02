@@ -6,12 +6,10 @@
 <head>
 <style >
 input {
-	  width: 200px; /* 원하는 크기로 조정 가능 */
+	  width: 100px; /* 원하는 크기로 조정 가능 */
 	  height: 20px;
 	}
-.cancel {
-  display : none;
-}
+
 input[type="number"] {
   width: 50px;
   height:20px;
@@ -31,36 +29,41 @@ input[type="number"] {
 <script>
 /* 관리자 등급 추가 */
   $('button.btn-primary').click(function() {
-    window.location.href = '/admin/addAdminLevel';
+    window.location.href = '/admin/addContractStandard';
   });
 
 	  $('table tbody').on('click', '.modify', function() {
 		  $('.cancel').show();
 	    var tr = $(this).closest('tr');
 	    var modifyButton = $(this);
-	    var cancelButton = tr.find('.cancel');
+        var deleteButton = tr.find('.delete');
 	    var prevValues = []; // 이전 값 저장할 배열
-	    tr.find('td:nth-child(n+3):nth-child(-n+4)').each(function() {
+	    tr.find('td:nth-child(n+2):nth-child(-n+6)').each(function() {
 	      var value = $(this).text();
 	      prevValues.push(value); // 이전 값 저장
 	      var input;
-	      if ($(this).index() == 2) {
-	    	  input = $('<input>').val(value);
-		      $(this).html(input);
-	      } else {
+
+             if($(this).index() == 3){
 	    	  input = $('<input>').val(value).attr('type', 'number').attr('min', '0');
 		      $(this).html(input);
 	      }
-	    });
-	    modifyButton.text('저장');
-	    modifyButton.removeClass('modify').addClass('save');
-	    cancelButton.attr('prev-values', prevValues);
+            else{
+                input = $('<input>').val(value);
+                $(this).html(input);
+            }
+        });
+          modifyButton.text('저장');
+          modifyButton.removeClass('modify').addClass('save');
+          deleteButton.text('취소');
+          deleteButton.removeClass('delete').addClass('cancel'); // delete 클래스 제거하고 cancel 클래스 추가
+          // 이전 값 대신 현재 값을 attribute에 저장
+          deleteButton.attr('prev-values', prevValues);
 	  });
 
 	  $('table tbody').on('click', '.cancel', function(){
 	    var tr = $(this).closest('tr');
 	    var currentValues = $(this).attr('prev-values').split(","); // 현재 값 배열 가져오기
-	    tr.find('td:nth-child(n+3):nth-child(-n+4)').each(function(index) {
+	    tr.find('td:nth-child(n+2):nth-child(-n+6)').each(function(index) {
 	    var value = currentValues[index];
 	    var saveButton = tr.find('.save');
 	    saveButton.text('수정');
@@ -71,39 +74,76 @@ input[type="number"] {
 	        $(this).text(value);
 	      }
 	    });
-	    $('.cancel').hide();
+          var saveButton = tr.find('.save');
+          var cancelButton = tr.find('.cancel'); // 클래스 변경
+          saveButton.text('수정');
+          saveButton.removeClass('save').addClass('modify');
+          cancelButton.text('삭제');
+          cancelButton.removeClass('cancel').addClass('delete'); // cancel 클래스 제거하고 delete 클래스 추가
 	  });
 	   
 	  $('table tbody').on('click', '.save', function(){
 		  var tr = $(this).closest('tr');
-		  var contStandCode = 		tr.find('td:eq(0)').text();
-		  var contStandInfo = 		tr.find('td:eq(2) input').val();
-		  var contStandValue = 		tr.find('td:eq(3) input').val();
+		  var contStandCode = 		        tr.find('td:eq(0)').text();
+		  var contAppStand = 		        tr.find('td:eq(1) input').val();
+		  var contStandInfo = 		        tr.find('td:eq(2) input').val();
+		  var contStandValue = 		        tr.find('td:eq(3) input').val();
+		  var contStandUnit = 		        tr.find('td:eq(4) input').val();
+		  var standardDescription = 		tr.find('td:eq(5) input').val();
 		  var adminId = "[[${session.sessionId}]]";
+		  console.log(contAppStand);
 		  console.log(contStandInfo);
-		  console.log(contStandValue);
 		  console.log(adminId);
 		  // 필드별로 값을 가져옵니다.
 		 var saveButton = tr.find('.save'); // deleteButton 변수 정의
 		 var cancelButton = tr.find('.cancel');
 		 var currentValues = cancelButton.attr('prev-values').split(","); // 수정된 값 배열 가져오기
+          if (typeof contAppStand == 'undefined' || contAppStand == null || contAppStand == '') {
+              Swal.fire({
+                  icon: 'warning',  // 여기다가 아이콘 종류를 쓰면 됩니다.
+                  title: `승인기준을 입력해주세요.`
+              }).then((result) => {
+                  if (result.isConfirmed) { // 모달창에서 확인을 누르면 true가 되는 속성
+                      $(contAppStand).focus();
+                      Swal.close(); // 모달창이 닫힐 때까지 기다림
+                  }
+              });
+          }
+          else if (typeof contStandInfo == 'undefined' || contStandInfo == null || contStandInfo == '') {
+              Swal.fire({
+                  icon: 'warning',  // 여기다가 아이콘 종류를 쓰면 됩니다.
+                  title: `기준설명을 입력해주세요.`
+              }).then((result) => {
+                  if (result.isConfirmed) { // 모달창에서 확인을 누르면 true가 되는 속성
+                      $(contStandInfo).focus();
+                      Swal.close(); // 모달창이 닫힐 때까지 기다림
+                  }
+              });
+          }
+          else{
 		  $.ajax({
 		    type: 'POST',
 		    url: '/admin/modifyContractStandard',
 		    data: {
-		    	contStandCode:   	contStandCode,
-		    	contStandInfo: 		contStandInfo,
-		    	contStandValue: 	contStandValue,
-		    	adminId:			adminId
+		    	contStandCode:   	    contStandCode,
+                contAppStand: 		    contAppStand,
+                contStandInfo: 		    contStandInfo,
+                contStandValue: 		contStandValue,
+                contStandUnit: 	        contStandUnit,
+                standardDescription:    standardDescription,
+                adminId:			    adminId
 		    	},
 		    success: function() {
 		      alert('성공했습니다.');
-		      currentValues[0] = contStandInfo; 
-		      currentValues[1] = contStandValue;
-		      currentValues[2] = adminId;
-		      
+		      currentValues[0] = contAppStand;
+		      currentValues[1] = contStandInfo;
+		      currentValues[2] = contStandValue;
+		      currentValues[3] = contStandUnit;
+		      currentValues[4] = standardDescription;
+		      currentValues[5] = adminId;
 
-		      tr.find('td:nth-child(n+3):nth-child(-n+4),td:nth-child(7)').each(function(index) {
+
+		      tr.find('td:nth-child(n+2):nth-child(-n+6)').each(function(index) {
 		        var value = currentValues[index];
 		        if ($(this).find('input').length > 0) {
 		          $(this).html(value);
@@ -114,15 +154,74 @@ input[type="number"] {
 			    var saveButton = tr.find('.save');
 			    saveButton.text('수정');
 			    saveButton.removeClass('save').addClass('modify');
-			    $('.cancel').hide();
-			  
+
 		    },
 		    error: function() {
 		      alert('서버와 통신 중 오류가 발생했습니다.');
 		      
 		    }
-		  });
+		  })};
 		});
+        $('table tbody').on('click', '.delete', function(){
+            (async () => {
+                const { value: adminPw } = await Swal.fire({
+                    title: "당신의 비밀번호를 입력해주세요.",
+                    input: "password",
+                    inputPlaceholder: "대소문자 구분해서 입력해주세요",
+                });
+                var tr = $(this).closest('tr');
+                var contStandCode = tr.find('td:eq(0)').text();
+                /* 비밀번호 체크 */
+                $.ajax({
+                    type: "POST",
+                    url: "/admin/pwCheckAdmin",
+                    data: {
+                        adminPw: adminPw,
+                    },
+                    success: function (pwCheck) {
+                        if (pwCheck) {
+                            Swal.fire({
+                                title: "정말로 " + contStandCode+ " 코드를 삭제하시겠습니까?",
+                                text: "이후에 다시 되돌릴수없습니다.",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#3085d6",
+                                cancelButtonColor: "#d33",
+                                confirmButtonText: "삭제",
+                                cancelButtonText: "취소",
+                                reverseButtons: true,
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/admin/removeContractStandard",
+                                        data: {
+                                            contStandCode: contStandCode,
+                                        },
+                                        success: function () {
+                                            Swal.fire("삭제가 완료되었습니다.");
+                                            tr.remove();
+                                        },
+                                        error: function () {
+                                            Swal.fire({
+                                                icon: "error",
+                                                title: "오류가 발생했습니다.",
+                                            });
+                                        },
+                                    });
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: "error",
+                                title: "비밀번호가 일치하지 않습니다.",
+                                text: "다시 확인후 입력해주시길 바랍니다.",
+                            });
+                        }
+                    },
+                });
+            })();
+        });
 
 </script>
 </th:block>
@@ -161,6 +260,7 @@ input[type="number"] {
                                             <th>기준 설명</th>
                                             <th>기준값</th>
                                             <th>단위</th>
+                                            <th>계약 설명</th>
                                             <th>계약 승인 등록 일자</th>
                                             <th>등록 관리자</th>
                                             <th></th>
@@ -174,13 +274,14 @@ input[type="number"] {
                                             <td th:text="${l.contStandInfo}"></td>
                                             <td th:text="${l.contStandValue}"></td>
                                             <td th:text="${l.contStandUnit}"></td>
+                                            <td th:text="${l.standardDescription}"></td>
                                             <td th:text="${l.contStandRegDate}"></td>
                                             <td th:text="${l.adminId}"></td>
                                             <td>                                            
                                            		<button class="btn btn-dark modify" type="button">수정</button>
                                             </td>
-                                            <td>                                            
-                                           		<button class="btn btn-dark cancel" type="button" >취소</button>
+                                            <td>
+                                                <button class="btn btn-dark delete" type="button">삭제</button>
                                             </td>
                                         </tr>
                                         </tbody>

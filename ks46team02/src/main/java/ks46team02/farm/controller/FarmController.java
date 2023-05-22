@@ -99,7 +99,6 @@ public class FarmController {
 		List<Production> Production = farmService.getProductionGraph(farmCode);
 		return Production;
 	}
-
 	/**
 	 * 먹이 급여 그래프
 	 */
