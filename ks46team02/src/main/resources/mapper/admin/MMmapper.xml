@@ -89,7 +89,7 @@
 		where
 			mentee_app_code = #{menteeAppCode}
 	</delete>
-	<delete id="removeResultHistory" parameterType="ResultHistory">
+	<delete id="removeResultHistoryByVisitCode" parameterType="ResultHistory">
 		delete
 		from
 			result_history
@@ -137,7 +137,7 @@
 			evaluation_detail_category
 		set
 			large_category_code = #{largeCategoryCode},
-			question_content_small = #{questionContentSmall}
+			question_content_small = #{questionContentSmall},
 			admin_id = #{adminId}
 		where
 			evaluation_unit_code = #{evaluationUnitCode}
@@ -148,5 +148,52 @@
 			evaluation_detail_category
 		where
 			evaluation_unit_code = #{evaluationUnitCode}
+	</delete>
+	<insert id="addEvaluationDetailCategory" parameterType="EvaluationDetailCategory">
+		insert into evaluation_detail_category(
+			evaluation_unit_code, large_category_code, question_content_small, question_content_reg_date, admin_id
+		)values(
+			#{evaluationUnitCode}, #{largeCategoryCode}, #{questionContentSmall}, now(), #{adminId}
+		)
+		
+	</insert>
+	<update id="modifyEvaluationStandard">
+		update
+			evaluation_standard
+		set
+			evaluation_standard_exp = #{evaluationStandardExp},
+			evaluation_level = #{evaluationLevel},
+			evaluation_grade_score = #{evaluationGradeScore}
+		where
+			evaluation_standard_code = #{evaluationStandardCode}
+	</update>
+	<delete id="removeEvaluationStandard">
+		delete
+		from
+			evaluation_standard
+		where
+			evaluation_standard_code = #{evaluationStandardCode}
+	</delete>
+	<insert id="addEvaluationStandard" parameterType="EvaluationStandard">
+		insert into evaluation_standard(
+			evaluation_standard_code, evaluation_standard_exp, evaluation_level, evaluation_grade_score, admin_id, evaluation_reg_date
+		) values (
+			#{evaluationStandardCode}, #{evaluationStandardExp}, #{evaluationLevel}, #{evaluationGradeScore}, #{adminId}, now()
+		)
+	</insert>
+	<update id="modifyResultHistory">
+		update
+			result_history
+		set
+			result_feedback = #{resultFeedback}
+		where
+			result_code = #{resultCode}
+	</update>
+	<delete id="removeResultHistory">
+		delete
+		from
+			result_history
+		where
+			result_code = #{resultCode}
 	</delete>
 </mapper>

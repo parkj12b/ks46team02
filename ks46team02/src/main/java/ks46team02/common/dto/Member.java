@@ -17,7 +17,8 @@ public class Member {
 	private String dormantMemberRegDate;
 	private boolean isOwner;
 	private boolean isExist;
-	private String companyTypeNum;
+	private int companyTypeNum;
+	private String memberLevelName;
 
 	private String withdrawalStatus;
 
@@ -29,13 +30,10 @@ public class Member {
 	public void setMemberLevelName(String memberLevelName) {
 		this.memberLevelName = memberLevelName;
 	}
-
-	private String memberLevelName;
-	
-	public String getCompanyTypeNum() {
+	public int getCompanyTypeNum() {
 		return companyTypeNum;
 	}
-	public void setCompanyTypeNum(String companyTypeNum) {
+	public void setCompanyTypeNum(int companyTypeNum) {
 		this.companyTypeNum = companyTypeNum;
 	}
 	public boolean isExist() {
@@ -154,5 +152,6 @@ public class Member {
 				", companyName='" + companyName + '\'' +
 				", memberLevelName='" + memberLevelName + '\'' +
 				'}';
+
 	}
 }

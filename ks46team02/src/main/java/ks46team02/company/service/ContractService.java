@@ -6,10 +6,12 @@ import ks46team02.company.dto.Contract;
 import ks46team02.company.mapper.CompanyMapper;
 import ks46team02.company.mapper.ContractMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class ContractService {
     private final ContractMapper contractMapper;
     private final MainMapper mainMapper;

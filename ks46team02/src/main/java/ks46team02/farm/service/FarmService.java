@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 
 import ks46team02.farm.dto.Cage;
 import ks46team02.farm.dto.Cycle;
@@ -26,6 +26,7 @@ import ks46team02.farm.dto.Production;
 import ks46team02.farm.mapper.FarmMapper;
 
 @Service
+@Transactional
 public class FarmService {
     private final FarmMapper farmMapper;
     private final MainMapper mainMapper;

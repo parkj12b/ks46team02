@@ -20,42 +20,6 @@
 	background-color: rgba(0, 0, 0, 0.05);
 }
 
-#no-item-msg {
-	text-align: center;
-}
-
-.progress-container {
-	display: flex;
-	align-items: center;
-}
-
-.progress {
-	width: 80%;
-	height: 30px;
-}
-
-.progress-title {
-	width: 20%;
-}
-
-.like-h2 {
-	font-size: 18px;
-}
-
-.category-div {
-	margin: 10px 0;
-}
-
-.progress-bar-blocks {
-	border: 1px solid #fff;
-	border-radius: 5px;
-}
-
-#feedback-open {
-	float: right;
-	margin-top: 20px;
-}
-
 #info-container {
 	padding-bottom: 40px;
 	border-bottom: 2px solid #E6E9ED;
@@ -86,32 +50,74 @@
 }
 
 .search-label {
-	width: 100px;
+	width: 150px;
 }
 
+.button-td {
+	text-align: center;
+}
+
+#add-category {
+	float: right;
+	margin-top: 30px;
+}
+
+.form-element {
+	display: flex;
+	font-size: 18px;
+}
+
+.resultFeedback{
+	text-decoration: underline;
+}
+.resultFeedback:hover{
+	cursor: pointer;
+}
 </style>
 </head>
 <body>
 	<th:block layout:fragment="customJs">
 		<script>
-				const deleteVisitHistory = function(visitCode) {
+		
+				const resultFeedback = function(resultFeedback){
+					Swal.fire({
+						title: '피드백 내용',
+						text: resultFeedback,
+						confirmButtonText : '확인'
+					})
+				}
+		
+				const modifyResultHistory= function(resultCode, resultFeedback) {
+					
 			Swal.fire({
-				icon : 'question',
-				title : `${visitCode}`,
-				text : '위 방문기록을 삭제하시겠습니까?',
+				title: `${resultCode} 수정`,
+				icon: 'question',
+				confirmButtonText : '수정',
+				cancelButtonText : '취소',
 				showConfirmButton : true,
 				showCancelButton : true,
-				confirmButtonText : '삭제',
-				cancelButtonText : '취소'
+				allowOutsideClick: false,
+				template: '#resultHistoryTemplate',
+				preConfirm: () => {
+					$('swal2-input').each(function(idx,item){
+						if($(item).val() == ''){
+							Swal.showValidationMessage('입력은 비어있을수 없습니다!');							
+						}
+					})
+					return {
+						resultFeedback : $('#feedbackResult').val(),
+						resultCode : resultCode,
+						adminId : `[[${session.sessionId}]]`
+					}
+				}
 			}).then(result => {
+				console.log(result.value);
 				if(result.isConfirmed){
 					$.ajax({
-						url: `/admin/removeVisitHistory`,
+						url: `/admin/modifyResultHistory`,
 						method: "post",
 						dataType: "json",
-						data: {
-							visitCode: visitCode
-						}
+						data: result.value
 					}).done(data => {
 						if(data.isSuccess){
 							Swal.fire({
@@ -134,17 +140,62 @@
 					})
 				}
 			})
-		}
+			//비동기라 이렇게 해도 가능
+			
+			$('#feedbackResult').val(resultFeedback);
+			
+				}
+				
+				const deleteResultHistory= function(resultCode) {
+					Swal.fire({
+						icon : 'question',
+						title : `${resultCode}`,
+						text : '위 멘토 평가결과 기록을 삭제하시겠습니까?',
+						showConfirmButton : true,
+						showCancelButton : true,
+						confirmButtonText : '삭제',
+						cancelButtonText : '취소'
+					}).then(result => {
+						if(result.isConfirmed){
+							console.log(result);
+							$.ajax({
+								url: `/admin/removeResultHistory`,
+								method: "post",
+								dataType: "json",
+								data: {
+									resultCode: resultCode
+								}
+							}).done(data => {
+								if(data.isSuccess){
+									Swal.fire({
+										icon: 'success',
+										title: data.msg,
+										showConfirmButton: true,
+										confirmButtonText: '확인'
+									}).then(function(){
+										location.reload();
+									})
+								}else {
+									Swal.fire({
+										icon: 'error',
+										title: data.msg,
+										showConfirmButton: true,
+										confirmButtonText: '확인'
+									})
+								}
+								
+							})
+						}
+					})
+				}
 			$(function() {
-				$('#feedback-open').click(function() {
-					location.href = "/farm/mentorMenteeFeedbackMentee";
-				})
-
+				
 				const table = $('#datatable-custom').DataTable({
 					length : true,
 					paginate : true,
 					info : true,
-					searching : true
+					searching : true,
+					language: lang_ko
 				})
 
 				$('#contract-code').on('keyup change clear',function(){
@@ -152,75 +203,27 @@
 				})
 				
 				$('#visit-code').on('keyup change clear', function(){
-					table.columns(0).search(this.value).draw();
+					table.columns(4).search(this.value).draw();
 				})
-				
-				
-				$('#open-checked').click(
-						function() {
-							$('.check-self').each(
-									function(idx, item) {
-										if ($(item).prop('checked')) {
-											$(item).parents('tr').find(
-													'a.contract_new_tab')[0]
-													.click();
-
-										}
-
-									})
-						})
-
-				$('#check-all').click(
-						function() {
-							let checkAllEle = $('.check-self');
-							checkAllEle.each(function(idx, item) {
-								$(item).prop('checked',
-										$('#check-all').prop('checked'));
-							});
-						});
-
-				$('.check-self').each(function(idx, item) {
-					$(item).click(function() {
-
-						let checkboxes = $('.check-self');
-						let allchecked = true;
-						if (item.checked == false) {
-							$('#check-all').prop('checked', false);
-						}
-						$(checkboxes).each(function(idx, item) {
-							if (item.checked == false) {
-								allchecked = false;
-							}
-						})
-						if (allchecked) {
-							$('#check-all').prop('checked', true);
-						}
-
-					})
-
-				})
-				/* tr클릭시 해당계약으로 등록신청페이지로 */
-				/* $('table td').each(function(idx,item){
-					$(item).css('cursor', 'pointer');
-					
-					$(item).click(function(e) {
-						let link = $(item).parents('tr').attr('href');
-						if(e.ctrlKey){
-							window.open(link,'_blank');
-						} else {
-							location.href = link;
-						}
-						return false;
-					});
-				}) */
-
+		
 			});
 		</script>
 
 	</th:block>
 	<th:block layout:fragment="customContent">
+		<template id="resultHistoryTemplate">
+			<!-- <swal-title> 수정 </swal-title>
+			<swal-icon type="question"></swal-icon>
+			<swal-button type="confirm"> 수정 </swal-button>
+			<swal-button type="cancel"> 취소 </swal-button> -->
+			<swal-html> 
+			<div>
+				<textarea class="swal2-input" id="feedbackResult"></textarea>
+			</div>
+			</swal-html>
+		</template>
 		<div class="row">
-			<div class="col-md-12 col-sm-12" th:object="${mmContractInfo}">
+			<div class="col-md-12 col-sm-12">
 				<div class="x_panel">
 					<div class="x_title">
 						<h2>멘토멘티 방문 기록 관리</h2>
@@ -239,12 +242,13 @@
 												<div id="search-container">
 													<div id="search-container-inner">
 														<div class="input-container">
-															<label class="search-label"> 방문코드: </label> <input
-																id="visit-code" type="text" class="form-control" />
-														</div>
-														<div class="input-container">
 															<label class="search-label"> 계약코드: </label> <input
 																id="contract-code" type="text"
+																class="form-control" />
+														</div>
+														<div class="input-container">
+															<label class="search-label"> 방문코드: </label> <input
+																id="visit-code" type="text"
 																class="form-control search-input" />
 														</div>
 
@@ -253,74 +257,49 @@
 
 												</div>
 												<div>
-												<ul>
-													<li><span>***아래 삭제버튼은 멘토멘티 방문 기록을 소프트 리셋밖에 하지 않습니다(방문기록에 대한 방문평가 기록 삭제후 방문기록 리셋)</span></li>
-													<li><span>방문기록의 실질적인 삭제는 계약이 취소될 시에만 가능합니다.</span></li>
-												</ul>
-												
 													<table id="datatable-custom"
 														class="table table-striped table-bordered dataTable no-footer"
 														style="width: 100%;" role="grid"
 														aria-describedby="datatable_info">
 														<thead>
 															<tr role="row">
-																<th class="sorting_asc" tabindex="0"
-																	aria-controls="datatable" rowspan="1" colspan="1"
-																	aria-sort="ascending">방문코드</th>
-																<th class="sorting" tabindex="0"
-																	aria-controls="datatable" rowspan="1" colspan="1">계약코드</th>
-																<th class="sorting" tabindex="0"
-																	aria-controls="datatable" rowspan="1" colspan="1">방문회차</th>
-																<th class="sorting" tabindex="0"
-																	aria-controls="datatable" rowspan="1" colspan="1">방문
-																	유무</th>
-																<th class="sorting" tabindex="0"
-																	aria-controls="datatable" rowspan="1" colspan="1">최종
-																	방문 완료 구분</th>
-																<th class="sorting" tabindex="0"
-																	aria-controls="datatable" rowspan="1" colspan="1">방문회차
-																	종합점수</th>
-																<th class="sorting" tabindex="0"
-																	aria-controls="datatable" rowspan="1" colspan="1">최대
-																	점수</th>
-																<th class="sorting" tabindex="0"
-																	aria-controls="datatable" rowspan="1" colspan="1">사용한
-																	세부항목수</th>
-																<th class="sorting" tabindex="0"
-																	aria-controls="datatable" rowspan="1" colspan="1">삭제</th>
+																<th>평가결과 고유 코드</th>
+																<th>계약코드</th>
+																<th>단원별 평가점수</th>
+																<th>등록시간</th>
+																<th>방문코드</th>
+																<th>평가 단원 코드</th>
+																<th>피드백 내용</th>
+																<th>회원아이디</th>
+																<th>수정</th>
+																<th>삭제</th>
 															</tr>
 														</thead>
 														<tbody>
-															<th:block th:unless="${visitHistoryList.isEmpty()}">
-																<th:block th:each="l: ${visitHistoryList}">
-																	<tr role="row" class="odd"
-																		th:href="@{/farm/mmFeedbackMenteeDetail(visitCode=${l.visitCode})}">
-																		<td th:text="${l.visitCode}"></td>
+															<th:block th:unless="${resultHistoryList == null}">
+																<th:block th:each="l: ${resultHistoryList}">
+																	<tr>
+																		<td th:text="${l.resultCode}"></td>
 																		<td th:text="${l.contractCode}"></td>
-																		<td th:text="${l.periodCount}"></td>
-																		<td id="visit"
-																			th:if="${l.visitComplete.equals('complete')}"
-																			th:text="방문완료"></td>
-																		<td id="visit"
-																			th:if="${l.visitComplete.equals('in_progress')}"
-																			th:text="방문대기"></td>
-																		<td
-																			th:if="${l.visitCompleteFinal.equals('intermediate')}"
-																			th:text="진행중"></td>
-																		<td th:if="${l.visitCompleteFinal.equals('final')}"
-																			th:text="최종방문"></td>
-																		<td th:text="${l.totalScoreVisit}"></td>
-																		<td th:text="${l.totalDetailItemNum*3}"></td>
-																		<td th:text="${l.totalDetailItemNum}"></td>
-																		<td><button class="btn btn-danger" th:if="${l.visitComplete.equals('complete')}"
-																			th:attr="onclick=|deleteVisitHistory('${l.visitCode}')|">삭제</button></td>
+																		<td th:text="${l.resultEvaluationPoint}"></td>
+																		<td th:text="${l.resultRegDate}"></td>
+																		<td th:text="${l.visitCode}"></td>
+																		<td th:text="${l.evaluationUnitCode}"></td>
+																		<td><span class="resultFeedback" th:attr="onclick=|resultFeedback('${l.resultFeedback}')|">피드백 내용</span></td>
+																		<td th:text="${l.memberId}"></td>
+																		<td class="button-td"><button
+																				th:attr="onclick=|modifyResultHistory('${l.resultCode}','${l.resultFeedback}')|"
+																				class="btn btn-warning" type="button">수정</button></td>
+																		<td class="button-td"><button
+																				th:attr="onclick=|deleteResultHistory('${l.resultCode}')|"
+																				class="btn btn-danger" type="button">삭제</button></td>
 																	</tr>
 																</th:block>
 
 															</th:block>
 															<tr role="row" class="odd"
-																th:if="${visitHistoryList.isEmpty()}">
-																<td colspan="6">멘토멘티 신청여부가 존재하지 않습니다.</td>
+																th:if="${resultHistoryList == null}">
+																<td colspan="10">멘토 평가기록이 존재하지 않습니다.</td>
 															</tr>
 														</tbody>
 													</table>

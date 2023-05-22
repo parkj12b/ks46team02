@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/mainpage}">
+
+<head>
+	<meta charset="UTF-8">
+	<title th:text="${title} + ' - 한국스마트정보교육원 46기 2팀 프로젝트'"></title>
+	<style>
+		.page-divide:first-child{
+			height: 700px;
+			padding-top: 70px;
+		}
+		.page-divide{
+			height: 100vh;
+		}
+		.section1-image{
+			background-image: url("/images/mainpage_section1.png");
+			width: 100%;
+			height: 100%;
+			background-repeat: no-repeat;
+		    object-fit: cover;
+		    background-position-x: right;
+			background-size: contain;
+			background-color: #eff0f0;    
+		}
+		.section1-image-wrapper{
+		    width: 100%;
+		    height: 100%;
+		}
+		ul.navbar-right{
+			display: flex !important; 
+			align-items: center !important;
+		}
+		.dropdown-usermenu{
+			top: 15px !important;
+		}
+		.section1{
+			position:absolute;
+			padding-left: 25px;
+			padding-right: 25px;
+			padding-top: 50px;
+			display: grid;
+			grid-template-columns: repeat(12, 1fr);
+		}
+		.section1-text-wrapper{
+			grid-column-start: 1;
+			grid-column-end: 6;
+			
+		}
+		.section1-text1{
+			margin-bottom: 20px;
+		}
+		.text-container{
+			padding: 30px;
+			background-color: #fff;
+			border: 1px solid transparent;
+			border-radius: 20px;
+			
+		}
+		p{
+			word-wrap: break-word;
+		}
+		
+		h2{
+			font-size: 1.5rem !important;
+		}
+		body{
+			font-size: 1rem;
+		}
+		.baskin{
+			font-family: baskin;
+		}
+		.underline{
+			text-decoration: underline;
+		}
+		.section2{
+			
+			
+		}
+		.white{
+			color: white;
+		}
+		.section-title-wrapper{
+			margin: 0;
+			padding-top: 80px;
+		}
+		.section-title{
+			margin: 0;
+			text-align: center;
+			font-weight: 600;
+			font-size: 3rem !important;
+			
+		}
+		.section-subtitle{
+			margin: 0;
+			text-align: center;
+			font-weight: 600;
+			font-size: 1rem !important;
+		}
+		.member-introduction-container{
+			display: flex;
+			margin: 0 auto;
+			flex-wrap: wrap-reverse;
+			justify-content: space-around;
+		}
+		.member-box{
+			min-width: 300px;
+			
+			background-color: #eff0f0;
+		}
+		.section2-body-wrapper{
+			margin-top: 80px;
+		}
+		.member-pl{
+			display: flex;
+			justify-content: space-around;
+			margin-bottom: 40px;
+		}
+		.member-box > img{
+			width: 300px;
+			height: 300px;
+			padding: 10px;
+			
+		}
+		.member-icon{
+			text-align: center;
+			font-size:80px;
+		}
+		.center{
+			text-align: center;
+		}
+		.name{
+			font-size: 2rem;
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+	<th:block layout:fragment="customContent">
+		<div class="page-divide">
+			<div class="section1">
+				<div class="section1-text-wrapper">
+				<div class="section1-text1 text-container">
+					<h2 class="baskin underline">프로젝트 라바링크에 오신걸 환영합니다!</h2>
+					<p>프로젝트 라바링크는 현실에서 발생되는 사회적 문제를 해결하려는 목적으로 시작되었으며 여러가지 주제를 전전하던 끝에 환경을 생각하는 라바링크 프로젝트를 만들게 되었습니다.</p>
+				</div>
+				<div class="section1-text2 text-container">
+					<h2 class="baskin underline">프로젝트 라바링크란?</h2>
+					<p>프로젝트 라바링크는 건조음식물을 활용한 곤충사료 블루오션 플랫폼 입니다.</p>
+					<p>주로 환경 정화 곤충으로 일컬어지는 동애등에 사육에 필요한 건조음식물 거래, 동애등에 사육장 생산관리 시스템, 동애등에 제품 거래와 시장 규모화 및 신생 업체 지원을 위한 멘토멘티 시스템을 지원합니다.</p>
+				</div>
+			</div>
+			</div>
+			<div class="section1-image-wrapper">
+				<figure class="section1-image"></figure>
+			</div>
+				
+		</div>
+		<div class="section2">
+			<div class="section-title-wrapper">
+			 	<p class="section-subtitle white">프로젝트 라바링크</p>
+				<h2 class="section-title white">팀원소개</h2>
+			</div>
+			<div class="section2-body-wrapper">
+				<div class="member-pl">
+					<div class="member-box">
+						<div class="member-icon">&#x1F451;</div>
+						<img src="/images/team_members/pms.png" alt="박민서 벌레 이미지" />
+						<div class="baskin center name">팀장: 박민서</div>
+					</div>			
+				</div>
+				<div class="member-introduction-container">
+					<div class="member-box">
+						<img src="/images/team_members/chj.png" alt="최학준 벌레 이미지" />
+						<div class="baskin center name">팀원: 최학준</div>
+					</div>
+					<div class="member-box">
+						<img src="/images/team_members/cbj.png" alt="최봉준 벌레 이미지" />
+						<div class="baskin center name">팀원: 최봉준</div>
+					</div>
+					<div class="member-box">
+						<img src="/images/team_members/kyj.png" alt="김유진 벌레 이미지" />
+						<div class="baskin center name">팀원: 김유진</div>
+					</div>
+					<div class="member-box">
+						<img src="/images/team_members/hbj.png" alt="황병준 벌레 이미지" />
+						<div class="baskin center name">팀원: 황병준</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-divide"></div>
+	</th:block>
+</html>
