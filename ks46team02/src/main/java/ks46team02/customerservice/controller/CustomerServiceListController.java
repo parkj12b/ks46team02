@@ -64,7 +64,8 @@ public class CustomerServiceListController {
 
 	/* 문의 내용에 대한 답변등록 */
 	@PostMapping("/add_answer_proc")
-	public String postAddAnswer(@ModelAttribute("writeAnswerDto") AnswerDto answerDto,
+	@ResponseBody
+	public AnswerDto postAddAnswer(@ModelAttribute("writeAnswerDto") AnswerDto answerDto,
 			@RequestParam("questionCode") String questionCode, @RequestParam("questionStatus") String questionStatus) {
 
 		answerDto.setQuestionCode(questionCode);
@@ -75,8 +76,9 @@ public class CustomerServiceListController {
 		log.info(questionCode);
 		questionDto.setQuestionStatus(questionStatus);
 		customerserviceListService.modifyQuestionStatus(questionDto);
+	
 
-		return "/customerservice/answerlist";
+		return answerDto;
 	}
 
 	/* 답변내용애 대한 정보 조회 */
