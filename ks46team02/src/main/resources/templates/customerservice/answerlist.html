@@ -3,6 +3,11 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/mypageLayout}">
 <head>
+<style>
+.deleted-row {
+    display: none !important;
+}
+</style>
 <th:block layout:fragment="customJs">
 	<script>
 		$(document).ready(function() {
@@ -28,6 +33,35 @@
 					}
 				});
 			});
+		});
+		
+	
+		$('body').on('click', '.fa-close', function() {
+			var row = $(this).closest('tr');
+			var answerCode = row.find('td:first').text();
+			var confirmation = confirm('삭제하시겠습니까?');
+			if (confirmation) {
+				$.ajax({
+					type : 'POST',
+					url : '/customerservice/remove_answer_proc',
+					data : {
+						answerCode : answerCode
+					},
+					success : function(response) {
+						if (response === 'success') {
+							// 삭제 성공 시 처리할 내용
+							row.hide(); // 행 숨기기
+							row.addClass('deleted-row'); // 삭제된 행을 구별하기 위한 클래스 추가
+							alert('문의 유형이 성공적으로 삭제되었습니다.');
+						} else {
+							alert('문의 유형 삭제에 실패하였습니다.');
+						}
+					},
+					error : function() {
+						alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+					}
+				});
+			}
 		});
 	</script>
 </th:block>
@@ -129,10 +163,10 @@
 												<td th:text="${l.questionStatus}"></td>
 												<td th:text="${l.answerRegDate}"></td>
 												<td th:text="${l.answerModityDate}"></td>
-												<td><a href="#"><button class="fa fa-edit"
-															data-toggle="modal" data-target="#answerModifyModal"></button>수정</a></td>
-												<td><a href="#" class="delete"><i
-														class="fa fa-close"></i> 삭제</a></td>
+												<td><button class="fa fa-edit" data-toggle="modal"
+														data-target="#answerModifyModal"></button>수정</td>
+												<td><button class="fa fa-close" data-toggle="modal"
+														data-target="#answerRemoveModal"></button>삭제</td>
 											</tr>
 										</tbody>
 									</table>
@@ -172,8 +206,8 @@
 						<input type="hidden" id="farmAddr" name="farmAddr" />
 
 						<div class="form-group row">
-							<label class="control-label col-md-3 col-sm-3 "
-								for="sessionId">작성 관리자</label>
+							<label class="control-label col-md-3 col-sm-3 " for="sessionId">작성
+								관리자</label>
 							<div class="col-md-9 col-sm-9 ">
 								<input type="text" class="form-control" name="sessionId"
 									id="sessionId" th:value="${session.sessionId}" readonly />

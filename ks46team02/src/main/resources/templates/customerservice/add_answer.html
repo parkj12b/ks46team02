@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mypageLayout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<th:block layout:fragment="customJs">
+	<style>
+.row {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.col-md-6 {
+	flex: 0 0 50%;
+	max-width: 50%;
+	padding: 0 15px;
+	box-sizing: border-box;
+}
+</style>
+	<script
+		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script>
+		$(document).ready(function() {
+			// 등록 버튼 클릭 시 이벤트 처리
+			$('.add').click(function() {
+				var answerTitle = $("#answerTitle").val();
+				var answerContent = $("#answerContent").val();
+				var questionCode = $("#questionCode").val();
+				var adminId = $("#adminId").val();
+				var questionStatus = $("#questionStatus").val();
+
+				$.ajax({
+					type : 'POST',
+					url : '/customerservice/add_answer_proc',
+					data : {
+						answerTitle : answerTitle,
+						answerContent : answerContent,
+						questionCode : questionCode,
+						adminId : adminId,
+						questionStatus : questionStatus
+					},
+					success : function(data) {
+						alert('답변이 성공적으로 등록되었습니다.');
+						window.location.href = '/customerservice/answerlist'; // 답변 리스트 페이지로 리다이렉트
+					},
+					error : function(xhr, status, error) {
+						alert('답변 등록 중 오류가 발생했습니다. 다시 시도해 주세요.');
+					}
+				});
+			});
+			// 취소 버튼 클릭 시 이벤트 처리
+			$('.cancel').click(function() {
+			    window.location.href = '/customerservice/questionlist';
+			});
+		});
+	</script>
+</th:block>
+</head>
+<body>
+	<th:block layout:fragment="customContent">
+		<div class="page-title">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="x_panel">
+						<div class="x_title">
+							<h2>문의 내용</h2>
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<form class="form-horizontal form-label-left" id="addFarmForm"
+								method="post">
+								<!-- Form Content -->
+
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 "
+										for="questionCode">question No.</label>
+									<div class="col-md-9 col-sm-9 ">
+										<input type="text" class="form-control" name="questionCode"
+											th:value="${getquestionDto.questionCode}" id="questionCode"
+											readonly />
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 "
+										for="questionTypeName">문의 유형 이름</label>
+									<div class="col-md-9 col-sm-9 ">
+										<input type="text" class="form-control"
+											name="questionTypeName"
+											th:value="${getquestionDto.questionTypeName}"
+											id="questionTypeName" readonly />
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 " for="memberId">작성자</label>
+									<div class="col-md-9 col-sm-9 ">
+										<input type="text" class="form-control" name="memberId"
+											id="memberId" th:value="${getquestionDto.memberId}" readonly />
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 "
+										for="questionRegDate">작성 등록일</label>
+									<div class="col-md-9 col-sm-9 ">
+										<input type="text" class="form-control" name="questionRegDate"
+											id="questionRegDate"
+											th:value="${getquestionDto.questionRegDate}" readonly>
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 "
+										for="questionTitle">작성 제목</label>
+									<div class="col-md-9 col-sm-9 ">
+										<input type="text" class="form-control" name="questionTitle"
+											id="questionTitle" th:value="${getquestionDto.questionTitle}"
+											readonly>
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 "
+										for="questionContent">문의 내용<span class="required">*</span>
+									</label>
+									<div class="col-md-9 col-sm-9 ">
+										<textarea class="form-control" rows="3" name="questionContent"
+											id="questionContent"
+											th:text="${getquestionDto.questionContent}" readonly></textarea>
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 "
+										for="questionStatus">답변 상태</label> <input type="text"
+										class="form-control" name="questionStatus" id="questionStatus"
+										th:value="${getquestionDto.questionStatus}" readonly />
+								</div>
+
+								<div class="form-group row">
+									<label class="form-label" for="">첨부 이미지</label> <input
+										class="form-control" readonly />
+								</div>
+							</form>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-6">
+					<div class="x_panel">
+						<div class="x_title">
+							<h2>답변 등록</h2>
+							<button type="reset" class="btn btn-white" style="float: right"
+								id="reset-btn">
+								<i class="fa fa-repeat"></i>
+							</button>
+							<div class="clearfix"></div>
+						</div>
+						<div class="x_content">
+							<form id="answerForm" method="post">
+								<!-- Form Content -->
+								<div class="form-group row ">
+									<label class="control-label col-md-3 col-sm-3 ">답변 담당
+										관리자 ID</label>
+									<div class="col-md-9 col-sm-9 ">
+										<input type="text" class="form-control" id="adminId"
+											name="adminId" th:value="${session.sessionId}" readonly>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 ">답변 제목</label>
+									<div class="col-md-9 col-sm-9 ">
+										<input type="text" class="form-control" id="answerTitle"
+											name="answerTitle" placeholder="답변 제목을 입력하세요">
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 ">답변 내용</label>
+									<div class="col-md-9 col-sm-9 ">
+										<textarea class="form-control" rows="3" name="answerContent"
+											id="answerContent" placeholder="답변 내용을 입력하세요"></textarea>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="control-label col-md-3 col-sm-3 "
+										for="questionStatus">답변 상태</label>
+									<div class="col-md-9 col-sm-9 ">
+										<select id="questionStatus" class="form-control"
+											name="questionStatus">
+											<option value="">weighting for response</option>
+											<option value="">processing</option>
+											<option value="">complete</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="form-label" for="">첨부 이미지</label> <input
+										type="file" class="form-control" />
+								</div>
+								<span id="guide" style="color: #999; display: none"></span>
+
+								<div class="ln_solid"></div>
+								<div class="form-group">
+									<div class="col-md-9 col-sm-9  offset-md-5">
+										<button type="button" class="btn btn-dark add">등록</button>
+										<button type="reset" class="btn btn-dark cancel">취소</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</body>
+</html>

@@ -83,6 +83,36 @@
 		    <artifactId>jackson-databind</artifactId>
 		    <version>2.15.0</version>
 		</dependency>
+        <dependency>
+            <groupId>com.github.hqstevenson.splunk</groupId>
+            <artifactId>splunk.aries.blueprint</artifactId>
+            <version>2.1.2</version>
+        </dependency>
+		<dependency>
+			<groupId>com.github.hqstevenson.splunk</groupId>
+			<artifactId>splunk.aries.blueprint</artifactId>
+			<version>2.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hqstevenson.splunk</groupId>
+			<artifactId>splunk.aries.blueprint</artifactId>
+			<version>2.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hqstevenson.splunk</groupId>
+			<artifactId>splunk.aries.blueprint</artifactId>
+			<version>2.1.2</version>
+		</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-web</artifactId>
+			</dependency>
+		<!-- https://mvnrepository.com/artifact/org.json/json -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20230227</version>
+		</dependency>
 	</dependencies>
 
 	<build>

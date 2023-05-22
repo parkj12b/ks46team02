@@ -23,4 +23,6 @@ public interface MainMapper {
 	public boolean isEmailUsed(String email);
 	public List<AllContractInfo> getContractInfoByKeyValueAnd(List<Map<String, Object>> searchList);
 	public List<AllContractInfo> getContractInfoByKeyValueOr(List<Map<String, Object>> searchList);
+
+	public Member getMemberInfoAll(Member member);
 }

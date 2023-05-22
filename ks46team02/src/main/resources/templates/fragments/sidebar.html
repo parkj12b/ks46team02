@@ -7,6 +7,7 @@
 				class="fa fa-chevron-down"></span></a>
 			<ul class="nav child_menu">
 				<li th:if="${session.sessionLevel!='admin'}" ><a th:href="@{/modifyMember}">회원정보 수정</a></li>
+				<li th:if="${session.sessionLevel == 'admin'}" ><a th:href="@{/modifyAdmin}">회원정보 수정</a></li>
 				<li th:if="${session.sessionLevel!='admin'}" ><a th:href="@{/addrMemberList}" >배송지 조회</a></li>
 
 			</ul></li>

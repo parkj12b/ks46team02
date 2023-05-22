@@ -58,6 +58,27 @@
         <result column="days_left"
                 property="daysLeft"></result>
     </resultMap>
+    <select id="getMemberInfoAll" resultType="Member">
+        /* 메인페이지 회원정보 */
+        SELECT
+        m.member_id AS memberId
+        ,m.member_name AS memberName
+        ,m.member_email AS memberEmail
+        ,m.member_phone AS memberPhone
+        ,m.member_reg_date as memberRegDate
+        ,l.member_level_name AS memberLevelName
+        ,ci.company_name AS companyName
+        FROM
+        member_info  AS m
+        inner join
+        company_position_level AS l
+        ON m.position_level_code = l.position_level_code
+        inner join
+        company_info AS ci
+        ON m.company_code = ci.company_code
+        where
+        m.member_id=#{memberId};
+    </select>
 
     <!-- 비밀번호 체크    -->
     <select id="getMemberInfoById" resultMap="memberResultMap">
