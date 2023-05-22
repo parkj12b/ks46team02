@@ -163,7 +163,8 @@ public class CommonController {
 		model.addAttribute("romaMemberId",romaMemberId);
 		String memberLevel = (String) session.getAttribute("sessionLevel");
 		if(memberLevel.equals("admin")){
-
+			AdminMember adminList = adminService.getAdminInfoById(memberId);
+			model.addAttribute("adminList",adminList);
 			return "mypage2";
 		}
 		else{
