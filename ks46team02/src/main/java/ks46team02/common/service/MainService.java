@@ -1,5 +1,6 @@
 package ks46team02.common.service;
 
+import jakarta.servlet.http.HttpSession;
 import ks46team02.common.dto.Member;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +50,12 @@ public class MainService {
 	public boolean isEmailUsed(String email) {
 		boolean isEmailUsed = mainMapper.isEmailUsed(email);
 		return isEmailUsed;
+	}
+	public Member getMemberInfoAll(Member member, HttpSession session){
+		String memberId = (String)session.getAttribute("sessionId");
+		member.setMemberId(memberId);
+		Member memberInfoAll = mainMapper.getMemberInfoAll(member);
+		return memberInfoAll;
 	}
 	
 	
