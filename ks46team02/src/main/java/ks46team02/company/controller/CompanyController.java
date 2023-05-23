@@ -53,7 +53,17 @@ public class CompanyController {
         this.mentorMenteeService = mentorMenteeService;
     }
 
+    /* 업체종류 이름수정*/
+    @PostMapping("/updateCompanyType")
+    @ResponseBody
+    public boolean updateCompanyType(@RequestParam("companyTypeNum") String companyTypeNum,
+                                     @RequestParam("companyType") String companyType,
+                                     @RequestParam("adminId") String adminId){
+      boolean result = false;
+      result = companyMapper.updateCompanyType(companyTypeNum, companyType, adminId);
 
+      return result;
+    };
 
     /* 업체직원등록암호체크 */
     @PostMapping("/regPassCheck")
@@ -142,10 +152,12 @@ public class CompanyController {
 
     /* 업체 삭제 */
     @PostMapping("/deleteCompany")
-    public String deleteCompany(){
+    @ResponseBody
+    public boolean deleteCompany(@RequestParam(name="companyCode") String companyCode){
 
-        String redirectURI = "redirect:/company/company_delete/deleteCompany?";
-        return redirectURI;
+        boolean result = companyService.deleteCompany(companyCode);
+        log.info("deleteResult : {}", result);
+        return true;
     }
 
     /* 업체직원지위 */

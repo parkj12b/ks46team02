@@ -28,6 +28,13 @@ public class CompanyService {
         this.mainMapper = mainMapper;
     }
 
+    /* 업체삭제*/
+    public boolean deleteCompany(String companyCode){
+        boolean result = companyMapper.deleteCompany(companyCode);
+
+        return result;
+    }
+
     /* 업체승인 */
     public int updateApprovalCompany(Company company){
         String companyCode = company.getCompanyCode();
