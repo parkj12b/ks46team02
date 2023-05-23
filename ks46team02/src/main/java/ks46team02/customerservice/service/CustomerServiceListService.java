@@ -34,11 +34,10 @@ public class CustomerServiceListService {
 	public void addAnswer(AnswerDto answerDto) {
 		customerserviceListMapper.addAnswer(answerDto);
 	}
-	
-	public void modifyQuestionStatus(QuestionDto questionDto) {
-        customerserviceListMapper.modifyQuestionStatus(questionDto);
-    }
 
+	public void modifyQuestionStatus(QuestionDto questionDto) {
+		customerserviceListMapper.modifyQuestionStatus(questionDto);
+	}
 
 	public List<AnswerDto> getAnswerList() {
 		List<AnswerDto> AnswerList = customerserviceListMapper.getAnswerList();
@@ -47,6 +46,10 @@ public class CustomerServiceListService {
 
 	public AnswerDto getAnswerByCode(String answerCode) {
 		return customerserviceListMapper.getAnswerByCode(answerCode);
+	}
+	
+	public void modifyAnswer(AnswerDto answerDto) {
+		customerserviceListMapper.modifyAnswer(answerDto);
 	}
 
 	public boolean removeAnswer(String answerCode) {
@@ -76,4 +79,7 @@ public class CustomerServiceListService {
 	public boolean deleteQuestionType(int questionTypeCode) {
 		return customerserviceListMapper.deleteQuestionType(questionTypeCode);
 	}
+
+	
+
 }

@@ -32,6 +32,7 @@
 				var adminId = $("#adminId").val();
 				var questionStatus = $('select[name="questionStatus"]').val();
 				console.log(questionStatus)
+			
 				$.ajax({
 					type : 'POST',
 					url : '/customerservice/add_answer_proc',
@@ -54,6 +55,17 @@
 					}
 				});
 			});
+			
+			// 리셋 버튼 클릭 시 폼 리셋 이벤트 처리
+			  $('#reset-btn').click(function() {
+			    resetForm(); // 폼 리셋 함수 호출
+			  });
+			
+			  function resetForm() {
+				    $('#answerForm')[0].reset(); // 폼 리셋
+				  }
+			
+			
 			// 취소 버튼 클릭 시 이벤트 처리
 			$('.cancel').click(function() {
 				window.location.href = '/customerservice/questionlist';
@@ -73,7 +85,7 @@
 							<div class="clearfix"></div>
 						</div>
 						<div class="x_content">
-							<form class="form-horizontal form-label-left" id="addFarmForm"
+							<form class="form-horizontal form-label-left" id="quesitonListForm"
 								method="post">
 								<!-- Form Content -->
 
@@ -189,16 +201,15 @@
 											id="answerContent" placeholder="답변 내용을 입력하세요"></textarea>
 									</div>
 								</div>
-								<
 								<div class="form-group row">
 									<label class="control-label col-md-3 col-sm-3 "
 										for="questionStatus">답변 상태</label>
 									<div class="col-md-9 col-sm-9 ">
 										<select class="form-control"
 											name="questionStatus">
-											<option value="waiting">Waiting for response</option>
-											<option value="processing">Processing</option>
-											<option value="complete">Complete</option>
+											 <option value="weighting" th:selected="${getquestionDto.questionStatus == 'waiting'}">Weighting for Response</option>
+      										 <option value="processing" th:selected="${getquestionDto.questionStatus == 'processing'}">Processing</option>
+      										 <option value="complete" th:selected="${getquestionDto.questionStatus == 'complete'}">Complete</option>
 										</select>
 									</div>
 								</div>

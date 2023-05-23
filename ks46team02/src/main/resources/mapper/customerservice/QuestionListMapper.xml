@@ -66,7 +66,7 @@
 
 	<select id="getQuestionByCode" parameterType="String"
 		resultMap="questionListResultMap">
-		/* 답변 세부내용 조회 */
+		/* 문의 세부내용 조회 */
 		SELECT
 		q.question_code,
 		qt.question_type_name,
@@ -105,9 +105,10 @@
 		question
 		SET
 		question_status = #{questionStatus}
-		WHERE question_code = #{questionCode} and question_del_yn ='N';
+		WHERE question_code =
+		#{questionCode} and question_del_yn ='N';
 	</update>
-	
+
 
 	<select id="getAnswerList" resultMap="answerListResultMap">
 		/* 문의에 대한 답변 조회 */
@@ -167,25 +168,16 @@
 		answer_code = #{answerCode};
 	</update>
 
-	<update id="modifyAnswerList" parameterType="AnswerDto">
+	<update id="modifyAnswer" parameterType="AnswerDto">
 		UPDATE answer
-		<set>
-			<if test="answerTitle != null">
-				answer_title = #{answerTitle},
-			</if>
-			<if test="answerContent != null">
-				answer_content = #{answerContent},
-			</if>
-			<if test="answerFile != null">
-				answer_file = #{answerFile}
-			</if>
-			<if test="answerModifyDate != null">
-				answer_modify_date = CURRENT_TIMESTAMP()
-			</if>
-		</set>
-		WHERE answer_code = #{answerCode} and answer_del_yn ='N';
+		SET
+		answer_title = #{answerTitle},
+		answer_content = #{answerContent},
+		answer_file = #{answerFile},
+		answer_reg_date = CURRENT_TIMESTAMP()
+		WHERE
+		answer_code = #{answerCode} and answer_del_yn ='N';
 	</update>
-
 	<select id="getQuestionTypeList"
 		resultMap="questiontypeListResultMap">
 		/* 문의 유형 조회 */
