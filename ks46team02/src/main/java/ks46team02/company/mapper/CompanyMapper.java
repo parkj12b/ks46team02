@@ -17,7 +17,7 @@ public interface CompanyMapper {
     //업체종류 업데이트
     public boolean updateCompanyType(String companyTypeNum, String companyType ,String adminId);
     //업체삭제
-    public boolean deleteCompany(String companyCode);
+    public boolean removeCompany(String companyCode);
     // 사육업체상품카테고리등록
     public int addCompanyProduct(FarmProductCategory farmProductCategory);
     // 사육업체상품카테고리조회

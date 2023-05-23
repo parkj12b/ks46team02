@@ -31,7 +31,7 @@
         FROM
             farm_product_category
         WHERE
-            product_category_code  = "gcm_7";
+            product_category_code  = #{productCategoryCode};
 
     </delete>
 
@@ -53,7 +53,7 @@
         ct.company_type_num = #{companyTypeNum};
     </update>
 
-    <delete id="deleteCompany" parameterType="String">
+    <delete id="removeCompany" parameterType="String">
         /* 업체삭제 */
         DELETE FROM company_info
         WHERE

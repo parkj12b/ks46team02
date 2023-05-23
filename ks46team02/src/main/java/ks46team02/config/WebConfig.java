@@ -50,7 +50,7 @@ public class WebConfig implements WebMvcConfigurer{
 			.excludePathPatterns("/**/companyEmployeeLevel")
 			.excludePathPatterns("/**/companyProductCategory")
 			.excludePathPatterns("/**/updateCompanyType")
-			.excludePathPatterns("/**/deleteCompany")
+			.excludePathPatterns("/**/removeCompany")
 			.excludePathPatterns("/**/modifyCompanyProductCategory")
 			.excludePathPatterns("/**/addCompanyProduct")
 			.excludePathPatterns("/**/modifyProductName")

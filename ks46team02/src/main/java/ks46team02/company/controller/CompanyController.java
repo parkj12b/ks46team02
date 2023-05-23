@@ -151,12 +151,13 @@ public class CompanyController {
     }
 
     /* 업체 삭제 */
-    @PostMapping("/deleteCompany")
+    @PostMapping("/removeCompany")
     @ResponseBody
-    public boolean deleteCompany(@RequestParam(name="companyCode") String companyCode){
+    public boolean removeCompany(@RequestParam(name="companyCode") String companyCode){
 
-        boolean result = companyService.deleteCompany(companyCode);
-        log.info("deleteResult : {}", result);
+        boolean result = companyService.removeCompany(companyCode);
+        log.info("companyCode확인 : {}", companyCode);
+        log.info("removeResult : {}", result);
         return true;
     }
 
@@ -283,7 +284,7 @@ public class CompanyController {
                                ,HttpSession session){
         String redirect = "";
         String sessionLevel = (String)session.getAttribute("sessionLevel");
-        if(sessionLevel == "admin") {
+        if(sessionLevel.equals("admin")) {
             companyService.modifyCompanyAdmin(company);
             redirect = "redirect:/company/companyList";
         } else {

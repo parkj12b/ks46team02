@@ -29,9 +29,9 @@ public class CompanyService {
     }
 
     /* 업체삭제*/
-    public boolean deleteCompany(String companyCode){
-        boolean result = companyMapper.deleteCompany(companyCode);
+    public boolean removeCompany(String companyCode){
 
+        boolean result = companyMapper.removeCompany(companyCode);
         return result;
     }
 
