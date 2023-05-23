@@ -13,7 +13,7 @@
             var approvalStatus = $('#approvalStatusInMd').val(); // 승인여부 값
             var approvalDeniedContent = $('input[name=approvalDeniedContentInMd]').val(); // 반려사유 값
             var companyCode = $('input[name=companyCode]').val(); // 업체코드 값
-            var memberId = $('input[name=memberId]').val(); // 반려사유 값
+            var memberId = $('input[name=memberId]').val(); // 회원아이디 값
 
             // Ajax 요청
             $.ajax({
@@ -26,9 +26,9 @@
                     companyCode: companyCode, // 업체코드 값
                     memberId: memberId
                 },
-                success: function (data, statustext, jqxhr) {
+                success: function (data, jqxhr) {
                     // 성공 시 실행할 코드
-                    alert('승인상태 처리완료돼었습니다.');
+                    alert('승인상태 처리완료되었습니다.');
                     $('#approveModal').modal('hide'); // 모달 창 닫기
                     window.location.href = '/company/companyList';
                 },
@@ -51,41 +51,90 @@
                 cancelButtonText: '취소'
             }).then((result) => {
                 if (result.value) {
-                    $.ajax({
-                        url: "/company/deleteCompany",
-                        type: 'POST',
-                        data: {
-                            seq: seq,
-                            companyCode: companyCode
-                        },
-                        success: function (response) {
-                            // 삭제에 성공한 경우의 처리
-                            Swal.fire({
-                                title: '삭제 완료',
-                                text: "삭제가 완료되었습니다.",
-                                icon: 'success',
-                                confirmButtonColor: '#3085d6',
-                                confirmButtonText: '확인'
-                            }).then((result) => {
-                                if (result.value) {
-                                    // 삭제 후 이동할 페이지 URL
-                                    window.location.href = '/company/companyList';
+                    // 관리자 비밀번호 입력을 받기 위한 팝업창을 띄웁니다.
+                    Swal.fire({
+                        title: '관리자 비밀번호 입력',
+                        input: 'password',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '확인',
+                        cancelButtonText: '취소',
+                        inputValidator: (value) => {
+                            return !value && '비밀번호를 입력해주세요.'
+                        }
+                    }).then((inputPassword) => {
+                        if (inputPassword.value) {
+                            // 관리자 비밀번호를 서버로 전송하여 인증합니다.
+                            $.ajax({
+                                url: "/admin/pwCheckAdmin",
+                                type: 'POST',
+                                data: {
+                                    adminPw: inputPassword.value
+                                },
+                                success: function (authResponse) {
+                                    if (authResponse.success) {
+                                        // 인증된 경우, 글 삭제를 지시하는 AJAX 요청을 서버로 보냅니다.
+                                        $.ajax({
+                                            url: "/company/deleteCompany",
+                                            type: 'POST',
+                                            data: {
+                                                seq: seq,
+                                                companyCode: companyCode
+                                            },
+                                            success: function (response) {
+                                                // 글 삭제에 성공한 경우의 처리
+                                                Swal.fire({
+                                                    title: '삭제 완료',
+                                                    text: "삭제가 완료되었습니다.",
+                                                    icon: 'success',
+                                                    confirmButtonColor: '#3085d6',
+                                                    confirmButtonText: '확인'
+                                                }).then((closeResult) => {
+                                                    if (closeResult.value) {
+                                                        // 삭제 후 이동할 페이지 URL
+                                                        window.location.href = '/company/companyList';
+                                                    }
+                                                });
+                                            },
+                                            error: function (error) {
+                                                // 글 삭제에 실패한 경우의 처리
+                                                Swal.fire({
+                                                    title: '삭제 실패',
+                                                    text: "삭제에 실패하였습니다. 다시 시도해주세요.",
+                                                    icon: 'error',
+                                                    confirmButtonColor: '#3085d6',
+                                                    confirmButtonText: '확인'
+                                                });
+                                            }
+                                        });
+                                    } else {
+                                        // 비밀번호 인증 실패 시, 오류 메시지를 띄웁니다.
+                                        Swal.fire({
+                                            title: '관리자 비밀번호 인증 오류',
+                                            text: "올바른 관리자 비밀번호를 입력해주세요.",
+                                            icon: 'error',
+                                            confirmButtonColor: '#3085d6',
+                                            confirmButtonText: '확인'
+                                        });
+                                    }
+                                },
+                                error: function (error) {
+                                    // AJAX 요청 실패 시, 오류 메시지를 띄웁니다.
+                                    Swal.fire({
+                                        title: '서버 요청 오류',
+                                        text: "서버 요청을 처리할 수 없습니다.",
+                                        icon: 'error',
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: '확인'
+                                    });
                                 }
-                            });
-                        },
-                        error: function (error) {
-                            // 삭제에 실패한 경우의 처리
-                            Swal.fire({
-                                title: '삭제 실패',
-                                text: "삭제에 실패하였습니다. 다시 시도해주세요.",
-                                icon: 'error',
-                                confirmButtonColor: '#3085d6',
-                                confirmButtonText: '확인'
                             });
                         }
                     });
                 }
-            })
+            });
         }
 
 

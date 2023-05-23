@@ -53,7 +53,17 @@ public class CompanyController {
         this.mentorMenteeService = mentorMenteeService;
     }
 
+    /* 업체종류 이름수정*/
+    @PostMapping("/updateCompanyType")
+    @ResponseBody
+    public boolean updateCompanyType(@RequestParam("companyTypeNum") String companyTypeNum,
+                                     @RequestParam("companyType") String companyType,
+                                     @RequestParam("adminId") String adminId){
+      boolean result = false;
+      result = companyMapper.updateCompanyType(companyTypeNum, companyType, adminId);
 
+      return result;
+    };
 
     /* 업체직원등록암호체크 */
     @PostMapping("/regPassCheck")
@@ -142,10 +152,12 @@ public class CompanyController {
 
     /* 업체 삭제 */
     @PostMapping("/deleteCompany")
-    public String deleteCompany(){
+    @ResponseBody
+    public boolean deleteCompany(@RequestParam(name="companyCode") String companyCode){
 
-        String redirectURI = "redirect:/company/company_delete/deleteCompany?";
-        return redirectURI;
+        boolean result = companyService.deleteCompany(companyCode);
+        log.info("deleteResult : {}", result);
+        return true;
     }
 
     /* 업체직원지위 */
@@ -156,23 +168,47 @@ public class CompanyController {
         model.addAttribute("companyPositionLevel",companyPositionLevelList);
         return "company/company_employee_level";
     }
+    /* 업체상품카테고리 삭제 */
+    @PostMapping("/removeProductCategory")
+    @ResponseBody
+    public boolean removeProductCategory(String productCategoryCode){
+
+        boolean result = companyMapper.removeProductCategory(productCategoryCode);
+
+        return result;
+    }
 
     /* 업체상품카테고리 수정 */
+    @PostMapping("/modifyProductName")
+    @ResponseBody
+    public boolean modifyProductName(@RequestParam(name="productCategoryCode") String productCategoryCode
+                                    ,@RequestParam(name="productName") String productName
+                                    ,@RequestParam(name="adminId") String adminId
+                                    ,FarmProductCategory farmProductCategory){
+        farmProductCategory.setProductCategoryCode(productCategoryCode);
+        farmProductCategory.setProductName(productName);
+        farmProductCategory.setAdminId(adminId);
+        boolean result = companyMapper.modifyProductName(farmProductCategory);
+        return result;
+    }
+    /* 업체상품카테고리 수정 */
     @GetMapping("/modifyCompanyProductCategory")
-    public String modifyProductCategory(Model model){
+    public String modifyProductCategory(Model model
+                                        ,@RequestParam(name="productCategoryCode") String productCategoryCode){
 
         model.addAttribute("title","제품카테고리수정");
+        model.addAttribute("productCategoryCode",productCategoryCode);
         return "company/modify_company_product_category";
     }
 
     /* 업체상품 카테고리 등록 */
-    @PostMapping("/insertCompanyProduct")
-    public String insertCompanyProduct(FarmProductCategory farmProductCategory
+    @PostMapping("/addCompanyProduct")
+    public String addCompanyProduct(FarmProductCategory farmProductCategory
                                       ,HttpSession session
                                       ){
         String adminId = (String)session.getAttribute("sessionId");
         farmProductCategory.setAdminId(adminId);
-        companyService.insertCompanyProduct(farmProductCategory);
+        companyService.addCompanyProduct(farmProductCategory);
         return "redirect:/company/companyProductCategory";
     };
 

@@ -226,13 +226,12 @@ public class AdminController {
 	@ResponseBody
 	public Boolean pwCheckAdmin(@RequestParam(name="adminPw") String adminPw
 			    			    ,HttpSession session) {
-		String adminIdCheck = (String) session.getAttribute("sessionId");
-		AdminMember adminInfo = adminService.getAdminInfoById(adminIdCheck);
+		String adminId = (String) session.getAttribute("sessionId");
+		AdminMember adminInfo = adminService.getAdminInfoById(adminId);
 		String adminPwCheck = adminInfo.getAdminPw();
 		Boolean pwCheck = adminPwCheck.equals(adminPw);
-		
-		return pwCheck; 
-		
+		log.info("pwCheck 확인 : {}", pwCheck);
+		return pwCheck;
 	}
 	
 	/* 관리자 삭제 */

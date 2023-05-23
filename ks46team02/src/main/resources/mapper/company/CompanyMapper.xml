@@ -26,8 +26,41 @@
         <result column="breeder_level_name"         property="breederLevelName"/>
         <result column="isExist"                    property="isExist"/>
     </resultMap>
+    <delete id="removeProductCategory" parameterType="String">
+        DELETE
+        FROM
+            farm_product_category
+        WHERE
+            product_category_code  = "gcm_7";
 
-    <insert id="insertCompanyProduct" parameterType="FarmProductCategory">
+    </delete>
+
+    <update id="modifyProductName" parameterType="FarmProductCategory">
+        UPDATE farm_product_category as fpc
+        Set
+        fpc.product_name  = #{productName}
+        ,fpc.admin_id = #{adminId}
+        WHERE
+        fpc.product_category_code  = #{productCategoryCode};
+    </update>
+
+    <update id="updateCompanyType" parameterType="String">
+        UPDATE company_type as ct
+        Set
+        ct.company_type = #{companyType}
+        ,ct.admin_id = #{adminId}
+        WHERE
+        ct.company_type_num = #{companyTypeNum};
+    </update>
+
+    <delete id="deleteCompany" parameterType="String">
+        /* 업체삭제 */
+        DELETE FROM company_info
+        WHERE
+        company_code = #{companyCode};
+    </delete>
+
+    <insert id="addCompanyProduct" parameterType="FarmProductCategory">
         /* 사육업체상품카테고리 등록 */
         INSERT into farm_product_category
             (product_category_code, product_name, admin_id, product_category_reg_date)
