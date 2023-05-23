@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class CompanyService {
     private final CompanyMapper companyMapper;
     private final MainMapper mainMapper;
@@ -25,6 +26,13 @@ public class CompanyService {
                          ,MainMapper mainMapper){
         this.companyMapper = companyMapper;
         this.mainMapper = mainMapper;
+    }
+
+    /* 업체삭제*/
+    public boolean deleteCompany(String companyCode){
+        boolean result = companyMapper.deleteCompany(companyCode);
+
+        return result;
     }
 
     /* 업체승인 */
@@ -46,8 +54,12 @@ public class CompanyService {
         return result;
     }
     /* 제품카테고리 등록 */
-    public int insertCompanyProduct(FarmProductCategory farmProductCategory){
-        int result = companyMapper.insertCompanyProduct(farmProductCategory);
+    public int addCompanyProduct(FarmProductCategory farmProductCategory){
+        String column = "product_category_code";
+        String table = "farm_product_category";
+        String productCategoryCode =  mainMapper.autoIncrement(table, column);
+        farmProductCategory.setProductCategoryCode(productCategoryCode);
+        int result = companyMapper.addCompanyProduct(farmProductCategory);
         return result;
     }
     /* 제품카테고리 코드조회 */

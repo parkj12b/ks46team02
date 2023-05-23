@@ -68,8 +68,6 @@
         AND
         member_id = #{memberId};
 
-
-
     </select>
 
 

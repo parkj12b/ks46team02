@@ -30,6 +30,9 @@
 ul.main-menu>li {
 	font-size: 16px;
 }
+.top_nav{
+
+}
 </style>
 
 </head>
@@ -109,13 +112,10 @@ var lang_ko = {
 			<div th:replace="~{fragments/topNavi :: topNaviFragment2}"></div>
 			<!-- /top navigation -->
 			<!-- page content -->
-			<div class="right_col" role="main"
-				style="margin: 0px auto; max-width: 1440px">
-				<div class="">
-					<th:block layout:fragment="customContent">
-
-					</th:block>
-				</div>
+			<div class="right_col" style="margin: 0 auto; max-width: 1440px; ">
+				<th:block layout:fragment="customContent">
+					
+				</th:block>
 			</div>
 			<!-- footer content -->
 			<footer th:replace="~{fragments/footer :: footerFragment2}"></footer>
@@ -131,8 +131,8 @@ var lang_ko = {
 	<script th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
 	<!-- NProgress -->
 	<script th:src="@{/vendors/nprogress/nprogress.js}"></script>
-
-
+	<!-- dropzone.js -->
+	<script src="/vendors/dropzone/dist/dropzone.js"></script>
 	<!-- Custom Theme Scripts -->
 	<script th:src="@{/build/js/custom.js}"></script>
 

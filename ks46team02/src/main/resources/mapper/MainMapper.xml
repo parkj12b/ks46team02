@@ -57,29 +57,39 @@
                 property="contractDays"></result>
         <result column="days_left"
                 property="daysLeft"></result>
-    </resultMap>
+	</resultMap>
+	<resultMap type="ContractApprovalStandard" id="contractApprovalStandardMap">
+		<id column="cont_app_stand_code" property="contAppStandCode"></id>
+        <result column="cont_app_stand" property="contAppStand"></result>
+        <result column="cont_app_stand_info" property="contAppStandInfo"></result>
+        <result column="cont_app_stand_value" property="contAppStandValue"></result>
+        <result column="cont_app_stand_unit" property="contAppStandUnit"></result>
+        <result column="cont_app_stand_reg_date" property="contAppStandRegDate"></result>
+        <result column="admin_id" property="adminId"></result>
+        <result column="standard_description" property="standardDescription"></result>
+	</resultMap>
     <select id="getMemberInfoAll" resultType="Member">
-        /* 메인페이지 회원정보 */
+
+        /* 메인페이지 일반 회원 회원정보 */
         SELECT
         m.member_id AS memberId
         ,m.member_name AS memberName
         ,m.member_email AS memberEmail
         ,m.member_phone AS memberPhone
-        ,m.member_reg_date as memberRegDate
+        ,m.member_reg_date AS memberRegDate
         ,l.member_level_name AS memberLevelName
         ,ci.company_name AS companyName
         FROM
-        member_info  AS m
-        inner join
+        member_info AS m
+        INNER JOIN
         company_position_level AS l
         ON m.position_level_code = l.position_level_code
-        inner join
+        LEFT JOIN
         company_info AS ci
         ON m.company_code = ci.company_code
-        where
-        m.member_id=#{memberId};
+        WHERE
+        m.member_id =#{memberId};
     </select>
-
     <!-- 비밀번호 체크    -->
     <select id="getMemberInfoById" resultMap="memberResultMap">
         SELECT
@@ -162,6 +172,22 @@
                 or ${item.key} = #{item.value}
             </foreach>
         </where>
-
     </select>
+    <select id="getContractApprovalStandard" resultMap="contractApprovalStandardMap">
+    	select
+    		*
+    	from
+    		contract_approval_standard
+    	<where>
+    		cont_app_stand = #{contAppStand} and
+    		standard_description = #{standardDescription}    	
+    	</where>
+    </select>
+    <insert id="addFileRelation" parameterType="FileRelation">
+    	insert into file_relation(
+    		file_associate_key, table_name, table_primary_key
+    	) values (
+    		#{fileAssociateKey}, #{tableName}, #{tablePrimaryKey}
+    	)
+    </insert>
 </mapper>

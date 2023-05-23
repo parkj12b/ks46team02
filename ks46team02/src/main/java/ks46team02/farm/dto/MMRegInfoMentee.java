@@ -9,7 +9,7 @@ public class MMRegInfoMentee {
 	private String menteeApproval;
 	private String adminId;
 	private String previousYear;
-	private String previousYearSales;
+	private int previousYearSales;
 	private boolean salesSuitability;
 	private String documentaryEvidence;
 	public String getMenteeAppCode() {
@@ -60,10 +60,10 @@ public class MMRegInfoMentee {
 	public void setPreviousYear(String previousYear) {
 		this.previousYear = previousYear;
 	}
-	public String getPreviousYearSales() {
+	public int getPreviousYearSales() {
 		return previousYearSales;
 	}
-	public void setPreviousYearSales(String previousYearSales) {
+	public void setPreviousYearSales(int previousYearSales) {
 		this.previousYearSales = previousYearSales;
 	}
 	public boolean isSalesSuitability() {
@@ -80,8 +80,8 @@ public class MMRegInfoMentee {
 	}
 	@Override
 	public String toString() {
-		return "MMRegInfo [menteeAppCode=" + menteeAppCode + ", companyCode=" + companyCode + ", memberId=" + memberId
-				+ ", menteeApplyDate=" + menteeApplyDate + ", menteeApprovalDate=" + menteeApprovalDate
+		return "MMRegInfoMentee [menteeAppCode=" + menteeAppCode + ", companyCode=" + companyCode + ", memberId="
+				+ memberId + ", menteeApplyDate=" + menteeApplyDate + ", menteeApprovalDate=" + menteeApprovalDate
 				+ ", menteeApproval=" + menteeApproval + ", adminId=" + adminId + ", previousYear=" + previousYear
 				+ ", previousYearSales=" + previousYearSales + ", salesSuitability=" + salesSuitability
 				+ ", documentaryEvidence=" + documentaryEvidence + "]";
