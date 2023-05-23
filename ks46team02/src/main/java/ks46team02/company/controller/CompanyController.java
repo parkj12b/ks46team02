@@ -166,8 +166,8 @@ public class CompanyController {
     }
 
     /* 업체상품 카테고리 등록 */
-    @PostMapping("/insertCompanyProduct")
-    public String insertCompanyProduct(FarmProductCategory farmProductCategory
+    @PostMapping("/addCompanyProduct")
+    public String addCompanyProduct(FarmProductCategory farmProductCategory
                                       ,HttpSession session
                                       ){
         String adminId = (String)session.getAttribute("sessionId");
