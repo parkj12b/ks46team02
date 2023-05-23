@@ -95,7 +95,11 @@
 							$.ajax({
 								url: "/farm/mmRegisterAction",
 								method: "post",
-								dataType: 'json'						
+								dataType: 'json',
+								data: {
+									contractRegistrationCode: `[[${mmContractInfo.mentorContractRegCode}]]`,
+									contractorCompanyCode: `[[${mmContractInfo.companyCode}]]`
+								}
 							}).done(data => {
 								console.log(data);
 								if(data.isValid){
@@ -115,10 +119,28 @@
 						}
 					})
 			})
-		
+			const date = new Date();
+			date.setDate(date.getDate() + 14);
+			console.log(date.toISOString().split("T")[0]);
+			startDate = $('#startDate');
+		startDate.min = date;
 		</script>
 	</th:block>
 	<th:block layout:fragment="customContent" th:object="${mmContractInfo}">
+	<template id="modifyDetailCategory">
+			<!-- <swal-title> 수정 </swal-title>
+			<swal-icon type="question"></swal-icon>
+			<swal-button type="confirm"> 수정 </swal-button>
+			<swal-button type="cancel"> 취소 </swal-button> -->
+			<swal-html> 
+			<div>
+			<input type="date" id="startDate" name="startDate">
+			<input class="swal2-input" name="questionContentSmall"
+				id="questionContentSmall-modify" type="text" placeholder="세부항목 이름"/>
+			
+			</div>
+			</swal-html>
+		</template>
 		<div id="info-container">
 			<div class="x_panel">
 				<h2 id="company-name" th:text="*{companyName}"></h2>
