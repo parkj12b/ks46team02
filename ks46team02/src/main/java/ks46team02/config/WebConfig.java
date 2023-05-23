@@ -38,12 +38,17 @@ public class WebConfig implements WebMvcConfigurer{
 	
 		/* add companyInterceptor */
 		registry.addInterceptor(companyInterceptor)
-			.addPathPatterns("/company/**");
+			.addPathPatterns("/company/**")
+			.excludePathPatterns("/**/addEmployee")
+			.excludePathPatterns("/**/addCompanyIntro")
+			.excludePathPatterns("/**/companyInfoUser");
 		
 		/* add farmInterceptor */
 		
 		registry.addInterceptor(farmInterceptor)
-			.addPathPatterns("/farm/**");
+			.addPathPatterns("/farm/**")
+			.excludePathPatterns("/**/farm/mentorMenteeContract")
+			.excludePathPatterns("/**/mentorMenteeContractDetail");
 		 }
 	
 	@Override

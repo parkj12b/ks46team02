@@ -456,5 +456,19 @@ public class MentorMenteeService {
 		return returnMap;
 	}
 
+	public Map<String,Object> addMMContractReg(AllContractInfo allContractInfo) {
+		// TODO Auto-generated method stub
+		Map<String,Object> resultMap = new HashMap<>();
+		
+		String contractCode = mainMapper.autoIncrement("all_contract", "contract_code");
+		if(contractCode == null) {
+			contractCode = "con_1";
+		}
+		allContractInfo.setContractCode(contractCode);
+		allContractInfo.setContractType("mentormentee");
+		
+		return resultMap;
+	}
+
 	
 }

@@ -729,24 +729,28 @@ public class FarmController {
 	//멘토멘티 멘티 계약 접수
 	@PostMapping("/mmRegisterAction")
 	@ResponseBody
-	public Map<String,Object> mentorMenteeRegisterAction(HttpSession session) {
+	public Map<String,Object> mentorMenteeRegisterAction(HttpSession session, AllContractInfo allContractInfo) {
 
-		boolean isValid = true;
+		boolean isValid = false;
 		String companyCode = (String) session.getAttribute("sessionCompanyCode");
+		String memberId = (String) session.getAttribute("sessionId");
+		String sessionCompanyCode = (String) session.getAttribute("sessionCompanyCode");
 		boolean isRegisterValid = mentorMenteeService.isRegisterValid(companyCode);
 		Integer mmRegType = (Integer) session.getAttribute("mmRegType");
-
+		allContractInfo.setMemberId(memberId);
+		allContractInfo.setContracteeCompanyCode(sessionCompanyCode);
+		
+		
+		
 		Map<String,Object> map = new HashMap<String,Object>();
 
 		if(mmRegType != 2) {
-			isValid = false;
 			map.put("msg", "멘토멘티 권한이 없습니다.");
 		} else if(!isRegisterValid) {
-			isValid = false;
 			map.put("msg", "신청하기전 기존계약이 있습니다.");
 		} else {
-			//여기는 나중에 select 먼저
-			//mentorMenteeService.setNewContract("")
+			map = mentorMenteeService.addMMContractReg(allContractInfo);
+			isValid = true;
 		}
 		map.put("isValid", isValid);
 
