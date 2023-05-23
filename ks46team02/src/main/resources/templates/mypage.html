@@ -141,7 +141,7 @@
 									<div class="tile-stats">
 										<div class="icon"><i class="fa fa-caret-square-o-right"></i>
 										</div>
-										<div class="count">179</div>
+										<div class="count" th:text="${reviewContractAmount}">1</div>
 
 										<h3>대기중인 계약</h3>
 									</div>
@@ -159,7 +159,7 @@
 									<div class="tile-stats">
 										<div class="icon"><i class="fa fa-sort-amount-desc"></i>
 										</div>
-										<div class="count"> 0</div>
+										<div class="count" th:text="${endContractAmount}"></div>
 
 										<h3>완료된 계약</h3>
 									</div>
@@ -168,7 +168,7 @@
 									<div class="tile-stats">
 										<div class="icon"><i class="fa fa-check-square-o"></i>
 										</div>
-										<div class="count">179</div>
+										<div class="count" th:text="${breakContractAmount}"></div>
 
 										<h3>취소된 계약</h3>
 									</div>

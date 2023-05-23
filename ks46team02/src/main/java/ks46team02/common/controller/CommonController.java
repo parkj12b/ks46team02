@@ -169,7 +169,13 @@ public class CommonController {
 		}
 		else{
 			int contractAmount = contractMapper.getContractAmount(memberId);
+			int endContractAmount = contractMapper.getEndContractAmount(memberId);
+			int breakContractAmount =contractMapper.getBreakContractAmount(memberId);
+			int reviewContractAmount = contractMapper.getReviewContractAmount(memberId);
 			model.addAttribute("contractAmount",contractAmount);
+			model.addAttribute("endContractAmount",endContractAmount);
+			model.addAttribute("breakContractAmount",breakContractAmount);
+			model.addAttribute("reviewContractAmount",reviewContractAmount);
 			return "mypage";
 		}
 	}

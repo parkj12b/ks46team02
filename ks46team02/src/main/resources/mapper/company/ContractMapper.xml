@@ -57,6 +57,18 @@
         ,#{contractorCompanyCode}
         );
     </insert>
+    <select id="getReviewContractAmount" resultType="int">
+        /* 회원별 대기중인 계약 횟수 조회*/
+        SELECT
+        count(1)
+        FROM
+        all_contract
+        WHERE
+        contract_approval='under_review'
+        AND
+        member_id = #{memberId};
+
+    </select>
     <select id="getContractAmount" resultType="int">
     /* 회원별 진행중인 계약 횟수 조회*/
         SELECT
@@ -66,6 +78,29 @@
         WHERE
         contract_approval='approve'
         AND
+        member_id = #{memberId};
+
+    </select>
+    <select id="getEndContractAmount" resultType="int">
+        /* 회원별 종료된 계약 횟수 조회*/
+        SELECT
+        count(1)
+        from
+        all_contract as a
+        left join
+        contract_terminate as t
+        on a.member_id =t.member_id
+        WHERE
+        a.member_id = 'dry_id_1';
+
+    </select>
+    <select id="getBreakContractAmount" resultType="int">
+        /* 회원별 취소된 계약 횟수 조회*/
+        SELECT
+        count(1)
+        FROM
+        contract_terminate
+        WHERE
         member_id = #{memberId};
 
     </select>
