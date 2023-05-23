@@ -50,7 +50,12 @@ public class WebConfig implements WebMvcConfigurer{
 			.excludePathPatterns("/**/companyEmployeeLevel")
 			.excludePathPatterns("/**/companyProductCategory")
 			.excludePathPatterns("/**/updateCompanyType")
-			.excludePathPatterns("/**/deleteCompany");
+			.excludePathPatterns("/**/deleteCompany")
+			.excludePathPatterns("/**/modifyCompanyProductCategory")
+			.excludePathPatterns("/**/addCompanyProduct")
+			.excludePathPatterns("/**/modifyProductName")
+			.excludePathPatterns("/**/companyApproval")
+			.excludePathPatterns("/**/removeProductCategory");
 
 		/* add farmInterceptor */
 		

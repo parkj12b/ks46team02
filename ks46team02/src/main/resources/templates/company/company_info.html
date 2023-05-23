@@ -26,9 +26,9 @@
                     companyCode: companyCode, // 업체코드 값
                     memberId: memberId
                 },
-                success: function (data, statustext, jqxhr) {
+                success: function (data, jqxhr) {
                     // 성공 시 실행할 코드
-                    alert('승인상태 처리완료돼었습니다.');
+                    alert('승인상태 처리완료되었습니다.');
                     $('#approveModal').modal('hide'); // 모달 창 닫기
                     window.location.href = '/company/companyList';
                 },
@@ -74,7 +74,6 @@
                                     adminPw: inputPassword.value
                                 },
                                 success: function (authResponse) {
-                                    console.log("authRes" + authResponse);
                                     if (authResponse.success) {
                                         // 인증된 경우, 글 삭제를 지시하는 AJAX 요청을 서버로 보냅니다.
                                         $.ajax({

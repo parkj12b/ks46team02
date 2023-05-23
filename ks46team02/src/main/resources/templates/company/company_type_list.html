@@ -19,7 +19,7 @@
                 let companyType = currentRow.find('td:eq(1)').text();
 
                 // 버튼 변경
-                var saveBtn = '<a class="saveBtn btn btn-primary btn-sm">저장</a>';
+                var saveBtn = '<a class="saveBtn btn btn-primary btn-sm" href="#">저장</a>';
                 currentRow.find('td:eq(4)').html(saveBtn);
 
                 // input 태그로 변경
@@ -44,7 +44,7 @@
                     success: function(data) {
                         console.log('AJAX 요청 성공!');
                         // 버튼 변경
-                        var modifyBtn = '<a class="modifyBtn btn btn-secondary btn-sm">수정</a>';
+                        var modifyBtn = '<a class="modifyBtn btn btn-secondary btn-sm" href="#">수정</a>';
                         currentRow.find('td:eq(4)').html(modifyBtn);
 
                         // 값 저장
@@ -114,7 +114,7 @@
                                                 <td th:text="${l.companyType}"></td>
                                                 <td th:text="${l.regDate}"></td>
                                                 <td th:text="${l.adminId}"></td>
-                                                <td><a class="modifyBtn btn btn-secondary btn-sm">수정</a>
+                                                <td><a class="modifyBtn btn btn-secondary btn-sm" href="#">수정</a>
                                                 </td>
                                             </tr>
                                             <tr th:if="${companyTypeList == null}">
