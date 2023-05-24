@@ -41,9 +41,9 @@ public interface CustomerServiceListMapper {
 
 	public int getNextQuestionTypeCode();
 
-	public int insertQuestionType(QuestionTypeDto questionTypeDto);
+	public int addQuestionType(QuestionTypeDto questionTypeDto);
 
-	public String updateQuestionType(QuestionTypeDto questionTypeDto);
+	public String modifyQuestionType(QuestionTypeDto questionTypeDto);
 
 	public boolean deleteQuestionType(int questionTypeCode);
 

@@ -11,12 +11,14 @@
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 		$(document).ready(function() {
+
 			// 등록 버튼 클릭 시 이벤트 처리
 			$('.modify').click(function() {
 				var answerTitle = $("#answerTitle").val();
 				var answerContent = $("#answerContent").val();
 				var answerFile = $("#answerFile").val();
 				var answerCode = $("#answerCode").val();
+				var questionCode = $("#questionCode").val();
 				var questionStatus = $("#questionStatus").val();
 				console.log(questionStatus)
 
@@ -28,6 +30,7 @@
 						'answerContent' : answerContent,
 						'answerFile' : answerFile,
 						'answerCode' : answerCode,
+						'questionCode' : questionCode,
 						'questionStatus' : questionStatus
 					},
 					success : function(data) {
@@ -40,21 +43,19 @@
 					error : function(xhr, status, error) {
 						alert('답변 수정 중 오류가 발생했습니다. 다시 시도해 주세요.');
 					}
+
+				});
+
+				$('#reset-btn').click(function() {
+					resetForm(); // 폼 리셋 함수 호출
+					$("#answerTitle").val(answerTitle); // answerTitle 필드를 초기 값으로 리셋
+					$("#answerContent").val(answerContent); // answerContent 필드를 초기 값으로 리셋
 				});
 			});
 
-			// 리셋 버튼 클릭 시 폼 리셋 이벤트 처리
-			$('#reset-btn').click(function() {
-				resetForm(); // 폼 리셋 함수 호출
-			});
-
-			function resetForm() {
-				$('#answerForm')[0].reset(); // 폼 리셋
-			}
-
 			// 취소 버튼 클릭 시 이벤트 처리
 			$('.cancel').click(function() {
-				window.location.href = '/customerservice/questionlist';
+				window.location.href = '/customerservice/answerlist';
 			});
 		});
 	</script>
@@ -75,6 +76,14 @@
 									id="answerCode" th:value="${getAnswerDto.answerCode}" readonly>
 							</div>
 						</div>
+						<div class="form-group row" style="display: none;">
+							<label class="control-label col-md-3 col-sm-3 " for="questionCode">Question
+								No.</label>
+							<div class="col-md-9 col-sm-9 ">
+								<input type="text" class="form-control" name="questionCode"
+									id="questionCode" th:value="${getAnswerDto.questionCode}" readonly>
+							</div>
+						</div>
 
 						<input type="hidden" id="farmAddr" name="farmAddr" />
 
@@ -93,7 +102,7 @@
 								제목 </label>
 							<div class="col-md-9 col-sm-9 ">
 								<input type="text" class="form-control" name="answerTitle"
-									id="AnswerTitle" th:value="*{getAnswerDto.answerTitle}">
+									id="answerTitle" th:value="*{getAnswerDto.answerTitle}">
 							</div>
 						</div>
 
@@ -103,8 +112,7 @@
 							</label>
 							<div class="col-md-9 col-sm-9 ">
 								<textarea class="form-control" rows="3" name="answerContent"
-									id="AnswerContent"
-									th:text="*{getAnswerDto.answerContent}"></textarea>
+									id="answerContent" th:text="*{getAnswerDto.answerContent}"></textarea>
 							</div>
 						</div>
 
@@ -115,10 +123,10 @@
 								<select class="form-control" name="questionStatus"
 									id="questionStatus">
 									<option value="weighting"
-										th:selected="${getAnswerDto.questionStatus == 'waiting'}">weighting
+										th:selected="${getAnswerDto.questionStatus == 'weighting'}">weighting
 										for response</option>
-									<option value="pending"
-										th:selected="${getAnswerDto.questionStatus == 'pending'}">processing</option>
+									<option value="processing"
+										th:selected="${getAnswerDto.questionStatus == 'processing'}">processing</option>
 									<option value="complete"
 										th:selected="${getAnswerDto.questionStatus == 'complete'}">complete</option>
 								</select>
@@ -128,7 +136,7 @@
 
 						<div class="form-group row">
 							<label class="form-label" for="">첨부 이미지</label> <input
-								type="file" class="form-control" />
+								type="file" class="form-control" id="answerfile" />
 						</div>
 
 						<div th:if="${errorMsg}" class="alert alert-danger" role="alert">
@@ -139,8 +147,7 @@
 
 			</div>
 			<div class="text-center mt-4">
-				<button type="button" class="btn btn-outline-secondary"
-					data-dismiss="modal">취소</button>
+				<button type="button" class="btn btn-outline-secondary cancel">취소</button>
 				<button type="button" class="btn btn-outline-primary modify">등록</button>
 			</div>
 		</div>

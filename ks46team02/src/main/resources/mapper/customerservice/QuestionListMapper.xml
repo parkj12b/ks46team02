@@ -106,7 +106,7 @@
 		SET
 		question_status = #{questionStatus}
 		WHERE question_code =
-		#{questionCode} and question_del_yn ='N';
+		#{questionCode} and  question_del_yn ='N';
 	</update>
 
 
@@ -142,6 +142,7 @@
 		/* 답변 세부내용 조회 */
 		select DISTINCT
 		a.answer_code,
+		q.question_code,
 		a.answer_title,
 		a.answer_content,
 		a.answer_file,
@@ -155,8 +156,20 @@
 		on
 		a.question_code = q.question_code
 		where
-		a.answer_code = #{answerCode};
+		a.answer_code = #{answerCode} and a.answer_del_yn='N';
 	</select>
+	
+	<update id="modifyAnswer" parameterType="AnswerDto">
+		UPDATE answer
+		SET
+		answer_title = #{answerTitle},
+		question_code = #{questionCode},
+		answer_content = #{answerContent},
+		answer_file = #{answerFile},
+		answer_modify_date = CURRENT_TIMESTAMP()
+		WHERE
+		answer_code = #{answerCode} and answer_del_yn ='N';
+	</update>
 
 	<update id="updateAnswerDeleteStatus">
 		UPDATE answer
@@ -168,16 +181,6 @@
 		answer_code = #{answerCode};
 	</update>
 
-	<update id="modifyAnswer" parameterType="AnswerDto">
-		UPDATE answer
-		SET
-		answer_title = #{answerTitle},
-		answer_content = #{answerContent},
-		answer_file = #{answerFile},
-		answer_reg_date = CURRENT_TIMESTAMP()
-		WHERE
-		answer_code = #{answerCode} and answer_del_yn ='N';
-	</update>
 	<select id="getQuestionTypeList"
 		resultMap="questiontypeListResultMap">
 		/* 문의 유형 조회 */
@@ -200,7 +203,7 @@
 		question_type_del_yn='N';
 	</select>
 
-	<insert id="insertQuestionType" parameterType="QuestionTypeDto">
+	<insert id="addQuestionType" parameterType="QuestionTypeDto">
 		INSERT INTO
 		question_type (question_type_code, question_type_name, admin_id,
 		question_type_reg_date)
@@ -209,7 +212,7 @@
 		NOW());
 	</insert>
 
-	<update id="updateQuestionType" parameterType="QuestionTypeDto">
+	<update id="modifyQuestionType" parameterType="QuestionTypeDto">
 		UPDATE
 		question_type
 		SET

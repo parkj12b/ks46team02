@@ -66,20 +66,20 @@ public class CustomerServiceListService {
 		return customerserviceListMapper.getNextQuestionTypeCode();
 	}
 
-	public int registerQuestionType(QuestionTypeDto questionTypeDto) {
-		return customerserviceListMapper.insertQuestionType(questionTypeDto);
+	public int addQuestionType(QuestionTypeDto questionTypeDto) {
+		return customerserviceListMapper.addQuestionType(questionTypeDto);
 
 	}
 
-	public String updateQuestionTypeName(QuestionTypeDto questionTypeDto) {
-		return customerserviceListMapper.updateQuestionType(questionTypeDto);
-
+	public String modifyQuesitonType(QuestionTypeDto questionTypeDto) {
+		return customerserviceListMapper.modifyQuestionType(questionTypeDto);
+		
 	}
 
 	public boolean deleteQuestionType(int questionTypeCode) {
 		return customerserviceListMapper.deleteQuestionType(questionTypeCode);
 	}
 
-	
 
+	
 }

@@ -99,7 +99,7 @@ public class CustomerServiceListController {
 		return new ResponseEntity<>(answerDto, HttpStatus.OK);
 	}
 	
-	/* 답변 수정 */
+	/* 답변한 내용 가져오기 */
 	@GetMapping("/modify_answer")
 	public String modifyAnswer(@RequestParam("answerCode") String answerCode, Model model) {
 		AnswerDto answerDto = customerserviceListService.getAnswerByCode(answerCode);
@@ -109,16 +109,18 @@ public class CustomerServiceListController {
 		return "customerservice/modify_answer";
 	}
 	
-	/* 답변 수정 */
+	/* 답변한 내용을 수정하는 내용 보내기 */
 	@PostMapping("/modify_answer_proc")
 	@ResponseBody
 	public AnswerDto modifyanswer(@ModelAttribute("modifyAnswerDto") AnswerDto answerDto,
-			@RequestParam("questionStatus") String questionStatus) {
+			 					  @RequestParam("questionCode") String questionCode,
+								  @RequestParam("questionStatus") String questionStatus) {
 		log.info("{}",answerDto);
 		log.info("{}",questionStatus);
 		customerserviceListService.modifyAnswer(answerDto);
 
 		QuestionDto questionDto = new QuestionDto();
+		questionDto.setQuestionCode(questionCode);
 		questionDto.setQuestionStatus(questionStatus);
 		customerserviceListService.modifyQuestionStatus(questionDto);
 
@@ -144,6 +146,7 @@ public class CustomerServiceListController {
 
 		model.addAttribute("title", "문의 유형 조회");
 		model.addAttribute("questionTypeList", questionTypeList);
+		model.addAttribute("getQuestionTypeDto", questionTypeDto);
 
 		// 모달창에 전달할 데이터 설정
 		model.addAttribute("questionTypeCode", questionTypeCode);
@@ -158,10 +161,21 @@ public class CustomerServiceListController {
 	@ResponseBody
 	public String registerQuestionType(QuestionTypeDto questionTypeDto) {
 		String msg = "fail";
-		int result = customerserviceListService.registerQuestionType(questionTypeDto);
+		int result = customerserviceListService.addQuestionType(questionTypeDto);
 		if (result > 0)
 			msg = "success";
 		return msg;
+	}
+	
+	/* 문의 유형 수정 */
+	@PostMapping("/modify_quesitonType_proc")
+	@ResponseBody
+	public QuestionTypeDto modifyQuestionType(@ModelAttribute("modifyQuestionTypeDto") QuestionTypeDto questionTypeDto,
+											  @RequestParam("questionTypeCode")int questionTypeCode) {
+		
+		customerserviceListService.modifyQuesitonType(questionTypeDto);
+
+		return questionTypeDto;
 	}
 
 	/* 문의 유형 삭제 */

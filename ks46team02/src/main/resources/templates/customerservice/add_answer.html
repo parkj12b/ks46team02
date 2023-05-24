@@ -207,7 +207,7 @@
 									<div class="col-md-9 col-sm-9 ">
 										<select class="form-control"
 											name="questionStatus">
-											 <option value="weighting" th:selected="${getquestionDto.questionStatus == 'waiting'}">Weighting for Response</option>
+											 <option value="weighting" th:selected="${getquestionDto.questionStatus == 'weigtting'}">Weighting for Response</option>
       										 <option value="processing" th:selected="${getquestionDto.questionStatus == 'processing'}">Processing</option>
       										 <option value="complete" th:selected="${getquestionDto.questionStatus == 'complete'}">Complete</option>
 										</select>
@@ -223,7 +223,7 @@
 								<div class="form-group">
 									<div class="col-md-9 col-sm-9  offset-md-5">
 										<button type="button" class="btn btn-dark add">등록</button>
-										<button type="reset" class="btn btn-dark cancel">취소</button>
+										<button type="button" class="btn btn-dark cancel">취소</button>
 									</div>
 								</div>
 							</form>
