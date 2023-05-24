@@ -12,7 +12,7 @@
             function validationCheck(ele) {
                 let data = $(ele).val();
                 let isValid = true;
-                if (typeof data == 'undefined' || data == null || data == '' || data.trim() == '') { // 값이 공백인 경우 추가
+                if (typeof data == 'undefined' || data == null || data === '' || data.trim() === '') { // 값이 공백인 경우 추가
                     isValid = false;
                 }
                 return isValid;
@@ -35,6 +35,11 @@
             })
 
         });
+
+        $('#resetBtn').click(function () {
+            history.back();
+        });
+    </script>
     </script>
 
 </th:block>
@@ -76,8 +81,8 @@
                     <div class="ln_solid"></div>
                     <div class="form-group">
                         <div class="col-md-9 col-sm-9  offset-md-3">
-                            <button type="button" class="btn btn-dark">취소</button>
-                            <button type="submit" id="submitBtn" class="btn btn-dark">수정</button>
+                            <button type="button" id="resetBtn" class="btn btn-dark">취소</button>
+                            <button type="button" id="submitBtn" class="btn btn-dark">수정</button>
                         </div>
                     </div>
             </form>

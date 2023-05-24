@@ -18,16 +18,13 @@ public class TopMenuInterceptor implements HandlerInterceptor {
 		@Autowired
 		private TopMenuService topmenuservice;
 		
-		@Resource(name="loginMemberDto")
-		@Lazy
-		private Member loginMemberDto;
+		
 		
 		@Override
 		public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 			
 			List<QuestionTypeDto> topMenuList = topmenuservice.getTopMenuCustomerServiceList();
 			request.setAttribute("topMenuList", topMenuList);
-			request.setAttribute("loginMemberDto", loginMemberDto);
 			return true;
 			
 		}

@@ -29,7 +29,7 @@
 						  question_file, member_id, question_type_code, question_status,
 						  question_reg_date)
 			VALUES (#{questionCode}, #{questionTitle}, #{questionContent},
-					#{questionFile}, #{memberId}, #{questionTypeCode}, 'weighting for response', CURRENT_TIMESTAMP());
+					#{questionFile}, #{memberId}, #{questionTypeCode}, #{questionStatus}, CURRENT_TIMESTAMP());
 	</insert>
 	
 	<select id="getQuestionTypeName" parameterType="int"
