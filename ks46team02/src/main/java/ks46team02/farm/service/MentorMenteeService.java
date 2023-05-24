@@ -23,6 +23,7 @@ import ks46team02.common.dto.ContractApprovalStandard;
 import ks46team02.common.dto.FileRelation;
 import ks46team02.common.dto.Member;
 import ks46team02.common.mapper.MainMapper;
+import ks46team02.company.mapper.ContractMapper;
 import ks46team02.farm.dto.EvaluationDetailCategory;
 import ks46team02.farm.dto.EvaluationLargeCategory;
 import ks46team02.farm.dto.EvaluationStandard;
@@ -41,14 +42,16 @@ public class MentorMenteeService {
 
 	private final MentorMenteeMapper mentorMenteeMapper;
 	private final MainMapper mainMapper;
+	private final ContractMapper contractMapper;
 	private static final SecureRandom secureRandom = new SecureRandom(); //threadsafe
 	private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder(); //threadsafe
 	
 	private static final Logger log = LoggerFactory.getLogger(MentorMenteeService.class);
 
 	
-	public MentorMenteeService(MentorMenteeMapper mentorMenteeMapper, MainMapper mainMapper) {
+	public MentorMenteeService(MentorMenteeMapper mentorMenteeMapper, MainMapper mainMapper, ContractMapper contractMapper) {
 		this.mentorMenteeMapper = mentorMenteeMapper;
+		this.contractMapper = contractMapper;
 		this.mainMapper = mainMapper;
 	}
 
@@ -464,9 +467,16 @@ public class MentorMenteeService {
 		if(contractCode == null) {
 			contractCode = "con_1";
 		}
+		String mentorContractRegCode = allContractInfo.getContractRegistrationCode();
+		
+		MMContractInfo mmContractInfo = mentorMenteeMapper.getMMContractInfo("mentor_contract_reg_code", mentorContractRegCode).get(0);
 		allContractInfo.setContractCode(contractCode);
 		allContractInfo.setContractType("mentormentee");
+		allContractInfo.setDeposit(mmContractInfo.getDeposit());
+		allContractInfo.setTotalAmount(mmContractInfo.getContractCost());
+		allContractInfo.setContractorCompanyCode(mmContractInfo.getCompanyCode());
 		
+		contractMapper.addMMContract(allContractInfo);
 		return resultMap;
 	}
 

@@ -732,10 +732,9 @@ public class FarmController {
 	public Map<String,Object> mentorMenteeRegisterAction(HttpSession session, AllContractInfo allContractInfo) {
 
 		boolean isValid = false;
-		String companyCode = (String) session.getAttribute("sessionCompanyCode");
 		String memberId = (String) session.getAttribute("sessionId");
 		String sessionCompanyCode = (String) session.getAttribute("sessionCompanyCode");
-		boolean isRegisterValid = mentorMenteeService.isRegisterValid(companyCode);
+		boolean isRegisterValid = mentorMenteeService.isRegisterValid(sessionCompanyCode);
 		Integer mmRegType = (Integer) session.getAttribute("mmRegType");
 		allContractInfo.setMemberId(memberId);
 		allContractInfo.setContracteeCompanyCode(sessionCompanyCode);
