@@ -47,7 +47,7 @@ public class ContractController {
         return "redirect:/contract/contractListDry";
 
     }
-    /* 공고계약 신청 */
+    /* 계약공고 신청 */
     @GetMapping("/addApplyContract")
     public String addApplyContract(Model model
                                   ,@RequestParam(name = "contractRegCode") String contractRegCode
@@ -88,7 +88,7 @@ public class ContractController {
         return "company/add_contract";
     }
 
-
+    /* 계약공고 상세정보 */
     @GetMapping("/contractInfo")
     public String getContractInfo(Model model
                                  ,@RequestParam(name = "contractCode") String contractCode) {
@@ -98,7 +98,7 @@ public class ContractController {
         model.addAttribute("contractInfo", contractInfo);
         return "company/contract_info";
     }
-
+    /* 계약공고 조회 */
     @GetMapping("/contractList")
     public String getContractList(Model model
                                  ,HttpSession session) {

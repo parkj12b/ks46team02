@@ -1,8 +1,21 @@
 package ks46team02.common.controller;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import jakarta.servlet.http.HttpSession;
-import ks46team02.admin.dto.AdminLevel;
 import ks46team02.admin.dto.LoginHistory;
 import ks46team02.admin.mapper.AddrMapper;
 import ks46team02.admin.mapper.AdminMapper;
@@ -11,9 +24,13 @@ import ks46team02.admin.service.AddrService;
 import ks46team02.admin.service.AdminService;
 import ks46team02.admin.service.ApiExamRomanService;
 import ks46team02.admin.service.LoginHistoryService;
-import ks46team02.common.dto.*;
-import ks46team02.common.emailTest.EmailService;
-import ks46team02.common.emailTest.EmailServiceImpl;
+import ks46team02.common.dto.Addr;
+import ks46team02.common.dto.AdminMember;
+import ks46team02.common.dto.AllContractInfo;
+import ks46team02.common.dto.Member;
+import ks46team02.common.dto.MemberLoginInfo;
+import ks46team02.common.email.EmailService;
+import ks46team02.common.email.EmailServiceImpl;
 import ks46team02.common.service.MainService;
 import ks46team02.company.dto.Company;
 import ks46team02.company.mapper.ContractMapper;
@@ -21,13 +38,6 @@ import ks46team02.company.service.CompanyService;
 import ks46team02.customerservice.dto.QuestionTypeDto;
 import ks46team02.farm.service.MentorMenteeService;
 import ks46team02.topmenu.service.TopMenuService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.*;
 
 @Controller
 public class CommonController {
@@ -66,13 +76,14 @@ public class CommonController {
 		this.contractMapper = contractMapper;
 	}
 
+	/* 회원가입 */
 
-	//아직미구현
 	@PostMapping("/signUp")
 	public String signUp(Model model) {
 		return "main2";
 	}
 
+	/* 로그인 */
 	@PostMapping("/login")
 	public String login(MemberLoginInfo memberLoginInfo
 			           ,HttpSession session
@@ -132,16 +143,14 @@ public class CommonController {
 
 		return "redirect:/";
 	}
-	//mail
 
-
-
+	/* 회원가입 뷰 */
 	@GetMapping("/signUp")
 	public String signUp() {
 		return "redirect:/login#signup";
-	}
-
-	@RequestMapping(value="/", method=RequestMethod.GET)
+	}	
+	/* 메인페이지 뷰 */
+	@GetMapping("/")
 	public String mainPage(@RequestParam(name = "questionTypeCode", defaultValue = "0") int questionTypeCode
 						   , Model model
 						   ,HttpSession session) {
@@ -149,11 +158,10 @@ public class CommonController {
 	    List<QuestionTypeDto> topMenuList = topMenuService.getTopMenuCustomerServiceList();
 	    log.info("{}", topMenuList);
 	    session.setAttribute("topMenuList", topMenuList);
-
-
-	    return "mainPage";
+	    model.addAttribute("title", "환경을 생각하는 라바링크");    
+	    return "mainpage";
 	}
-
+	
 	@GetMapping("/mypage")
 	public String mypage(Member member,Model model,HttpSession session) {
 		Member memberInfo = mainService.getMemberInfoAll(member,session);
@@ -180,22 +188,27 @@ public class CommonController {
 		}
 	}
 
+	/* 로그인 뷰 */
 	@GetMapping("/login")
 	public String loginAndSignUp(Model model) {
-		return "loginAndSignUp";
+		model.addAttribute("title", "라바링크 로그인");
+		return "login_and_signup";
 	}
-
+	
+	/* 로그아웃 후 메인페이지 뷰 */
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
 	}
-
-	@GetMapping("/testing")
-    public String testing() {
-    	return "dataTableTest";
-    }
-
+	
+	/*  */
+//	@GetMapping("/testing")
+//    public String testing() {
+//    	return "dataTableTest";
+//    }
+	
+	/* 계약서 조회 */
 	@GetMapping("/contractPaper")
 	public String getContractPaperDetail(Model model, HttpSession session, @RequestParam(name="contractCode") String contractCode) {
 		Map<String,String> keyValue = new HashMap<String,String>();
@@ -232,8 +245,7 @@ public class CommonController {
 		model.addAttribute("contractInfo", contractInfo);
 		model.addAttribute("contractorInfo", contractorCompany);
 		model.addAttribute("contracteeInfo", contracteeCompany);
-
-
+		model.addAttribute("title", "멘토멘티 계약서");
 		return "contract_paper_mm";
 	}
 	/* 회원별 배송지 목록 조회 */
@@ -280,6 +292,13 @@ public class CommonController {
 		model.addAttribute("title", "배송지 등록");
 		return "/add_member_addr";
 	}
+
+	/* 멘토 승인 */
+	@GetMapping("/unauthorizedRedirect")
+	public String accessDenied() {
+		return "error/error_403";
+	}
+	
 	/* 회원 정보 수정 */
 	@PostMapping("/modifyMember")
 	public String modifyMember(Member member) {
@@ -316,6 +335,5 @@ public class CommonController {
 		model.addAttribute("adminInfo", adminInfo);
 		return "/modify_admin";
 	}
-
 
 }

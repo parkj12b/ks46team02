@@ -67,7 +67,7 @@
 }
 </style>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title th:text="${title}"></title>
 </head>
 <body>
 	<th:block layout:fragment="customJs">
@@ -122,7 +122,7 @@
 								<td th:text='|*{contractApproval}|'></td>
 							</tr>
 							<tr>
-								<th>계약금:(만원) </th>
+								<th>계약금(만원): </th>
 								<td th:text='|*{deposit}|'></td>
 							</tr>
 							<tr>

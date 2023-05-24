@@ -261,4 +261,16 @@
         on
         dcr.company_code = ci.company_code;
     </select>
+    <insert id="addMMContract" parameterType="AllContractInfo">
+    	insert into all_contract(
+    		contract_code, contract_registration_code, contract_type, member_id, 
+    		contract_apply_date, contract_start_date, contract_end_date, 
+    		contract_approval, deposit, total_amount, contractee_company_code,
+    		contractor_company_code
+    	) values (
+    		#{contractCode}, #{contractRegistrationCode}, #{contractType}, #{memberId},
+    		now(), #{contractStartDate}, #{contractEndDate}, #{contractApproval},
+    		#{deposit}, #{totalAmount}, #{contracteeCompanyCode}, #{contractorCompanyCode}
+    	)
+    </insert>
 </mapper>

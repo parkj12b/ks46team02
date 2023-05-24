@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -53,7 +53,7 @@ public class CustomerServiceListController {
 
 	/* 문의에 대한 답변등록 */
 	@GetMapping("/add_answer")
-	public String getAddAnswer(@RequestParam("questionCode") String questionCode, AnswerDto answerDto, Model model) {
+	public String getAddAnswer(@RequestParam("questionCode") String questionCode, Model model) {
 
 		QuestionDto questionDto = customerserviceListService.getQuestionByCode(questionCode);
 
@@ -64,7 +64,8 @@ public class CustomerServiceListController {
 
 	/* 문의 내용에 대한 답변등록 */
 	@PostMapping("/add_answer_proc")
-	public String postAddAnswer(@ModelAttribute("writeAnswerDto") AnswerDto answerDto,
+	@ResponseBody
+	public AnswerDto postAddAnswer(@ModelAttribute("writeAnswerDto") AnswerDto answerDto,
 			@RequestParam("questionCode") String questionCode, @RequestParam("questionStatus") String questionStatus) {
 
 		answerDto.setQuestionCode(questionCode);
@@ -76,7 +77,7 @@ public class CustomerServiceListController {
 		questionDto.setQuestionStatus(questionStatus);
 		customerserviceListService.modifyQuestionStatus(questionDto);
 
-		return "/customerservice/answerlist";
+		return answerDto;
 	}
 
 	/* 답변내용애 대한 정보 조회 */
@@ -91,13 +92,41 @@ public class CustomerServiceListController {
 		return "customerservice/answerlist";
 	}
 
-	/* 답변세부내용 조회추가 */
+	/* 답변세부내용 조회 */
 	@GetMapping("/addAnwerList")
 	public ResponseEntity<?> addAnswerList(@RequestParam String answerCode) {
 		AnswerDto answerDto = customerserviceListService.getAnswerByCode(answerCode);
 		return new ResponseEntity<>(answerDto, HttpStatus.OK);
 	}
+	
+	/* 답변한 내용 가져오기 */
+	@GetMapping("/modify_answer")
+	public String modifyAnswer(@RequestParam("answerCode") String answerCode, Model model) {
+		AnswerDto answerDto = customerserviceListService.getAnswerByCode(answerCode);
+		
+		model.addAttribute("getAnswerDto", answerDto);
+		model.addAttribute("answerCode", answerCode);
+		return "customerservice/modify_answer";
+	}
+	
+	/* 답변한 내용을 수정하는 내용 보내기 */
+	@PostMapping("/modify_answer_proc")
+	@ResponseBody
+	public AnswerDto modifyanswer(@ModelAttribute("modifyAnswerDto") AnswerDto answerDto,
+			 					  @RequestParam("questionCode") String questionCode,
+								  @RequestParam("questionStatus") String questionStatus) {
+		log.info("{}",answerDto);
+		log.info("{}",questionStatus);
+		customerserviceListService.modifyAnswer(answerDto);
 
+		QuestionDto questionDto = new QuestionDto();
+		questionDto.setQuestionCode(questionCode);
+		questionDto.setQuestionStatus(questionStatus);
+		customerserviceListService.modifyQuestionStatus(questionDto);
+
+		return answerDto;
+	}
+	
 	/* 답변 삭제 */
 	@PostMapping("/remove_answer_proc")
 	@ResponseBody
@@ -117,6 +146,7 @@ public class CustomerServiceListController {
 
 		model.addAttribute("title", "문의 유형 조회");
 		model.addAttribute("questionTypeList", questionTypeList);
+		model.addAttribute("getQuestionTypeDto", questionTypeDto);
 
 		// 모달창에 전달할 데이터 설정
 		model.addAttribute("questionTypeCode", questionTypeCode);
@@ -124,7 +154,6 @@ public class CustomerServiceListController {
 		questionTypeDto.setQuestionTypeCode(questionTypeCode);
 
 		return "customerservice/questiontypelist";
-
 	}
 
 	/* 문의유형 등록 */
@@ -132,29 +161,21 @@ public class CustomerServiceListController {
 	@ResponseBody
 	public String registerQuestionType(QuestionTypeDto questionTypeDto) {
 		String msg = "fail";
-		int result = customerserviceListService.registerQuestionType(questionTypeDto);
+		int result = customerserviceListService.addQuestionType(questionTypeDto);
 		if (result > 0)
 			msg = "success";
 		return msg;
 	}
-
-	/* 문의유형 수정 */
-	@PostMapping("/modify_questionType_proc")
+	
+	/* 문의 유형 수정 */
+	@PostMapping("/modify_quesitonType_proc")
 	@ResponseBody
-	public String updateQuestionTypeName(QuestionTypeDto questionTypeDto) {
-		String msg = "fail";
+	public QuestionTypeDto modifyQuestionType(@ModelAttribute("modifyQuestionTypeDto") QuestionTypeDto questionTypeDto,
+											  @RequestParam("questionTypeCode")int questionTypeCode) {
+		
+		customerserviceListService.modifyQuesitonType(questionTypeDto);
 
-		// questionTypeName이 공백인 경우를 검사
-		if (questionTypeDto.getQuestionTypeName().trim().isEmpty()) {
-			msg = "empty";
-			return msg;
-		}
-
-		String result = customerserviceListService.updateQuestionTypeName(questionTypeDto);
-		if (result == null || result.trim().isEmpty())
-			msg = "success";
-
-		return msg;
+		return questionTypeDto;
 	}
 
 	/* 문의 유형 삭제 */

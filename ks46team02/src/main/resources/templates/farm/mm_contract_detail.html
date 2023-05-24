@@ -76,7 +76,7 @@
 }
 </style>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title th:text="${title+': '+mmContractInfo.mentorContractTitle}"></title>
 </head>
 <body>
 	<th:block layout:fragment="customJs">
@@ -86,16 +86,30 @@
 				Swal.fire({
 					  icon: 'question',
 					  title: `[[${mmContractInfo.mentorContractTitle}]]`,
-					  text: '위계약을 접수하시겠습니까?',
+					  text: '위 계약을 접수하시겠습니까?',
 					  showCancelButton: true,
 					  confirmButtonText: '접수',
-					  cancelButtonText: '취소'
+					  cancelButtonText: '취소',
+					  preConfirm: () => {
+							if($('.swal2-input').val() == ''){
+								Swal.showValidationMessage('입력은 비어있을수 없습니다!');
+							}
+							return {
+								contractStartDate: $('#startDate').val()
+							}
+						}
 					}).then((result) => {
 						if(result.isConfirmed){
 							$.ajax({
 								url: "/farm/mmRegisterAction",
 								method: "post",
-								dataType: 'json'						
+								dataType: 'json',
+								data: {
+									contractRegistrationCode: `[[${mmContractInfo.mentorContractRegCode}]]`,
+									contractorCompanyCode: `[[${mmContractInfo.companyCode}]]`,
+									contractStartDate: result.value.contractStartDate,
+									contractEndDate: new Date(result.value.contractStartDate.setMonth(date.getMonth()+[[${mmContractInfo.getContractPeriod}]]));
+								}
 							}).done(data => {
 								console.log(data);
 								if(data.isValid){
@@ -115,10 +129,28 @@
 						}
 					})
 			})
-		
+			const date = new Date();
+			date.setDate(date.getDate() + 14);
+			console.log(date.toISOString().split("T")[0]);
+			startDate = $('#startDate');
+		startDate.min = date;
 		</script>
 	</th:block>
 	<th:block layout:fragment="customContent" th:object="${mmContractInfo}">
+	<template id="modifyDetailCategory">
+			<!-- <swal-title> 수정 </swal-title>
+			<swal-icon type="question"></swal-icon>
+			<swal-button type="confirm"> 수정 </swal-button>
+			<swal-button type="cancel"> 취소 </swal-button> -->
+			<swal-html> 
+			<div>
+			<input type="date" id="startDate" name="startDate">
+			<input class="swal2-input" name="questionContentSmall"
+				id="questionContentSmall-modify" type="text" placeholder="세부항목 이름"/>
+			
+			</div>
+			</swal-html>
+		</template>
 		<div id="info-container">
 			<div class="x_panel">
 				<h2 id="company-name" th:text="*{companyName}"></h2>

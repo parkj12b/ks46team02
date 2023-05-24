@@ -35,7 +35,7 @@ public class QuestionDto {
 	public void setQuestionCode(String questionCode) {
 		this.questionCode = questionCode;
 	}
-
+	
 	public String getQuestionTitle() {
 		return questionTitle;
 	}

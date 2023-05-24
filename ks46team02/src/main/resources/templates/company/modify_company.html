@@ -8,9 +8,38 @@
 </head>
 <th:block layout:fragment="customJs">
     <script>
-        $('#resetBtn').click(function () {
-            history.back();
+        $(document).ready(function() {
+
+            $('#resetBtn').click(function () {
+                history.back();
+            });
+
+            $('#submitBtn').click(function (event){
+                event.preventDefault();
+                Swal.fire({
+                    title: "정말 수정하시겠습니까?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "수정",
+                    cancelButtonText: "취소",
+                    reverseButtons: true,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // 확인 버튼이 눌렸을 때의 처리
+                        Swal.fire({
+                            text: "수정이 완료되었습니다.",
+                            icon: "success",
+                        }).then(() => {
+                            $('#companyModifyForm').submit(); // form submit 실행
+                        });
+                        console.log("확인 버튼이 눌렸습니다.");
+                    }
+                });
+            });
         });
+
     </script>
 </th:block>
 

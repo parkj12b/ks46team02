@@ -1,5 +1,6 @@
 package ks46team02.company.mapper;
 
+import ks46team02.common.dto.AllContractInfo;
 import ks46team02.company.dto.Contract;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -32,4 +33,8 @@ public interface ContractMapper {
     public int getBreakContractAmount(String memberId);
     /* 회원별 대기중인 계약 횟수 조회*/
     public int getReviewContractAmount(String memberId);
+    //멘토멘티 계약신청
+	public void addMMContract(AllContractInfo allContractInfo);
+    
+    
 }

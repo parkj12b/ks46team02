@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.servlet.http.HttpSession;
 import ks46team02.common.dto.Message;
 import ks46team02.common.dto.StatusEnum;
-import ks46team02.common.emailTest.EmailService;
-import ks46team02.common.emailTest.EmailServiceImpl;
+import ks46team02.common.email.EmailService;
+import ks46team02.common.email.EmailServiceImpl;
 import ks46team02.common.service.MainService;
 
 @RestController

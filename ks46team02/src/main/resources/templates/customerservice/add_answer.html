@@ -30,30 +30,45 @@
 				var answerContent = $("#answerContent").val();
 				var questionCode = $("#questionCode").val();
 				var adminId = $("#adminId").val();
-				var questionStatus = $("#questionStatus").val();
-
+				var questionStatus = $('select[name="questionStatus"]').val();
+				console.log(questionStatus)
+			
 				$.ajax({
 					type : 'POST',
 					url : '/customerservice/add_answer_proc',
 					data : {
-						answerTitle : answerTitle,
-						answerContent : answerContent,
-						questionCode : questionCode,
-						adminId : adminId,
-						questionStatus : questionStatus
+						'answerTitle' : answerTitle,
+						'answerContent' : answerContent,
+						'questionCode' : questionCode,
+						'adminId' : adminId,
+						'questionStatus' : questionStatus
 					},
 					success : function(data) {
-						alert('답변이 성공적으로 등록되었습니다.');
-						window.location.href = '/customerservice/answerlist'; // 답변 리스트 페이지로 리다이렉트
+						console.log(data.questionStatus)
+						$('#questionStatus').val(data.questionStatus)
+							alert('답변이 성공적으로 등록되었습니다.');
+							window.location.href = '/customerservice/answerlist'; 
+							// 답변 리스트 페이지로 리다이렉트
 					},
 					error : function(xhr, status, error) {
 						alert('답변 등록 중 오류가 발생했습니다. 다시 시도해 주세요.');
 					}
 				});
 			});
+			
+			// 리셋 버튼 클릭 시 폼 리셋 이벤트 처리
+			  $('#reset-btn').click(function() {
+			    resetForm(); // 폼 리셋 함수 호출
+			  });
+			
+			  function resetForm() {
+				    $('#answerForm')[0].reset(); // 폼 리셋
+				  }
+			
+			
 			// 취소 버튼 클릭 시 이벤트 처리
 			$('.cancel').click(function() {
-			    window.location.href = '/customerservice/questionlist';
+				window.location.href = '/customerservice/questionlist';
 			});
 		});
 	</script>
@@ -70,7 +85,7 @@
 							<div class="clearfix"></div>
 						</div>
 						<div class="x_content">
-							<form class="form-horizontal form-label-left" id="addFarmForm"
+							<form class="form-horizontal form-label-left" id="quesitonListForm"
 								method="post">
 								<!-- Form Content -->
 
@@ -190,11 +205,11 @@
 									<label class="control-label col-md-3 col-sm-3 "
 										for="questionStatus">답변 상태</label>
 									<div class="col-md-9 col-sm-9 ">
-										<select id="questionStatus" class="form-control"
+										<select class="form-control"
 											name="questionStatus">
-											<option value="">weighting for response</option>
-											<option value="">processing</option>
-											<option value="">complete</option>
+											 <option value="weighting" th:selected="${getquestionDto.questionStatus == 'weigtting'}">Weighting for Response</option>
+      										 <option value="processing" th:selected="${getquestionDto.questionStatus == 'processing'}">Processing</option>
+      										 <option value="complete" th:selected="${getquestionDto.questionStatus == 'complete'}">Complete</option>
 										</select>
 									</div>
 								</div>
@@ -208,7 +223,7 @@
 								<div class="form-group">
 									<div class="col-md-9 col-sm-9  offset-md-5">
 										<button type="button" class="btn btn-dark add">등록</button>
-										<button type="reset" class="btn btn-dark cancel">취소</button>
+										<button type="button" class="btn btn-dark cancel">취소</button>
 									</div>
 								</div>
 							</form>
