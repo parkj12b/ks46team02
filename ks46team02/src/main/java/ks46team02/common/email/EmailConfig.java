@@ -1,4 +1,4 @@
-package ks46team02.common.emailTest;
+package ks46team02.common.email;
 
 import java.util.Properties;
 

@@ -10,9 +10,16 @@ import java.util.List;
 
 @Mapper
 public interface CompanyMapper {
-
+    // 사육업체상품카테고리삭제
+    public boolean removeProductCategory(String productCategoryCode);
+    // 사육업체상품카테고리수정
+    public boolean modifyProductName(FarmProductCategory farmProductCategory);
+    //업체종류 업데이트
+    public boolean updateCompanyType(String companyTypeNum, String companyType ,String adminId);
+    //업체삭제
+    public boolean removeCompany(String companyCode);
     // 사육업체상품카테고리등록
-    public int insertCompanyProduct(FarmProductCategory farmProductCategory);
+    public int addCompanyProduct(FarmProductCategory farmProductCategory);
     // 사육업체상품카테고리조회
     public  List<FarmProductCategory> getFarmProductCategoryList();
     // 업체직원별권한조회

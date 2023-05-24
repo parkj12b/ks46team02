@@ -9,8 +9,8 @@
 
 <th:block layout:fragment="customJs">
 <script>
-    // 삭제 처리
-    $(".delete").click(function (){
+    // 사원 신청
+    $(".apply").click(function (){
         (async () => {
             const { value: regPassword } = await Swal.fire({
                 title: "사원등록 비밀번호를 입력해주세요.",
@@ -126,7 +126,7 @@
                                                 <td th:text="${l.companyType}"></td>
                                                 <td th:text="${l.memberName}"></td>
                                                 <td class="text-center">
-                                                    <button type="button" class="btn btn-secondary btn-sm delete">사원신청</button>
+                                                    <button type="button" class="btn btn-secondary btn-sm apply">사원신청</button>
                                                 </td>
                                             </tr>
                                             <tr th:if="${companyList == null}">

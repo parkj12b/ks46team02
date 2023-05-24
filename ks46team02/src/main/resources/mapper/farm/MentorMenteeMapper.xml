@@ -341,4 +341,20 @@
 		from
 			evaluation_detail_category
 	</select>
+	<select id="getResultHistoryList" resultMap="resultHistoryMap">
+		select
+			*
+		from
+			result_history
+	</select>
+	<insert id="addMenteeApply">
+		insert into mentee_apply(
+			mentee_app_code, company_code, member_id, mentee_apply_date, previous_year,
+			previous_year_sales, sales_suitability, documentary_evidence
+		) values (
+			#{menteeAppCode}, #{companyCode}, #{memberId}, now(),
+			year(now())-1, #{previousYearSales}, #{salesSuitability}, #{documentaryEvidence} 
+		)
+	</insert>
+	
 </mapper>

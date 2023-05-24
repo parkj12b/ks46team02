@@ -111,9 +111,18 @@
 				const modifyDetailCategory= function(evaluationUnitCode, largeCategoryCode, questionContentSmall) {
 					
 			Swal.fire({
+				title: '수정',
+				icon: 'question',
+				confirmButtonText : '수정',
+				cancelButtonText : '취소',
+				showConfirmButton : true,
+				showCancelButton : true,
 				template: '#modifyDetailCategory',
 				allowOutsideClick: false,
 				preConfirm: () => {
+					if($('#questionContentSmall-modify').val() == ''){
+						Swal.showValidationMessage('입력은 비어있을수 없습니다!');
+					}
 					return {
 						largeCategoryCode: $('#largeCategoryCode-modify').val(),
 						questionContentSmall: $('#questionContentSmall-modify').val(),
@@ -210,24 +219,31 @@
 				$('#add-category').click(function(){
 					Swal.fire({
 						icon : 'question',
-						title : `새로 추가할 평가항목의 이름을 입력해주세요`,
-						input: 'text',
+						title : `새로 추가할 세부 평가항목을 입력해주세요`,
 						allowOutsideClick: false,
 						showConfirmButton : true,
 						showCancelButton : true,
 						confirmButtonText : '추가',
-						cancelButtonText : '취소'
+						cancelButtonText : '취소',
+						template: '#modifyDetailCategory',
+						preConfirm: () => {
+							if($('#questionContentSmall-modify').val() == ''){
+								Swal.showValidationMessage('입력은 비어있을수 없습니다!');
+							}
+							return {
+								largeCategoryCode: $('#largeCategoryCode-modify').val(),
+								questionContentSmall: $('#questionContentSmall-modify').val(),
+								adminId : `[[${session.sessionId}]]`
+							}
+						}
 					}).then(result => {
 						if(result.isConfirmed){
 							console.log(result);
 							$.ajax({
-								url: `/admin/addLargeCategory`,
+								url: `/admin/addDetailCategory`,
 								method: "post",
 								dataType: "json",
-								data: {
-									evaluationItem: result.value,
-									adminId: `[[${session.sessionId}]]`
-								}
+								data: result.value
 							}).done(data => {
 								if(data.isSuccess){
 									Swal.fire({
@@ -250,6 +266,8 @@
 							})
 						}
 					})
+					let InputWidth = $('#largeCategoryCode-modify').width();
+					$('#questionContentSmall-modify').width(InputWidth);
 				})
 				
 				const table = $('#datatable-custom').DataTable({
@@ -274,10 +292,10 @@
 	</th:block>
 	<th:block layout:fragment="customContent">
 		<template id="modifyDetailCategory">
-			<swal-title> 수정 </swal-title>
+			<!-- <swal-title> 수정 </swal-title>
 			<swal-icon type="question"></swal-icon>
 			<swal-button type="confirm"> 수정 </swal-button>
-			<swal-button type="cancel"> 취소 </swal-button>
+			<swal-button type="cancel"> 취소 </swal-button> -->
 			<swal-html> 
 			<div>
 				<select class="swal2-input"
@@ -288,7 +306,7 @@
 				</th:block>
 			</select> 
 			<input class="swal2-input" name="questionContentSmall"
-				id="questionContentSmall-modify" type="text" placeholder="세부항목 이름" />
+				id="questionContentSmall-modify" type="text" placeholder="세부항목 이름"/>
 			
 			</div>
 			</swal-html>
@@ -297,7 +315,7 @@
 			<div class="col-md-12 col-sm-12">
 				<div class="x_panel">
 					<div class="x_title">
-						<h2>멘토멘티 방문 기록 관리</h2>
+						<h2>멘토멘티 평가 세부항목 관리</h2>
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">
@@ -364,7 +382,7 @@
 															</th:block>
 															<tr role="row" class="odd"
 																th:if="${detailCategoryList == null}">
-																<td colspan="6">멘토멘티 신청여부가 존재하지 않습니다.</td>
+																<td colspan="7">멘토멘티 신청여부가 존재하지 않습니다.</td>
 															</tr>
 														</tbody>
 													</table>

@@ -23,11 +23,13 @@ public class MainService {
 		this.mainMapper = mainMapper;
 	}
 
+	//멤버정보 조회
 	public Member getMemberInfoById(String memberId){
 		Member memberInfo = mainMapper.getMemberInfoById(memberId);
 		return memberInfo;
 	}
 	
+	//아이디 중복체크
 	public boolean isDuplicateId(String memberId) {
 		boolean isDuplicate = false;
 		isDuplicate = mainMapper.isDuplicateId(memberId);
@@ -35,6 +37,7 @@ public class MainService {
 		return isDuplicate;
 	}
 
+	//로그인 정보 조회
 	public Object getLoginInfo(MemberLoginInfo memberLoginInfo) {
 		Object loginInfo;
 		if(memberLoginInfo.getLoginLevel().equals("normal")) {
@@ -46,7 +49,8 @@ public class MainService {
 		
 		return loginInfo;
 	}
-
+	
+	//이메일 중복체크
 	public boolean isEmailUsed(String email) {
 		boolean isEmailUsed = mainMapper.isEmailUsed(email);
 		return isEmailUsed;
