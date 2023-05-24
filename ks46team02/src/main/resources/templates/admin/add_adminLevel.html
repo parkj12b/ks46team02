@@ -27,13 +27,15 @@
 		$('form').submit(function(event) {
 			let adminPosition = $('input[name="adminPosition"]').val();
 			if (typeof adminPosition == 'undefined' || adminPosition == null || adminPosition == '') {
+				event.preventDefault();
 				Swal.fire({
 					icon: 'warning',
-					title: `${adminPosition}를 입력해주세요.`
+					title: '관리자 권한 이름을 입력해주세요.'
 				}).then((result) => {
 					if (result.isConfirmed) {
 						$('input[name="adminPosition"]').focus();
 						Swal.close();
+
 					}
 				})
 			}

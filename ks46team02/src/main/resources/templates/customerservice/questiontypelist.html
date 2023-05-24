@@ -5,110 +5,92 @@
 <head>
 
 <th:block layout:fragment="customJs">
-<script>
-	function registerQuestionType() {
-		var questionTypeName = $("#questionTypeName").val();
-		var adminId = $("#adminId").val();
-		var questionTypeCode = $("#questionTypeCode").val();
+	<script>
+		function registerQuestionType() {
+			var questionTypeName = $("#questionTypeName").val();
+			var adminId = $("#adminId").val();
+			var questionTypeCode = $("#questionTypeCode").val();
 
-	    $.ajax({
-	        url: '/customerservice/add_questionType_proc',
-	        type: 'POST',
-	        data: {
-	            questionTypeCode: questionTypeCode,
-	            adminId: adminId,
-	            questionTypeName: questionTypeName
-	        },
-	        success: function(response) {
-	            if (response === 'success') {
-	                alert('문의 유형이 성공적으로 등록되었습니다.');
-	                $('#questionTypeRegisterModal').modal('hide');
-	                location.reload();
-	            } else {
-	                alert('문의 유형 등록에 실패하였습니다.');
-	            }
-	        },
-	        error: function() {
-	            alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-	        }
-	    });
-	}
-	$(document).ready(function() {
-	        $(".submit").on('click', function(event) {
-	            event.preventDefault(); 
-	            
-	            var currentRow = $(this).closest("tr");
+			$.ajax({
+				url : '/customerservice/add_questionType_proc',
+				type : 'POST',
+				data : {
+					questionTypeCode : questionTypeCode,
+					adminId : adminId,
+					questionTypeName : questionTypeName
+				},
+				success : function(response) {
+					if (response === 'success') {
+						alert('문의 유형이 성공적으로 등록되었습니다.');
+						$('#questionTypeRegisterModal').modal('hide');
+						location.reload();
+					} else {
+						alert('문의 유형 등록에 실패하였습니다.');
+					}
+				},
+				error : function() {
+					alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+				}
+			});
+		}
+		$(document).ready(function() {
+			$('.modify').on('click', function() {
+				var questionTypeCode = $(this).closest('tr').find('td:first').text();
+				var questionTypeName = $("#questionTypeName").val();
+				var adminId = $("#adminId").val();
 
-	            var questionTypeCode = currentRow.find("td:eq(0)").text();
-	            var questionTypeName = currentRow.find("td:eq(1)").text();
-	            var adminId = currentRow.find("td:eq(2)").text();
+				$.ajax({
+					url : '/customerservice/modify_quesitonType_proc',
+					method : 'GET',
+					data : {
+						answerCode : answerCode
+					},
+					success : function(response) {
+						$('#questionTypeCode').val(response.questionTypeCode);
+						$('#questionTypeName').val(response.questionTypeName);
+						$('#adminId').val(response.adminId);
+						
+					},
+					error : function(error) {
+						console.log("Error: ", error);
+					}
+				});
+			});
+		});
 
-	      
-	            var newQuestionTypeName = prompt("새 문의유형 이름을 입력하세요.", questionTypeName);
+		$(document).ready(function() {
+			$(".delete").on('click', function(event) {
+				event.preventDefault();
 
-	            if (newQuestionTypeName) {
-	                $.ajax({
-	                    url: '/customerservice/modify_questionType_proc',
-	                    type: 'POST',
-	                    data: {
-	                        questionTypeCode: questionTypeCode,
-	                        questionTypeName: newQuestionTypeName,
-	                        adminId: adminId
-	                    },
-	                    success: function(response) {
-	                    	if (response === 'success') {
-	                    		alert('문의 유형이 성공적으로 수정되었습니다.');
-	                    		location.reload();
-	                    	} else if(response === 'empty') {
-	                    		alert('문의 유형 이름은 공백일 수 없습니다.');
-	                    	} else {
-	                    		alert('문의 유형 수정에 실패하였습니다.');
-	                    	}
-	                    },
-	                    error: function() {
-	                        alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-	                    }
-	                });
-	            }
-	        });
-	    });
-	$(document).ready(function() {
-	    $(".delete").on('click', function(event) {
-	        event.preventDefault(); // Prevent the default action (navigation)
+				var currentRow = $(this).closest("tr");
+				var questionTypeCode = currentRow.find("td:eq(0)").text();
 
-	        // Get the current row
-	        var currentRow = $(this).closest("tr");
+				var confirmDelete = confirm("정말 삭제하시겠습니까?");
 
-	        // Extract the questionTypeCode from the row
-	        var questionTypeCode = currentRow.find("td:eq(0)").text();
-
-	        // Ask the user to confirm the deletion
-	        var confirmDelete = confirm("정말 삭제하시겠습니까?");
-
-	        if (confirmDelete) {
-	            $.ajax({
-	                url: '/customerservice/delete_questionType_proc',
-	                type: 'POST',
-	                data: {
-	                    questionTypeCode: questionTypeCode,
-	                },
-	                success: function(response) {
-	                    if (response === 'success') {
-	                        alert('문의 유형이 성공적으로 삭제되었습니다.');
-	                        location.reload();
-	                    } else {
-	                        alert('문의 유형 삭제에 실패하였습니다.');
-	                    }
-	                },
-	                error: function() {
-	                    alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-	                }
-	            });
-	        }
-	    });
-	});
-		
-</script>
+				if (confirmDelete) {
+					$.ajax({
+						url : '/customerservice/remove_answer_proc', // URL을 업데이트 합니다.
+						type : 'POST',
+						data : {
+							answerCode : answerCode,
+						},
+						success : function(response) {
+							if (response === 'success') {
+								alert('문의 유형이 성공적으로 삭제되었습니다.');
+								// location.reload(); // 이 코드를 주석 처리하고
+								currentRow.hide(); // 이 코드를 추가하여 삭제된 것처럼 보이게 합니다.
+							} else {
+								alert('문의 유형 삭제에 실패하였습니다.');
+							}
+						},
+						error : function() {
+							alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+						}
+					});
+				}
+			});
+		});
+	</script>
 </th:block>
 </head>
 
@@ -168,7 +150,7 @@
 													style="width: 120px;"
 													aria-label="Age: activate to sort column ascending">문의유형수정일
 												</th>
-												
+
 												<th class="" rowspan="1" colspan="1" style="width: 187px;">문의
 													유형 수정</th>
 												<th class="" rowspan="1" colspan="1" style="width: 187px;">문의
@@ -185,8 +167,8 @@
 												<td th:text="${l.adminId}" style="text-align: center;"></td>
 												<td th:text="${l.questionTypeRegDate}"></td>
 												<td th:text="${l.questionTypeModifyDate}"></td>
-												<td><button type="submit" class="submit">수정</button></td>
-												<td><a href="#" class="delete"><i
+												<td><a href="#"><i class="fa fa-edit modify"></i>수정</a></td>
+												<td><a href="" class="delete"><i
 														class="fa fa-close"></i> 삭제</a></td>
 											</tr>
 										</tbody>
@@ -241,12 +223,46 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">닫기</button>
-					<button type="button" class="btn btn-primary" 
+					<button type="button" class="btn btn-primary"
 						onclick="registerQuestionType()">등록</button>
 				</div>
 			</div>
 		</div>
 	</div>
-</th:block>
 
+	<!-- 문의유형 수정 모달창 -->
+	<div class="modal fade" id="questionTypeModifyModal" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">문의 수정</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label for="questionTypeCode">문의유형코드: </label> <input type="text"
+								class="form-control" id="questionTypeCode"
+								th:value="${getQuestionTypeDto.questionTypeCode}" readonly>
+						</div>
+						<div class="form-group">
+							<label for="questionTypeName">문의유형이름: </label> <input type="text"
+								class="form-control" id="questionTypeName"
+								th:value="${getQuestionTypeDto.questionTypeName}">
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">닫기</button>
+							<button type="button" class="btn btn-primary">수정</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
 </html>

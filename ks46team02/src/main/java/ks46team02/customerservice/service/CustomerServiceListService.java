@@ -27,21 +27,35 @@ public class CustomerServiceListService {
 		return QuestionList;
 	}
 
+	public QuestionDto getQuestionByCode(String questionCode) {
+		return customerserviceListMapper.getQuestionByCode(questionCode);
+	}
+
+	public void addAnswer(AnswerDto answerDto) {
+		customerserviceListMapper.addAnswer(answerDto);
+	}
+
+	public void modifyQuestionStatus(QuestionDto questionDto) {
+		customerserviceListMapper.modifyQuestionStatus(questionDto);
+	}
+
 	public List<AnswerDto> getAnswerList() {
 		List<AnswerDto> AnswerList = customerserviceListMapper.getAnswerList();
 		return AnswerList;
 	}
-	
-	public AnswerDto  getAnswerByCode(String answerCode) {
+
+	public AnswerDto getAnswerByCode(String answerCode) {
 		return customerserviceListMapper.getAnswerByCode(answerCode);
 	}
 	
-	/*
-	 * public boolean removeAnswer(String answerCode) { return
-	 * customerserviceListMapper.removeAnswer(answerCode); }
-	 */
+	public void modifyAnswer(AnswerDto answerDto) {
+		customerserviceListMapper.modifyAnswer(answerDto);
+	}
 
-
+	public boolean removeAnswer(String answerCode) {
+		int rowsAffected = customerserviceListMapper.updateAnswerDeleteStatus(answerCode);
+		return rowsAffected > 0;
+	}
 
 	public List<QuestionTypeDto> getQuestionTypeList() {
 		List<QuestionTypeDto> QuestionTypeList = customerserviceListMapper.getQuestionTypeList();
@@ -52,20 +66,20 @@ public class CustomerServiceListService {
 		return customerserviceListMapper.getNextQuestionTypeCode();
 	}
 
-	public int registerQuestionType(QuestionTypeDto questionTypeDto) {
-		return customerserviceListMapper.insertQuestionType(questionTypeDto);
+	public int addQuestionType(QuestionTypeDto questionTypeDto) {
+		return customerserviceListMapper.addQuestionType(questionTypeDto);
 
 	}
 
-	public String updateQuestionTypeName(QuestionTypeDto questionTypeDto) {
-		return customerserviceListMapper.updateQuestionType(questionTypeDto);
-
+	public String modifyQuesitonType(QuestionTypeDto questionTypeDto) {
+		return customerserviceListMapper.modifyQuestionType(questionTypeDto);
+		
 	}
 
 	public boolean deleteQuestionType(int questionTypeCode) {
 		return customerserviceListMapper.deleteQuestionType(questionTypeCode);
 	}
+
+
 	
-
-
 }

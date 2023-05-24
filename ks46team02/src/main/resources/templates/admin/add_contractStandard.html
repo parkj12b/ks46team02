@@ -1,73 +1,95 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{layout/mypageLayout}">
+	layout:decorate="~{/mypage}">
 <head>
-
 </head>
 <th:block layout:fragment="customJs">
-<script>
+	<script>
+	// 취소버튼
     $('.cancel').click(function(){
     	history.go(-1);
     });
-    </script>
+	// 유효성 검사
+	$('form').submit(function(event) {
+		var arr = [
+			{id: '#contAppStand', name: '승인기준', value: $('#contAppStand').val()},
+			{id: '#contStandInfo', name: '기준설명', value: $('#contStandInfo').val()}
+		];
+		$.each(arr, function (index, item) {
+			var data = $(item.id).val();
+			if (typeof data == 'undefined' || data == null || data == '') {
+				event.preventDefault();
+				Swal.fire({
+					icon: 'warning',  // 여기다가 아이콘 종류를 쓰면 됩니다.
+					title: `${item.name}를 입력해주세요.`
+				}).then((result) => {
+					if (result.isConfirmed) { // 모달창에서 확인을 누르면 true가 되는 속성
+						$(item.id).focus();
+						Swal.close(); // 모달창이 닫힐 때까지 기다림
+					}
+				});
+			}
+		})
+	});
+
+
+</script>
 </th:block>
-<th:block layout:fragment="customContent">
-	<div class="page-title">
-		<div class="title">
-			<div class="col-md-6">
-
-				<div class="x_panel">
-					<div class="x_title">
-						<h2>관리자 등록</h2>
-						<div class="clearfix"></div>
+<body>
+	<th:block layout:fragment="customContent">
+		<div class="x_panel">
+			<div class="x_title">
+				<h1>승인 기준 등록</h1>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content">
+				<br />
+				<form id="addAdminForm" class="form-horizontal form-label-left"
+					th:action="@{/admin/addContractStandard}" method="post">
+					<div class="form-group row ">
+						<label class="control-label col-md-3 col-sm-3">승인 기준</label>
+						<div class="col-md-3 col-sm-4">
+							<div class="input-group">
+								<input type="text" class="form-control" id="contAppStand" name="contAppStand" placeholder="">
+							</div>
+						</div>
 					</div>
-					<div class="x_content">
-						<br>
-						<div class="form-group row">
-							<label class="control-label col-md-3 col-sm-3"
-								for="sample4_postcode">승인 기준</label>
-							<div class="col-md-9 col-sm-9">
-								<div class="input-group">
-									<input type="text" class="form-control" id="sample4_postcode"
-										placeholder="">
-								</div>
-							</div>
+					<div class="form-group row ">
+						<label class="control-label col-md-3 col-sm-3 "> 기준 설명 </label>
+						<div class="col-md-3 col-sm-3 ">
+							<input type="text" class="form-control" id="contStandInfo" name="contStandInfo" placeholder="" >
 						</div>
-						<div class="form-group row">
-							<label class="control-label col-md-3 col-sm-3"> <span
-								class="required">기준설명</span>
-							</label>
-							<div class="col-md-9 col-sm-9">
-								<textarea class="form-control" rows="3" placeholder=""></textarea>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="control-label col-md-3 col-sm-3"> 기준값 </label>
-							<div class="col-md-9 col-sm-9">
-								<input type="text" class="form-control"
-									id="sample4_detailAddress" placeholder="">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="control-label col-md-3 col-sm-3"> 단위</label>
-							<div class="col-md-9 col-sm-9">
-								<input type="text" class="form-control" value="">
-							</div>
-						</div>
-						<div class="ln_solid"></div>
-						<div class="form-group">
-							<div class="col-md-9 col-sm-9  offset-md-5">
-								<button type="button" class="btn btn-dark">등록</button>
-								<button type="reset" class="btn btn-dark cancel">취소</button>
-							</div>
-						</div>
-
-						</form>
 					</div>
-				</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3 col-sm-3  "> 기준값 </label>
+						<div class="col-md-3 col-sm-3 ">
+							<input type="number" min=1 class="form-control" id="contStandValue" name="contStandValue" placeholder="" >
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3 col-sm-3 "> 단위 </label>
+						<div class="col-md-3 col-sm-3 ">
+							<input type="text" class="form-control" id="contStandUnit" name="contStandUnit" >
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3 col-sm-3 ">계약 설명 </label>
+						<div class="col-md-3 col-sm-3 ">
+							<input type="text" class="form-control" id="standardDescription" name="standardDescription" >
+						</div>
+					</div>
+					<div class="ln_solid"></div>
+					<div class="form-group">
+						<div class="col-md-9 col-sm-9  offset-md-5">
+							<button type="submit" class="btn btn-dark add" >등록</button>
+							<button type="reset" class="btn btn-dark cancel">취소</button>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
-	</div>
-</th:block>
+	</th:block>
+
+</body>
 </html>

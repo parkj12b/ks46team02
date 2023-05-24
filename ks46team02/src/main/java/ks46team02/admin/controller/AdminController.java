@@ -30,6 +30,7 @@ import ks46team02.admin.dto.WithdrawalMember;
 import ks46team02.admin.mapper.AddrMapper;
 import ks46team02.admin.mapper.AdminLevelMapper;
 import ks46team02.admin.mapper.AdminMapper;
+import ks46team02.admin.mapper.ContractStandardMapper;
 import ks46team02.admin.mapper.LoginHistoryMapper;
 import ks46team02.admin.mapper.MemberLevelMapper;
 import ks46team02.admin.mapper.MemberMapper;
@@ -46,16 +47,19 @@ import ks46team02.admin.service.WithdrawalMemberService;
 import ks46team02.common.dto.Addr;
 import ks46team02.common.dto.AdminMember;
 import ks46team02.common.dto.Member;
+import ks46team02.common.mapper.MainMapper;
 import ks46team02.company.dto.Company;
 import ks46team02.company.service.CompanyService;
 import ks46team02.farm.dto.EvaluationDetailCategory;
-import ks46team02.farm.dto.EvaluationDetailCategory;
 import ks46team02.farm.dto.EvaluationLargeCategory;
+import ks46team02.farm.dto.EvaluationStandard;
 import ks46team02.farm.dto.MMRegInfoMentee;
 import ks46team02.farm.dto.MMRegInfoMentor;
+import ks46team02.farm.dto.ResultHistory;
 import ks46team02.farm.dto.VisitHistory;
 import ks46team02.farm.mapper.MentorMenteeMapper;
 import ks46team02.farm.service.MentorMenteeService;
+
 
 @Controller
 @RequestMapping("/admin")
@@ -81,6 +85,9 @@ public class AdminController {
 	private final WithdrawalMemberMapper withdrawalMemberMapper;
 	private final MentorMenteeService mentorMenteeService;
 	private final MentorMenteeMapper mentorMenteeMapper;
+	private final MainMapper mainMapper;
+	private final ContractStandardMapper contractStandardMapper;
+
 	
 	private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
@@ -103,7 +110,9 @@ public class AdminController {
     					  ,WithdrawalMemberMapper withdrawalMemberMapper
 						  ,CompanyService companyService
 						  ,MentorMenteeService mentorMenteeService
-						  ,MentorMenteeMapper mentorMenteeMapper) {
+						  ,MentorMenteeMapper mentorMenteeMapper
+						  ,MainMapper mainMapper
+						  ,ContractStandardMapper contractStandardMapper) {
 		this.mentorMenteeMapper = mentorMenteeMapper;
 		this.mentorMenteeService = mentorMenteeService;
 		this.addrService = addrService;
@@ -122,6 +131,8 @@ public class AdminController {
 	    this.loginHistoryMapper = loginHistoryMapper;
 	    this.withdrawalMemberMapper = withdrawalMemberMapper;
 	    this.companyService = companyService;
+		this.mainMapper = mainMapper;
+		this.contractStandardMapper = contractStandardMapper;
 	}
 
 	/* 관리자 아이디 중복 체크 */
@@ -215,13 +226,12 @@ public class AdminController {
 	@ResponseBody
 	public Boolean pwCheckAdmin(@RequestParam(name="adminPw") String adminPw
 			    			    ,HttpSession session) {
-		String adminIdCheck = (String) session.getAttribute("sessionId");
-		AdminMember adminInfo = adminService.getAdminInfoById(adminIdCheck);
+		String adminId = (String) session.getAttribute("sessionId");
+		AdminMember adminInfo = adminService.getAdminInfoById(adminId);
 		String adminPwCheck = adminInfo.getAdminPw();
 		Boolean pwCheck = adminPwCheck.equals(adminPw);
-		
-		return pwCheck; 
-		
+		log.info("pwCheck 확인 : {}", pwCheck);
+		return pwCheck;
 	}
 	
 	/* 관리자 삭제 */
@@ -270,6 +280,12 @@ public class AdminController {
 	public void removeAdminLevel(String adminLevel) {
 		adminLevelMapper.removeAdminLevel(adminLevel);
 		
+	}
+	/* 회원 등급 등록*/
+	@PostMapping("/addMemberLevel")
+	public String addMemberLevel(MemberLevel memberLevel,HttpSession session) {
+		memberLevelService.addMemberLevel(memberLevel,session);
+		return "redirect:/admin/memberLevelList";
 	}
 	/* 회원 등급 등록 */
 	@GetMapping("/addMemberLevel")
@@ -481,8 +497,18 @@ public class AdminController {
 	/* 회원 삭제 */
 	@PostMapping("/removeMember")
 	@ResponseBody
-	public void removeMember(String memberId ){
+	public void removeMember(String memberId,WithdrawalMember withdrawalMember){
 		memberMapper.removeMember(memberId);
+		Member member = memberservice.getMemberInfoById(memberId);
+		String phone = member.getMemberPhone();
+		String column = "withdrawal_member_code";
+		String table = "withdrawal_member";
+		String WithdrawalMemberCode = mainMapper.autoIncrement(table, column);
+		withdrawalMember.setWithdrawalMemberCode(WithdrawalMemberCode);
+		withdrawalMember.setWithdrawalMemberId(memberId);
+		withdrawalMember.setWithdrawalMemberPhone(phone);
+		withdrawalMemberMapper.addwithdrawalMember(withdrawalMember);
+
 	}
 	/* 휴면 회원 삭제 */
 	@PostMapping("/removeDormantMember")
@@ -507,6 +533,13 @@ public class AdminController {
 	    memberservice.modifyDormantMember(memberId);
 	    
 	}
+	/* 승인 기준 등록*/
+	@PostMapping("/addContractStandard")
+	public String addContractStandard(ContractStandard contractStandard,HttpSession session){
+		contractStandardService.addContractStandard(contractStandard,session);
+		return "redirect:/admin/contractStandardList";
+	}
+
 
 	/* 승인 기준 등록 */
 	@GetMapping("/addContractStandard")
@@ -528,7 +561,17 @@ public class AdminController {
 	public void modifyContractStandard(ContractStandard contractStandard) {
 		contractStandardService.modifyContractStandard(contractStandard);
 	}
+	/* 승인기준 삭제*/
+	@PostMapping("/removeContractStandard")
+	@ResponseBody
+	public void removeContractStandard(String contStandCode) {
+		contractStandardMapper.removeContractStandard(contStandCode);
+
+
+	}
+
 	
+	/* 멘토 승인 */
 	@PostMapping("/mentorRegApprove")
 	@ResponseBody
 	public Map<String,Object> mentorRegApprove(Model model, MMRegInfoMentor mentorRegInfo) {
@@ -549,6 +592,7 @@ public class AdminController {
 		return returnMap;
 	}
 	
+	/* 멘토 승인 거부 */
 	@PostMapping("/mentorRegDeny")
 	@ResponseBody
 	public Map<String,Object> mentorRegDeny(Model model, MMRegInfoMentor mentorRegInfo) {
@@ -568,6 +612,8 @@ public class AdminController {
 		returnMap.put("isSuccess", isSuccess);
 		return returnMap;
 	}
+	
+	/* 신청/거부/승인 멘토 조회 */
 	@GetMapping("/mentorRegList")
 	public String getMentorRegManageList(Model model) {
 		Map<String,String> paramMap = new HashMap<>();
@@ -605,6 +651,7 @@ public class AdminController {
 		return "admin/mentor_reg_list";
 	}
 	
+	/* 신청/거부/승인 멘티 조회 */
 	@GetMapping("/menteeRegList")
 	public String getMenteeRegManageList(Model model) {
 		Map<String,String> paramMap = new HashMap<>();
@@ -641,6 +688,7 @@ public class AdminController {
 		return "admin/mentee_reg_list";
 	}
 	
+	/* 멘토 신청 기록 삭제 */
 	@PostMapping("/mentorRegDelete")
 	@ResponseBody
 	public Map<String, Object> removeMentorRegHistory(MMRegInfoMentor mentorRegInfo){
@@ -661,6 +709,8 @@ public class AdminController {
 
 		return returnMap;
 	}
+	
+	/* 멘티 신청 승인 */
 	@PostMapping("/menteeRegApprove")
 	@ResponseBody
 	public Map<String,Object> menteeRegApprove(Model model, MMRegInfoMentee menteeRegInfo) {
@@ -681,6 +731,7 @@ public class AdminController {
 		return returnMap;
 	}
 	
+	/* 멘토 신청 거부 */
 	@PostMapping("/menteeRegDeny")
 	@ResponseBody
 	public Map<String,Object> menteeRegDeny(Model model, MMRegInfoMentee menteeRegInfo) {
@@ -701,6 +752,7 @@ public class AdminController {
 		return returnMap;
 	}
 	
+	/* 멘티 기록 삭제 */
 	@PostMapping("/menteeRegDelete")
 	@ResponseBody
 	public Map<String, Object> removeMenteeRegHistory(MMRegInfoMentee menteeRegInfo){
@@ -722,6 +774,7 @@ public class AdminController {
 		return returnMap;
 	}
 	
+	/* 멘토 방문기록 조회 */
 	@GetMapping("/mentorVisitHistory")
 	public String getMentorVisitHistoryList(Model model) {
 		Map<String, String> paramMap = new HashMap<String,String>();
@@ -732,6 +785,7 @@ public class AdminController {
 		return "admin/mm_contract_visit_history";
 	}
 	
+	/* 멘토 방문기록 삭제 */
 	@PostMapping("/removeVisitHistory")
 	@ResponseBody
 	public Map<String, Object> removeVisitHistory(VisitHistory visitHistory){
@@ -741,16 +795,19 @@ public class AdminController {
 		return returnMap;
 	}
 	
+	/* 멘토 평가결과 조회 */
 	@GetMapping("/mentorResultHistory")
 	public String getMentorResultHistoryList(Model model) {
+		List<ResultHistory> resultHistoryList = mentorMenteeMapper.getResultHistoryList();
 		model.addAttribute("title", "멘토 평가결과 기록 관리");
-		
+		model.addAttribute("resultHistoryList",resultHistoryList);
 		return "admin/mm_contract_result_history";
 	}
 	
+	/* 멘토멘티 방문평가 대분류 관리 */
 	@GetMapping("/mentorEvaluationLargeCategory")
 	public String getEvaluationLargeCategoryList (Model model) {
-		model.addAttribute("title", "멘토멘티 평가 대분류 관리");
+		model.addAttribute("title", "멘토멘티 방문평가 대분류 관리");
 		List<EvaluationLargeCategory> largeCategoryList = mentorMenteeService.getEvaluationLargeCategoryNoDetailCate();
 		
 		log.info("eval={}",largeCategoryList);
@@ -759,6 +816,7 @@ public class AdminController {
 		return "admin/mm_evaluation_large_category";
 	}
 	
+	/* 멘토멘티 방문평가 대분류 삭제 */
 	@PostMapping("/removeLargeCategory")
 	@ResponseBody
 	public Map<String, Object> removeVisitHistory(EvaluationLargeCategory evalLargeCate){
@@ -768,6 +826,7 @@ public class AdminController {
 		return returnMap;
 	}
 	
+	/* 멘토멘티 방문평가 대분류 수정 */
 	@PostMapping("/modifyLargeCategory")
 	@ResponseBody
 	public Map<String, Object> modifyLargeCategory(EvaluationLargeCategory evalLargeCate){
@@ -776,6 +835,7 @@ public class AdminController {
 		return returnMap;
 	}
 	
+	/* 멘토멘티 방문평가 대분류 생성 */
 	@PostMapping("/addLargeCategory")
 	@ResponseBody
 	public Map<String, Object> addLargeCategory(EvaluationLargeCategory evalLargeCate) {
@@ -785,6 +845,7 @@ public class AdminController {
 		return returnMap;
 	}
 	
+	/* 멘토멘티 방문평가 세부항목 조회 */
 	@GetMapping("/mentorEvaluationDetailCategory")
 	public String mentorEvaluationDetailCategory(Model model) {
 		
@@ -798,6 +859,7 @@ public class AdminController {
 		return "admin/mm_evaluation_detail_category";
 	}
 	
+	/* 멘토멘티 방문평가 세부항목 수정 */
 	@PostMapping("/modifyDetailCategory")
 	@ResponseBody
 	public Map<String, Object> modifyDetailCategory(EvaluationDetailCategory evalDetailCate){
@@ -806,10 +868,76 @@ public class AdminController {
 		return returnMap;
 	}
 
+	/* 멘토멘티 방문평가 세무항목 삭제 */
 	@PostMapping("/deleteDetailCategory")
 	@ResponseBody
 	public Map<String, Object> deleteDetailCategory(EvaluationDetailCategory evalDetailCate){
 		Map<String,Object> returnMap = mMService.deleteDetailCategory(evalDetailCate);
+		
+		return returnMap;
+	}
+
+	/* 멘토멘티 방문평가 세부항목 추가 */
+	@PostMapping("/addDetailCategory")
+	@ResponseBody
+	public Map<String, Object> addDetailCategory(EvaluationDetailCategory evalDetailCate){
+		Map<String,Object> returnMap = mMService.addDetailCategory(evalDetailCate);
+		
+		return returnMap;
+	}
+	
+	/* 멘토멘티 방문평가 평가기준 조회 */
+	@GetMapping("/mentorEvaluationStandard")
+	public String mentorEvaluationStandard(Model model) {
+		
+		List<EvaluationStandard> evaluationStandardList = mentorMenteeService.getEvaluationStandardList();
+		model.addAttribute("title", "멘토멘티 방문평가 평가기준 관리");
+		model.addAttribute("evaluationStandardList",evaluationStandardList);
+		log.info("{}",evaluationStandardList);
+		return "admin/mm_evaluation_standard";
+	}
+	
+	/* 멘토멘티 방문평가 평가기준 수정 */
+	@PostMapping("/modifyEvaluationStandard")
+	@ResponseBody
+	public Map<String, Object> modifyEvaluationStandard(EvaluationStandard evaluationStandard){
+		Map<String,Object> returnMap = mMService.modifyEvaluationStandard(evaluationStandard);
+		
+		return returnMap;
+	}
+	
+	/* 멘토멘티 방문평가 평가기준 삭제 */
+	@PostMapping("/removeEvaluationStandard")
+	@ResponseBody
+	public Map<String, Object> removeEvaluationStandard(EvaluationStandard evaluationStandard){
+		Map<String,Object> returnMap = mMService.removeEvaluationStandard(evaluationStandard);
+		
+		return returnMap;
+	}
+	
+	/* 멘토멘티 방문평가 평가기준 생성 */
+	@PostMapping("/addEvaluationStandard")
+	@ResponseBody
+	public Map<String, Object> addEvaluationStandard(EvaluationStandard evaluationStandard){
+		Map<String,Object> returnMap = mMService.addEvaluationStandard(evaluationStandard);
+		
+		return returnMap;
+	}
+	
+	/* 멘토멘티 방문평가 기록 수정 */
+	@PostMapping("/modifyResultHistory")
+	@ResponseBody
+	public Map<String, Object> modifyResultHistory(ResultHistory resultHistory){
+		Map<String,Object> returnMap = mMService.modifyResultHistory(resultHistory);
+		
+		return returnMap;
+	}
+	
+	/* 멘토멘티 방문평가 기록 삭제 */
+	@PostMapping("/removeResultHistory")
+	@ResponseBody
+	public Map<String, Object> removeResultHistory(ResultHistory resultHistory){
+		Map<String,Object> returnMap = mMService.removeResultHistory(resultHistory);
 		
 		return returnMap;
 	}

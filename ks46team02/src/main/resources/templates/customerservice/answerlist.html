@@ -3,6 +3,11 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/mypageLayout}">
 <head>
+<style>
+.deleted-row {
+	display: none !important;
+}
+</style>
 <th:block layout:fragment="customJs">
 	<script>
 		$(document).ready(function() {
@@ -28,6 +33,34 @@
 					}
 				});
 			});
+		});
+
+		$('body').on('click', '.fa-close', function() {
+			var row = $(this).closest('tr');
+			var answerCode = row.find('td:first').text();
+			var confirmation = confirm('삭제하시겠습니까?');
+			if (confirmation) {
+				$.ajax({
+					type : 'POST',
+					url : '/customerservice/remove_answer_proc',
+					data : {
+						answerCode : answerCode
+					},
+					success : function(response) {
+						if (response === 'success') {
+							// 삭제 성공 시 처리할 내용
+							row.hide(); // 행 숨기기
+							row.addClass('deleted-row'); // 삭제된 행을 구별하기 위한 클래스 추가
+							alert('문의 유형이 성공적으로 삭제되었습니다.');
+						} else {
+							alert('문의 유형 삭제에 실패하였습니다.');
+						}
+					},
+					error : function() {
+						alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+					}
+				});
+			}
 		});
 	</script>
 </th:block>
@@ -129,10 +162,12 @@
 												<td th:text="${l.questionStatus}"></td>
 												<td th:text="${l.answerRegDate}"></td>
 												<td th:text="${l.answerModityDate}"></td>
-												<td><a href="#"><button class="fa fa-edit"
-															data-toggle="modal" data-target="#answerModifyModal"></button>수정</a></td>
-												<td><a href="#" class="delete"><i
-														class="fa fa-close"></i> 삭제</a></td>
+												<td><a id="modifyButton"
+													th:href="@{/customerservice/modify_answer(answerCode=${l.answerCode})}">
+														<button class="btn btn-primary float-right" type="button">수정
+															</button>
+												</a>
+												<td><button class="fa fa-close"></button>삭제</td>
 											</tr>
 										</tbody>
 									</table>
@@ -158,7 +193,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal form-label-left" id="addFarmForm"
+					<form class="form-horizontal form-label-left" id="addAnswerForm"
 						method="post">
 
 						<div class="form-group row">
@@ -172,8 +207,8 @@
 						<input type="hidden" id="farmAddr" name="farmAddr" />
 
 						<div class="form-group row">
-							<label class="control-label col-md-3 col-sm-3 "
-								for="sessionId">작성 관리자</label>
+							<label class="control-label col-md-3 col-sm-3 " for="sessionId">작성
+								관리자</label>
 							<div class="col-md-9 col-sm-9 ">
 								<input type="text" class="form-control" name="sessionId"
 									id="sessionId" th:value="${session.sessionId}" readonly />
@@ -227,20 +262,24 @@
 		</div>
 	</div>
 
-	<!-- 문의내용에 대한 답변 수정 모달창 -->
+	<!-- 문의내용에 대한 답변을 수정하는 모달창 -->
 	<div class="modal fade" id="answerModifyModal" tabindex="-1"
 		role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">답변 수정</h5>
+					<button type="reset" class="btn btn-white" style="float: right"
+						id="reset-btn">
+						<i class="fa fa-repeat"></i>
+					</button>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal form-label-left" id="addFarmForm"
+					<form class="form-horizontal form-label-left" id="modifyAnswerForm"
 						method="post">
 
 						<div class="form-group row">
@@ -248,17 +287,16 @@
 								No.</label>
 							<div class="col-md-9 col-sm-9 ">
 								<input type="text" class="form-control" name="answerCode"
-									th:value="${answerCode}" id="answerCode" readonly />
+									id="modifyAnswerCode" readonly />
 							</div>
 						</div>
-						<input type="hidden" id="farmAddr" name="farmAddr" />
 
 						<div class="form-group row">
 							<label class="control-label col-md-3 col-sm-3 "
 								for="questionCode">question No.</label>
 							<div class="col-md-9 col-sm-9 ">
 								<input type="text" class="form-control" name="questionCode"
-									id="questionCode" th:value="${questionCode}" readonly />
+									id="modifyQuestionCode" readonly />
 							</div>
 						</div>
 						<input type="hidden" id="farmAddr" name="farmAddr" />
@@ -268,7 +306,7 @@
 								for="answerRegDate">답변 등록일 </label>
 							<div class="col-md-9 col-sm-9 ">
 								<input type="text" class="form-control" name="answerRegDate"
-									id="answerRegDate" readonly>
+									id="modifyAnswerRegDate" readonly>
 							</div>
 						</div>
 
@@ -277,7 +315,7 @@
 								제목 </label>
 							<div class="col-md-9 col-sm-9 ">
 								<input type="text" class="form-control" name="answerTitle"
-									id="answerTitle">
+									id="modifyAnswerTitle" placeholder="수정할 답변 제목을 입력하세요">
 							</div>
 						</div>
 
@@ -287,7 +325,7 @@
 							</label>
 							<div class="col-md-9 col-sm-9 ">
 								<textarea class="form-control" rows="3" name="answerContent"
-									id="answerContent"></textarea>
+									id="modifyAnswerContent" placeholder="수정할 답변 내용을 입력하세요"></textarea>
 							</div>
 						</div>
 
@@ -295,9 +333,9 @@
 							<label class="control-label col-md-3 col-sm-3 "
 								for="questionStatus">답변 상태</label>
 							<div class="col-md-9 col-sm-9 ">
-								<select id="questionStatus" class="form-control"
-									name="questionStatus">
-									<option value="">weighting for response</option>
+								<select class="form-control" name="questionStatus"
+									id="modifyQuestionStatus">
+									<option value="weighting">weighting for response</option>
 									<option value="pending">processing</option>
 									<option value="complete">complete</option>
 								</select>

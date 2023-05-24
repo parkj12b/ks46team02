@@ -21,27 +21,29 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card-box table-responsive">
-                            <table id="datatable-buttons" class="table table-striped table-bordered text-center" style="width:100%" >
+                            <table id="datatable-buttons" class="table table-striped table-bordered text-center"
+                                   style="width:100%">
                                 <thead>
-                                <tr role="row" >
+                                <tr role="row">
                                     <th>직위</th>
                                     <th>이름</th>
                                     <th>전화번호</th>
                                     <th>이메일</th>
-                                    <div th:if="${sessionIsOwner == true}">
-                                        <th></th>
-                                    </div>
+                                    <th th:if="${session.isOwner}"></th>
+
 
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr role="row" class="odd" th:unless="${employeeList == null}" th:each="l : ${employeeList}" >
+                                <tr role="row" class="odd" th:unless="${employeeList == null}"
+                                    th:each="l : ${employeeList}">
                                     <td th:text="${l.memberLevelName}"></td>
                                     <td th:text="${l.memberName}"></td>
                                     <td th:text="${l.memberPhone}"></td>
                                     <td th:text="${l.memberEmail}"></td>
-                                    <td th:if="${sessionIsOwner == true}">
-                                        <a class="btn btn-secondary btn-sm"  th:href="@{/company/modifyEmployeeLevel(memberId=${l.memberId} ,memberName=${l.memberName})}">직위수정</a>
+                                    <td th:if="${session.isOwner}">
+                                        <a class="btn btn-secondary btn-sm"
+                                           th:href="@{/company/modifyEmployeeLevel(memberId=${l.memberId} ,memberName=${l.memberName})}">직위수정</a>
                                     </td>
                                 </tr>
                                 <tr th:if="${employeeList == null}">

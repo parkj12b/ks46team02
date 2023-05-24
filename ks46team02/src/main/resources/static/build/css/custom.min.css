@@ -13,6 +13,13 @@
 		format("svg")
 }
 
+@font-face {
+	font-family: 'baskin';
+	src:
+		url("/fonts/baskin1.otf"),
+		url("/fonts/baskin2.otf");
+}
+
 ul.main-menu > li {
 	margin-right: 30px;
 }
@@ -1851,7 +1858,7 @@ a:hover, a:focus {
 	display: block;
 	height: 55px;
 	margin: 0;
-	padding-left: 10px
+	padding-left: 15px
 }
 
 .site_title:hover, .site_title:focus {

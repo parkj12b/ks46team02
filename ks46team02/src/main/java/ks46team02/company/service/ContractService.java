@@ -3,22 +3,39 @@ package ks46team02.company.service;
 import com.sun.tools.javac.Main;
 import ks46team02.common.mapper.MainMapper;
 import ks46team02.company.dto.Contract;
+import ks46team02.company.mapper.CompanyMapper;
 import ks46team02.company.mapper.ContractMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class ContractService {
     private final ContractMapper contractMapper;
     private final MainMapper mainMapper;
+    private final CompanyMapper companyMapper;
 
     public ContractService(ContractMapper contractMapper
-                          ,MainMapper mainMapper){
+                          ,MainMapper mainMapper
+                          ,CompanyMapper companyMapper){
         this.contractMapper = contractMapper;
         this.mainMapper = mainMapper;
+        this.companyMapper = companyMapper;
     }
 
+    /* 계약신청 */
+    public boolean applyDryContract(Contract contract){
+        String column = "contract_code";
+        String table = "all_contract";
+        String contractCode = mainMapper.autoIncrement(table, column);
+        contract.setContractCode(contractCode);
+        contract.setContractType("dry");
+        contractMapper.applyDryContract(contract);
+
+        return true;
+    }
     /* 계약등록 */
     public boolean addContract(Contract contract
                               ,String companyTypeNum){
@@ -46,7 +63,18 @@ public class ContractService {
 
     /* 계약정보조회 */
     public Contract getContractInfo(String contractCode){
-        Contract contractInfo = contractMapper.getContractInfo(contractCode);
+        Contract contractInfo = null;
+        String validCode = contractCode.substring(0,2);
+        if(validCode.equals("cd")){
+
+            contractInfo = contractMapper.getDryContractInfo(contractCode);
+        } else if (validCode.equals("cf")) {
+
+            contractInfo = contractMapper.getBreedContractInfo(contractCode);
+        } else {
+            contractInfo = contractMapper.getContractInfo(contractCode);
+        }
+
         return contractInfo;
     }
 

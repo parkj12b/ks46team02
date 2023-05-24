@@ -8,13 +8,13 @@
 	<body>
 		<th:block layout:fragment="sidebar">
 			<th:block th:if="${session.companyTypeNum != null}">
-				<th:block th:if='|${session.companyTypeNum.equals("1")}|'>
+				<th:block th:if='|${session.companyTypeNum == 1}|'>
 					<div th:replace="~{fragments/sidebar :: myPageSidebarFragmentDry}"></div>
 				</th:block>
-				<th:block th:if='|${session.companyTypeNum.equals("2")}|'>
+				<th:block th:if='|${session.companyTypeNum == 2}|'>
 					<div th:replace="~{fragments/sidebar :: myPageSidebarFragmentFarm}"></div>
 				</th:block>
-				<th:block th:if='|${session.companyTypeNum.equals("3")}|'>
+				<th:block th:if='|${session.companyTypeNum == 3}|'>
 					<div th:replace="~{fragments/sidebar :: myPageSidebarFragmentBuyer}"></div>
 				</th:block>
 			</th:block>

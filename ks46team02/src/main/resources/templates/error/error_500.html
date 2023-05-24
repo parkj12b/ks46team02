@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/no_layout}">
+<head>
+<th:block layout:fragment="customJs">
+<script>
+$(function() {
+	$('#home').click(function() {
+		location.href = "/";
+	})
+
+})
+
+</script>
+</th:block>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<th:block layout:fragment="customContent">
+		<div class="col-md-12">
+		<div class="col-middle">
+			<div class="text-center text-center">
+				<h1 class="error-number">500</h1>
+				<h2>Internal Server Error</h2>
+				<p>
+					유효하지 않은 접근이 감지 되었습니다. <a href="/customerservice/main?questionTypeCode=1">고객센터 바로가기</a>
+				</p>
+				<div class="mid_center">
+					<button class="btn btn-secondary" id="home" type="button">홈으로
+						돌아가기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</th:block>
+</body>
+</html>

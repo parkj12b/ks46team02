@@ -2,6 +2,7 @@ package ks46team02.admin.mapper;
 
 import java.util.List;
 
+import ks46team02.admin.dto.AdminLevel;
 import org.apache.ibatis.annotations.Mapper;
 
 import ks46team02.admin.dto.MemberLevel;
@@ -16,4 +17,6 @@ public interface MemberLevelMapper {
 	public int modifyMemberLevel(MemberLevel memberLevel);
 	/* 회원 등급 삭제 */
 	public int removeMemberLevel(String positionLevelCode);
+	/* 회원 등급 등록*/
+	public int addMemberLevel(MemberLevel memberLevel);
 }

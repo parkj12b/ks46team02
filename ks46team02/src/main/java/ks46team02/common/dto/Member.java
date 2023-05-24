@@ -17,7 +17,12 @@ public class Member {
 	private String dormantMemberRegDate;
 	private boolean isOwner;
 	private boolean isExist;
-	private String companyTypeNum;
+	private int companyTypeNum;
+	private String memberLevelName;
+
+	private String withdrawalStatus;
+
+	private String companyName;
 
 	public String getMemberLevelName() {
 		return memberLevelName;
@@ -25,13 +30,10 @@ public class Member {
 	public void setMemberLevelName(String memberLevelName) {
 		this.memberLevelName = memberLevelName;
 	}
-
-	private String memberLevelName;
-	
-	public String getCompanyTypeNum() {
+	public int getCompanyTypeNum() {
 		return companyTypeNum;
 	}
-	public void setCompanyTypeNum(String companyTypeNum) {
+	public void setCompanyTypeNum(int companyTypeNum) {
 		this.companyTypeNum = companyTypeNum;
 	}
 	public boolean isExist() {
@@ -113,6 +115,22 @@ public class Member {
 		this.dormantMemberRegDate = nowTime;
 	}
 
+	public String getWithdrawalStatus() {
+		return withdrawalStatus;
+	}
+
+	public void setWithdrawalStatus(String withdrawalStatus) {
+		this.withdrawalStatus = withdrawalStatus;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
 	@Override
 	public String toString() {
 		return "Member{" +
@@ -130,9 +148,10 @@ public class Member {
 				", isOwner=" + isOwner +
 				", isExist=" + isExist +
 				", companyTypeNum='" + companyTypeNum + '\'' +
+				", withdrawalStatus='" + withdrawalStatus + '\'' +
+				", companyName='" + companyName + '\'' +
 				", memberLevelName='" + memberLevelName + '\'' +
 				'}';
+
 	}
-
-
 }

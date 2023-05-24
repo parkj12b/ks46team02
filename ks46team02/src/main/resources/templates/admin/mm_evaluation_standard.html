@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/mypageLayout}">
+<head>
+<meta charset="UTF-8">
+<title th:text="${title}"></title>
+<style>
+#contract-info {
+	margin-bottom: 35px;
+	padding-bottom: 40px;
+	border-bottom: 2px solid #E6E9ED;
+}
+
+.table-striped tbody tr:nth-of-type(odd):hover {
+	background-color: rgba(0, 0, 0, .1);
+}
+
+.table-striped tbody tr:nth-of-type(even):hover {
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
+#no-item-msg {
+	text-align: center;
+}
+
+.like-h2 {
+	font-size: 18px;
+}
+
+.category-div {
+	margin: 10px 0;
+}
+
+#info-container {
+	padding-bottom: 40px;
+	border-bottom: 2px solid #E6E9ED;
+}
+
+#datatable_wrapper {
+	padding: 0px;
+}
+
+.title {
+	margin: 30px 0;
+}
+
+#search-container {
+	border: 2px solid #E6E9ED;
+	margin: 0 15px;
+	margin-bottom: 30px;
+}
+
+#search-container-inner {
+	display: flex;
+	margin: 15px;
+	justify-content: space-around;
+}
+
+.input-container {
+	display: flex;
+}
+
+.search-label {
+	width: 150px;
+}
+
+.button-td {
+	text-align: center;
+}
+
+#add-category {
+	float: right;
+	margin-top: 30px;
+}
+
+.form-element {
+	display: flex;
+	font-size: 18px;
+}
+</style>
+</head>
+<body>
+	<th:block layout:fragment="customJs">
+		<script>
+		
+				const modifyEvaluationStandard = function(evaluationStandardCode, evaluationStandardExp, evaluationLevel, evaluationGradeScore) {
+					
+			Swal.fire({
+				title: `${evaluationStandardCode} 수정`,
+				icon: 'question',
+				confirmButtonText : '수정',
+				cancelButtonText : '취소',
+				showConfirmButton : true,
+				showCancelButton : true,
+				template: '#evaluationStandardTemplate',
+				allowOutsideClick: false,
+				preConfirm: () => {
+					$('.swal2-input').each(function(idx,item){
+						if($(item).val() == ''){
+							Swal.showValidationMessage('입력은 비어있을수 없습니다!');							
+						}
+					})
+			
+					return {
+						evaluationStandardCode: evaluationStandardCode,
+						evaluationStandardExp: $('#evaluationStandardExp').val(),
+						evaluationLevel: $('#evaluationLevel').val(),
+						evaluationGradeScore: $('#evaluationGradeScore').val(),
+						adminId : `[[${session.sessionId}]]`
+					}
+				}
+			}).then(result => {
+				console.log(result.value);
+				if(result.isConfirmed){
+					$.ajax({
+						url: `/admin/modifyEvaluationStandard`,
+						method: "post",
+						dataType: "json",
+						data: result.value
+					}).done(data => {
+						if(data.isSuccess){
+							Swal.fire({
+								icon: 'success',
+								title: data.msg,
+								showConfirmButton: true,
+								confirmButtonText: '확인'
+							}).then(function(){
+								location.reload();
+							})
+						}else {
+							Swal.fire({
+								icon: 'error',
+								title: data.msg,
+								showConfirmButton: true,
+								confirmButtonText: '확인'
+							})
+						}
+						
+					})
+				}
+			})
+			//비동기라 이렇게 해도 가능
+			$('#evaluationStandardExp').val(evaluationStandardExp);
+			$('#evaluationLevel').val(evaluationLevel);
+			$('#evaluationGradeScore').val(evaluationGradeScore);
+			
+			let InputWidth = $('#evaluationLevel').width();
+			$('#evaluationStandardExp').width(InputWidth);
+					
+			
+				}
+				
+				const deleteEvaluationStandard= function(evaluationStandardCode) {
+					Swal.fire({
+						icon : 'question',
+						title : `${evaluationStandardCode}`,
+						text : '위 멘토멘티 평가 기준을 삭제하시겠습니까?',
+						showConfirmButton : true,
+						showCancelButton : true,
+						confirmButtonText : '삭제',
+						cancelButtonText : '취소'
+					}).then(result => {
+						if(result.isConfirmed){
+							console.log(result);
+							$.ajax({
+								url: `/admin/removeEvaluationStandard`,
+								method: "post",
+								dataType: "json",
+								data: {
+									evaluationStandardCode: evaluationStandardCode
+								}
+							}).done(data => {
+								if(data.isSuccess){
+									Swal.fire({
+										icon: 'success',
+										title: data.msg,
+										showConfirmButton: true,
+										confirmButtonText: '확인'
+									}).then(function(){
+										location.reload();
+									})
+								}else {
+									Swal.fire({
+										icon: 'error',
+										title: data.msg,
+										showConfirmButton: true,
+										confirmButtonText: '확인'
+									})
+								}
+								
+							})
+						}
+					})
+				}
+			$(function() {
+				$('#add-category').click(function(){
+					Swal.fire({
+						icon : 'question',
+						title : `새로 추가할 멘토 피드백 평가기준을 입력해주세요`,
+						allowOutsideClick: false,
+						showConfirmButton : true,
+						showCancelButton : true,
+						confirmButtonText : '추가',
+						cancelButtonText : '취소',
+						template: '#evaluationStandardTemplate',
+						preConfirm: () => {
+							$('.swal2-input').each(function(idx,item){
+								console.log(item);
+								if($(item).val() == ''){
+									Swal.showValidationMessage('입력은 비어있을수 없습니다!');							
+								}
+							})
+							return {
+								evaluationStandardExp: $('#evaluationStandardExp').val(),
+								evaluationLevel: $('#evaluationLevel').val(),
+								evaluationGradeScore: $('#evaluationGradeScore').val(),
+								adminId : `[[${session.sessionId}]]`
+							}
+						}
+					}).then(result => {
+						if(result.isConfirmed){
+							console.log(result);
+							$.ajax({
+								url: `/admin/addEvaluationStandard`,
+								method: "post",
+								dataType: "json",
+								data: result.value
+							}).done(data => {
+								if(data.isSuccess){
+									Swal.fire({
+										icon: 'success',
+										title: data.msg,
+										showConfirmButton: true,
+										confirmButtonText: '확인'
+									}).then(function(){
+										location.reload();
+									})
+								}else {
+									Swal.fire({
+										icon: 'error',
+										title: data.msg,
+										showConfirmButton: true,
+										confirmButtonText: '확인'
+									})
+								}
+								
+							})
+						}
+					})
+					let InputWidth = $('#evaluationLevel').width();
+					$('#evaluationStandardExp').width(InputWidth);
+				})
+				
+				const table = $('#datatable-custom').DataTable({
+					length : true,
+					paginate : true,
+					info : true,
+					searching : true,
+					language: lang_ko
+				})
+
+				$('#evaluation-level').on('keyup change clear',function(){
+					table.columns(2).search(this.value).draw();
+				})
+				
+				$('#evaluation-grade-score').on('keyup change clear', function(){
+					table.columns(3).search(this.value).draw();
+				})
+		
+			});
+		</script>
+
+	</th:block>
+	<th:block layout:fragment="customContent">
+		<template id="evaluationStandardTemplate">
+			<!-- <swal-title> 수정 </swal-title>
+			<swal-icon type="question"></swal-icon>
+			<swal-button type="confirm"> 수정 </swal-button>
+			<swal-button type="cancel"> 취소 </swal-button> -->
+			<swal-html>
+			<div>
+				<input class="swal2-input" id="evaluationLevel" placeholder="평가등급"
+					type="text" /> 
+				<input class="swal2-input" id="evaluationGradeScore"
+					placeholder="평가등급 점수" type="number" />
+				<textarea class="swal2-input" id="evaluationStandardExp"
+					placeholder="평가기준 설명"></textarea>
+
+
+			</div>
+			</swal-html>
+		</template>
+		<div class="row">
+			<div class="col-md-12 col-sm-12">
+				<div class="x_panel">
+					<div class="x_title">
+						<h2>멘토멘티 평가 기준 관리</h2>
+						<div class="clearfix"></div>
+					</div>
+					<div class="x_content">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="card-box table-responsive">
+									<div id="datatable-checkbox_wrapper"
+										class="dataTables_wrapper container-fluid dt-bootstrap no-footer">
+										<div class="row">
+
+											<div class="col-sm-12 col-md-12">
+												<h2>상세검색:</h2>
+												<div id="search-container">
+													<div id="search-container-inner">
+														<div class="input-container">
+															<label class="search-label"> 평가등급: </label> <input
+																id="evaluation-level" type="text" class="form-control" />
+														</div>
+														<div class="input-container">
+															<label class="search-label"> 평가 등급 점수: </label> <input
+																id="evaluation-grade-score" type="text"
+																class="form-control search-input" />
+														</div>
+
+
+													</div>
+
+												</div>
+												<div>
+													<table id="datatable-custom"
+														class="table table-striped table-bordered dataTable no-footer"
+														style="width: 100%;" role="grid"
+														aria-describedby="datatable_info">
+														<thead>
+															<tr role="row">
+																<th>평가 기준</th>
+																<th>평가기준 설명</th>
+																<th>평가 등급</th>
+																<th>평가 등급 점수</th>
+																<th>관리자 아이디</th>
+																<th>등록일자</th>
+																<th>수정</th>
+																<th>삭제</th>
+															</tr>
+														</thead>
+														<tbody>
+															<th:block th:unless="${evaluationStandardList == null}">
+																<th:block th:each="l: ${evaluationStandardList}">
+																	<tr>
+																		<td th:text="${l.evaluationStandardCode}"></td>
+																		<td th:text="${l.evaluationStandardExp}"></td>
+																		<td th:text="${l.evaluationLevel}"></td>
+																		<td th:text="${l.evaluationGradeScore}"></td>
+																		<td th:text="${l.adminId}"></td>
+																		<td th:text="${l.evaluationRegDate}"></td>
+																		<td class="button-td"><button
+																				th:attr="onclick=|modifyEvaluationStandard('${l.evaluationStandardCode}','${l.evaluationStandardExp}','${l.evaluationLevel}','${l.evaluationGradeScore}')|"
+																				class="btn btn-warning" type="button">수정</button></td>
+																		<td class="button-td"><button
+																				th:attr="onclick=|deleteEvaluationStandard('${l.evaluationStandardCode}','${l.evaluationStandardExp}','${l.evaluationLevel}')|"
+																				class="btn btn-danger" type="button">삭제</button></td>
+																	</tr>
+																</th:block>
+
+															</th:block>
+															<tr role="row" class="odd"
+																th:if="${evaluationStandardList == null}">
+																<td colspan="6">멘토 피드백 평가 기준이 존재하지 않습니다.</td>
+															</tr>
+														</tbody>
+													</table>
+													<button id="add-category" class="btn btn-info">멘토
+														피드백 평가기준 추가하기</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</th:block>
+</body>
+</html>
