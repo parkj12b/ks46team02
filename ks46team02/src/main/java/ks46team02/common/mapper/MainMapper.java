@@ -47,4 +47,5 @@ public interface MainMapper {
 
 
 	public Member getMemberInfoAll(Member member);
+
 }

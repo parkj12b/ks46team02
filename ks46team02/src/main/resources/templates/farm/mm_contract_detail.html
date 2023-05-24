@@ -86,10 +86,18 @@
 				Swal.fire({
 					  icon: 'question',
 					  title: `[[${mmContractInfo.mentorContractTitle}]]`,
-					  text: '위계약을 접수하시겠습니까?',
+					  text: '위 계약을 접수하시겠습니까?',
 					  showCancelButton: true,
 					  confirmButtonText: '접수',
-					  cancelButtonText: '취소'
+					  cancelButtonText: '취소',
+					  preConfirm: () => {
+							if($('.swal2-input').val() == ''){
+								Swal.showValidationMessage('입력은 비어있을수 없습니다!');
+							}
+							return {
+								contractStartDate: $('#startDate').val()
+							}
+						}
 					}).then((result) => {
 						if(result.isConfirmed){
 							$.ajax({
@@ -98,7 +106,9 @@
 								dataType: 'json',
 								data: {
 									contractRegistrationCode: `[[${mmContractInfo.mentorContractRegCode}]]`,
-									contractorCompanyCode: `[[${mmContractInfo.companyCode}]]`
+									contractorCompanyCode: `[[${mmContractInfo.companyCode}]]`,
+									contractStartDate: result.value.contractStartDate,
+									contractEndDate: new Date(result.value.contractStartDate.setMonth(date.getMonth()+[[${mmContractInfo.getContractPeriod}]]));
 								}
 							}).done(data => {
 								console.log(data);
