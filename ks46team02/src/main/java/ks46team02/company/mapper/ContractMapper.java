@@ -27,7 +27,12 @@ public interface ContractMapper {
 
     /* 회원별 계약 횟수 조회*/
     public int getContractAmount(String memberId);
-
+    /* 회원별 종료된 계약 횟수 조회*/
+    public int getEndContractAmount(String memberId);
+    /* 회원별  파기된 계약 횟수 조회*/
+    public int getBreakContractAmount(String memberId);
+    /* 회원별 대기중인 계약 횟수 조회*/
+    public int getReviewContractAmount(String memberId);
     //멘토멘티 계약신청
 	public void addMMContract(AllContractInfo allContractInfo);
     
