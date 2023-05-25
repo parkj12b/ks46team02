@@ -28,7 +28,7 @@
                     <br>
                     <form id="dryContractRegForm" method="post"
                           class="form-horizontal form-label-left"
-                          th:action="@{/contract/addContract}" th:if="${sessionCompanyTypeNum == '1'}">
+                          th:action="@{/contract/addContract}" th:if="${sessionCompanyTypeNum == 1}">
                         <div class="item form-group">
                             <label class="col-form-label col-md-3 col-sm-3 label-align"
                                    for="companyName">업체명</label>
@@ -96,7 +96,7 @@
                     <form id="feedContractRegForm" method="post"
                           class="form-horizontal form-label-left"
                           th:action="@{/contract/addContract}"
-                          th:unless="${sessionCompanyTypeNum == '1'}">
+                          th:unless="${sessionCompanyTypeNum == 1}">
                         <div class="item form-group">
                             <label class="col-form-label col-md-3 col-sm-3 label-align"
                                    >업체명 </label>

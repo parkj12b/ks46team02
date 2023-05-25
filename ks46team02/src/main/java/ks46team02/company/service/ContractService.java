@@ -38,18 +38,18 @@ public class ContractService {
     }
     /* 계약등록 */
     public boolean addContract(Contract contract
-                              ,String companyTypeNum){
+                              ,int companyTypeNum){
         String column = "";
         String table = "";
         String contractRegCode = "";
         String breedRegCode = "";
-        if(companyTypeNum.equals("1")){
+        if(companyTypeNum==1){
             column = "contract_reg_code";
             table = "dry_contract_registraion";
             contractRegCode = mainMapper.autoIncrement(table, column);
             contract.setContractRegCode(contractRegCode);
             contractMapper.addDryContract(contract);
-        } else if(companyTypeNum.equals("2")) {
+        } else if(companyTypeNum==2) {
             column = "breed_reg_code";
             table = "breed_contract_registraion";
             breedRegCode = mainMapper.autoIncrement(table, column);
