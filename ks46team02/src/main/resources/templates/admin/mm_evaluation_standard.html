@@ -205,7 +205,7 @@
 						cancelButtonText : '취소',
 						template: '#evaluationStandardTemplate',
 						preConfirm: () => {
-							$('.swal2-input').each(function(idx,item){
+							$('.input-check').each(function(idx,item){
 								console.log(item);
 								if($(item).val() == ''){
 									Swal.showValidationMessage('입력은 비어있을수 없습니다!');							
@@ -280,14 +280,12 @@
 			<swal-button type="cancel"> 취소 </swal-button> -->
 			<swal-html>
 			<div>
-				<input class="swal2-input" id="evaluationLevel" placeholder="평가등급"
+				<input class="swal2-input input-check" id="evaluationLevel" placeholder="평가등급"
 					type="text" /> 
-				<input class="swal2-input" id="evaluationGradeScore"
+				<input class="swal2-input input-check" id="evaluationGradeScore"
 					placeholder="평가등급 점수" type="number" />
-				<textarea class="swal2-input" id="evaluationStandardExp"
+				<textarea class="swal2-input input-check" id="evaluationStandardExp"
 					placeholder="평가기준 설명"></textarea>
-
-
 			</div>
 			</swal-html>
 		</template>
