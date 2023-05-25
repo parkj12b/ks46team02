@@ -62,7 +62,7 @@ public class ContractController {
     @PostMapping("/addContract")
     public String addContract(Contract contract
                              ,HttpSession session){
-        String sessionCompanyTypeNum = (String) session.getAttribute("companyTypeNum");
+        int sessionCompanyTypeNum = (int) session.getAttribute("companyTypeNum");
         String sessionCompanyCode = (String)session.getAttribute("sessionCompanyCode");
         String sessionId = (String)session.getAttribute("sessionId");
         contract.setCompanyCode(sessionCompanyCode);
@@ -76,7 +76,8 @@ public class ContractController {
     @GetMapping("/addContract")
     public String addContract(Model model
                              ,HttpSession session) {
-        String sessionCompanyTypeNum = (String) session.getAttribute("companyTypeNum");
+        int sessionCompanyTypeNum = (int) session.getAttribute("companyTypeNum");
+        log.info("확인 : {}",sessionCompanyTypeNum);
         String companyCode = (String) session.getAttribute("sessionCompanyCode");
         Company companyInfo = companyService.getCompanyInfoByCode(companyCode);
         String companyName = companyInfo.getCompanyName();
@@ -117,7 +118,7 @@ public class ContractController {
         model.addAttribute("contractList", contractList);
         model.addAttribute("contractListDry", contractListDry);
         model.addAttribute("contractListBreed", contractListBreed);
-        return "/company/contract_list";
+        return "company/contract_list";
     }
 
     /* 건조업체 계약공고 조회 */
@@ -128,7 +129,7 @@ public class ContractController {
         model.addAttribute("title", "계약공고");
         model.addAttribute("contractList", contractList);
         log.info("건조계약목록 :{}", contractList);
-        return "/company/contract_list_dry";
+        return "company/contract_list_dry";
     }
 
 }

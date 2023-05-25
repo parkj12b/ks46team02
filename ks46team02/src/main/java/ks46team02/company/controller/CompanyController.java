@@ -219,7 +219,7 @@ public class CompanyController {
                                       ){
 
         model.addAttribute("title","제품카테고리등록");
-        return "/company/add_company_product";
+        return "company/add_company_product";
     }
 
     /* 동애등에업체 상품 카테고리 */
@@ -236,7 +236,7 @@ public class CompanyController {
     public String companyTypeInsert(Model model){
 
         model.addAttribute("title","업체종류추가");
-        return "/company/add_company_type";
+        return "company/add_company_type";
     }
 
     /* 업체종류목록 */

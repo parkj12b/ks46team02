@@ -70,7 +70,7 @@
 
     <select id="getFarmProductCategoryList" resultType="FarmProductCategory">
         /* 사육업체상품카테고리조회 */
-        SELECT
+        SELECT환
             product_category_code as productCategoryCode
             ,product_name as productName
             ,admin_id as adminId
