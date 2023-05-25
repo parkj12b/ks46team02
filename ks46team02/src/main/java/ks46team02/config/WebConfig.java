@@ -55,7 +55,8 @@ public class WebConfig implements WebMvcConfigurer{
 			.excludePathPatterns("/**/addCompanyProduct")
 			.excludePathPatterns("/**/modifyProductName")
 			.excludePathPatterns("/**/companyApproval")
-			.excludePathPatterns("/**/removeProductCategory");
+			.excludePathPatterns("/**/removeProductCategory")
+			.excludePathPatterns("/**/addContract");
 
 		/* add farmInterceptor */
 		

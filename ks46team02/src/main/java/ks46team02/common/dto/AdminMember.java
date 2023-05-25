@@ -1,5 +1,7 @@
 package ks46team02.common.dto;
 
+import ks46team02.admin.dto.AdminLevel;
+
 public class AdminMember {
 	private String adminId;
 	private String adminPw;
@@ -11,6 +13,7 @@ public class AdminMember {
 	private String adminStatus;
 	private String adminWithdrawalDate;
 	private boolean isExist;
+	private String adminPosition;
 	public String getAdminStatus() {
 		return adminStatus;
 	}
@@ -71,12 +74,29 @@ public class AdminMember {
 	public void setAdminRegDate(String adminRegDate) {
 		this.adminRegDate = adminRegDate;
 	}
+
+	public String getAdminPosition() {
+		return adminPosition;
+	}
+
+	public void setAdminPosition(String adminPosition) {
+		this.adminPosition = adminPosition;
+	}
+
 	@Override
 	public String toString() {
-		return "AdminMember [adminId=" + adminId + ", adminPw=" + adminPw + ", adminName=" + adminName + ", adminEmail="
-				+ adminEmail + ", adminLevel=" + adminLevel + ", adminPhone=" + adminPhone + ", adminRegDate="
-				+ adminRegDate + ", adminStatus=" + adminStatus + ", adminWithdrawalDate=" + adminWithdrawalDate
-				+ ", isExist=" + isExist + "]";
+		return "AdminMember{" +
+				"adminId='" + adminId + '\'' +
+				", adminPw='" + adminPw + '\'' +
+				", adminName='" + adminName + '\'' +
+				", adminEmail='" + adminEmail + '\'' +
+				", adminLevel='" + adminLevel + '\'' +
+				", adminPhone='" + adminPhone + '\'' +
+				", adminRegDate='" + adminRegDate + '\'' +
+				", adminStatus='" + adminStatus + '\'' +
+				", adminWithdrawalDate='" + adminWithdrawalDate + '\'' +
+				", isExist=" + isExist +
+				", adminPosition='" + adminPosition + '\'' +
+				'}';
 	}
-	
 }

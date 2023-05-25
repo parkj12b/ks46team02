@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{mypage}">
+      layout:decorate="~{layout/mypageLayout}">
 <head>
     <meta charset="UTF-8">
     <title>BSFP</title>
@@ -157,7 +157,6 @@
                                                 <tr role="row"
                                                     th:each="l :${contractListBreed}"
                                                     th:unless="${contractListBreed == null}"
-                                                    th:if="${l.companyCode == session.sessionCompanyCode}"
                                                     >
                                                     <td>
                                                         <a th:href="@{/company/companyInfo(companyCode=${l.companyCode})}"
