@@ -155,7 +155,7 @@ public class AdminController {
 		model.addAttribute("title", "탈퇴한 관리자목록 조회");
 		model.addAttribute("withdrawalAdminList", withdrawalAdminList);
 
-		return "admin/withdrawaladmin_list";
+		return "admin/withdrawalAdmin_list";
 	}
 	/* 탈퇴한 관리자 삭제 */
 	@PostMapping("/removewithdrawalAdmin")
