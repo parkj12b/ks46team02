@@ -277,7 +277,7 @@ public class CommonController {
 		log.info("log"+addrInfo );
 		model.addAttribute("title", "회원 수정");
 		model.addAttribute("addrInfo", addrInfo);
-		return "/modify_member_addr";
+		return "modify_member_addr";
 	}
 	/* 배송지 등록 */
 	@PostMapping("/addMemberAddr")
@@ -290,7 +290,7 @@ public class CommonController {
 	@GetMapping("/addMemberAddr")
 	public String addMemberAddr(Model model){
 		model.addAttribute("title", "배송지 등록");
-		return "/add_member_addr";
+		return "add_member_addr";
 	}
 
 	/* 멘토 승인 */
@@ -315,7 +315,7 @@ public class CommonController {
 		Member memberInfo = mainService.getMemberInfoById(memberId);
 		model.addAttribute("title", "회원 수정");
 		model.addAttribute("memberInfo", memberInfo);
-		return "/modify_member";
+		return "modify_member";
 	}
 	/* 관리자별 수정 */
 	@PostMapping("/modifyAdmin")
@@ -333,7 +333,7 @@ public class CommonController {
 		AdminMember adminInfo = adminService.getAdminInfoById(adminId);
 		model.addAttribute("title", "관리자 수정");
 		model.addAttribute("adminInfo", adminInfo);
-		return "/modify_admin";
+		return "modify_admin";
 	}
 
 }

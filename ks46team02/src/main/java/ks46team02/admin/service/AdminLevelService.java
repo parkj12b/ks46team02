@@ -25,13 +25,13 @@ private final AdminLevelMapper adminLevelMapper;
 		this.adminLevelMapper = adminLevelMapper;
 
 	}
-	
+	/* 관리자 등급 조회*/
 	public List<AdminLevel> getAdminLevelList(){
 		List<AdminLevel> AdminLevelList = adminLevelMapper.getAdminLevelList(); 
 		log.info("{}",AdminLevelList);
 		return AdminLevelList;
 	}
-	
+	/* 관리자 등급 수정 */
 	public void modifyAdminLevel(AdminLevel adminLevel) {
 		adminLevelMapper.modifyAdminLevel(adminLevel);
 	}
