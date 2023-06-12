@@ -91,9 +91,6 @@
 					  confirmButtonText: '접수',
 					  cancelButtonText: '취소',
 					  preConfirm: () => {
-							if($('.swal2-input').val() == ''){
-								Swal.showValidationMessage('입력은 비어있을수 없습니다!');
-							}
 							return {
 								contractStartDate: $('#startDate').val()
 							}
@@ -108,7 +105,7 @@
 									contractRegistrationCode: `[[${mmContractInfo.mentorContractRegCode}]]`,
 									contractorCompanyCode: `[[${mmContractInfo.companyCode}]]`,
 									contractStartDate: result.value.contractStartDate,
-									contractEndDate: new Date(result.value.contractStartDate.setMonth(date.getMonth()+[[${mmContractInfo.getContractPeriod}]]));
+									contractEndDate: new Date(new Date(result.value.contractStartDate).setMonth(date.getMonth()+[[${mmContractInfo.getContractPeriod}]]))
 								}
 							}).done(data => {
 								console.log(data);
